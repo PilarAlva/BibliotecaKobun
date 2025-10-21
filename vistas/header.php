@@ -1,6 +1,6 @@
 <div class="header-container">
     <a href="index.php">
-        <img src="img/logo.svg" alt="Logo" class="logo">
+        <img src="vistas/img/logo.svg" alt="Logo" class="logo">
     </a>
 
     <button class="hamburger-menu" aria-label="Abrir menú" aria-expanded="false">
