@@ -7,7 +7,9 @@
 </head>
 <body>
     <header>
-        <include>vistas/header.php</include>
+        <?php
+            include 'vistas/header.php'; 
+        ?>
     </header>
 
     <main>
