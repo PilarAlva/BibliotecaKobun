@@ -1,6 +1,6 @@
 <?php
 require 'modelo/libro.php';
-$libro = new Libro();
+$libro = new LibroBD();
 
 
 $registrosPorPagina = 20; 

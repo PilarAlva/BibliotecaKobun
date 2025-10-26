@@ -354,7 +354,7 @@ class LibroBD {
 
         $sql = $this->con->prepare($consulta);
         $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
-        $sql->bindValue(':codigo_topografico', $codigo_topografico, PDO::PARAM_STR);ref_ejemplar, PDO::PARAM_STR);
+        $sql->bindValue(':codigo_topografico', $codigo_topografico, PDO::PARAM_STR);
 
         return $sql->execute();        
 
