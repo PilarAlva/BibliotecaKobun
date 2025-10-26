@@ -1,5 +1,5 @@
 <?php
-require 'modelo/libro.php';
+require 'modelo/libroBD.php';
 $libro = new LibroBD();
 
 
