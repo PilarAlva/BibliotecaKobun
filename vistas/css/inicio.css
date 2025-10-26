@@ -1,0 +1,56 @@
+
+/* ------- Banner Principal con Saludo Dinámico ------- */
+.hero-banner {
+    position: relative;
+    width: 100%;
+    height: 350px; /* Altura del banner, ajusta según necesidad */
+    overflow: hidden; /* Asegura que la imagen no se desborde */
+}
+
+.hero-banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cubre el área sin distorsionar la imagen */
+    object-position: center; /* Centra la imagen dentro de su contenedor */
+}
+
+.hero-greeting {
+    position: absolute;
+    bottom: 20px; /* Distancia desde la parte inferior */
+    left: 5%; /* Distancia desde la izquierda */
+    color: var(--secondary-color); /* Color claro para contrastar con el banner */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Mejora la legibilidad sobre la imagen */
+    z-index: 10; /* Asegura que el texto esté por encima de la imagen */
+}
+
+.hero-greeting h1 {
+    font-size: 2em; /* Tamaño de fuente grande para el saludo */
+    margin: 0; /* Elimina el margen por defecto del h1 */
+    font-family: var(--font-headings); /* Usa la fuente de encabezados definida */
+}
+
+
+/* ------- Contenido Principal (Main - Section) ------- */
+.info-container {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.info-texto {
+    flex: 2; /* Ocupa el doble de espacio que la imagen */
+}
+
+.imagen {
+    flex: 1; /* Ocupa el espacio disponible */
+    display: flex;
+    justify-content: center;
+}
+
+.imagen img {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 60%;
+}
+
+

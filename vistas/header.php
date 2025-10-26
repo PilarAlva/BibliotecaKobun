@@ -5,11 +5,11 @@
         </a>      
     </div>
 
-    <!-- <button class="hamburger-menu" aria-label="Abrir menú" aria-expanded="false">
+    <button class="hamburger-menu" aria-label="Abrir menú" aria-expanded="false">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
         </span>
-    </button> -->
+    </button>
     
     <nav class="main-nav">
         <ul>
@@ -20,4 +20,7 @@
             <li class="no-underline"><a href="#" class="btn-acceso">Acceso</a></li>
         </ul>
     </nav>
+
+    <!-- Archivos .js -->
+    <script src="vistas/js/main.js"></script>
 </div>
