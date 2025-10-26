@@ -1,65 +1,110 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* Estilos Globales */
+/* ------- Estilos Globales ------- */
+:root {
+    --primary-color: #b99772;
+    --secondary-color: #f5f5dc;
+    --text-color: #272727;
+    --accent-color: #372a1e;
+    --bt-color:  #6fa47a;
+    /* --bg-color: #f2f1eb; */
+    /* --font-main: 'Poppins', sans-serif; */
+    /* --font-headings: 'Montserrat', sans-serif; */
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+body {
+    font-family: var(--font-main);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    line-height: 1.6;
+}
+a {
+    text-decoration: none;
+    color: var(--accent-color);
+}
+.destacado {
+    font-weight: bold;
+}
 
 
-/* Header */
-header {
+/* ------- Header ------- */
+.header {
     align-items: center;
     display: flex;
     justify-content: space-between;
-    background-color: #b99772;
-     font-family: 'Poppins', sans-serif;
-     padding: 0 20px;
-}
+    background-color: var(--primary-color);
+    font-family: 'Poppins', sans-serif;
+    padding: 0 20px;
 
-nav ul {
+    /* box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;  */   
+}
+.header div a {
     display: flex;
     align-items: center;
+}
+
+.main-nav ul {
     list-style: none;
+    display: flex;
+    align-items: center;
     margin: 0;
     padding: 0;
 }
 
-ul li {
+.main-nav ul li {
     margin: 10px;
-    border-bottom: 2px solid transparent;
     transition: all 0.3s ease;
 }
 
-ul li:hover {
-    color: white;
-    border-bottom: 2px solid white;
+.main-nav a {
+    font-family: var(--font-headings);
+    font-weight: 500;
+    font-size: 1rem;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--secondary-color);
+    transition: width 0.3s ease;
+}
+
+.main-nav a:hover {
+    color:var(--secondary-color);
+}
+
+.main-nav a:hover::after {
+    width: 100%;
 }
 
 .btn-acceso {
-    border: 1px solid #222;
+    border: 1px solid var(--accent-color);
     border-radius: 50px;
     padding: 5px 15px;
-    color: #222;
-    transition: all 0.3s ease;
+    color: var(--accent-color);
 }
-
 .btn-acceso:hover {
-    border-color: white;
-    color: white;
+    border-color: var(--secondary-color);
 }
 
-ul li a {
-    text-decoration: none; 
-    color: inherit;        
-}
-
-ul li.no-underline,
-ul li.no-underline:hover {
-    text-decoration: none;
-    border-bottom: none;
+/* Evita que el efecto de la línea aparezca en el botón de acceso */
+.main-nav li.no-underline a.btn-acceso::after {
+    content: none;
 }
 
 
-/* Footer */
+/* ------- Footer ------- */
