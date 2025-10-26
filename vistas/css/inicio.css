@@ -1,32 +1,32 @@
 
 /* ------- Banner Principal con Saludo Dinámico ------- */
-.hero-banner {
+.banner {
     position: relative;
     width: 100%;
-    height: 350px; /* Altura del banner, ajusta según necesidad */
-    overflow: hidden; /* Asegura que la imagen no se desborde */
+    height: 450px;
+    overflow: hidden;
 }
 
-.hero-banner-img {
+.banner-img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Cubre el área sin distorsionar la imagen */
-    object-position: center; /* Centra la imagen dentro de su contenedor */
+    object-fit: cover;
+    object-position: center;
 }
 
-.hero-greeting {
+.saludo {
     position: absolute;
-    bottom: 20px; /* Distancia desde la parte inferior */
-    left: 5%; /* Distancia desde la izquierda */
-    color: var(--secondary-color); /* Color claro para contrastar con el banner */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Mejora la legibilidad sobre la imagen */
-    z-index: 10; /* Asegura que el texto esté por encima de la imagen */
+    bottom: 20px;
+    left: 5%;
+    color: var(--secondary-color); 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    z-index: 10;
 }
 
-.hero-greeting h1 {
-    font-size: 2em; /* Tamaño de fuente grande para el saludo */
-    margin: 0; /* Elimina el margen por defecto del h1 */
-    font-family: var(--font-headings); /* Usa la fuente de encabezados definida */
+.saludo h1 {
+    font-size: 2em;
+    margin: 0;
+    font-family: var(--font-headings); 
 }
 
 
@@ -35,22 +35,112 @@
     display: flex;
     gap: 2.5rem;
     align-items: center;
+    margin-bottom: 2rem;
 }
 
 .info-texto {
-    flex: 2; /* Ocupa el doble de espacio que la imagen */
+    flex: 2;
 }
 
 .imagen {
-    flex: 1; /* Ocupa el espacio disponible */
+    flex: 1; 
     display: flex;
     justify-content: center;
 }
 
 .imagen img {
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+}
+
+#frente-biblio {
     width: 60%;
 }
+
+
+/* ------- Sección de Servicios ------- */
+.servicios-lista {
+    list-style-type: none;
+    padding-left: 0;
+    flex: 2;
+}
+
+.servicios-lista li {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.servicios-lista li::before {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 30px;
+    margin-right: 15px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Asignación de íconos a cada servicio */
+.servicio-item-prestamo::before { background-image: url('../img/icono-prestamos.png'); }
+.servicio-item-salas::before { background-image: url('../img/icono-salas-lectura.png'); }
+.servicio-item-talleres::before { background-image: url('../img/icono-talleres.png'); }
+.servicio-item-wifi::before { background-image: url('../img/icono-wifi.png'); }
+.servicio-item-pc::before { background-image: url('../img/icono-pc.png'); }
+.servicio-item-cargador::before { background-image: url('../img/icono-cargador.png'); }
+.servicio-item-verde::before { background-image: url('../img/icono-verde.png'); }
+
+
+/* ------- Sección de Información Útil ------- */
+#info-util {
+    display: flex;
+    justify-content: space-between;
+}
+#info-util p {
+    margin-bottom: 1rem;
+}
+
+.redes-sociales {
+    display: flex;
+    justify-content: center;
+    align-self: end;
+    margin-bottom: 1rem;
+}
+.redes-sociales a {
+    margin: 0 10px;
+}
+
+/* ----------- Contenido Responsive ----------- */
+@media (max-width: 768px) {
+    .banner {
+        height: 300px;
+    }
+
+    .info-container {
+        flex-direction: column;
+    } 
+
+    #info-util {
+        flex-direction: column;
+    }
+    .redes-sociales {
+        margin-top: 1rem;
+        align-self: center;
+    }
+    .servicios-lista {
+        align-self: flex-start;
+        width: 100%;
+    }
+
+    main .imagen img {
+        width: 80%;
+        height: auto;
+    }
+
+}
+
+
 
 
