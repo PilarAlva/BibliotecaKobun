@@ -1,7 +1,6 @@
 <?php
-require 'bd/database.php';
-$db = new Database();
-$con = $db->conectar();
+require 'modelo/libro.php';
+$libro = new Libro();
 
 
 $registrosPorPagina = 20; 
@@ -9,116 +8,15 @@ $paginaActual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 if ($paginaActual < 1) $paginaActual = 1;
 $offset = ($paginaActual - 1) * $registrosPorPagina;
 
-
 $buscar = isset($_GET['q']) ? $_GET['q'] : '';
 $filtro = isset($_GET['filtro']) ? $_GET['filtro'] : 'titulo';
 
+$totalRegistros = $libro->cantResultadosCatalogo($buscar, $filtro);
 
-$sqlCountStr = "
-    SELECT COUNT(DISTINCT m.id) AS total
-    FROM material m
-    LEFT JOIN material_autor ma ON m.id = ma.id_material
-    LEFT JOIN autor a ON ma.id_autor = a.id
-    LEFT JOIN material_genero mg ON m.id = mg.id_material
-    LEFT JOIN genero g ON mg.id_genero = g.id
-    WHERE m.activo = 1
-";
-
-if ($buscar != '') {
-    switch ($filtro) {
-        case 'autor':
-            $sqlCountStr .= " AND EXISTS (
-                                SELECT 1 
-                                FROM material_autor ma2 
-                                INNER JOIN autor a2 ON ma2.id_autor = a2.id 
-                                WHERE ma2.id_material = m.id 
-                                  AND a2.nombre LIKE :buscar
-                              )";
-            break;
-        case 'genero':
-            $sqlCountStr .= " AND EXISTS (
-                                SELECT 1 
-                                FROM material_genero mg2 
-                                INNER JOIN genero g2 ON mg2.id_genero = g2.id 
-                                WHERE mg2.id_material = m.id 
-                                  AND g2.nombre LIKE :buscar
-                              )";
-            break;
-        case 'contenido':
-            $sqlCountStr .= " AND m.contenido LIKE :buscar";
-            break;
-        case 'titulo':
-        default:
-            $sqlCountStr .= " AND m.nombre LIKE :buscar";
-            break;
-    }
-}
-
-$sqlCount = $con->prepare($sqlCountStr);
-if ($buscar != '') {
-    $sqlCount->bindValue(':buscar', "%$buscar%");
-}
-$sqlCount->execute();
-$totalRegistros = $sqlCount->fetchColumn();
 $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
+$resultados = $libro->busquedaCatalogo($buscar, $filtro, $offset, $registrosPorPagina);
 
-$sqlStr = "
-    SELECT 
-        m.id,
-        m.nombre,
-        m.contenido,
-        GROUP_CONCAT(DISTINCT a.nombre SEPARATOR ', ') AS autores,
-        GROUP_CONCAT(DISTINCT g.nombre SEPARATOR ', ') AS generos
-    FROM material m
-    LEFT JOIN material_autor ma ON m.id = ma.id_material
-    LEFT JOIN autor a ON ma.id_autor = a.id
-    LEFT JOIN material_genero mg ON m.id = mg.id_material
-    LEFT JOIN genero g ON mg.id_genero = g.id
-    WHERE m.activo = 1
-";
-
-if ($buscar != '') {
-    switch ($filtro) {
-        case 'autor':
-            $sqlStr .= " AND EXISTS (
-                            SELECT 1 
-                            FROM material_autor ma2 
-                            INNER JOIN autor a2 ON ma2.id_autor = a2.id 
-                            WHERE ma2.id_material = m.id 
-                              AND a2.nombre LIKE :buscar
-                          )";
-            break;
-        case 'genero':
-            $sqlStr .= " AND EXISTS (
-                            SELECT 1 
-                            FROM material_genero mg2 
-                            INNER JOIN genero g2 ON mg2.id_genero = g2.id 
-                            WHERE mg2.id_material = m.id 
-                              AND g2.nombre LIKE :buscar
-                          )";
-            break;
-        case 'contenido':
-            $sqlStr .= " AND m.contenido LIKE :buscar";
-            break;
-        case 'titulo':
-        default:
-            $sqlStr .= " AND m.nombre LIKE :buscar";
-            break;
-    }
-}
-
-$sqlStr .= " GROUP BY m.id ORDER BY m.id ASC LIMIT :limite OFFSET :offset";
-$sql = $con->prepare($sqlStr);
-
-if ($buscar != '') {
-    $sql->bindValue(':buscar', "%$buscar%", PDO::PARAM_STR);
-}
-$sql->bindValue(':limite', $registrosPorPagina, PDO::PARAM_INT);
-$sql->bindValue(':offset', $offset, PDO::PARAM_INT);
-
-$sql->execute();
-$resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -175,7 +73,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         <div class="row">
             <table class="table table-striped">
     <tbody>
-        <?php foreach ($resultado as $indice => $row) { ?>
+        <?php foreach ($resultados as $indice => $row) { ?>
             <tr>
               
                 <td></td>

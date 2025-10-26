@@ -1,6 +1,6 @@
 <?php
 
-require_once "../bd/conexion.php";
+require_once './bd/conexion.php';
 
 class Libro {
     
@@ -15,7 +15,7 @@ class Libro {
 
     
 
-    public busquedaCatalogo($busqueda, $filtro, $inicio = 0, $cant = 1000){
+    public function busquedaCatalogo($busqueda, $filtro, $inicio = 0, $cant = 1000){
 
         $consulta = "SELECT  
                         l.titulo as titulo,
@@ -36,7 +36,7 @@ class Libro {
                         LEFT JOIN editoriales e ON le.editorial_id = e.id 
                         WHERE l.activo = 1 ";
 
-        if ($buscar != '') {
+        if ($busqueda != '') {
         
         switch ($filtro) {
             case 'autor':
@@ -45,8 +45,8 @@ class Libro {
                                 FROM libros_autores la2 
                                 INNER JOIN autores a2 ON la2.autor_id = a2.id 
                                 WHERE la2.libro_id = l.id 
-                                    AND a2.nombre LIKE :buscar OR
-                                    a2.apellido   LIKE :buscar )";
+                                    AND a2.nombre LIKE :busqueda OR
+                                    a2.apellido   LIKE :busqueda )";
                 break;
             case 'genero':
                 $consulta .= " AND EXISTS (
@@ -54,7 +54,7 @@ class Libro {
                                 FROM libros_generos lg2 
                                 INNER JOIN generos g2 ON lg2.libro_id = g2.id 
                                 WHERE lg2.libro_id = l.id 
-                                    AND g2.nombre LIKE :buscar )";
+                                    AND g2.nombre LIKE :busqueda )";
                 break;
             case 'editorial':
                 $consulta .= " AND EXISTS (
@@ -62,17 +62,17 @@ class Libro {
                                 FROM libros_editoriales le2 
                                 INNER JOIN editoriales e2 ON le2.libro_id = e2.id 
                                 WHERE le2.libro_id = l.id 
-                                    AND e2.nombre LIKE :buscar )";
+                                    AND e2.nombre LIKE :busqueda )";
                 break;
             case 'isbn':
-                $consulta .= " AND l.isbn LIKE :buscar";
+                $consulta .= " AND l.isbn LIKE :busqueda";
                 break;    
             case 'descripcion':
-                $consulta .= " AND l.descripcion LIKE :buscar";
+                $consulta .= " AND l.descripcion LIKE :busqueda";
                 break;    
             case 'titulo':
             default:
-                $consulta .= " AND l.titulo LIKE :buscar";
+                $consulta .= " AND l.titulo LIKE :busqueda";
                 break;
             }
 
@@ -81,10 +81,10 @@ class Libro {
 
         $consulta .= " GROUP BY l.id ORDER BY l.titulo ASC LIMIT :limite OFFSET :offset";
 
-        $sql = $con->prepare($consulta);
+        $sql = $this->con->prepare($consulta);
 
-        if ($buscar != '') {
-            $sql->bindValue(':buscar', "%$buscar%", PDO::PARAM_STR);
+        if ($busqueda != '') {
+            $sql->bindValue(':busqueda', "%$busqueda%", PDO::PARAM_STR);
         }
 
         $sql->bindValue(':limite', $cant,   PDO::PARAM_INT);
@@ -95,6 +95,76 @@ class Libro {
         return $sql->fetchAll(PDO::FETCH_ASSOC);
 
     
+    }
+
+    public function cantResultadosCatalogo($busqueda, $filtro){ 
+
+        $consulta = "SELECT  
+                        count( distinct l.id ) as cantidad
+                    FROM libros l
+
+                        LEFT JOIN libros_generos lg ON l.id = lg.libro_id
+                        LEFT JOIN generos g ON lg.genero_id = g.id
+                        LEFT JOIN libros_autores la ON l.id = la.libro_id
+                        LEFT JOIN autores a ON la.autor_id = a.id
+                        LEFT JOIN libros_editoriales le ON l.id = le.libro_id
+                        LEFT JOIN editoriales e ON le.editorial_id = e.id 
+                        WHERE l.activo = 1 ";
+
+        if ($busqueda != '') {
+        
+        switch ($filtro) {
+            case 'autor':
+                $consulta .= "AND EXISTS (
+                                SELECT 1 
+                                FROM libros_autores la2 
+                                INNER JOIN autores a2 ON la2.autor_id = a2.id 
+                                WHERE la2.libro_id = l.id 
+                                    AND a2.nombre LIKE :busqueda OR
+                                    a2.apellido   LIKE :busqueda )";
+                break;
+            case 'genero':
+                $consulta .= " AND EXISTS (
+                                SELECT 1 
+                                FROM libros_generos lg2 
+                                INNER JOIN generos g2 ON lg2.libro_id = g2.id 
+                                WHERE lg2.libro_id = l.id 
+                                    AND g2.nombre LIKE :busqueda )";
+                break;
+            case 'editorial':
+                $consulta .= " AND EXISTS (
+                                SELECT 1 
+                                FROM libros_editoriales le2 
+                                INNER JOIN editoriales e2 ON le2.libro_id = e2.id 
+                                WHERE le2.libro_id = l.id 
+                                    AND e2.nombre LIKE :busqueda )";
+                break;
+            case 'isbn':
+                $consulta .= " AND l.isbn LIKE :busqueda";
+                break;    
+            case 'descripcion':
+                $consulta .= " AND l.descripcion LIKE :busqueda";
+                break;    
+            case 'titulo':
+            default:
+                $consulta .= " AND l.titulo LIKE :busqueda";
+                break;
+            }
+
+        
+        }
+
+
+        $sql = $this->con->prepare($consulta);
+
+        if ($busqueda != '') {
+            $sql->bindValue(':busqueda', "%$busqueda%", PDO::PARAM_STR);
+        }
+
+        $sql->execute(); 
+
+        return $sql->fetchColumn();
+
     }
 
     public static function getAllProducts() {

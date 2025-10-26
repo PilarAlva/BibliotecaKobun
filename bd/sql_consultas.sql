@@ -66,8 +66,14 @@ LEFT JOIN libros_autores la ON l.id = la.libro_id
 LEFT JOIN autores a ON la.autor_id = a.id
 LEFT JOIN libros_editoriales le ON l.id = le.libro_id
 LEFT JOIN editoriales e ON le.editorial_id = e.id
-
-WHERE  a.nombre LIKE '%ga%' OR a.apellido LIKE '%ga%'
+WHERE l.activo = 1
+AND EXISTS (
+	SELECT 1 
+	FROM libros_autores la2 
+	INNER JOIN autores a2 ON la2.autor_id = a2.id 
+	WHERE la2.libro_id = l.id 
+		AND a2.nombre LIKE "%gabriel%" OR
+		a2.apellido   LIKE "%gabriel%")
 
 GROUP BY  l.id
 LIMIT 0, 100;

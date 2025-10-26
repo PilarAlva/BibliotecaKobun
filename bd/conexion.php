@@ -3,7 +3,7 @@
 class Database {
 
     private $hostname = "localhost";
-    private $database = "tienda_online";
+    private $database = "kobun_db";
     private $username = "root";
     private $password = "ADMIN";
     private $charset = "utf8";
