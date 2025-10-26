@@ -2,14 +2,18 @@
 
 require_once './bd/conexion.php';
 
-class Libro {
+
+class LibroBD {
     
     private $con;
+
+    private $ultimo_id;
 
     public function __construct() {
         
         $db = new Database();
         $this->con = $db->conectar();
+
 
     }
 
@@ -233,6 +237,170 @@ class Libro {
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
         
+    }
+
+    public function agregarLibro($isbn, $titulo, $sinopsis, $ref_portada, $descripcion, $autores, $generos, $editoriales){
+        
+
+        $consulta = "INSERT INTO libros (isbn,titulo, sinopsis, ref_portada, descripcion, activo) 
+                     VALUES (:isbn,:titulo, :sinopsis, :ref_portada, :descripcion, 1)";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(':isbn', $isbn, PDO::PARAM_STR);
+        $sql->bindValue(':titulo', $titulo, PDO::PARAM_STR);
+        $sql->bindValue(':sinopsis', $sinopsis, PDO::PARAM_STR);
+        $sql->bindValue(':ref_portada', $ref_portada, PDO::PARAM_STR);
+        $sql->bindValue(':descripcion', $descripcion, PDO::PARAM_STR);
+
+        return $sql->execute();
+
+        agregarLibroAutores($this->con->lastInsertId(), $autores);
+        agregarLibroGeneros($this->con->lastInsertId(), $generos);      
+        agregarLibroEditoriales($this->con->lastInsertId(), $editoriales);
+
+    }
+
+    private function agregarLibroAutores($libro_id, $autores_id){
+
+        foreach ($autores_id as $autor_id) {
+            $this->agregarLibroAutor($libro_id, $autor_id);
+        }
+    }
+
+    private function agregarLibroAutor($libro_id, $autor_id){
+        $consulta = "INSERT INTO libros_autores (libro_id, autor_id) 
+                     VALUES (:libro_id, :autor_id)";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
+        $sql->bindValue(':autor_id', $autor_id, PDO::PARAM_INT);
+
+        return $sql->execute();
+    }
+
+    private function agregarLibroEditoriales($libro_id, $editoriales_id){
+
+        foreach ($editoriales_id as $editorial_id) {
+            $this->agregarLibroEditorial($libro_id, $editorial_id);
+        }
+    }   
+
+    private function agregarLibroEditorial($libro_id, $editorial_id){
+        $consulta = "INSERT INTO libros_editoriales (libro_id, editorial_id) 
+                     VALUES (:libro_id, :editorial_id)";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
+        $sql->bindValue(':editorial_id', $editorial_id, PDO::PARAM_INT);
+
+        return $sql->execute();
+    }
+
+    private function agregarLibroGeneros($libro_id, $generos_id){
+
+        foreach ($generos_id as $genero_id) {
+            $this->agregarLibroGeneros($libro_id, $genero_id);
+        }
+    }   
+    private function agregarLibroGenero($libro_id, $genero_id){
+        $consulta = "INSERT INTO libros_generos (libro_id, genero_id) 
+                     VALUES (:libro_id, :genero_id)";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
+        $sql->bindValue(':genero_id', $genero_id, PDO::PARAM_INT);
+
+        return $sql->execute();
+    }   
+
+    public function editarLibro($isbn, $titulo, $sinopsis, $ref_portada, $descripcion){
+        
+
+        $consulta = "UPDATE libros 
+                        SET isbn = :isbn, titulo = :titulo,
+                            sinopsis = :sinopsis, ref_portada = :ref_portada,
+                            descripcion = :descripcion 
+                            WHERE id = :id ";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(':isbn', $isbn, PDO::PARAM_STR);
+        $sql->bindValue(':titulo', $titulo, PDO::PARAM_STR);
+        $sql->bindValue(':sinopsis', $sinopsis, PDO::PARAM_STR);
+        $sql->bindValue(':ref_portada', $ref_portada, PDO::PARAM_STR);
+        $sql->bindValue(':descripcion', $descripcion, PDO::PARAM_STR);
+
+        return $sql->execute();        
+
+    }
+
+    public function estadoLibro($libro_id, $activo){
+        
+        $consulta = "UPDATE libros 
+                        SET activo = :activo
+                        WHERE id = :libro_id ";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
+        $sql->bindValue(':activo', $activo, PDO::PARAM_INT);
+
+        return $sql->execute();        
+
+    }
+
+    public function agregarEjemplar($libro_id, $codigo_topografico ){
+        
+        $consulta = "INSERT INTO ejemplares (libro_id, codigo_topografico) 
+                     VALUES (:libro_id, :codigo_topografico) ";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
+        $sql->bindValue(':codigo_topografico', $codigo_topografico, PDO::PARAM_STR);ref_ejemplar, PDO::PARAM_STR);
+
+        return $sql->execute();        
+
+    }
+
+    public function agregarGenero($nombre) {
+
+        $consulta = "INSERT INTO generos (nombre) 
+                     VALUES (:nombre) ";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(':nombre', $nombre, PDO::PARAM_STR);
+
+        return $sql->execute();
+
+    }
+
+    public function agregarEditorial($nombre) {
+
+        $consulta = "INSERT INTO editoriales (nombre) 
+                     VALUES (:nombre) ";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(':nombre', $nombre, PDO::PARAM_STR);
+
+        return $sql->execute();
+
+    }   
+
+    public function agregarAutor($nombre, $apellido) {
+
+        $consulta = "INSERT INTO autores (nombre, apellido) 
+                     VALUES (:nombre, :apellido) ";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(':nombre', $nombre, PDO::PARAM_STR);
+        $sql->bindValue(':apellido', $apellido, PDO::PARAM_STR);
+
+        return $sql->execute();
+
+    }   
+
+
+
+    public function __destruct() {
+        $this->con = null;
     }
 
 
