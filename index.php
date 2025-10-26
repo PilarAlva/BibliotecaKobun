@@ -17,6 +17,12 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
 $resultados = $libro->busquedaCatalogo($buscar, $filtro, $offset, $registrosPorPagina);
 
+$cantidadDisponible = $libro->cantidadDisponible("1");
+
+$ejemplaresDisponibles = $libro->ejemplaresDisponibles("1");
+
+$infoLibro = $libro->infoLibro("1");
+
 ?>
 
 <!DOCTYPE html>
@@ -33,6 +39,29 @@ $resultados = $libro->busquedaCatalogo($buscar, $filtro, $offset, $registrosPorP
         crossorigin="anonymous">
 </head>
 <body>
+
+    <div> 
+        
+        TESTEO
+        
+        LIbros disponibles: <?php echo $cantidadDisponible; ?> <br>
+        Ejemplares disponibles: <?php foreach( $ejemplaresDisponibles as $ejemplar) { ?>       
+
+            <?php echo $ejemplar['id']; ?> - <?php echo $ejemplar['libro_id']; ?> <br>
+
+        <?php } ?>
+
+        Info Libro: <?php foreach( $infoLibro as $info) { ?>       
+
+            <?php echo $info['titulo']; ?> - <?php echo $info['sinopsis']; ?> <br>
+
+        <?php } ?>
+
+
+
+
+    </div>
+
     <header>
         <div>
             <a href="index.php">

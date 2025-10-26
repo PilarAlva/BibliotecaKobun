@@ -13,8 +13,6 @@ class Libro {
 
     }
 
-    
-
     public function busquedaCatalogo($busqueda, $filtro, $inicio = 0, $cant = 1000){
 
         $consulta = "SELECT  
@@ -167,32 +165,76 @@ class Libro {
 
     }
 
-    public static function getAllProducts() {
-        $db = DBConexion::connection();
-        $data = $db->query("SELECT cod, short_name, nombre, pvp FROM products");
-        $products = array();
+    public function cantidadDisponible($libro_id){
+        $consulta = "SELECT 
+                        count(e.id) - count(a.ejemplar_id) as disponibles
+                    FROM ejemplares e
+                    LEFT JOIN (
+                        SELECT 
+                            ejemplar_id 
+                        FROM prestamos WHERE fecha_devolucion IS NULL
+                        )AS a 
+                    ON e.id = a.ejemplar_id
+                    WHERE e.libro_id = :libro_id";
 
-        while ( $row = $data->fetch_assoc() ) {
-            $product = new Product($row);
-            $products[] = $product;
-        }
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
+        $sql->execute(); 
 
-        return $products;
+        return $sql->fetchColumn();
     }
 
-    public function getProductName() {
-        return $this->name;
+    public function ejemplaresDisponibles($libro_id){
+        
+        $consulta = "SELECT 
+                        e.id,
+                        e.libro_id
+                    FROM ejemplares e 
+                    WHERE e.id
+                    NOT IN (
+                        SELECT 
+                            p.ejemplar_id 
+                        FROM prestamos p WHERE p.fecha_devolucion IS NULL
+                    ) AND e.libro_id = :libro_id";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
+        $sql->execute(); 
+
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getProductCode() {
-        return $this->cod;
+    public function infoLibro($id_libro){
+
+        $consulta = "SELECT  
+                        l.titulo as titulo,
+                        l.sinopsis as sinopsis,
+                        l.ref_portada as portada,
+                        l.descripcion as descripcion,
+                        group_concat(distinct g.nombre separator ', ') as generos,
+                        group_concat(distinct concat(a.nombre, ' ', a.apellido ) separator ', ') as autores,
+                        group_concat(distinct e.nombre separator ', ') as editorial
+                        
+                    FROM libros l
+
+                    LEFT JOIN libros_generos lg ON l.id = lg.libro_id
+                    LEFT JOIN generos g ON lg.genero_id = g.id
+                    LEFT JOIN libros_autores la ON l.id = la.libro_id
+                    LEFT JOIN autores a ON la.autor_id = a.id
+                    LEFT JOIN libros_editoriales le ON l.id = le.libro_id
+                    LEFT JOIN editoriales e ON le.editorial_id = e.id
+
+                    WHERE l.id = :id_libro
+                    GROUP BY l.id";
+
+        $sql = $this->con->prepare($consulta);
+
+        $sql->bindValue(':id_libro', $id_libro, PDO::PARAM_INT);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+        
     }
 
-    public function getProductShortName() {
-        return $this->short_name;
-    }
 
-    public function getProductPvp() {
-        return $this->pvp;
-    }
+ 
 }
