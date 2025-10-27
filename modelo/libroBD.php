@@ -38,6 +38,7 @@ class LibroBD {
                         LEFT JOIN editoriales e ON le.editorial_id = e.id 
                         WHERE l.activo = 1 ";
 
+
         if ($busqueda != '') {
         
         switch ($filtro) {
@@ -46,9 +47,8 @@ class LibroBD {
                                 SELECT 1 
                                 FROM libros_autores la2 
                                 INNER JOIN autores a2 ON la2.autor_id = a2.id 
-                                WHERE la2.libro_id = l.id 
-                                    AND a2.nombre LIKE :busqueda OR
-                                    a2.apellido   LIKE :busqueda )";
+                                WHERE la2.libro_id = l.id
+                                    AND (a2.nombre LIKE :busqueda_nombre OR a2.apellido LIKE :busqueda_apellido) )";
                 break;
             case 'genero':
                 $consulta .= " AND EXISTS (
@@ -79,6 +79,7 @@ class LibroBD {
             }
 
         
+        
         }
 
         $consulta .= " GROUP BY l.id ORDER BY l.titulo ASC LIMIT :limite OFFSET :offset";
@@ -86,7 +87,12 @@ class LibroBD {
         $sql = $this->con->prepare($consulta);
 
         if ($busqueda != '') {
-            $sql->bindValue(':busqueda', "%$busqueda%", PDO::PARAM_STR);
+            if ($filtro == 'autor') {
+                $sql->bindValue(':busqueda_nombre', "%$busqueda%", PDO::PARAM_STR);
+                $sql->bindValue(':busqueda_apellido', "%$busqueda%", PDO::PARAM_STR);
+            } else {
+                $sql->bindValue(':busqueda', "%$busqueda%", PDO::PARAM_STR);
+            }
         }
 
         $sql->bindValue(':limite', $cant,   PDO::PARAM_INT);
@@ -121,9 +127,8 @@ class LibroBD {
                                 SELECT 1 
                                 FROM libros_autores la2 
                                 INNER JOIN autores a2 ON la2.autor_id = a2.id 
-                                WHERE la2.libro_id = l.id 
-                                    AND a2.nombre LIKE :busqueda OR
-                                    a2.apellido   LIKE :busqueda )";
+                                WHERE la2.libro_id = l.id
+                                    AND (a2.nombre LIKE :busqueda_nombre OR a2.apellido LIKE :busqueda_apellido) )";
                 break;
             case 'genero':
                 $consulta .= " AND EXISTS (
@@ -160,9 +165,13 @@ class LibroBD {
         $sql = $this->con->prepare($consulta);
 
         if ($busqueda != '') {
-            $sql->bindValue(':busqueda', "%$busqueda%", PDO::PARAM_STR);
+            if ($filtro == 'autor') {
+                $sql->bindValue(':busqueda_nombre', "%$busqueda%", PDO::PARAM_STR);
+                $sql->bindValue(':busqueda_apellido', "%$busqueda%", PDO::PARAM_STR);
+            } else {
+                $sql->bindValue(':busqueda', "%$busqueda%", PDO::PARAM_STR);
+            }
         }
-
         $sql->execute(); 
 
         return $sql->fetchColumn();
@@ -252,12 +261,14 @@ class LibroBD {
         $sql->bindValue(':ref_portada', $ref_portada, PDO::PARAM_STR);
         $sql->bindValue(':descripcion', $descripcion, PDO::PARAM_STR);
 
-        return $sql->execute();
+        $sql->execute();
 
-        agregarLibroAutores($this->con->lastInsertId(), $autores);
-        agregarLibroGeneros($this->con->lastInsertId(), $generos);      
-        agregarLibroEditoriales($this->con->lastInsertId(), $editoriales);
+        $libro_id = $this->con->lastInsertId();
+        $this->agregarLibroAutores($libro_id, $autores);
+        $this->agregarLibroGeneros($libro_id, $generos);      
+        $this->agregarLibroEditoriales($libro_id, $editoriales);
 
+        return $libro_id;
     }
 
     private function agregarLibroAutores($libro_id, $autores_id){
@@ -299,7 +310,7 @@ class LibroBD {
     private function agregarLibroGeneros($libro_id, $generos_id){
 
         foreach ($generos_id as $genero_id) {
-            $this->agregarLibroGeneros($libro_id, $genero_id);
+            $this->agregarLibroGenero($libro_id, $genero_id);
         }
     }   
     private function agregarLibroGenero($libro_id, $genero_id){
