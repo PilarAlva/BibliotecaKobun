@@ -6,23 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Kobun - Inicio</title>
 
-    <link rel="stylesheet" href="vistas/css/style.css">
-    <link rel="stylesheet" href="vistas/css/inicio.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/inicio.css">
 </head>
 <body>
     <header class="header">
         <?php
-            include 'vistas/header.php'; 
+            include 'header.php'; 
         ?>
     </header>
 
     <div class="banner">
-        <img src="vistas/img/banner.jpg" alt="Banner de bienvenida" class="banner-img">
+        <img src="img/banner.jpg" alt="Banner de bienvenida" class="banner-img">
         <div class="saludo">
             <?php
                 // Cargar el nombre de usuario con la sesión activa.
                 $username = "Usuario";
                 echo "<h1>Hola " . htmlspecialchars($username) . "!</h1>";
+                
+                if (isset($_SESSION['msg'])) {
+                echo $_SESSION['msg'];
+                }
             ?>
         </div>
     </div>
@@ -35,7 +39,7 @@
                 <p>En Biblioteca Kobun, nos apasiona conectar a los lectores con el conocimiento y la imaginación. Fundada en 2025, nuestra misión es proporcionar un espacio acogedor donde las personas puedan explorar una amplia variedad de libros y recursos de apoyo digitales.</p>
             </div>
             <div class="imagen">
-                <img id="frente-biblio" src="vistas/img/frente-biblioteca.jpg" alt="Frente de la Biblioteca Kobun">
+                <img id="frente-biblio" src="img/frente-biblioteca.jpg" alt="Frente de la Biblioteca Kobun">
             </div>
         </section>
 
@@ -45,7 +49,7 @@
             <h2>Los Espacios de la Biblioteca</h2>
             <div class="info-container">
                 <div class="imagen">
-                    <img src="vistas/img/sala-lectura-general.jpg" alt="Sala de Lectura general">
+                    <img src="img/sala-lectura-general.jpg" alt="Sala de Lectura general">
                 </div>
                 <div class="info-texto">
                     <h3>Sala de Lectura</h3>
@@ -58,12 +62,12 @@
                     <p> La biblioteca cuenta con una variedad de espacios especializados más allá de la sala general. Disponemos de salas dedicadas a talleres, como la "Sala Azul", y otras como la "Sala Roja" y la "Sala Violeta", diseñadas para inspirar y acoger diversas actividades y reuniones. </p>
                 </div>
                 <div class="imagen">
-                    <img src="vistas/img/sala-azul.jpg" alt="Sala Azul, destinada a Talleres">
+                    <img src="img/sala-azul.jpg" alt="Sala Azul, destinada a Talleres">
                 </div>
             </div>
             <div class="info-container">
                 <div class="imagen">
-                    <img src="vistas/img/patio-biblio.jpg" alt="Espacio verde">
+                    <img src="img/patio-biblio.jpg" alt="Espacio verde">
                 </div>
                 <div class="info-texto">
                     <h3>Espacio al Aire Libre</h3>
@@ -89,7 +93,7 @@
                 </ul>
                 <!-- Puedes mantener una imagen general de la sección si lo deseas -->
                  <div class="imagen">
-                    <img src="vistas/img/recepcion.jpg" alt="Recepción de la Biblioteca Kobun">
+                    <img src="img/recepcion.jpg" alt="Recepción de la Biblioteca Kobun">
                 </div>
             </div>
         </section>
@@ -106,9 +110,9 @@
                     <p><span class="destacado">Horario de Atención:</span> 08:00 a 20:00 hs.</p>
                 </div>
                 <div class="redes-sociales">
-                    <a href="https://www.facebook.com/?locale=es_LA" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><img src="vistas/img/facebook.png" alt="Icono de Facebook" width="30"></a>
-                    <a href="https://x.com/?lang=es" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><img src="vistas/img/twitter.png" alt="Icono de Twitter" width="30"></a>
-                    <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><img src="vistas/img/instagram.png" alt="Icono de Instagram" width="30"></a>    
+                    <a href="https://www.facebook.com/?locale=es_LA" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><img src="img/facebook.png" alt="Icono de Facebook" width="30"></a>
+                    <a href="https://x.com/?lang=es" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><img src="img/twitter.png" alt="Icono de Twitter" width="30"></a>
+                    <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><img src="img/instagram.png" alt="Icono de Instagram" width="30"></a>    
                 </div>
             </div>
         </section>
@@ -117,7 +121,7 @@
 
     <footer>
         <?php
-            include 'vistas/footer.php';
+            include 'footer.php';
         ?>
     </footer>
     
