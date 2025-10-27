@@ -213,6 +213,20 @@ class LibroBD {
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function obtenerEjemplarPorId($ejempalr_id){
+
+        $consulta = "SELECT 
+                        *   
+                    FROM ejemplares e 
+                    WHERE e.id = :ejemplar_id "
+
+        $sql = $this.con->prepare($consulta);
+        $sql->bindValue(":ejemplar_id", $ejempalr_id, PDO::PARAM_INT)        
+        $sql->execute();
+
+        return $sql->fectchAll(PDO::FETCH_ASOC);
+    }
+
     public function infoLibro($id_libro){
 
         $consulta = "SELECT  
@@ -402,6 +416,19 @@ class LibroBD {
 
         return $sql->execute();
 
+    }   
+    public function antiguedadLibro($libro_id) {
+
+        $consulta = "SELECT 
+                        DATEDIFF(NOW(), l.fecha_alta ) AS dias_antiguedad 
+                    FROM libros l
+                    WHERE l.libro_id = :libro_id";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
+        $sql->execute();
+
+        return $sql->fetchColumn();
     }   
 
     public function __destruct() {
