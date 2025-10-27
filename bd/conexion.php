@@ -5,7 +5,7 @@ class Database {
     private $hostname = "localhost";
     private $database = "kobun_db";
     private $username = "root";
-    private $password = "ADMIN";
+    private $password = "";
     private $charset = "utf8";
 
     function conectar()

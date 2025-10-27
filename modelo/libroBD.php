@@ -218,10 +218,10 @@ class LibroBD {
         $consulta = "SELECT 
                         *   
                     FROM ejemplares e 
-                    WHERE e.id = :ejemplar_id "
+                    WHERE e.id = :ejemplar_id ";
 
         $sql = $this.con->prepare($consulta);
-        $sql->bindValue(":ejemplar_id", $ejempalr_id, PDO::PARAM_INT)        
+        $sql->bindValue(":ejemplar_id", $ejempalr_id, PDO::PARAM_INT);    
         $sql->execute();
 
         return $sql->fectchAll(PDO::FETCH_ASOC);

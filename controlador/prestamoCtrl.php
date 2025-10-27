@@ -29,7 +29,7 @@
 
             $ejemplar = $this->LibroBD->obtenerEjemplarPorId($ejemplar_id);
 
-            if (!$ejemplar || !$ejemplar['disponible']) {
+            if (!$ejemplar) {
                 return ["error" => "El ejemplar no está disponible para préstamo."];
             }
 
@@ -42,7 +42,7 @@
             $valido = FALSE;
 
             if($socio["activo"] == 1){
-             $valido = TRUE;   
+                $valido = TRUE;   
             }
 
             switch($antiguedad_socio){
