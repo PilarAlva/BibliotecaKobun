@@ -2,18 +2,14 @@
 
 require_once './bd/conexion.php';
 
-
 class LibroBD {
     
     private $con;
-
-    private $ultimo_id;
 
     public function __construct() {
         
         $db = new Database();
         $this->con = $db->conectar();
-
 
     }
 
@@ -407,8 +403,6 @@ class LibroBD {
         return $sql->execute();
 
     }   
-
-
 
     public function __destruct() {
         $this->con = null;

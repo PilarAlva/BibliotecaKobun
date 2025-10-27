@@ -139,3 +139,6 @@ NOT IN (
 	FROM prestamos p WHERE p.fecha_devolucion IS NULL
 ) AND e.libro_id = 1;
 
+
+/*--------------------Prestamos--------------------------*/
+

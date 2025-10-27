@@ -11,6 +11,7 @@
         <section class="products-container">
             <header>
                 <h1>Catálogo de Libros</h1>
+                <p>Resultados encontrados: <?php echo $resultados; ?></p>
             </header>
             <?php if (!empty($libros)): ?>
                 <?php foreach ($libros as $libro): ?>

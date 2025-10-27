@@ -5,12 +5,12 @@ require_once "./modelo/libroBD.php";
 
 $libroModel = new LibroBD();
 
-// Example of fetching books. You can make $busqueda and $filtro dynamic,
-// for example, by getting them from $_GET parameters.
-$busqueda = 'garcia'; // Empty search will get all books
-$filtro = 'autor';
+$busqueda = isset($_GET['busqueda']) ? trim($_GET['busqueda']) : '';
+$filtro = isset($_GET['filtro']) ? $_GET['filtro'] : 'titulo';
 
-$libros = $libroModel->busquedaCatalogo($busqueda, $filtro);
+$libros = $libroModel->busquedaCatalogo($busqueda, $filtro, 0, 5);
+$resultados = $libroModel->cantResultadosCatalogo($busqueda, $filtro);
+
 
 // Call the view
 require_once "vistas/catalogo.php";
