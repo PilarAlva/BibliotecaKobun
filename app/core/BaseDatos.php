@@ -5,7 +5,6 @@
         private $usuario = BD_USUARIO;
         private $clave = BD_CLAVE;
         private $bdNombre = BD_NOMBRE;
-        private $clave = BD_CLAVE;
         private $puerto = BD_PUERTO;
         
         private $dbh;
@@ -16,7 +15,7 @@
 
             $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->bdNombre . ';port' . $this-> puerto;
             $options = [
-                PDO::ATTR_PERSISTENT = true,
+                PDO::ATTR_PERSISTENT => true,
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             ];
 
