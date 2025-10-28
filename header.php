@@ -20,10 +20,15 @@
                 $defaultImg = 'img/perfil-generico.png';
                 $perfilImg = isset($_SESSION['img_perfil']) && !empty($_SESSION['img_perfil']) ? $_SESSION['img_perfil'] : $defaultImg;
             ?>
-            <li class="no-underline">
+            <!-- Elemento de perfil para VISTA ESCRITORIO -->
+            <li class="no-underline perfil-desktop">
                 <a href="perfil.php" class="btn-perfil" aria-label="Ver perfil">
                     <img src="<?php echo htmlspecialchars($perfilImg); ?>" alt="Imagen de perfil del usuario" class="img-perfil">
                 </a>
+            </li>
+            <!-- Elemento de perfil para VISTA MÓVIL (menú hamburguesa) -->
+            <li class="perfil-mobile">
+                <a href="perfil.php">Perfil</a>
             </li>
 
         <?php else: ?>

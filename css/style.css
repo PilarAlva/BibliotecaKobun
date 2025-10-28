@@ -23,6 +23,10 @@ body {
     color: var(--text-color);
     background-color: var(--bg-color);
     line-height: 1.6;
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 h1, h2, h3 {
     font-family: var(--font-headings);
@@ -140,6 +144,11 @@ img {
     content: none;
 }
 
+/* Por defecto (vista escritorio), ocultamos el enlace de perfil para móvil */
+.perfil-mobile {
+    display: none;
+}
+
 
 /* ------- Menú Hamburguesa ------- */
 .hamburger-menu {
@@ -187,6 +196,13 @@ img {
 
 /* ------- Responsive (Menú Hamburguesa) ------- */
 @media (max-width: 768px) { 
+    .perfil-desktop {
+        display: none;
+    }
+    .perfil-mobile {
+        display: list-item;
+    }
+
     .hamburger-menu {
         display: block;
     }
@@ -230,15 +246,16 @@ img {
     }
 
     .main-nav a:hover::after {
-        width: 100%; /* Ajusta el ancho de la línea de hover para el menú móvil */
+        width: 100%;
     }
 }
 
 /* ------- Contenido Principal (Main) ------- */
 .main-content {
-    max-width: 1100px;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 2.5rem;
+    padding: 3rem;
 }
 
 /* ------- Divisor de Secciones ------- */
@@ -259,5 +276,4 @@ footer {
     text-align: center;
     padding: 1rem 0;
     font-size: 0.9rem;
-    margin-top: 2rem;
 }
