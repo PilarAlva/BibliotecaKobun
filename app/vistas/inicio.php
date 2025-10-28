@@ -1,7 +1,4 @@
-
-
-
-    <header class="header">
+<header class="header">
         <?php
             include '../app/vistas/componentes/header.php'; 
         ?>
@@ -115,4 +112,3 @@
             include '../app/vistas/componentes/footer.php';
         ?>
     </footer>
-    

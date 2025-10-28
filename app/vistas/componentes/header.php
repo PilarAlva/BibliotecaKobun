@@ -13,7 +13,7 @@
 <nav class="main-nav">
     <ul>
         <li><a href= <?php BASE_URL?> >Inicio</a></li>
-        <li><a href= "<?php BASE_URL?>catalogo"  >Catálogo</a></li>
+        <li><a href= "<?php BASE_URL?>catalogo" >Catálogo</a></li>
         <li><a href= "<?php BASE_URL?>talleres">Talleres</a></li>
         <li><a href= "<?php BASE_URL?>contacto">Contacto</a></li>
 
@@ -30,7 +30,7 @@
             </li>
             <!-- Elemento de perfil para VISTA MÓVIL (menú hamburguesa) -->
             <li class="perfil-mobile">
-                <a href="perfil.php">Perfil</a>
+                <a href="<?php BASE_URL?>perfil">Perfil</a>
             </li>
 
         <?php else: ?>
@@ -41,5 +41,5 @@
     </ul>
 </nav>
 
-<!-- Archivos .js -->
-<script src="js/main.js"></script>
+ <!-- Archivos .js -->
+    <script src="js/main.js"></script>
