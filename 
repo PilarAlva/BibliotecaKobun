@@ -1,0 +1,141 @@
+[33mcommit a4baa89b22568960a68a67c987b120562e03ad29[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdesarrollo-felipe[m[33m)[m
+Author: FelipeDaRo5a <77176140+FelipeDaRo5a@users.noreply.github.com>
+Date:   Mon Oct 27 22:48:34 2025 -0300
+
+    Implementacion mvc
+
+[33mcommit f8dcad9eac4e250eac05f907c89f194b299d5913[m
+Author: FelipeDaRo5a <77176140+FelipeDaRo5a@users.noreply.github.com>
+Date:   Mon Oct 27 21:49:35 2025 -0300
+
+    Agregada clase base de datos
+
+[33mcommit e374ee41e6fd349343734384eee355a1838874b1[m
+Author: FelipeDaRo5a <77176140+FelipeDaRo5a@users.noreply.github.com>
+Date:   Mon Oct 27 21:28:16 2025 -0300
+
+    Antes del desastre v2
+
+[33mcommit dcc49fa444e1c5fa03b8c1a88c6bcb05d3698eb6[m[33m ([m[1;31morigin/desarrollo-felipe[m[33m)[m
+Author: felipeDaRo5a <>
+Date:   Mon Oct 27 11:09:19 2025 -0300
+
+    v2}
+
+[33mcommit b5f1bb5998259193d3a891f638d446fb06d14672[m
+Author: Tomás Matta Palladino <sollione2004@gmail.com>
+Date:   Mon Oct 27 10:02:22 2025 -0300
+
+    Comienzo del controlador para prestamos
+
+[33mcommit 24addf0dd5761f2dab7474cff67c2c723ddf3d8e[m
+Author: FelipeDaRo5a <77176140+FelipeDaRo5a@users.noreply.github.com>
+Date:   Sun Oct 26 23:05:24 2025 -0300
+
+    Agregado SocioBD, prestamoBD y corregido error del buscador
+
+[33mcommit 813e02b8e94130f9e4dbbfc967334f4652fc65c9[m
+Author: FelipeDaRo5a <77176140+FelipeDaRo5a@users.noreply.github.com>
+Date:   Sun Oct 26 21:37:26 2025 -0300
+
+    maldito php
+
+[33mcommit e355690d24750c42128f7550badf5fa2473fcfe4[m
+Author: FelipeDaRo5a <77176140+FelipeDaRo5a@users.noreply.github.com>
+Date:   Sun Oct 26 20:26:36 2025 -0300
+
+    Antes del desastre
+
+[33mcommit 368deefd0b760ee558163625be28d05e2508d3f5[m
+Author: FelipeDaRo5a <77176140+FelipeDaRo5a@users.noreply.github.com>
+Date:   Sun Oct 26 20:17:39 2025 -0300
+
+    Mas funciones de abm para libros v2
+
+[33mcommit f30f7446a515dc103fa7e20af9c6a396583faed5[m
+Author: FelipeDaRo5a <77176140+FelipeDaRo5a@users.noreply.github.com>
+Date:   Sun Oct 26 20:13:17 2025 -0300
+
+    Mas funciones de abm para libros
+
+[33mcommit 6c463da2a4e5ea7d6d3d62f0d52b8f0564f7d767[m
+Author: FelipeDaRo5a <77176140+FelipeDaRo5a@users.noreply.github.com>
+Date:   Sun Oct 26 19:05:00 2025 -0300
+
+    Mas funciones de consulta a la base
+
+[33mcommit 73f57fa423b24da83b6cb454dd205b558ec2c9cb[m
+Merge: c3df254 9feaa73
+Author: FelipeDaRo5a <77176140+FelipeDaRo5a@users.noreply.github.com>
+Date:   Sun Oct 26 18:32:36 2025 -0300
+
+    Merge branch 'desarrollo-felipe' of https://github.com/PilarAlva/BibliotecaKobun into desarrollo-felipe
+
+[33mcommit c3df254e0b12f2ef1c2678f23fcfb9e086e94b13[m
+Author: FelipeDaRo5a <77176140+FelipeDaRo5a@users.noreply.github.com>
+Date:   Sun Oct 26 18:17:36 2025 -0300
+
+    pili, vos ves los mensajes del commit? re pete. sigo tanteando el mvc para ver qué es lo más comodo para nuestro proyecto, pero acá hay una prueba
+
+[33mcommit ca14c1d8dd16786cfcdec8c442d8537969fae887[m
+Author: FelipeDaRo5a <77176140+FelipeDaRo5a@users.noreply.github.com>
+Date:   Sun Oct 26 17:59:44 2025 -0300
+
+    inico busqueda
+
+[33mcommit 111e28250731c6ecb0ce5ea8ed3ea620aa48e78e[m
+Author: FelipeDaRo5a <77176140+FelipeDaRo5a@users.noreply.github.com>
+Date:   Sun Oct 26 06:52:04 2025 -0300
+
+    inital commit
+
+[33mcommit 9feaa733377cb8f5b9457deb4cc4c9a854f6681f[m
+Author: Pilar <pilaralvarez080@gmail.com>
+Date:   Mon Oct 20 21:32:45 2025 -0300
+
+    desarrollo nav
+
+[33mcommit c4f49dbc32440ac7d4f1d62685f5f885eb01b546[m
+Author: Pilar <pilaralvarez080@gmail.com>
+Date:   Mon Oct 20 21:09:17 2025 -0300
+
+    Update index.php
+
+[33mcommit 7e0462749bc2be16cef161821d2662be3e3f6c2f[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Merge: 07c662b e91359a
+Author: Pilar <132228371+PilarAlva@users.noreply.github.com>
+Date:   Mon Oct 20 20:52:37 2025 -0300
+
+    Merge pull request #2 from PilarAlva/desarrollo
+    
+    Desarrollo del header
+
+[33mcommit e91359aca3b1e19da3c89c4226ff0ab53f70fc31[m
+Author: Pilar <pilaralvarez080@gmail.com>
+Date:   Mon Oct 20 20:49:46 2025 -0300
+
+    Desarrollo del header
+
+[33mcommit 07c662bd2cfab35900684d0313a2105611f0208c[m
+Author: Pilar <pilaralvarez080@gmail.com>
+Date:   Mon Oct 20 11:37:09 2025 -0300
+
+    Create subir_todas_consultas_sql_individuales.txt
+
+[33mcommit 37894c79287724b4364125fc08bb74a8350b660b[m
+Author: Pilar <pilaralvarez080@gmail.com>
+Date:   Mon Oct 20 11:34:37 2025 -0300
+
+    organización_visual
+
+[33mcommit 380cce8c874a9135fc17525cf16eafb532397234[m
+Author: Pilar <pilaralvarez080@gmail.com>
+Date:   Mon Oct 20 11:32:08 2025 -0300
+
+    Create style.css
+
+[33mcommit 92c24dd2db05f12b7814d7f18c63aef7daabebf0[m
+Author: Pilar <pilaralvarez080@gmail.com>
+Date:   Mon Oct 20 11:29:06 2025 -0300
+
+    organización
