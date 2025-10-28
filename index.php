@@ -104,16 +104,16 @@
             <h2>Información Útil</h2>
             <div id="info-util">
                 <div>
-                    <p><span class="destacado">Teléfono:</span> (0999) 1234-5678</p>
-                    <p><span class="destacado">Email:</span> info@bibliotecakobun.org.ar </p>
-                    <p><span class="destacado">Dirección:</span> Viamonte 1234, Haedo, Buenos Aires</p>
                     <p><span class="destacado">Horario de Atención:</span> 08:00 a 20:00 hs.</p>
+                    <p><span class="destacado">Jefe/a de Biblioteca:</span> Fernanda Trías. </p>
+                    <p><span class="destacado">Bibliotecarios/as Profesionales:</span> Juana Inés de Asbaje, Laura Esquivel. </p>
+                    <p><span class="destacado">Circulación y Préstamos:</span> Samanta Schweblin, Valeria Luiselli. </p>
                 </div>
-                <div class="redes-sociales">
+                <!-- <div class="redes-sociales">
                     <a href="https://www.facebook.com/?locale=es_LA" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><img src="img/facebook.png" alt="Icono de Facebook" width="30"></a>
                     <a href="https://x.com/?lang=es" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><img src="img/twitter.png" alt="Icono de Twitter" width="30"></a>
                     <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><img src="img/instagram.png" alt="Icono de Instagram" width="30"></a>    
-                </div>
+                </div> -->
             </div>
         </section>
         
