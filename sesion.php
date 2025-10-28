@@ -59,7 +59,7 @@
                     <p class="pseudo-link" >Olvidé mi contrseña</p>
                 </div>
                 <div class="boton-submit">
-                    <button type="submit">Entrar</button>
+                    <button type="submit" class="destacado">Entrar</button>
                     <?php
                      if (!empty($mensaje)) {
                         echo '
@@ -83,7 +83,7 @@
                     <input type="hidden" name="action" value="registro">
                 </div>
                 <div class="boton-submit">
-                    <button type="submit">Registrar</button>
+                    <button type="submit" class="destacado">Registrarse</button>
                     <?php
                         if (!empty($mensaje)) {
                             echo '
