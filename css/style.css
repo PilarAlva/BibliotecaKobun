@@ -255,7 +255,7 @@ img {
 /* ------- Footer ------- */
 footer {
     background-color: var(--primary-color);
-    color: var(--secondary-color);
+    color: var(--accent-color);
     text-align: center;
     padding: 1rem 0;
     font-size: 0.9rem;
