@@ -14,6 +14,8 @@ $rutas = [
     'catalogo' => ['controlador' => 'libroCtrl', 'metodo' => 'index'],
 
     'catalogo/b' => ['controlador' => 'libroCtrl', 'metodo' => 'busqueda'],
+
+    'libro/id' => ['controlador' => 'libroCtrl', 'metodo' => 'mostrarLibro'],
   
 
     // Route for a specific book page, maps to the 'bookId' metodo of 'Bookcontrolador'

@@ -4,7 +4,6 @@
 class libroCtrl extends Controlador{
     
 
-    
 
     public function index($filtro = '', $busqueda = '', $pagina = '1'){
 
@@ -31,6 +30,7 @@ class libroCtrl extends Controlador{
 
     }
 
+
     public function busqueda($filtro = '', $busqueda = '', $pagina = '1'){
 
 
@@ -46,10 +46,9 @@ class libroCtrl extends Controlador{
         $resultados = $libroModel->cantResultadosCatalogo($busqueda, $filtro);
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            // Update the book with the given ID using data from the POST request
-            //$bookModel->update($id, $_POST['title'], $_POST['author'], $_POST['isbn']);
-            // Redirect to the books list page
+
             header('Location: ' . BASE_URL . 'catalogo/b/' . $_POST['filtro'] . '/' . $_POST['q']);
+
         }
 
         $data = ["busqueda" => $busqueda,
@@ -63,6 +62,21 @@ class libroCtrl extends Controlador{
         $this->mostrarVista('catalogo', $data, 'Catalogo');
 
     }
+
+       public function mostrarLibro($libro_id = '1'){
+        
+        $libroModel = $this->cargarModelo("libroBD");
+
+        $libro = $libroModel->infoLibro($libro_id);
+
+        $data = [
+            "libro" => $libro
+        ];
+
+        $this->mostrarVista('Libro', $data, $libro['titulo']);
+
+    }
+
 
 }
 
