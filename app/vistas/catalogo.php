@@ -54,7 +54,12 @@
 
                                 <div class="my-2">
                                     <small>Disponibilidad: </small>
-                                    <small style="color: green">Items Disponibles</small>
+                                    <?php if ($libro['cantidad'] > 0) {?>
+                                    <small style="color: green"><?php echo $libro['cantidad']?> Disponibles</small>
+                                    <?php } else { ?>
+                                    <small style="color: red"> No hay ejemplares disponibles</small>
+                                    <?php }  ?>
+
                                 </div>
                             </div>
                             </a>
