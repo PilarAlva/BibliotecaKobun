@@ -16,10 +16,25 @@ class LibroBD {
     public function busquedaCatalogo($busqueda, $filtro, $inicio = 0, $cant = 1000){
 
         $consulta = "SELECT  
+                        l.id as id,
                         l.titulo as titulo,
                         l.sinopsis as sinopsis,
                         l.ref_portada as portada,
                         l.descripcion as descripcion,
+
+                        (SELECT  
+                        count( distinct l.id )
+
+                        FROM libros l   
+
+                        LEFT JOIN libros_generos lg ON l.id = lg.libro_id
+                        LEFT JOIN generos g ON lg.genero_id = g.id
+                        LEFT JOIN libros_autores la ON l.id = la.libro_id
+                        LEFT JOIN autores a ON la.autor_id = a.id
+                        LEFT JOIN libros_editoriales le ON l.id = le.libro_id
+                        LEFT JOIN editoriales e ON le.editorial_id = e.id 
+                        WHERE l.activo = 1 ) as cantidad,
+
                         group_concat(distinct g.nombre separator ', ') as generos,
                         group_concat(distinct concat(a.nombre, ' ', a.apellido ) separator ', ') as autores,
                         group_concat(distinct e.nombre separator ', ') as editorial

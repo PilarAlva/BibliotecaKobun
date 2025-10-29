@@ -6,26 +6,34 @@ class libroCtrl extends Controlador{
 
     
 
-    public function index(){
+    public function index($filtro = '', $busqueda = '', $pagina = '1'){
 
-    
+        $cantidad_por_pagina = 20;
+
         $libroModel = $this->cargarModelo("libroBD");
         
-        $busqueda = isset($_POST['busqueda']) ? trim($_POST['busqueda']) : '';
-        $filtro = isset($_POST['filtro']) ? $_POST['filtro'] : 'titulo';
+        $offset = ( ((int)$pagina) - 1) * $cantidad_por_pagina;
+        $limite = $offset + $cantidad_por_pagina;
 
-        $libros = $libroModel->busquedaCatalogo($busqueda, $filtro, 0, 5);
+        $libros = $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, $limite );
+
         $resultados = $libroModel->cantResultadosCatalogo($busqueda, $filtro);
 
-        $data = ["libros" => $libros,
-                 "resultados" => $resultados ];
+        $data = ["busqueda" => $busqueda,
+                 "filtro" => $filtro,
+                 "libros" => $libros,
+                 "resultados" => $resultados,
+                 "offset" => $offset,
+                 "pagina" => $pagina,
+                 "cantidad_paginas" => ceil($resultados / $cantidad_por_pagina) ];
 
         $this->mostrarVista('catalogo', $data, 'Catalogo');
 
-    
     }
 
     public function busqueda($filtro = '', $busqueda = '', $pagina = '1'){
+
+
 
         $cantidad_por_pagina = 20;
 
@@ -37,18 +45,24 @@ class libroCtrl extends Controlador{
         $libros = $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, $limite );
         $resultados = $libroModel->cantResultadosCatalogo($busqueda, $filtro);
 
-        $data = ["libros" => $libros,
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            // Update the book with the given ID using data from the POST request
+            //$bookModel->update($id, $_POST['title'], $_POST['author'], $_POST['isbn']);
+            // Redirect to the books list page
+            header('Location: ' . BASE_URL . 'catalogo/b/' . $_POST['filtro'] . '/' . $_POST['q']);
+        }
+
+        $data = ["busqueda" => $busqueda,
+                 "filtro" => $filtro,
+                 "libros" => $libros,
                  "resultados" => $resultados,
+                 "offset" => $offset,
+                 "pagina" => $pagina,
                  "cantidad_paginas" => ceil($resultados / $cantidad_por_pagina) ];
 
         $this->mostrarVista('catalogo', $data, 'Catalogo');
 
     }
-
-
-    
-
-
 
 }
 
