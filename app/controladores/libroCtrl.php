@@ -69,8 +69,11 @@ class libroCtrl extends Controlador{
 
         $libro = $libroModel->infoLibro($libro_id);
 
+        $ejemplares = $libroModel->ejemplaresTotales($libro_id);
+
         $data = [
-            "libro" => $libro
+            "libro" => $libro,
+            "ejemplares" => $ejemplares
         ];
 
         $this->mostrarVista('Libro', $data, $libro['titulo']);

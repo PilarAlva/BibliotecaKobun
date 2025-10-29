@@ -206,10 +206,29 @@ class LibroBD {
         return $sql->fetchColumn();
     }
 
+    public function ejemplaresTotales($libro_id){
+        
+        $consulta = "SELECT 
+                        e.id as ejemplar_id ,
+                        e.libro_id as libro_id,
+                        CASE WHEN p.fecha_vencimiento IS NOT NULL THEN 'True' ELSE 'False' END as activo,
+                        p.fecha_vencimiento as fecha_vencimiento
+                    FROM ejemplares e 
+                    LEFT JOIN prestamos p ON p.ejemplar_id = e.id
+                    WHERE p.fecha_devolucion IS NULL
+                    AND e.libro_id = :libro_id";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
+        $sql->execute(); 
+
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function ejemplaresDisponibles($libro_id){
         
         $consulta = "SELECT 
-                        e.id,
+                        e.id as id,
                         e.libro_id
                     FROM ejemplares e 
                     WHERE e.id

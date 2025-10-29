@@ -46,7 +46,7 @@
                     
                     <td>
                         <div class="libro">
-                            <a href="<?php BASE_URL . 'libro/id/' . $libro['id']?>">
+                            <a href="<?=BASE_URL?>libro/id/<?= $libro['id']; ?>" >
                             <div>
                                 <h5><?php echo htmlspecialchars($libro['titulo']); ?></h5>
                                 <p style="margin: 0; padding: 0;">Por <?php echo htmlspecialchars($libro['autores']); ?></p>
