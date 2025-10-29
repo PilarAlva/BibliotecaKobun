@@ -6,9 +6,15 @@
 $rutas = [
     // Route for the home page, maps to the 'index' metodo of 'Bookcontrolador'
     '' => ['controlador' => 'InicioCtrl', 'metodo' => 'inicio'],
+    
+    'inicio' => ['controlador' => 'InicioCtrl', 'metodo' => 'inicio'],
 
-    // Route for the books list page, maps to the 'index' metodo of 'Bookcontrolador'
-    'books' => ['controlador' => 'Bookcontrolador', 'metodo' => 'index'],
+    'inicio/inicio' => ['controlador' => 'InicioCtrl', 'metodo' => 'inicio'],
+
+    'catalogo' => ['controlador' => 'libroCtrl', 'metodo' => 'index'],
+
+    'catalogo/b' => ['controlador' => 'libroCtrl', 'metodo' => 'busqueda'],
+  
 
     // Route for a specific book page, maps to the 'bookId' metodo of 'Bookcontrolador'
     'book/id' => ['controlador' => 'Bookcontrolador', 'metodo' => 'bookById'],

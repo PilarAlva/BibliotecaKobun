@@ -1,6 +1,6 @@
 <?php
 
-require_once './bd/conexion.php';
+require_once '../app/bd/conexion.php';
 
 class LibroBD {
     

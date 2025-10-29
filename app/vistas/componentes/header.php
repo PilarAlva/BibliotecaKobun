@@ -12,7 +12,7 @@
 
 <nav class="main-nav">
     <ul>
-        <li><a href= <?php BASE_URL?> >Inicio</a></li>
+        <li><a href= "<?php BASE_URL?>inicio" >Inicio</a></li>
         <li><a href= "<?php BASE_URL?>catalogo" >Catálogo</a></li>
         <li><a href= "<?php BASE_URL?>talleres">Talleres</a></li>
         <li><a href= "<?php BASE_URL?>contacto">Contacto</a></li>
@@ -41,5 +41,3 @@
     </ul>
 </nav>
 
- <!-- Archivos .js -->
-    <script src="js/main.js"></script>

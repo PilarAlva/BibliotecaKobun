@@ -1,13 +1,10 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/style.css">
-    <title>MVC PHP Example</title>
-</head>
-<body>
-    <main class="wrapper">
+<header class="header">
+        <?php
+            include '../app/vistas/componentes/header.php'; 
+        ?>
+</header>
+
+    <main class="main-content">
         <section class="products-container">
             <header>
                 <h1>Catálogo de Libros</h1>
@@ -27,5 +24,9 @@
                
         </section>
     </main>
-</body>
-</html>
+
+<footer>
+        <?php
+            include '../app/vistas/componentes/footer.php';
+        ?>
+</footer>
