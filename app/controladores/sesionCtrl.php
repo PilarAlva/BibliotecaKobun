@@ -64,16 +64,16 @@
 
         $msj = 1;
 
-        $sesionModel = $this->cargarModelo("sesionBD");
+        $usuarioModel = $this->cargarModelo("usuarioBD");
 
-        $chequeo_mail = $sesionModel->obtenerUsuarioPorMail($mail);
+        $chequeo_mail = $usuarioModel->obtenerUsuarioPorMail($mail);
 
 
         if (!empty($chequeo_mail)) {
             $msj = 4; //El usuario ya existe. Por favor inicie sesión
         } else {
             
-            if ($sesionModel->registrarUsuario($nombre, $apellido, $mail, $clave)) {
+            if ($usuarioModel->registrarUsuario($nombre, $apellido, $mail, $clave)) {
                 $msg = 5; //Registro exitoso. Ahora puede iniciar sesión
             } else {
                 $msg = 1; //Ha ocurrido un error (3).
@@ -87,13 +87,13 @@
 
         $msj = 1;
 
-        $sesionModel = $this->cargarModelo("sesionBD");
+        $usuarioModel = $this->cargarModelo("usuarioBD");
 
         if (empty($mail) || empty($clave)) {
             $msj = 2; //Todos los campos son obligatorios
         } else {
 
-            $usuario = $sesionModel->obtenerUsuarioPorMail($mail);
+            $usuario = $usuarioModel->obtenerUsuarioPorMail($mail);
 
             if ($usuario) {
                 if (password_verify($clave, $usuario['password'])) {

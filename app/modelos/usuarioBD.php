@@ -2,7 +2,7 @@
 
 require_once '../app/core/BaseDatos.php';
 
-class SesionBD {
+class UsuarioBD {
     
     private $db;
 
@@ -18,6 +18,17 @@ class SesionBD {
 
         $this->db->consulta($consulta);
         $this->db->unir("mail", $mail);
+        $this->db->ejecutar();
+
+        return $this->db->resultado();
+
+    }
+    public function obtenerUsuarioPorId($usuario_id){
+
+        $consulta = "SELECT * FROM  usuarios WHERE id = :usuario_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir("usuario_id", $usuario_id);
         $this->db->ejecutar();
 
         return $this->db->resultado();

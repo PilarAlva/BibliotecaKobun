@@ -1,9 +1,9 @@
 <?php
 
-class PerfilCtrl extends Controlador{
+class PagoCtrl extends Controlador{
 
     
-    public function index(){
+    public function pago(){
         
         $usuarioModel = $this->cargarModelo("usuarioBD");
         $socioModel = $this->cargarModelo("socioBD");

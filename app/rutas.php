@@ -25,7 +25,10 @@ $rutas = [
     
     'contacto' => ['controlador' => 'contactoCtrl', 'metodo' => 'index'],
 
-    'perfil' => ['controlador' => 'perfilCtrl', 'metodo' => 'index']
+    'perfil' => ['controlador' => 'perfilCtrl', 'metodo' => 'index'],
+
+    'pago' => ['controlador' => 'pagoCtrl', 'metodo' => 'pago'],
+
 
 
 
