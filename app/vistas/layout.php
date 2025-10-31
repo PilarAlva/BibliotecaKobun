@@ -12,6 +12,11 @@
     <link rel="stylesheet" href="css/inicio.css">
     
     <link rel="stylesheet" href="css/catalogo.css">
+    
+
+    
+    
+
 
     <title> <?= $titulo; ?></title>
 </head>
@@ -20,6 +25,7 @@
     <body>
         <?php require_once '../app/vistas/' . $direccionVista . '.php'; ?>
     </body>
+
 
    
  <!-- Archivos .js -->

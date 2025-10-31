@@ -29,6 +29,8 @@ $rutas = [
 
     'pago' => ['controlador' => 'pagoCtrl', 'metodo' => 'pago'],
 
+    'pago/procesar' => ['controlador' => 'pagoCtrl', 'metodo' => 'procesarPago'],
+
 
 
 
