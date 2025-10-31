@@ -47,6 +47,13 @@
                 }
             }
             ?>
+
+            <form method="POST" action="<?php BASE_URL?>libro/prestamo">
+                <input type="hidden" name="libro_id" value="<?php echo $libro["id"]?>">
+                <input type="hidden" name="usuario_id" value="<?php echo $_SESSION['usuario_id'] ?>">
+                <button type="submit" class="destacado">Solicitar Préstamo</button>
+            </form>
+
             </ul>
         </div>
 

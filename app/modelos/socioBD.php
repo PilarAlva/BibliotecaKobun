@@ -1,15 +1,14 @@
 <?php
 
-require_once './bd/conexion.php';
+require_once '../app/core/BaseDatos.php';
 
 class socioBD {
-        
-    private $con;
+
+    private $db;
 
     public function __construct() {
-        
-        $db = new Database();
-        $this->con = $db->conectar();
+
+        $this->db = new BaseDatos();
 
     }
 
@@ -18,35 +17,81 @@ class socioBD {
         $consulta = "INSERT INTO socios (usuario_id, telefono, dni, fecha_nacimiento, fecha_alta) 
                     VALUES (:usuario_id, :telefono, :dni, :fecha_nacimiento, NOW() )";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':usuario_id', $usuario_id, PDO::PARAM_INT);
-        $sql->bindValue(':telefono', $telefono, PDO::PARAM_STR);
-        $sql->bindValue(':dni', $dni, PDO::PARAM_STR);
-        $sql->bindValue(':fecha_nacimiento', $fecha_nacimiento, PDO::PARAM_STR);    
-        return $sql->execute();
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':usuario_id', $usuario_id);
+        $this->db->unir(':telefono', $telefono);
+        $this->db->unir(':dni', $dni);
+        $this->db->unir(':fecha_nacimiento', $fecha_nacimiento);    
+
+        return $this->db->ejecutar();
 
         }   
 
     public function obtenerSocioPorId($socio_id) {
-        $consulta = "SELECT * FROM socios WHERE socio_id = :socio_id";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':socio_id', $socio_id, PDO::PARAM_INT);
-        $sql->execute();
+        $consulta = "SELECT * FROM socios WHERE id = :socio_id";
 
-        return $sql->fetch(PDO::FETCH_ASSOC);
-    }       
+        $this->db->consulta($consulta);
+        $this->db->unir(':socio_id', $socio_id);
+        $this->db->ejecutar();
+
+        return $this->db->resultado();
+    }   
+
+    public function obtenerSocioPorIdUsuario($usuario_id) {
+
+        $consulta = "SELECT 
+                    s.id,
+                    s.usuario_id,
+                    s.telefono,
+                    s.dni,
+                    s.fecha_alta,
+                    s.fecha_nacimiento,
+                    s.activo
+                     FROM socios s
+                    LEFT JOIN usuarios u ON s.usuario_id = u.id
+                    WHERE u.id = :usuario_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':usuario_id', $usuario_id);
+        $this->db->ejecutar();
+
+        return $this->db->resultado();
+    }   
+
+    public function obtenerSocioPorMail($mail) {
+
+        $consulta ="SELECT 
+                    s.id,
+                    s.usuario_id,
+                    s.telefono,
+                    s.dni,
+                    s.fecha_alta,
+                    s.fecha_nacimiento,
+                    s.activo    
+                    FROM socios s
+                    LEFT JOIN usuarios u ON s.usuario_id = u.id
+                    WHERE u.mail = :mail";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':mail', $mail);
+        $this->db->ejecutar();
+
+        return $this->db->resultado();
+    }           
 
     public function actualizarSocio($socio_id, $telefono, $dni, $fecha_nacimiento) {
         $consulta = "UPDATE socios 
                     SET telefono = :telefono, dni = :dni, fecha_nacimiento = :fecha_nacimiento 
                     WHERE socio_id = :socio_id";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':socio_id', $socio_id, PDO::PARAM_INT);
-        $sql->bindValue(':telefono', $telefono, PDO::PARAM_STR);
-        $sql->bindValue(':dni', $dni, PDO::PARAM_STR);
-        $sql->bindValue(':fecha_nacimiento', $fecha_nacimiento, PDO::PARAM_STR);    
+        $this->db->consulta($consulta);
+        
+        $this->db->unir(':socio_id', $socio_id);
+        $this->db->unir(':telefono', $telefono);
+        $this->db->unir(':dni', $dni);
+        $this->db->unir(':fecha_nacimiento', $fecha_nacimiento);    
 
         return $sql->execute();
     }   
@@ -54,52 +99,48 @@ class socioBD {
     public function eliminarSocio($socio_id) {
         $consulta = "DELETE FROM socios WHERE socio_id = :socio_id";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':socio_id', $socio_id, PDO::PARAM_INT);
+        $this->db->consulta($consulta);
+        $this->db->unir(':socio_id', $socio_id);
 
-        return $sql->execute();
+        return $this->db->ejecutar();
     }   
 
     public function listarSocios() {
         $consulta = "SELECT * FROM socios";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->execute();
+        $this->db->consulta($consulta);
+        $this->db->ejecutar();
 
-        return $sql->fetchAll(PDO::FETCH_ASSOC);
+        return $this->db->resultados();
     }   
 
     public function antiguedadSocio($socio_id) {
         $consulta = "SELECT DATEDIFF(NOW(), fecha_alta) AS dias_antiguedad 
                     FROM socios 
-                    WHERE socio_id = :socio_id";
+                    WHERE id = :socio_id";
 
-        $sql = $this->con->prepare($consulta);
-        
-        $sql->bindValue(':socio_id', $socio_id, PDO::PARAM_INT);
-        
-        $sql->execute()
+        $this->db->consulta($consulta);
+        $this->db->unir(':socio_id', $socio_id);
 
-        return $sql->fetch(PDO::FETCH_ASSOC);
+        $this->db->ejecutar();
+
+        return $this->db->resultado();
     }
 
 
-    public function tieneDeudasPagos($socio_id) {
+    public function deudasPagos($socio_id) {
         $consulta = "SELECT COUNT(*) AS total_deudas 
                     FROM pagos 
                     WHERE socio_id = :socio_id 
                     AND fecha_devolucion IS NULL 
                     AND fecha_vencimiento < NOW()";
 
-        $sql = $this->con->prepare($consulta);
-        
-        $sql->bindValue(':socio_id', $socio_id, PDO::PARAM_INT);
-        
-        $sql->execute();
+        $this->db->consulta($consulta);
+        $this->db->unir(':socio_id', $socio_id);
 
-        $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+        $this->db->ejecutar();
 
-        return $resultado['total_deudas'] > 0;
+        return $this->db->resultado();
     }
 
     public function __destruct() {

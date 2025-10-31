@@ -10,7 +10,7 @@
             <?php
                 // Cargar el nombre de usuario con la sesión activa.
                 if (isset($_SESSION['usuario_id'])) {
-                    $username = $_SESSION['nombre'] . ' ' . $_SESSION['apellido'];
+                    $username = $_SESSION['usuario_nombre'] . ' ' . $_SESSION['usuario_apellido'];
                 } else {
                     $username = "Usuario";
                 }

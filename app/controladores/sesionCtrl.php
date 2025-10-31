@@ -97,9 +97,9 @@
 
             if ($usuario) {
                 if (password_verify($clave, $usuario['password'])) {
-                    $_SESSION['usuarios'] = $mail;
-                    $_SESSION['nombre'] = $usuario['nombre'];
-                    $_SESSION['apellido'] = $usuario['apellido'];
+                    $_SESSION['usuario_mail'] = $mail;
+                    $_SESSION['usuario_nombre'] = $usuario['nombre'];
+                    $_SESSION['usuario_apellido'] = $usuario['apellido'];
                     //$_SESSION['img_perfil'] = $usuario['img_perfil'];
                     $_SESSION['usuario_id'] = $usuario['id'];
                     $msj = 0;

@@ -261,7 +261,8 @@ class LibroBD {
 
     public function infoLibro($id_libro){
 
-        $consulta = "SELECT  
+        $consulta = "SELECT 
+                        l.id as id, 
                         l.titulo as titulo,
                         l.sinopsis as sinopsis,
                         l.ref_portada as portada,
