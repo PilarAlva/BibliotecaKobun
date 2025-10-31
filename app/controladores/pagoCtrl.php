@@ -1,6 +1,7 @@
 <?php
     require_once '../vendor/autoload.php';
 
+
     use MercadoPago\Client\Common\RequestOptions;
     use MercadoPago\Client\Payment\PaymentClient;
     use MercadoPago\Client\Preference\PreferenceClient;

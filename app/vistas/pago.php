@@ -5,7 +5,7 @@
     </header>
     
     <main class="main-container">
-        <div id="form-checkout"> </div>
+        
     </main>
 
     <footer>
@@ -14,5 +14,4 @@
         ?>
     </footer>
 
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
-    <script src="js/index.js"></script>
+    

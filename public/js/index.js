@@ -1,6 +1,9 @@
 
-const mp = new MercadoPago('TEST-ac92ff51-624f-4ceb-abf8-c891401b570e');
 const bricksBuilder = mp.bricks();
+
+"TEST-ac92ff51-624f-4ceb-abf8-c891401b570e"
+
+"TEST-871194051580877-103109-9d2d1d43fb5f959797e60086efae79c8-285602852"
 
 const renderCardPaymentBrick = async (bricksBuilder) => {
     const settings = {
