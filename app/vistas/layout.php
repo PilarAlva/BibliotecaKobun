@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
 <!-- <base href="/BibliotecaKobun/public/"> -->
-<base href="/Kobun/public/">
+<base href="/BibliotecaKobun/public/">
 <head>
     
     <meta charset="UTF-8">

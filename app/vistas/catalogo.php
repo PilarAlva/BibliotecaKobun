@@ -77,19 +77,19 @@
             <ul>
                 <!-- Página anterior -->
                 <li>
-                    <a href="?filtro=<?php echo $filtro; ?>&q=<?php echo urlencode($busqueda); ?>&pagina=<?php echo $pagina-1; ?>">Anterior</a>
+                    <a href="<?php  echo $url_paginacion . $pagina-1 ?>">Anterior</a>
                 </li>
 
                 <!-- Números de página -->
                 <?php for($i = 1; $i <= $cantidad_paginas; $i++): ?>
                     <li class="<?php if ($i == $pagina) echo 'active'; ?>">
-                        <a href="?filtro=<?php echo $filtro; ?>&q=<?php echo urlencode($busqueda); ?>&pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        <a href="<?php  echo $url_paginacion . $i ?>"><?php echo $i; ?></a>
                     </li>
                 <?php endfor; ?>
 
                 <!-- Página siguiente -->
                 <li>
-                    <a href="?filtro=<?php echo $filtro; ?>&q=<?php echo urlencode($busqueda); ?>&pagina=<?php echo $pagina+1; ?>">Siguiente</a>
+                    <a href="<?php  echo $url_paginacion . $pagina+1 ?>">Siguiente</a>
                 </li>
             </ul>
         </nav>
