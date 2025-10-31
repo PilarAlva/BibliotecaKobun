@@ -18,9 +18,18 @@ $rutas = [
     'libro/id' => ['controlador' => 'libroCtrl', 'metodo' => 'mostrarLibro'],
 
     'libro/prestamo' => ['controlador' => 'prestamoCtrl', 'metodo' => 'prestamo'],
+    
+    'sesion' => ['controlador' => 'SesionCtrl', 'metodo' => 'index'],
 
-    'sesion' => ['controlador' => 'SesionCtrl', 'metodo' => 'index']
-  
+    'talleres' => ['controlador' => 'tallerCtrl', 'metodo' => 'index'],
+    
+    'contacto' => ['controlador' => 'contactoCtrl', 'metodo' => 'index'],
+
+    'perfil' => ['controlador' => 'perfilCtrl', 'metodo' => 'index']
+
+
+
+    
 ];
 
 
