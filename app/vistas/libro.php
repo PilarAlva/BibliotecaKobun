@@ -48,11 +48,17 @@
             }
             ?>
 
+            <?php if (isset($_SESSION['usuario_id'])) { ?>
+
             <form method="POST" action="<?php BASE_URL?>libro/prestamo">
                 <input type="hidden" name="libro_id" value="<?php echo $libro["id"]?>">
                 <input type="hidden" name="usuario_id" value="<?php echo $_SESSION['usuario_id'] ?>">
                 <button type="submit" class="destacado">Solicitar Préstamo</button>
             </form>
+
+            <?php } else { ?>
+                <p>Para solicitar un préstamo ser socio <a href="<?php BASE_URL?>sesion">iniciar sesión</a></p>
+            <?php } ?>
 
             </ul>
         </div>
