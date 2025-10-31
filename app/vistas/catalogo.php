@@ -4,45 +4,42 @@
     ?>
 </header>
 
-<main class="main-container">
+<main class="main-content">
 
-    <div>
-        <div>
-            <form action="<?php BASE_URL?>catalogo/b/" method="POST">
-                <select name="filtro" class="selector">
-                    <option value="titulo" <?php if($filtro=='titulo') echo 'selected'; ?>>Título</option>
-                    <option value="autor" <?php if($filtro=='autor') echo 'selected'; ?>>Autor</option>
-                    <option value="genero" <?php if($filtro=='genero') echo 'selected'; ?>>Género</option>
-                    <option value="contenido" <?php if($filtro=='contenido') echo 'selected'; ?>>Contenido</option>
-                </select>
-                <input type="text" name="q" class="search-input" placeholder="Buscar..." value="<?php echo htmlspecialchars($busqueda); ?>">
-                <button type="submit" class="boton-busqueda"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </form>
-        </div>
+    <div class="buscador">
+        <form action="<?php BASE_URL?>catalogo/b/" method="POST">
+            <select name="filtro" class="selector">
+                <option value="titulo" <?php if($filtro=='titulo') echo 'selected'; ?>>Título</option>
+                <option value="autor" <?php if($filtro=='autor') echo 'selected'; ?>>Autor</option>
+                <option value="genero" <?php if($filtro=='genero') echo 'selected'; ?>>Género</option>
+                <option value="contenido" <?php if($filtro=='contenido') echo 'selected'; ?>>Contenido</option>
+            </select>
+            <input type="text" name="q" class="search-input" placeholder="Buscar..." value="<?php echo htmlspecialchars($busqueda); ?>">
+            <button type="submit" class="boton-busqueda"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
     </div>
 
-    <div class="my-5">
+    <div class="encabezado">
         <h3>Resultados de búsqueda</h3>
         <p>Cantidad de Resultados <?php echo $resultados ?></p>
     </div>
 
     <div>
-        <table>
+        <table class="tabla-libro">
             <tbody>
                 <?php foreach ($libros as $indice => $libro) { ?>
                 <tr>
-                    <td></td>
-                    <td><?php echo $offset + $indice + 1;?>.</td>
-                    <td>
+                    <td id="numero"><?php echo $offset + $indice + 1;?>.</td>
+                    <td class="imagen-libro">
                         <img src="img/no.png" alt="...">
                     </td>
                     <td>
-                        <div class="libro">
-                            <a href="">
-                                <div>
-                                    <h5><?php echo htmlspecialchars($libro['titulo']); ?></h5>
-                                    <p>Por <?php echo htmlspecialchars($libro['autores']); ?></p>
-                                    <p><?php echo htmlspecialchars($libro['descripcion']); ?></p>
+                        <div class="info-libro-contenedor">
+                            <div class="info-libro">
+                                <a href="" class="info-libro-link">
+                                    <h3 class="titulo-libro"><?php echo htmlspecialchars($libro['titulo']); ?></h3>
+                                    <p class="autor-libro">Por <?php echo htmlspecialchars($libro['autores']); ?></p>
+                                    <p class="descripcion-libro"><?php echo htmlspecialchars($libro['descripcion']); ?></p>
 
                                     <div>
                                         <small>Disponibilidad: </small>
@@ -52,9 +49,9 @@
                                         <small style="color: red"> No hay ejemplares disponibles</small>
                                         <?php }  ?>
                                     </div>
-                                </div>
-                            </a>
-
+                                </a>
+                            </div>
+    
                             <div>
                                 <?php
                                 if (!empty($libro['generos'])) {
@@ -64,7 +61,7 @@
                                         if ($genero === '') continue;
                                         $safeText = htmlspecialchars($genero, ENT_QUOTES, 'UTF-8');
                                         $safeUrl  = rawurlencode($genero);
-                                        echo '<a href="index.php?filtro=genero&q=' . $safeUrl . '#">' . $safeText . '</a>';
+                                        echo '<a class="genero-libro" href="index.php?filtro=genero&q=' . $safeUrl . '#">' . $safeText . '</a>';
                                     }
                                 }
                                 ?>
@@ -74,9 +71,9 @@
                 </tr>
                 <?php } ?>
             </tbody>
-        </table>
+        </table>            
 
-        <nav aria-label="Paginación">
+        <nav aria-label="Paginación" class="paginacion">
             <ul>
                 <!-- Página anterior -->
                 <li>
@@ -85,7 +82,7 @@
 
                 <!-- Números de página -->
                 <?php for($i = 1; $i <= $cantidad_paginas; $i++): ?>
-                    <li>
+                    <li class="<?php if ($i == $pagina) echo 'active'; ?>">
                         <a href="?filtro=<?php echo $filtro; ?>&q=<?php echo urlencode($busqueda); ?>&pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
                     </li>
                 <?php endfor; ?>
@@ -96,6 +93,7 @@
                 </li>
             </ul>
         </nav>
+
     </div>
 </main>
 
