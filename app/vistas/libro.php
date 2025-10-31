@@ -27,12 +27,13 @@
             foreach ($ejemplares as $ejemplar) {
             ?>
                 <li>
-                    <label> <?php echo $ejemplar["ejemplar_id"]?>  </label>  
+                    <label> <?php echo $ejemplar["ejemplar_id"]?> -  </label>  
+                    <label> <?php echo $ejemplar["codigo_topografico"]?>  </label>  
                       
-                    <label> Prestado: <?php echo $ejemplar["activo"]? "no" : "si"?>  </label>   
-                    
+                    <label> Prestado: <?php echo $ejemplar["activo"] == '0' ? "no" : "si"?>  </label>   
+                      
                     <?php 
-                    if (!$ejemplar["activo"]) {
+                    if (!$ejemplar["activo"] == '0') {
                     ?>
 
                         <label> <?php echo $ejemplar["fecha_vencimiento"]?>  </label>    

@@ -210,13 +210,13 @@ class LibroBD {
         
         $consulta = "SELECT 
                         e.id as ejemplar_id ,
+                        e.codigo_topografico as codigo_topografico,
                         e.libro_id as libro_id,
-                        CASE WHEN p.fecha_vencimiento IS NOT NULL THEN 'True' ELSE 'False' END as activo,
+                        CASE WHEN p.fecha_vencimiento IS NOT NULL THEN '1' ELSE '0' END as activo,
                         p.fecha_vencimiento as fecha_vencimiento
                     FROM ejemplares e 
-                    LEFT JOIN prestamos p ON p.ejemplar_id = e.id
-                    WHERE p.fecha_devolucion IS NULL
-                    AND e.libro_id = :libro_id";
+                    LEFT JOIN prestamos p ON p.ejemplar_id = e.id AND p.fecha_devolucion IS NULL
+                    WHERE e.libro_id = :libro_id";
 
         $sql = $this->con->prepare($consulta);
         $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
