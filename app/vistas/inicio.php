@@ -67,19 +67,20 @@
         <hr class="linea-divisora">
 
         <section>
-            <h2>Nuestros Servicios</h2>
             <div class="info-container">
-                <!-- Lista de servicios con íconos personalizados -->
-                <ul class="servicios-lista">
-                    <li class="servicio-item-prestamo">Préstamos en sala y a domicilio</li>
-                    <li class="servicio-item-salas">Salas de lectura</li>
-                    <li class="servicio-item-talleres">Talleres</li>
-                    <li class="servicio-item-wifi">Acceso a Internet y Wifi</li>
-                    <li class="servicio-item-pc">Acceso a PC's en sala</li>
-                    <li class="servicio-item-cargador">Banco de Cargadores</li>
-                    <li class="servicio-item-verde">Espacio verde</li>
-                </ul>
-                <!-- Puedes mantener una imagen general de la sección si lo deseas -->
+                <div class="info-texto">
+                    <h2>Nuestros Servicios</h2>
+                    <ul class="servicios-lista">
+                        <li class="servicio-item-prestamo">Préstamos en sala y a domicilio</li>
+                        <li class="servicio-item-salas">Salas de lectura</li>
+                        <li class="servicio-item-talleres">Talleres</li>
+                        <li class="servicio-item-wifi">Acceso a Internet y Wifi</li>
+                        <li class="servicio-item-pc">Acceso a PC's en sala</li>
+                        <li class="servicio-item-cargador">Banco de Cargadores</li>
+                        <li class="servicio-item-verde">Espacio verde</li>
+                    </ul>
+                </div>
+                
                  <div class="imagen">
                     <img src="img/recepcion.jpg" alt="Recepción de la Biblioteca Kobun">
                 </div>
