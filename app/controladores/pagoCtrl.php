@@ -13,12 +13,10 @@ class PagoCtrl extends Controlador{
 
         MercadoPagoConfig::setAccessToken("TEST-871194051580877-103109-9d2d1d43fb5f959797e60086efae79c8-285602852");
 
-
         $client = new PaymentClient();
         $request_options = new RequestOptions();
         $idempotencyKey = uniqid('payment_', true);
         $request_options->setCustomHeaders(["X-Idempotency-Key: $idempotencyKey"]);
-
         
         // This is not the correct place for this code. It should be in the procesarPago() method.
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -61,5 +59,6 @@ class PagoCtrl extends Controlador{
         }
 
     }
+    
 }
 

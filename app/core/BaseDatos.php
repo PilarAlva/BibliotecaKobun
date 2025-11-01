@@ -55,6 +55,17 @@
 
         }
 
+        public function cerrarConexion(){
+    
+                $this->dbh = null;
+    
+        }   
+
+        public function __destruct(){
+
+            $this->cerrarConexion();
+
+        }   
     }
 
 ?>

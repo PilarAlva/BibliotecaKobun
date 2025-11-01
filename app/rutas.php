@@ -31,6 +31,14 @@ $rutas = [
 
     'pago/procesar' => ['controlador' => 'pagoCtrl', 'metodo' => 'procesarPago'],
 
+    'archivo' => ['controlador' => 'archivoCtrl', 'metodo' => 'inicio'],
+
+    'archivo/id' => ['controlador' => 'archivoCtrl', 'metodo' => 'idArchivo'],
+
+    'archivo/subir' => ['controlador' => 'archivoCtrl', 'metodo' => 'archivo'],
+
+    'archivo/lista' => ['controlador' => 'archivoCtrl', 'metodo' => 'lista'],
+
 
 
 
