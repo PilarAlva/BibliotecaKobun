@@ -1,82 +1,65 @@
 <?php
-    require_once '../vendor/autoload.php';
 
-
+    require '../vendor/autoload.php';
     use MercadoPago\Client\Common\RequestOptions;
     use MercadoPago\Client\Payment\PaymentClient;
-    use MercadoPago\Client\Preference\PreferenceClient;
-    use MercadoPago\Exceptions\MPApiException;
     use MercadoPago\MercadoPagoConfig;
+    
 
 
 class PagoCtrl extends Controlador{
 
         public function pago(){
-    
-            $data = [
-                "public_key" => "TEST-ac92ff51-624f-4ceb-abf8-c891401b570e"
-            ];
-    
-            $this->mostrarVista('pago', $data, 'Pago');
-        }
-    
 
-    public function procesarPago(){
+        MercadoPagoConfig::setAccessToken("TEST-871194051580877-103109-9d2d1d43fb5f959797e60086efae79c8-285602852");
 
-        error_reporting(E_ALL);
-        ini_set('display_errors', 1);
-
-        header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Headers: Content-Type");
-
-        $payload = file_get_contents('php://input');
-        $data = json_decode($payload, true);
-
-        MercadoPagoConfig::setAccessToken('TEST-871194051580877-103109-9d2d1d43fb5f959797e60086efae79c8-285602852');
-        MercadoPagoConfig::setRuntimeEnviroment(MercadoPagoConfig::SERVER);
 
         $client = new PaymentClient();
+        $request_options = new RequestOptions();
+        $idempotencyKey = uniqid('payment_', true);
+        $request_options->setCustomHeaders(["X-Idempotency-Key: $idempotencyKey"]);
 
-        try {
-            $request = [
-                "transaction_amount" => $data['transaction_amount'],
-                "description"        => $data['description'],
-                "payment_method_id"  => $data['payment_method_id'],
-                "token"              => $data['token'],
-                "installments"       => $data['installments'],
-                "payer" => [
-                    "email"      => $data['payer']['email'],
-                    "identification" => [
-                        "number" => $data['payer']['identification']['number'],
-                        "type"   => $data['payer']['identification']['type']
-                    ]
-                ]
-            ];
+        
+        // This is not the correct place for this code. It should be in the procesarPago() method.
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $request_options = new RequestOptions();
-            $request_options->setCustomHeaders(["X-Idempotency-Key: <SOME_UNIQUE_VALUE>"]);
+            $payload = file_get_contents('php://input');
+            $data = json_decode($payload, true);
 
-            $payment = $client->create($request, $request_options);
+            // Now you can access the data from the $data array.
+            // For example: $token = $data['token'];
+            echo var_dump($data);
             
-            echo json_encode([
-                'id' => $payment->id,
-                'status' => $payment->status,
-                'detail' => $payment->status_detail
-            ]);
+            try{
 
-        } catch (MPApiException $e) {
-            echo json_encode([
-                'error' => 'MPApiException',
-                'status' => $e->getApiResponse()->getStatusCode(),
-                'content' => $e->getApiResponse()->getContent()
-            ]);
-        } catch (\Exception $e) {
-            echo json_encode([
-                'error' => 'Exception',
-                'message' => $e->getMessage()
-            ]);
+                $payment = $client->create([
+                "payment_method_id" => $data['payment_method_id'],
+                "transaction_amount" => (float) $data['transaction_amount'],
+                "payer" => [
+                    "email" => $data['payer']['email'],
+                ]
+                ], $request_options);
+                
+                echo implode($payment);
+
+            } catch (MPApiException $e) {
+
+                echo "Status code: " . $e->getApiResponse()->getStatusCode() . "\n";
+                echo "Content: ";           
+                var_dump($e->getApiResponse()->getContent());
+                echo "\n";
+                
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
+
+
+
+
+           
+            //$this->mostrarVista('pago', $data, 'Pago');
         }
-    }
 
+    }
 }
 

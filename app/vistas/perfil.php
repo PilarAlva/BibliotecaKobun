@@ -1,4 +1,9 @@
-<header class="header">
+
+
+<script src="https://sdk.mercadopago.com/js/v2">
+</script>
+
+    <header class="header">
         <?php
             include '../app/vistas/componentes/header.php'; 
         ?>
@@ -9,7 +14,7 @@
         <h1> Perfil </h1>
         <p> Acá tiene que ir el perfil </p>
 
-        <p> ID Socio: <?php echo $socio["id"]; ?> </p>
+        <p> ID Socio: <?php echo $usuario["id"]; ?> </p>
         <p> Nombre: <?php echo $usuario["nombre"]; ?> </p>
         <p> Apellido: <?php echo $usuario["apellido"]; ?> </p>
         <p> Email: <?php echo $usuario["mail"]; ?> </p>
@@ -20,56 +25,89 @@
         <h2> Socio: </h2>
         <p> Teléfono: <?php echo $socio["telefono"]; ?> </p>
         <p> DNI: <?php echo $socio["dni"]; ?> </p>
-        <form method="POST" action="<?php BASE_URL?>pago">
-                <input type="hidden" name="libro_id" value="<?php echo $libro["id"]?>">
-                <input type="hidden" name="usuario_id" value="<?php echo $_SESSION['usuario_id'] ?>">
+    
                 
-                <a href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=af0c15e5b94d41bbb305b0eaa08fafff" name="MP-payButton" class='blue-button'>Hacerme Socio</a>
-                    <style>
-                    .blue-button {
-                    background-color: #3483FA;
-                    color: white;
-                    padding: 10px 24px;
-                    text-decoration: none;
-                    border-radius: 10px;
-                    display: inline-block;
-                    font-size: 16px;
-                    transition: background-color 0.3s;
-                    font-family: Arial, sans-serif;
+        <div id="paymentBrick_container">
+            </div>
+            <script>
+            const mp = new MercadoPago('TEST-ac92ff51-624f-4ceb-abf8-c891401b570e', {
+                locale: 'es-AR'
+            });
+            const bricksBuilder = mp.bricks();
+                const renderPaymentBrick = async (bricksBuilder) => {
+                const settings = {
+                initialization: {
+                    /*
+                    "amount" es el monto total a pagar por todos los medios de pago con excepción de la Cuenta de Mercado Pago y Cuotas sin tarjeta de crédito, las cuales tienen su valor de procesamiento determinado en el backend a través del "preferenceId"
                     }
-                    .blue-button:hover {
-                    background-color: #2a68c8;
-                    }
-                    </style>
-                    <script type="text/javascript">
-                    (function() {
-                        function $MPC_load() {
-                            window.$MPC_loaded !== true && (function() {
-                            var s = document.createElement("script");
-                            s.type = "text/javascript";
-                            s.async = true;
-                            s.src = document.location.protocol + "//secure.mlstatic.com/mptools/render.js";
-                            var x = document.getElementsByTagName('script')[0];
-                            x.parentNode.insertBefore(s, x);
-                            window.$MPC_loaded = true;
-                        })();
-                    }
-                    window.$MPC_loaded !== true ? (window.attachEvent ? window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;
-                    })();
-                    
-                        // to receive event with message when closing modal from congrants back to site
-                        function $MPC_message(event) {
-                        // onclose modal ->CALLBACK FUNCTION
-                        // !!!!!!!!FUNCTION_CALLBACK HERE Received message: {event.data} preapproval_id !!!!!!!!
-                        }
-                        window.$MPC_loaded !== true ? (window.addEventListener("message", $MPC_message)) : null; 
-                            
-                    </script>
+                    */
+                    amount: 10000,
+                    preferenceId: "<PREFERENCE_ID>",
+                    payer: {
+                        firstName: "",
+                        lastName: "",
+                        email: "",
+                    },
+                    },
+                    customization: {
+                    visual: {
+                        style: {
+                        theme: "default",
+                    },
+                    },
+                    paymentMethods: {
+                        bankTransfer: "all",
+                                            wallet_purchase: "all",
+                                            debitCard: "all",
+                                            creditCard: "all",
+                        maxInstallments: 1
+                    },
+                    },
+                    callbacks: {
+                    onReady: () => {
+                        /*
+                        Callback llamado cuando el Brick está listo.
+                        Aquí puede ocultar cargamentos de su sitio, por ejemplo.
+                        */
+                    },
+                    onSubmit: ({ selectedPaymentMethod, formData }) => {
+                        // callback llamado al hacer clic en el botón de envío de datos
+                        return new Promise((resolve, reject) => {
+                        fetch("/BibliotecaKobun/public/pago", {
+                            method: "POST",
+                            headers: {
+                            "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(formData),
+                        })
+                            .then((response) => response.json())
+                            .then((response) => {
+                            // recibir el resultado del pago
+                            resolve();
+                            })
+                            .catch((error) => {
+                            // manejar la respuesta de error al intentar crear el pago
+                            reject();
+                            });
+                        });
+                    },
+                    onError: (error) => {
+                        // callback llamado para todos los casos de error de Brick
+                        console.error(error);
+                    },
+                    },
+                };
+                window.paymentBrickController = await bricksBuilder.create(
+                    "payment",
+                    "paymentBrick_container",
+                    settings
+                );
+                };
+                renderPaymentBrick(bricksBuilder);
+            </script>
 
-        </form>
+   
         <?php endif; ?>
-            
-
 
 </main>
 
