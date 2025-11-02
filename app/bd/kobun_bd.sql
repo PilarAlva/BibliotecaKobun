@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS Usuarios(
 	apellido VARCHAR(60) NOT NULL,
 	mail VARCHAR(100) NOT NULL UNIQUE,
 	clave CHAR(255) NOT NULL,
+	img_perfil VARCHAR(100),
 
 	FOREIGN KEY (rol_id) 
 	REFERENCES Roles_Usuarios(id)
@@ -92,7 +93,7 @@ CREATE TABLE IF NOT EXISTS Usuarios(
 
 CREATE TABLE IF NOT EXISTS Socios(
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	usuario_id INT NOT NULL,
+	usuario_id INT DEFAULT 1,
 	telefono VARCHAR(60) NOT NULL,
 	dni VARCHAR(60) NOT NULL UNIQUE,
 	fecha_alta DATE NOT NULL,
@@ -112,6 +113,8 @@ CREATE TABLE IF NOT EXISTS Talleres(
 	horario VARCHAR(100),
 	lugar VARCHAR(100),
 	activo BOOLEAN DEFAULT TRUE,	
+	cupo INT NULL,
+	fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	
 	INDEX (nombre)
 );
@@ -119,6 +122,8 @@ CREATE TABLE IF NOT EXISTS Talleres(
 CREATE TABLE IF NOT EXISTS Talleres_Usuarios(
 	taller_id INT NOT NULL,
 	usuario_id INT NOT NULL,
+	activo BOOLEAN DEFAULT FALSE,
+	fecha_inscripcion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (taller_id, usuario_id),
 	FOREIGN KEY (taller_id) REFERENCES Talleres(id),
 	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id)
@@ -144,8 +149,8 @@ CREATE TABLE IF NOT EXISTS Publicaciones(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	taller_id INT NOT NULL,
 	usuario_id INT NOT NULL,
-    	public BOOLEAN DEFAULT TRUE,
-    	fecha_publicacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	alcance ENUM('foro', 'libreta', 'recurso','privado') NOT NULL DEFAULT 'foro';
+	fecha_publicacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	titulo TEXT NOT NULL,
 	cuerpo TEXT,
 

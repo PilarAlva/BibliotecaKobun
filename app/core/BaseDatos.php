@@ -46,12 +46,46 @@
         public function resultado(){
 
                 $this->ejecutar();
-                return $this->stmt->fetch(PDO::FETCH_ASSOC);
+                $result = $this->stmt->fetch(PDO::FETCH_ASSOC);
+
+                if($result){
+                    if(count($result) > 1){
+                        return $result;
+                    }else{
+                        
+                        return $result[array_key_first($result)];
+                    }
+                }
+                return null; 
+
+        }
+        public function unico(){
+
+            $this->ejecutar();
+                return $this->stmt->fetchColumn();
 
         }
         public function unir($param, $valor){
 
-            $this->stmt->bindValue($param, $valor);
+            switch(gettype($valor)){
+                case 'string':
+                    $this->stmt->bindValue($param, $valor, PDO::PARAM_STR);
+                    break;
+                case 'integer':
+                    $this->stmt->bindValue($param, $valor, PDO::PARAM_INT);
+                    break;
+                case 'float':
+                    $this->stmt->bindValue($param, $valor, PDO::PARAM_FLOAT);
+                    break;
+                case 'bool':
+                    $this->stmt->bindValue($param, $valor, PDO::PARAM_BOOL);
+                    break;  
+                default:
+                    $this->stmt->bindValue($param, $valor);
+                    break;
+            }
+
+            
 
         }
 
