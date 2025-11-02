@@ -84,7 +84,6 @@ class TallerBD {
 
         return $this->db->resultado();
     }
-        
 
     public function obtenerTallerPorId($taller_id){
 
