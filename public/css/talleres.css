@@ -1,0 +1,53 @@
+.talleres__encabezado{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+
+}
+
+.te_menu{
+
+    display: flex;
+    width: 50%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    list-style: none;
+
+}
+.te_menu__btn{
+
+    display: flex;
+    padding: 1rem;
+    width: auto;
+    height: calc(0.25rem * 10);
+
+    
+    padding: 1rem;
+    margin: 0.25rem;
+    border-radius: 1.2rem;
+    background-color: var(--gris-2);
+    
+    border-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+
+    transition: background-color 0.1s;
+    &:hover{
+            background-color: var(--gris-1);
+        }
+
+}
+
+.selected {
+    
+    background-color: var(--gris-2);
+    border: solid 1px grey;
+}

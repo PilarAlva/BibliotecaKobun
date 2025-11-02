@@ -111,6 +111,31 @@ class TallerBD {
         return $this->db->resultado();
 
     }
+    
+    public function obtenerTalleresUsuario($usuario_id){
+         $consulta = "SELECT 
+                        t.id as taller_id,
+                        t.nombre as taller_nombre,
+                        t.ref_portada as taller_portada,
+                        t.lugar as lugar,
+                        t.horario as horario,
+                        t.descripcion as descripcion,
+                        t.activo as activo_taller,
+                        t.fecha_alta as fecha_alta,
+                        concat(u.nombre, ' ' , u.apellido) as profesor_nombre,
+                        tu.activo as activo_usuario
+                    FROM talleres t 
+                    LEFT JOIN talleres_usuarios tu ON t.id = tu.taller_id
+                    LEFT JOIN talleres_profesores tp ON t.id = tp.taller_id
+                    LEFT JOIN usuarios u ON tp.usuario_id = u.id    
+                    WHERE tu.usuario_id = :usuario_id";
+ 
+        $this->db->consulta($consulta);
+        $this->db->unir(':usuario_id', $usuario_id);
+        $this->db->ejecutar();
+
+        return $this->db->resultados();
+    }
 
     public function inscribirAlumno ($taller_id, $usuario_id, $activo = 0){ 
         $consulta = "INSERT IGNORE INTO talleres_usuarios (taller_id, usuario_id, activo) 

@@ -14,13 +14,33 @@
         $talleres = $tallerModel->obtenerTalleres(0, 10);
         $resultados = $tallerModel->cantTalleres();
 
-
-        $data = ["talleres" => $talleres,
-                 "resultados" => $resultados,
-                 "offset" => $offset,
-                 "url_paginacion" => $this->urlPaginacion('', '', $pagina),
-                 "pagina" => $this->chequeoPagina($pagina),
-                 "cantidad_paginas" => ceil(10 / $cantidad_por_pagina) ];
+        $estado = 'no_inscripto';
+        
+        
+        switch($this->estadoUsuario()){
+            case USUARIO::ALUMNO:
+                case USUARIO::PROFESOR:
+            case USUARIO::ADMINISTRADOR:
+                
+                //TODO: Habria que agregar el offset y límite para esto tmb, pero qué paja 
+                $mis_talleres = $tallerModel->obtenerTalleresUsuario($_SESSION['usuario_id']);
+                
+                break;
+                default:
+                $estado = 'no_inscripto';
+                break;
+                
+            }
+            
+            
+            
+            $data = ["talleres" => $talleres,
+                     "mis_talleres" => $mis_talleres  ,
+                     "resultados" => $resultados,
+                     "offset" => $offset,
+                     "url_paginacion" => $this->urlPaginacion('', '', $pagina),
+                     "pagina" => $this->chequeoPagina($pagina),
+                     "cantidad_paginas" => ceil(10 / $cantidad_por_pagina) ];
 
 
         $this->mostrarVista('talleres/lista', $data, 'Talleres');

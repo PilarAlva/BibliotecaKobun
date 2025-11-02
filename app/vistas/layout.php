@@ -12,7 +12,10 @@
     <link rel="stylesheet" href="css/inicio.css">
     
     <link rel="stylesheet" href="css/catalogo.css">
+    
     <link rel="stylesheet" href="css/subir_archivo.css">
+    <link rel="stylesheet" href="css/talleres.css">
+
 
 
     <title> <?= $titulo; ?></title>
@@ -28,6 +31,8 @@
  <!-- Archivos .js -->
     <script src="js/main.js"></script>
     <script src="js/subir_archivo.js"></script>
+    
+    
 
 
 </html>
