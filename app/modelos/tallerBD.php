@@ -86,23 +86,24 @@ class TallerBD {
     }
         
 
-    public function obtenerTallerPorId($taller_id, $inicio = 0, $cant = 1000){
+    public function obtenerTallerPorId($taller_id){
 
-        $consulta = "SELECT 	t.id as taller_id,
-		t.nombre as taller_nombre,
-        t.ref_portada as taller_portada,
-        t.lugar as lugar,
-        t.horario as horario,
-        t.descripcion as descripcion,
-        t.activo as activo,
-        t.fecha_alta as fecha_alta,
-        u.id as profesor_id,
-        concat(u.nombre, ' ' , u.apellido) as profesor_nombre,
-        u.mail as profesor_mail
-        FROM talleres t 
-        LEFT JOIN talleres_profesores tp ON t.id = tp.taller_id
+        $consulta = "SELECT 
+                        t.id as taller_id,
+                        t.nombre as taller_nombre,
+                        t.ref_portada as taller_portada,
+                        t.lugar as lugar,
+                        t.horario as horario,
+                        t.descripcion as descripcion,
+                        t.activo as activo,
+                        t.fecha_alta as fecha_alta,
+                        u.id as profesor_id,
+                        concat(u.nombre, ' ' , u.apellido) as profesor_nombre,
+                        u.mail as profesor_mail
+                    FROM talleres t 
+                    LEFT JOIN talleres_profesores tp ON t.id = tp.taller_id
                     LEFT JOIN usuarios u ON tp.usuario_id = u.id    
-                    WHERE t.id = :taler_id";
+                    WHERE t.id = :taller_id";
  
         $this->db->consulta($consulta);
         $this->db->unir(':taller_id', $taller_id);
@@ -113,12 +114,14 @@ class TallerBD {
     }
 
     public function inscribirAlumno ($taller_id, $usuario_id, $activo = 0){ 
-        $consulta = "INSERT INTO talleres_usuarios (taller_id, usuario_id, activo) 
-                    VALUES (:taller_id, :usuario_id, :activo)";
+        $consulta = "INSERT IGNORE INTO talleres_usuarios (taller_id, usuario_id, activo) 
+                    VALUES (:taller_id, :usuario_id, :activo)
+                    
+                    ";
                     
         $this->db->consulta($consulta);
         $this->db->unir(':taller_id', $taller_id);
-        $this->db->unir(':taller_id', $taller_id);
+        $this->db->unir(':usuario_id', $usuario_id);
         $this->db->unir(':activo', $activo);
         $this->db->ejecutar();
 
@@ -166,12 +169,12 @@ class TallerBD {
         return $this->db->resultado();
 
     } 
-    public function estaElAlumno ($taller_id, $usuario_id){
+    public function estaElUsuarioInscripto ($taller_id, $usuario_id){
         
-        $consulta = "SELECT count(usuario_id) as existe FROM talleres_usuarios  
+        $consulta = "SELECT activo as existe FROM talleres_usuarios  
                      WHERE taller_id = :taller_id 
                      AND usuario_id = :usuario_id
-                     AND activo = 1";
+                     ";
 
         $this->db->consulta($consulta);
         $this->db->unir(':taller_id', $taller_id);

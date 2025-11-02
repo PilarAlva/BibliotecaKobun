@@ -102,6 +102,7 @@
                     $_SESSION['usuario_apellido'] = $usuario['apellido'];
                     //$_SESSION['img_perfil'] = $usuario['img_perfil'];
                     $_SESSION['usuario_id'] = $usuario['id'];
+                    $_SESSION['usuario_rol'] = $usuario['rol_id'];
                     $msj = 0;
                     $error = false;
                     

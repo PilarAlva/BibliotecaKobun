@@ -130,7 +130,7 @@ class UsuarioBD {
     }
 
     public function __destruct() {
-        $this->db->desconectar();
+        $this->db->cerrarConexion();
     }
 
 

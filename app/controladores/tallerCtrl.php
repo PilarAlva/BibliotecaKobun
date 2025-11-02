@@ -23,29 +23,224 @@
                  "cantidad_paginas" => ceil(10 / $cantidad_por_pagina) ];
 
 
-        $this->mostrarVista('talleres', $data, 'Talleres');
+        $this->mostrarVista('talleres/lista', $data, 'Talleres');
             
 
     }
-    private function chequeoPagina($pagina){
-        if (!$this->esEnteroPositivo($pagina) || (int)$pagina < 1) {
-            return 1;
+
+        public function mostrarInfoTaller($taller_id = '1'){
+            
+            $tallerModel = $this->cargarModelo("tallerBD");
+
+            $taller = $tallerModel->obtenerTallerPorId($taller_id);
+
+            $estado = 'no_inscripto';
+
+            switch($this->estadoUsuario()){
+                case USUARIO::ALUMNO:
+                case USUARIO::PROFESOR:
+
+                    $activo = $tallerModel->estaElUsuarioInscripto($taller_id, $_SESSION['usuario_id']);
+
+                    if(!isset($activo)) 
+                        $estado = 'no_inscripto';
+                    else if ($activo == 1) 
+                        $estado = 'inscripto';
+                    else 
+                        $estado = 'en_espera';
+
+                    break;
+                    $estado = 'profesor';
+                    break;
+                case USUARIO::ADMINISTRADOR:
+                    $estado = 'admin';
+                    break;
+                default:
+                    $estado = 'no_inscripto';
+                    break;
+
+            }
+
+            $data = [
+                "taller" => $taller,
+                "estado" => $estado
+            ];
+
+            $this->mostrarVista('talleres/info', $data, 'Taller');
+
+
         }
-        return (int)$pagina;
-    }
 
-    private function urlPaginacion($filtro = '', $busqueda = '', $pagina) {
+        public function taller($taller_id = '1'){
+            
+            $tallerModel = $this->cargarModelo("tallerBD");
 
-        if($filtro == '' || $busqueda == '') {
-            return BASE_URL . 'talleres/b/';
+            $accion = 'error';
+
+            if($this->existeTaller($taller_id)){
+
+                if($this->estaElUsuarioInscripto($taller_id)){
+    
+                    $accion = 'mostrar';
+    
+                }else{
+
+                    $accion = 'info' ; 
+                }
+
+            }
+
+            $data = [
+                "taller_id" => $taller_id
+            ];
+
+
+            switch($accion){
+                case 'mostrar':
+                    $this->mostrarVista('taller', $data, 'Taller');
+                    break;
+                case 'info':
+                    header('Location: ' . BASE_URL . 'taller/info/' . $taller_id );
+                    break;
+                case 'error':
+                default:
+                    header('Location: ' . BASE_URL . 'talleres/');
+                    break;
+
+
+
+                }
+
+
         }
 
-        return BASE_URL . 'talleres/b/' . $filtro . '/' . urlencode($busqueda) . '/';
-    }
+        public function inscripcion($taller_id = 0){
+            
 
-    private function esEnteroPositivo($string) {
-        return preg_match('/^\d+$/', $string);
-    }
+            if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+                header('Location: ' . BASE_URL . 'taller/ins/' . $_POST['taller_id']);
+                return;
+            }
+
+            if($taller_id == 0){
+
+                header('Location: ' . BASE_URL );
+                return;
+
+            }
+
+            $tallerModel = $this->cargarModelo("tallerBD");
+
+            $accion = 'error';
+
+            if($this->existeTaller($taller_id)){
+
+
+                if($this->estaElUsuarioInscripto($taller_id)){
+                    
+                    if($this->usuarioRegistrado()){
+
+                        $activo = $tallerModel->estaElUsuarioInscripto($taller_id, $_SESSION['usuario_id']);
+
+                        if(!isset($activo)) $accion = 'inscribir';
+                        else if ($activo == 1) $accion = 'inscripto';
+                        else $accion = 'espera';
+
+                    }
+    
+                }else{
+
+                    $accion = 'info' ; 
+                }
+
+            }
+
+            switch($accion){
+                case 'inscribir':              
+                    if($tallerModel->inscribirAlumno($taller_id, $_SESSION['usuario_id'])){
+                        header('Location: ' . BASE_URL . 'taller/info' . $taller_id );
+                    }else{
+                        header('Location: ' . BASE_URL . 'taller/info');
+                    }
+                    break;
+                case 'inscripto':
+                    header('Location: ' . BASE_URL . 'taller/id/' . $taller_id);
+                    break;
+                case 'espera':
+                    header('Location: ' . BASE_URL . 'taller/info/' . $taller_id);
+                    break;
+                case 'info':
+                    header('Location: ' . BASE_URL . 'taller/info/' . $taller_id );
+                    break;
+                case 'error':
+                default:
+                    header('Location: ' . BASE_URL );
+                    break;
+
+
+
+                }
+
+        }
+
+
+        //FUNCIONALES
+
+        private function existeTaller($taller_id){
+
+                $tallerModel = $this->cargarModelo("tallerBD");
+
+                $existe = $tallerModel->obtenerTallerPorId($taller_id);
+
+                if($existe){
+                    return true;
+                }else{
+                    return false;
+                }
+
+        }
+
+        private function estaElUsuarioInscripto($taller_id){
+
+            if($this->usuarioRegistrado()){
+
+                $usuario_id = $_SESSION['usuario_id'];
+
+                $tallerModel = $this->cargarModelo("tallerBD");
+
+                $existe = $tallerModel->estaElUsuarioInscripto($taller_id, $usuario_id);
+
+                return true;
+
+                
+
+            }
+            else return false;
+
+
+
+        }
+
+        private function chequeoPagina($pagina){
+            if (!$this->esEnteroPositivo($pagina) || (int)$pagina < 1) {
+                return 1;
+            }
+            return (int)$pagina;
+        }
+
+        private function urlPaginacion($filtro = '', $busqueda = '', $pagina) {
+
+            if($filtro == '' || $busqueda == '') {
+                return BASE_URL . 'talleres/b/';
+            }
+
+            return BASE_URL . 'talleres/b/' . $filtro . '/' . urlencode($busqueda) . '/';
+        }
+
+        private function esEnteroPositivo($string) {
+            return preg_match('/^\d+$/', $string);
+        }
 
 
     }

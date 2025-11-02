@@ -22,7 +22,13 @@ $rutas = [
     'sesion' => ['controlador' => 'SesionCtrl', 'metodo' => 'index'],
 
     'talleres' => ['controlador' => 'tallerCtrl', 'metodo' => 'index'],
-    
+
+    'taller/info' => ['controlador' => 'tallerCtrl', 'metodo' => 'mostrarInfoTaller'],
+
+    'taller/id' => ['controlador' => 'tallerCtrl', 'metodo' => 'taller'],
+
+    'taller/ins' => ['controlador' => 'tallerCtrl', 'metodo' => 'inscripcion'],
+
     'contacto' => ['controlador' => 'contactoCtrl', 'metodo' => 'index'],
 
     'perfil' => ['controlador' => 'perfilCtrl', 'metodo' => 'index'],
