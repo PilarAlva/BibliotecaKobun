@@ -8,37 +8,50 @@ document.addEventListener("DOMContentLoaded", function() {
     
     const inputs_carga = subir_archivo.querySelectorAll('.carga_menu_input');
 
-    const archivo_cargado = document.getElementById('archivo_cargado');
-    const archivo_cargar = document.getElementById('archivo_cargar');
+    const archivo_cargado = subir_archivo.querySelectorAll('.archivo_cargado');
+    const archivo_cargar = subir_archivo.querySelectorAll('.archivo_cargar');
 
     const nombre_archivo = document.getElementById('nombre_archivo');
     const boton_borrar =  document.getElementById('boton_borrar');
     
     const boton_subir = document.getElementById('boton_subir');
 
+    archivo_cargado.forEach(function(cosa) {
 
-    archivo_cargado.toggleAttribute("hidden");
+                    
+                    cosa.classList.toggle("cls");
+
+                }); 
 
     inputs_carga.forEach(function(input) {
         
             input.addEventListener("change", (event) => { 
 
-                archivo_cargado.toggleAttribute("hidden");
-                archivo_cargar.toggleAttribute("hidden");
+                archivo_cargado.forEach((cosa1) =>{
+
+                    cosa1.classList.toggle("cls");
+
+                }); 
+                archivo_cargar.forEach((cosa2) =>{
+
+                    cosa2.classList.toggle("cls");
+
+                });
+                
                 
                 if(input.files[0]){
-                    nombre_archivo.value = input.files[0].name;
+
+                    var nombre = limpiarNombre(input.files[0].name);
+
+                    nombre_archivo.value = nombre;
                 }
 
-                /*
-                event.preventDefault(); // Prevent default form submission
-
                 
-                
-    */
             });
 
     });
+
+    
 
 
     botones_carga.forEach(function(boton) {
@@ -126,18 +139,18 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log(file);
 
 
-            fetch('archivo/subir', { // Replace 'upload.php' with your PHP script's path
+            fetch('archivo/subir', { 
                 method: 'POST',
                 body: formData
             })
             .then(response => response.text())
             .then(result => {
-                console.log(result); // Handle the response from the PHP script
-                alert('File uploaded successfully!');
+                console.log(result); 
+                alert('Archivo subido correctamente.');
             })
             .catch(error => {
                 console.error('Error uploading file:', error);
-                alert('Error uploading file.');
+                alert('Error subiendo el archivo, intente mas tarde.');
             });
             
         }
@@ -145,6 +158,17 @@ document.addEventListener("DOMContentLoaded", function() {
         
 
     });
+
+    limpiarNombre = (nombre) => {
+    
+        const lastDotIndex = nombre.lastIndexOf('.');
+
+        if (lastDotIndex > 0) {
+            return nombre.substring(0, lastDotIndex);
+        } else {
+            return nombre;
+        }
+    }   
 
 });
 

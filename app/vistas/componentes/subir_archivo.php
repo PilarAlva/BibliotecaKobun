@@ -16,9 +16,8 @@
 
     <div class="subir_archivo__cuerpo_contenedor">
 
-        <div id = "archivo_cargado">
             <button
-                  class="subir_archivo__cuerpo_borrar"
+                  class="subir_archivo__cuerpo_borrar archivo_cargado"
                   id= "boton_borrar"
                   type="button"
                   aria-label="Borrar archivo"
@@ -27,32 +26,32 @@
             </button>
             <input
               
-                class="subir_archivo__cuerpo_input"
+                class="subir_archivo__cuerpo_input archivo_cargado"
                 id ="nombre_archivo"
                 type="text"
                 value= ""
             />
             <button
                   id= "boton_subir"
-                  class="subir_archivo__cuerpo_subir"
+                  class="subir_archivo__cuerpo_subir archivo_cargado"
                   type="button"
                   aria-label="Subir archivo"
                 >
             </button>
-        </div>
         
-        <div id = "archivo_cargar">
-          <div class="subir_archivo__carga">
+        
+        
+          <div class="subir_archivo__carga archivo_cargar">
 
-            <div class="subir_archivo__carga_menu">
+            <div class="subir_archivo__carga_menu archivo_cargar">
               <button
-                class="subir_archivo__carga_boton"
+                class="subir_archivo__carga_boton "
                 type="button"
                 aria-label="Upload file"
               >
               +  
             </button>
-            <div class="subir_archivo__carga_menu_contenedor">
+            <div class="subir_archivo__carga_menu_contenedor archivo_cargar">
               <div class="subir_archivo__carga_menu_item" id = "btn_imagen">
                 Imagen
               </div>
@@ -62,9 +61,10 @@
               <div class="subir_archivo__carga_menu_item" id = "btn_pdf">
                 PDF
               </div>
+              
             </div>
             
-          </div>
+          
 
           <input
               type="file"

@@ -34,7 +34,7 @@ class ArchivoCtrl extends Controlador{
             
             if(move_uploaded_file($_FILES['image_uploads']["tmp_name"], $archivoDestino . '.' . $tipoImagen)){                
 
-                if($archivoDB->registrarArchivo($archivoDestino, $_POST['titulo'])){    
+                if($archivoDB->registrarArchivo($archivoDestino . '.' . $tipoImagen, $_POST['titulo'])){    
 
                         http_response_code(201);
                         echo "Archivo " . htmlspecialchars( basename( $_POST['titulo'])) . " guardado.";
@@ -48,6 +48,7 @@ class ArchivoCtrl extends Controlador{
     
 
             }else{
+                http_response_code(500);
                 echo "No se pudo guardar";
             }
 

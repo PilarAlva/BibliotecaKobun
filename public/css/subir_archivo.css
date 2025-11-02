@@ -132,6 +132,8 @@
         border-style: solid;
         border-color: var(--gris);
 
+        width: 100%;
+
         display: flex;
         flex-grow: 1;
         background-color: white;
@@ -246,17 +248,6 @@
            display: block;
         }
 
-    #archivo_cargado {
-        display: flex;
-        flex-direction: row;
-         display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    #archivo_cargar{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        display: flex;
-        
-    }
+        .cls{
+            display: none;
+        }
