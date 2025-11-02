@@ -1,0 +1,61 @@
+
+<header class="header">
+    <?php
+            include '../app/vistas/componentes/header.php'; 
+        ?>
+</header>
+
+<main class="taller_main-content">
+    
+    <div class= "taller_encabezado" >
+        <img class="taller_portada" src="img/image.png" alt="...">
+    </div>
+
+    <div class="taller_paginas">
+        
+        <ul class="taller_menu">
+            
+            <button id="btn_t_fp" tab ="taller_section_foro" class="taller_menu_btn selected">Foro Público</button>
+            <button id="btn_t_r" tab = "taller_section_recursos" class="taller_menu_btn">Recursos</button>
+            <button id="btn_t_l" tab = "taller_section_libreta" class="taller_menu_btn">Libreta</button>
+            
+            
+        </ul>
+        
+        
+    </div>
+    
+    
+    <div class="taller_contenido">
+        <div id="taller_section_foro">
+            <?php include '../app/vistas/talleres/taller/foro.php' ?>
+        </div>
+
+        <div id="taller_section_recursos" hidden>
+            <?php include '../app/vistas/talleres/taller/recursos.php' ?>
+        </div>
+
+        <div id="taller_section_libreta" hidden>
+            <?php include '../app/vistas/talleres/taller/libreta.php' ?>
+        </div>
+        
+        
+        
+        
+        
+    <div>
+            
+
+            
+            
+            
+            
+</main>
+
+<footer>
+        <?php
+            include '../app/vistas/componentes/footer.php';
+            ?>
+</footer>
+
+<script src="js/taller.js"></script>

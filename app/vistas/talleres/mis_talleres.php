@@ -15,7 +15,7 @@
                 <td>
                     <div class="info-libro-contenedor">
                         <div class="info-libro">
-                            <a href="<?=BASE_URL?>taller/info/<?= $taller['taller_id']; ?>" class="info-libro-link">
+                            <a href="<?=BASE_URL?>taller/id/<?= $taller['taller_id']; ?>" class="info-libro-link">
                                 <h3 class="titulo-libro"><?php echo htmlspecialchars($taller['taller_nombre']); ?></h3>
                                 <p class="autor-libro">Por <?php echo htmlspecialchars($taller['profesor_nombre']); ?></p>
                                 <p class="descripcion-libro"><?php echo htmlspecialchars($taller['descripcion']); ?></p>

@@ -29,7 +29,7 @@ class PublicacionBD {
 
         return $this->db->resultado();
 
-    };
+    }
     
     public function subirPublicacionALibreta($taller_id, $usuario_id, $titulo, $cuerpo){
         $consulta = "INSERT INTO publicaciones 
@@ -48,7 +48,7 @@ class PublicacionBD {
 
         return $this->db->resultado();
 
-    };
+    }
         
     public function subirRecurso($taller_id, $usuario_id, $titulo, $cuerpo){
         $consulta = "INSERT INTO publicaciones 
@@ -67,7 +67,7 @@ class PublicacionBD {
 
         return $this->db->resultado();
 
-    };
+    }
 
     public function cantPublicacionesPorTaller($taller_id, $alcance = 'foro'){
         
@@ -87,8 +87,8 @@ class PublicacionBD {
     public function obtenerPublicacionesPorTaller($taller_id, $alcance = 'foro',  $inicio = 0, $cant = 1000){
         $consulta = "SELECT 
                         p.id, p.titulo, p.cuerpo,
-                        concat(u.nombre, " ", u.apellido) as usuario_nombre,
-                        u.is as usuario_id,
+                        concat(u.nombre, ' ', u.apellido) as usuario_nombre,
+                        u.id as usuario_id,
                         p.fecha_publicacion,
                         group_concat(distinct pa.archivo_id separator ', ') as archivos_id 
                     FROM publicaciones  p
@@ -110,8 +110,35 @@ class PublicacionBD {
 
         return $this->db->resultados();
 
-    };
+    }
 
+    public function obtenerPublicacionesLibretaPorTaller($taller_id, $usuario_id,  $inicio = 0, $cant = 1000){
+        $consulta = "SELECT 
+                        p.id, p.titulo, p.cuerpo,
+                        concat(u.nombre, ' ', u.apellido) as usuario_nombre,
+                        u.id as usuario_id,
+                        p.fecha_publicacion,
+                        group_concat(distinct pa.archivo_id separator ', ') as archivos_id 
+                    FROM publicaciones  p
+                    LEFT JOIN usuarios u ON p.usuario_id = u.id
+                    LEFT JOIN publicaciones_archivo pa ON p.id = pa.publicacion_id
+                    WHERE p.usuario_id = :usuario_id
+                    AND p.taller_id = :taller_id
+                    GROUP BY p.id
+                    ORDER BY p.fecha_publicacion DESC
+                    LIMIT :limite OFFSET :offset";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':taller_id', $taller_id);
+        $this->db->unir(':usuario_id', $usuario_id);
+        $this->db->unir(':limite', $cant);
+        $this->db->unir(':offset', $inicio);
+
+        $this->db->ejecutar();
+
+        return $this->db->resultados();
+
+    }
 
 
 

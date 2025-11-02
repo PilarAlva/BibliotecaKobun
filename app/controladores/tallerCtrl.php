@@ -86,7 +86,7 @@
                 "estado" => $estado
             ];
 
-            $this->mostrarVista('talleres/info', $data, 'Taller');
+            $this->mostrarVista('talleres/taller/info', $data, 'Taller');
 
 
         }
@@ -94,7 +94,6 @@
         public function taller($taller_id = '1'){
             
             $tallerModel = $this->cargarModelo("tallerBD");
-
             $accion = 'error';
 
             if($this->existeTaller($taller_id)){
@@ -117,7 +116,16 @@
 
             switch($accion){
                 case 'mostrar':
-                    $this->mostrarVista('taller', $data, 'Taller');
+
+                    $publicacionModel = $this->cargarModelo("publicacionBD");
+
+
+                    //TODO: estas peticiones se deberían hacer cuando el usuario cambia de pestaña en el taller, pero bueno :/
+                    $data["publicaciones"] = $publicacionModel->obtenerPublicacionesPorTaller($taller_id);
+                    $data["recursos"] = $publicacionModel->obtenerPublicacionesPorTaller($taller_id, 'recursos');
+                    $data["libreta"] = $publicacionModel->obtenerPublicacionesLibretaPorTaller($taller_id, $_SESSION["usuario_id"] );
+
+                    $this->mostrarVista('talleres/taller/taller', $data, 'Taller');
                     break;
                 case 'info':
                     header('Location: ' . BASE_URL . 'taller/info/' . $taller_id );
