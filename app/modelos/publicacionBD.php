@@ -49,6 +49,64 @@ class PublicacionBD extends Modelo{
 
     }
 
+    public function obtenerArchivosPorPublicacion($publicacion_id){
+        $consulta = "SELECT a.id, a.titulo, a.referencia FROM publicaciones_archivo pa
+                    LEFT JOIN archivos a ON pa.archivo_id = a.id
+                    WHERE pa.publicacion_id = :publicacion_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':publicacion_id', $publicacion_id);
+
+        return $this->db->resultados();
+    }
+    
+    public function borrarArchivosPorPublicacion($publicacion_id){
+        $consulta = "DELETE FROM publicaciones_archivo WHERE publicacion_id = :publicacion_id";
+        $this->db->consulta($consulta);
+        $this->db->unir(':publicacion_id', $publicacion_id);
+
+        return $this->db->ejecutar();   
+    }
+
+    //RECURSIVA = TRUE: BORRA TMB LOS ARCHIVOS EN UNA PUBLICACION
+    public function borrarPublicacion($publicacion_id, $recursiva = false){
+        
+        $modelo = "archivoBD";
+
+        require_once '../app/modelos/' . $modelo .'.php';
+
+        $archivoDB = new $modelo();
+        
+        //PRIMERO BORRA TODOS LOS ARCHIVOS ASOCIADOS A LA PUBLICACION
+
+        if($recursiva){ 
+
+            $archivos = $this->obtenerArchivosPorPublicacion($publicacion_id);
+
+            foreach($archivos as $archivo){
+                $archivoDB->borrarArchivo($archivo['id']);
+                unlink($archivo['referencia']);
+            }
+
+        }
+
+        //DESPUES BORRA LAS REFERENCIAS
+
+        $this->borrarArchivosPorPublicacion($publicacion_id);  
+        
+        //Y BORRA LA PUBLICACION
+
+        $consulta = "DELETE FROM publicaciones WHERE id = :id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':id', $publicacion_id);
+
+        return $this->db->ejecutar();
+
+    }
+    
+
+
     public function registrarPublicacionArchivo($publicacion_id, $archivo_id){  
             $consulta = "INSERT INTO publicaciones_archivo (publicacion_id, archivo_id)  VALUES (:publicacion_id, :archivo_id)";
 

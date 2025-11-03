@@ -19,18 +19,37 @@
 
             switch($metodo){
                 case 'POST':
-                    $respuesta_data = $this->registrar();
+                    if(isset($_POST['accion']) && $_POST['accion'] == 'borrar'){
+                        $respuesta_data = $this->borrar();
+                    }else{
+                        $respuesta_data = $this->registrar();
+                    }
+                    break;
+                    case 'GET':
+                    http_response_code(200);
+                    $respuesta_data = [
+                        'status' => 'success',
+                        'message' => 'Invalido get'
+                    ];
+                    break;
+                    case 'DELETE':
+                        http_response_code(200);
+                    $respuesta_data = [
+                        'status' => 'success',
+                        'message' => 'Invalido delete'
+                    ];
                     break;
                 default:
-                    http_response_code(501);
+                http_response_code(501);
                     $respuesta_data = [
                         'status' => 'error',
                         'message' => 'Error en el metodo'
                     ];
                     break;
                 }
-
+                
             echo json_encode($respuesta_data);
+            
 
         }
 
@@ -117,6 +136,33 @@
         
         }
 
+        public function borrar(){
+            $publicacionDB = $this->cargarModelo('publicacionBD');
+
+            http_response_code(200);
+
+            if($publicacionDB->borrarPublicacion($_POST['id'], TRUE)){
+
+
+                return $respuesta_data = [
+                    'status' => 'success',
+                    'message' => 'Publicacion borrada exitosamente.'
+                ];
+
+            }else  {
+                
+                return $respuesta_data = [
+                    'status' => 'error',
+                    'message' => 'No se pudo borrar la publicacion.'
+                ];
+
+            }
+
+            
+
+            
+
+        }
     
 
 }

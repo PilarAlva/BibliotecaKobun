@@ -38,5 +38,18 @@ class ArchivoBD extends Modelo{
         
 
     }
+    public function borrarArchivo($id){
+        
+        $consulta = "DELETE FROM archivos WHERE id = :id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':id', $id);
+
+        return $this->db->ejecutar();   
+        
+
+    }
+
+
 
 }   

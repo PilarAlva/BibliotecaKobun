@@ -19,7 +19,8 @@
                     ?>
 
                         <div class="t-p_acciones_menu_cont">
-                            <form class="t-p_acciones_form" metod="DELETE" action="<?php echo BASE_URL . 'publicacion/' ?>">
+                            <form class="t-p_acciones_form" method="POST" action="<?php echo BASE_URL . 'publicacion/' ?>">
+                                <input type="hidden" name="accion" value="borrar"/> 
                                 <input type="hidden" name="id" value="<?php echo $publicacion["id"]?>"/> 
                                 <input type="hidden" name="usuario_id" value="<?php echo $publicacion["usuario_id"]?>"/> 
                                 <button class="t-p_acciones_btn" type="submit">
