@@ -43,14 +43,17 @@ class ArchivoCtrl extends Controlador{
             
             if(move_uploaded_file($_FILES['image_uploads']["tmp_name"], $archivoDestino . '.' . $tipoImagen)){                
 
-                if($archivoDB->registrarArchivo($archivoDestino . '.' . $tipoImagen, $_POST['titulo'])){    
+                $resultado = $archivoDB->registrarArchivo($archivoDestino . '.' . $tipoImagen, $_POST['titulo']);
+
+                if($resultado){    
 
                         http_response_code(201);
                         $respuesta_data = [
                                 'status' => 'success',
                                 'message' => 'Archivo guardado exitosamente.',
                                 'data' => [
-                                    'id' => $archivoDB->ultimoId(),
+                                    'id' => $archivoDB->ultimo_id(),
+                                    'estatus' => $resultado
                                 ]
                             ];
 

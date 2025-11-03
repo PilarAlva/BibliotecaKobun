@@ -77,13 +77,13 @@ window.addEventListener("load", function(){
 
      });
 
-    boton_pubicar.addEventListener("click", (e)=>{
+    boton_pubicar.addEventListener("click", async (e)=>{
 
         if(boton_pubicar.hasAttribute("enviar")){
 
             //Envio de archivos
 
-            var archivos_id = guardarArchivos();;
+            var archivos_id = await guardarArchivos();
             var text_body = quill.root.innerHTML;
             
             //Envio de publicacion
@@ -213,41 +213,38 @@ window.addEventListener("load", function(){
         
     }
 
-    function guardarArchivos(){
-
-        var archivos_id = [];
+    async function guardarArchivos(){
 
         if(files.length < 1){
-            return archivos_id;
+            return [];
         }
         
-
-        files.forEach( (file)=>{
-    
-
+        const promesas = files.map(file => {
             const formData = new FormData();
             formData.append('image_uploads', file);
             formData.append('titulo', file["name"]);
 
-            fetch( ref + 'archivo/subir', { 
-            method: 'POST',
-            body: formData
+            return fetch( ref + 'archivo/subir', { 
+                method: 'POST',
+                body: formData
             })
             .then(response => response.text())
             .then(result => {
-                console.log(result); 
+                console.log("Id del archivo:"); 
+                var data = JSON.parse(result);
                 alert('Archivo subido correctamente.');
+                return data.data.id;
             })
             .catch(error => {
                 console.error('Error uploading file:', error);
                 alert('Error subiendo el archivo, intente mas tarde.');
+                return null; // Handle error case
             });
-
-            
         });
-            
-            
-        }
+
+        const archivos_id = await Promise.all(promesas);
+        return archivos_id.filter(id => id !== null);
+    }
 
 
     

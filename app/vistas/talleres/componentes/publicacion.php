@@ -8,9 +8,37 @@
                     <?php echo $publicacion["usuario_nombre"]?>
                 </span>
 
-                <span class="t-p_fecha_pub">
-                    <?php echo $publicacion["fecha_publicacion"]?>
-                </span>
+                <div class="t-p_acciones_menu">
+
+                    <span class="t-p_fecha_pub">
+                        <?php echo $publicacion["fecha_publicacion"]?>
+                    </span>
+
+                    <?php if($_SESSION["usuario_id"] == $publicacion["usuario_id"]):
+                            
+                    ?>
+
+                        <div class="t-p_acciones_menu_cont">
+                            <form class="t-p_acciones_form" metod="DELETE" action="<?php echo BASE_URL . 'publicacion/' ?>">
+                                <input type="hidden" name="id" value="<?php echo $publicacion["id"]?>"/> 
+                                <input type="hidden" name="usuario_id" value="<?php echo $publicacion["usuario_id"]?>"/> 
+                                <button class="t-p_acciones_btn" type="submit">
+                                    X
+                                </button>
+                            </form>
+
+                            <span>|</span>
+                            <button class="t-p_acciones_btn">E</button>
+                        </div>
+
+                    <?php 
+                        endif;
+                    ?>
+                    
+                    
+                </div>
+
+                
 
             </div>
             <div class="t-p_cuerpo">
@@ -26,21 +54,24 @@
                 
                 </div>
                 <div class= "t-p_cuerpo_archivos">
-                    <?php if(isset($publicacion["archivos_id"])){
-                            $archivos = explode(',', $publicacion['archivos_id']);
-                            foreach($archivos as $archivo){
+                    <?php if(isset($publicacion["archivos_titulos"])){
+                            $archivos = explode(',', $publicacion['archivos_titulos']);
+                            $archivos_id = explode(',', $publicacion['archivos_id']);
+                            foreach($archivos as $index => $archivo){
                     ?>
 
                         <span class="t-p_archivo">
-                            <?php echo $archivo?>
+                            <a href= "<?php echo BASE_URL . "archivo/id/" . $archivos_id[$index]?>" >
+                            <?php echo $archivo ?>
+                            </a>
                         </span>
 
                     <?php 
-                    }}
+                    }};
                     ?>
                     
                 </div>
 
-                </div>
+            </div>
 
 </div>

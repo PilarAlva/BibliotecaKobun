@@ -9,7 +9,10 @@
             //TODO: Se debería hacer la comprobación de si en la sesion hay un usuario registrado.
 
             //Esto es para el error de cross origin
-        
+            header("Access-Control-Allow-Origin: http://" . SERVER_IP . "");
+            header("Access-Control-Allow-Methods: POST, OPTIONS");
+            header("Access-Control-Allow-Headers: Content-Type");
+
             $metodo = $_SERVER['REQUEST_METHOD'];
 
             $respuesta_data = [""];
@@ -33,10 +36,6 @@
 
         public function registrar(){
 
-            header("Access-Control-Allow-Origin: http://" . SERVER_IP . "");
-            header("Access-Control-Allow-Methods: POST, OPTIONS");
-            header("Access-Control-Allow-Headers: Content-Type");
-
             $publicacionDB = $this->cargarModelo('publicacionBD');
 
             $taller_id = $_POST['taller_id'];
@@ -49,16 +48,28 @@
 
             switch($_POST['alcance']){
                 case 'foro':
+
                     $resultado = $publicacionDB->subirPublicacionAForo($taller_id, $usuario_id, $titulo, $cuerpo);
 
-                    if($archivos_id != '' && $resultado){
-                        $ultimo_indice = $publicacionDB->ultimo_id();
+                    $ultimo_indice = $publicacionDB->ultimo_id();
 
-                        foreach($archivos_id as $archivo_id){
-                            $publicacionDB->registrarPublicacionArchivo($ultimo_indice, $archivo_id);
+                    if($archivos_id != '' && $resultado){
+
+                        $array_id = explode(',', $archivos_id);
+
+                        foreach($array_id as $archivo_id){
+                            if($publicacionDB->registrarPublicacionArchivo($ultimo_indice, $archivo_id)){
+                                $resultado = TRUE;
+                            }else{
+                                $resultado = FALSE;
+                            }
+                            
+                            break;
                         }
                         
                     }
+            
+                    
                     if($resultado){
 
                         http_response_code(201);
@@ -67,17 +78,30 @@
                             'status' => 'success',
                             'message' => 'Archivo guardado exitosamente.',
                             'data' => [
-                                'id' => $ultimo_indice
+                                'id' => $ultimo_indice,
+                                'archivos_id' => $archivos_id
                             ]
                         ];
+                    }else{
+                        http_response_code(500);
+                        return $respuesta_data = [
+                        'status' => 'error',
+                        'message' => 'Fuera de alcance',
+                        'archivos_id' => $archivos_id,
+                        'resultado' => $resultado, 
+                        'alcance' => $_POST['alcance']
+                        ];
+                        
                     }
 
 
                     break;
                 case 'libreta':
+                    http_response_code(500);
                     $publicacionDB->subirPublicacionALibreta($taller_id, $usuario_id, $titulo, $cuerpo);
                     break;
                 case 'recurso':
+                    http_response_code(500);
                     $publicacionDB->subirRecurso($taller_id, $usuario_id, $titulo, $cuerpo);
                     break;
                 default:

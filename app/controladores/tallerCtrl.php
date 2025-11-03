@@ -20,7 +20,7 @@
         switch($this->estadoUsuario()){
             case USUARIO::ALUMNO:
                 case USUARIO::PROFESOR:
-            case USUARIO::ADMINISTRADOR:
+                case USUARIO::ADMINISTRADOR:
                 
                 //TODO: Habria que agregar el offset y límite para esto tmb, pero qué paja 
                 $mis_talleres = $tallerModel->obtenerTalleresUsuario($_SESSION['usuario_id']);

@@ -44,21 +44,6 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-    --gris-1: oklch(80.181% 0.00148 285.446);
-    --gris-2: oklch(.928 .006 264.531);
-
-    --gris-texto: oklch(32.747% 0.01201 258.416);
-
-    --btn-subir: oklch(.278 .033 256.848);
-    --btn-subir-hover: oklch(36.897% 0.03658 259.493);
-
-    --btn-borrar: oklch(0.8 0.1 30);
-    --btn-borrar-hover: oklch(0.7 0.1 30);
-    --sa-cuerpo: oklch(93.1% 0.00011 271.152);
-
-
-
-
 
 }
 

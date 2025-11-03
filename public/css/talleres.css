@@ -200,7 +200,13 @@
     color: var(--gris-1);
     display: flex;
     margin-left: auto;
-    justify-self: end;
+    
+    transition: margin 0.2s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+.t-p_cuerpo{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5
+
 }
 .t-p_cuerpo_contenido{
     font-size: 14px;
@@ -248,4 +254,91 @@
     justify-content: center;
     flex-shrink: 0;
     
+}
+
+
+/*ESTILOS PARA EL MENU DE EDICION DE UNA PUBBLICACION*/
+
+.t-p_acciones_menu{
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    align-items: center;
+    margin-right: 0;
+    margin-left: auto;
+    position: relative;
+}
+
+.t-p_acciones_menu_cont{
+    
+    display: none;
+    float: right;    
+    width: 0;
+    box-shadow: 0px 1px 2px 0px rgba(85, 84, 84, 0.2);
+    z-index: 1;
+    padding: 6px;
+    gap: 5px;
+    border-radius: 3px;
+
+    align-items: center;
+    transition: width 0.3s ease-in;
+}
+.t-p_acciones_menu:hover .t-p_acciones_menu_cont{
+       display: flex;
+       flex-direction: row;
+       justify-content: center;
+
+       width: max-content;
+}
+.t-p_acciones_menu:hover .t-p_fecha_pub{
+       margin-right: 2rem;
+}
+.t-p_acciones_btn{
+
+    width: calc(0.25rem * 7);
+    height: calc(0.25rem * 7);
+    padding: 8px;
+
+    background-color: #4a417a00;
+    border-radius: 100%;
+    border-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    flex-shrink: 0;
+    transition: background-color 0.3s;
+
+    &:hover{
+        background-color: rgb(214, 210, 204);
+    }
+}
+.t-p_archivo{
+    display: flex;
+    flex-direction: row;
+    
+    justify-content: start;
+    align-items: center;
+
+    background-color: rgb(190, 183, 197);
+    padding: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    max-width: 150px;
+    height: calc(0.25rem * 8);
+    max-height: calc(0.25rem * 8);
+    overflow-x: hidden;
+    overflow-y: hidden;
+    border-radius: 3px;
+    
+    &:hover{
+        border: 1px solid grey;
+    }
+
+}
+.t-p_acciones_form{
+    display: block;
+
 }
