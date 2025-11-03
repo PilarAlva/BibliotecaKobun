@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS Ejemplares(
 	
 	INDEX(libro_id),
 
-	FOREIGN KEY(libro_id) REFERENCES Libros(id)
+	FOREIGN KEY(libro_id) REFERENCES Libros(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS Libros_Autores (
@@ -47,8 +47,8 @@ CREATE TABLE IF NOT EXISTS Libros_Autores (
 	autor_id INT NOT NULL,
 	
 	PRIMARY KEY (libro_id, autor_id),
-	FOREIGN KEY (libro_id) REFERENCES Libros(id),
-	FOREIGN KEY (autor_id) REFERENCES Autores(id)
+	FOREIGN KEY (libro_id) REFERENCES Libros(id) ON UPDATE CASCADE ON DELETE CASCADE, 
+	FOREIGN KEY (autor_id) REFERENCES Autores(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS Libros_Editoriales (
@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS Libros_Generos (
 	libro_id INT NOT NULL,
 	genero_id INT NOT NULL,
 	PRIMARY KEY (libro_id, genero_id),
-	FOREIGN KEY (libro_id) REFERENCES Libros(id),
-	FOREIGN KEY (genero_id) REFERENCES Generos(id)
+	FOREIGN KEY (libro_id) REFERENCES Libros(id) ON DELETE CASCADE,
+	FOREIGN KEY (genero_id) REFERENCES Generos(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS Talleres_Usuarios(
 	fecha_inscripcion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (taller_id, usuario_id),
 	FOREIGN KEY (taller_id) REFERENCES Talleres(id),
-	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id)
+	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON DELETE CASCADE
 
 );
 
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS Talleres_Profesores(
 	usuario_id INT NOT NULL,
 	PRIMARY KEY (taller_id, usuario_id),
 	FOREIGN KEY (taller_id) REFERENCES Talleres(id),
-	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id)
+	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON DELETE CASCADE
 );
 
 /* Contenidos */
@@ -163,8 +163,8 @@ CREATE TABLE IF NOT EXISTS Publicaciones_Archivo(
     publicacion_id INT NOT NULL,
 
     PRIMARY KEY (archivo_id, publicacion_id),
-    FOREIGN KEY(archivo_id) REFERENCES Archivos(id),
-    FOREIGN KEY (publicacion_id) REFERENCES Publicaciones(id)
+    FOREIGN KEY(archivo_id) REFERENCES Archivos(id) ON DELETE CASCADE,
+    FOREIGN KEY (publicacion_id) REFERENCES Publicaciones(id) ON DELETE CASCADE
 );
 
 /*Gestion*/
