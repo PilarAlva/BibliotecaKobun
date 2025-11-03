@@ -5,16 +5,17 @@
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 
-<script src="js/subir_publicacion.js"></script>
+<script src="js/editar_publicacion.js"></script>
 
 
     
     <div class= "subir_publicacion" 
-        id="id-sp-<?php echo $accion_publicacion?>" 
+        id="sp" 
         data-ref="<?php BASE_URL?>"
         data-uid="<?php echo $usuario_id?>"
         data-tid="<?php echo $taller_id?>"
-        data-alcance="<?php echo $alcance?>"        
+        data-alcance="<?php echo $alcance?>"
+        data-accion="<?php echo $accion?>"
         >
         
         <div class="sp_encabezado">

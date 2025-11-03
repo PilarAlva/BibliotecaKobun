@@ -109,16 +109,19 @@
 
             }
 
+            
             $data = [
                 "taller_id" => $taller_id
             ];
-
-
+            
             switch($accion){
                 case 'mostrar':
+                    
+                    if($_SERVER['REQUEST_METHOD'] == "POST"){
+                       $this->procesarPeticion($_POST["accion"], $data);
+                    }
 
                     $publicacionModel = $this->cargarModelo("publicacionBD");
-
 
                     //TODO: estas peticiones se deberían hacer cuando el usuario cambia de pestaña en el taller, pero bueno :/
                     $data["publicaciones"] = $publicacionModel->obtenerPublicacionesPorTaller($taller_id);
@@ -218,6 +221,25 @@
 
 
         //FUNCIONALES
+
+        function procesarPeticion($accion, &$data){
+
+            $tallerModel = $this->cargarModelo("tallerBD");
+
+            switch($accion){
+                case 'editar': 
+                    $publicacionModel = $this->cargarModelo("publicacionBD");
+                    if($publicacionModel->obtenerPublicacionPorId($_POST['id'])){
+
+                        $data["publicacion_editar"] = $publicacionModel->obtenerPublicacionPorId($_POST['id']);
+                        return;
+                    };
+                break;
+                default:
+                    break;
+              
+            }
+        }       
 
         private function existeTaller($taller_id){
 

@@ -6,6 +6,29 @@ class PublicacionBD extends Modelo{
     
     
 
+    //OBTENCION DE PUBLICACIONES
+
+    public function obtenerPublicacionPorId($publicacion_id){
+         $consulta = "SELECT 
+                        p.id, p.titulo, p.cuerpo,
+                        concat(u.nombre, ' ', u.apellido) as usuario_nombre,
+                        u.id as usuario_id,
+                        p.fecha_publicacion,
+                        group_concat(distinct pa.archivo_id separator ', ') as archivos_id,
+                        group_concat(distinct a.titulo separator ', ') as archivos_titulos
+                    FROM publicaciones  p
+                    LEFT JOIN usuarios u ON p.usuario_id = u.id
+                    LEFT JOIN publicaciones_archivo pa ON p.id = pa.publicacion_id
+                    LEFT JOIN archivos a ON pa.archivo_id = a.id
+                    WHERE p.id = :publicacion_id
+                    GROUP BY p.id LIMIT 1";
+                    
+        $this->db->consulta($consulta);
+        $this->db->unir(':publicacion_id', $publicacion_id);
+
+        return $this->db->resultado();
+    }
+
     public function subirPublicacionAForo($taller_id, $usuario_id, $titulo, $cuerpo){
         $consulta = "INSERT INTO publicaciones 
                     (taller_id, usuario_id, alcance,

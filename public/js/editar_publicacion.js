@@ -1,8 +1,7 @@
 window.addEventListener("load", function(){
 
-    const sp_publicacion = document.getElementById("id-sp-publicar");
-    
     const boton_pubicar = document.querySelector(".sp_btn_publicar");
+    const sp_publicacion = document.querySelector(".subir_publicacion");
 
     const inputs = this.document.querySelectorAll(".carga_menu_input");
 
