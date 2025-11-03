@@ -1,16 +1,10 @@
 <?php
 
-require_once '../app/core/BaseDatos.php';
 
-class PublicacionBD {
+
+class PublicacionBD extends Modelo{
     
-    private $db;
-
-    public function __construct() {
-        
-        $this->db = new BaseDatos();
-
-    }
+    
 
     public function subirPublicacionAForo($taller_id, $usuario_id, $titulo, $cuerpo){
         $consulta = "INSERT INTO publicaciones 
@@ -24,8 +18,6 @@ class PublicacionBD {
         $this->db->unir("usuario_id", $usuario_id);
         $this->db->unir("titulo", $titulo);
         $this->db->unir("cuerpo", $cuerpo);
-
-        $this->db->ejecutar();
 
         return $this->db->resultado();
 
@@ -44,8 +36,6 @@ class PublicacionBD {
         $this->db->unir("titulo", $titulo);
         $this->db->unir("cuerpo", $cuerpo);
 
-        $this->db->ejecutar();
-
         return $this->db->resultado();
 
     }
@@ -62,8 +52,6 @@ class PublicacionBD {
         $this->db->unir("usuario_id", $usuario_id);
         $this->db->unir("titulo", $titulo);
         $this->db->unir("cuerpo", $cuerpo);
- 
-        $this->db->ejecutar();
 
         return $this->db->resultado();
 
@@ -78,8 +66,6 @@ class PublicacionBD {
         $this->db->consulta($consulta);
         $this->db->unir(':taller_id', $taller_id);
         $this->db->unir(':alcance', $alcance);
-
-        $this->db->ejecutar();
 
         return $this->db->resultado();
     }
@@ -133,8 +119,6 @@ class PublicacionBD {
         $this->db->unir(':usuario_id', $usuario_id);
         $this->db->unir(':limite', $cant);
         $this->db->unir(':offset', $inicio);
-
-        $this->db->ejecutar();
 
         return $this->db->resultados();
 

@@ -2,12 +2,13 @@
 
 enum USUARIO
 {
-case NO_REGISTRADO;
-case ALUMNO;
-case PROFESOR;
-case ADMINISTRADOR;
+    case NO_REGISTRADO;
+    case ALUMNO;
+    case PROFESOR;
+    case ADMINISTRADOR;
 
 }
+
 
 class Controlador{
 

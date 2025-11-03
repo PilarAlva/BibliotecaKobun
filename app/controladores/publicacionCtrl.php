@@ -9,27 +9,33 @@
             //TODO: Se debería hacer la comprobación de si en la sesion hay un usuario registrado.
 
             //Esto es para el error de cross origin
-            header("Access-Control-Allow-Origin: http://" . SERVER_IP . "");
-            header("Access-Control-Allow-Methods: POST, OPTIONS");
-            header("Access-Control-Allow-Headers: Content-Type");
-
+        
             $metodo = $_SERVER['REQUEST_METHOD'];
 
             $respuesta_data = [""];
 
             switch($metodo){
                 case 'POST':
-                    $this->registrar();
+                    $respuesta_data = $this->registrar();
                     break;
                 default:
                     http_response_code(501);
+                    $respuesta_data = [
+                        'status' => 'error',
+                        'message' => 'Error en el metodo'
+                    ];
                     break;
                 }
+
             echo json_encode($respuesta_data);
 
         }
 
         public function registrar(){
+
+            header("Access-Control-Allow-Origin: http://" . SERVER_IP . "");
+            header("Access-Control-Allow-Methods: POST, OPTIONS");
+            header("Access-Control-Allow-Headers: Content-Type");
 
             $publicacionDB = $this->cargarModelo('publicacionBD');
 
@@ -39,19 +45,34 @@
             $cuerpo = $_POST['cuerpo'];
             $archivos_id = $_POST['archivos_id'];
 
-            
+            $resultado = FALSE;
 
             switch($_POST['alcance']){
                 case 'foro':
-                    $publicacionDB->subirPublicacionAForo($taller_id, $usuario_id, $titulo, $cuerpo);
-                    if(isset($archivos_id)){
-                        $ultimo_indice = $publicacionDB->ultimoId();
+                    $resultado = $publicacionDB->subirPublicacionAForo($taller_id, $usuario_id, $titulo, $cuerpo);
 
-                        foreach($archivos_id as $indice => $archivo_id){
+                    if($archivos_id != '' && $resultado){
+                        $ultimo_indice = $publicacionDB->ultimo_id();
+
+                        foreach($archivos_id as $archivo_id){
                             $publicacionDB->registrarPublicacionArchivo($ultimo_indice, $archivo_id);
                         }
                         
                     }
+                    if($resultado){
+
+                        http_response_code(201);
+
+                        return $respuesta_data = [
+                            'status' => 'success',
+                            'message' => 'Archivo guardado exitosamente.',
+                            'data' => [
+                                'id' => $ultimo_indice
+                            ]
+                        ];
+                    }
+
+
                     break;
                 case 'libreta':
                     $publicacionDB->subirPublicacionALibreta($taller_id, $usuario_id, $titulo, $cuerpo);
@@ -60,35 +81,13 @@
                     $publicacionDB->subirRecurso($taller_id, $usuario_id, $titulo, $cuerpo);
                     break;
                 default:
-                    break;
-            }
-            
-                    
-            
-                http_response_code(500);
-                $respuesta_data = [
-                                'status' => 'error',
-                                'message' => 'No se pudo guardar el archivo.'
-                            ];
-                http_response_code(201);
-                        
-
-
-                http_response_code(500);
-                $respuesta_data = [
-                        'status' => 'success',
-                        'message' => 'Archivo guardado exitosamente.',
-                        'data' => [
-                            'id' => $archivoDB->ultimoId(),
-                        ]
-                    ];
-
-                $respuesta_data = [
+                    http_response_code(501);
+                    return $respuesta_data = [
                         'status' => 'error',
-                        'message' => 'No se pudo registrar el archivo.'
-                    ];
-                
-                        
+                        'message' => 'Fuera de alcance'
+                        ];
+                    break;
+                    }
 
 
         

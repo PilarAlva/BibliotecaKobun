@@ -2,6 +2,7 @@
 
      <?php
             $alcance = 'foro';
+            
             include '../app/vistas/talleres/componentes/subir_publicacion.php'; 
         
 

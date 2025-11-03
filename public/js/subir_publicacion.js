@@ -11,12 +11,12 @@ window.addEventListener("load", function(){
 
     const files = [];
 
-    //const ref = this.document.getElementById("sp").dataset.ref;
+    const ref = this.document.getElementById("sp").dataset.ref;
     const uid = this.document.getElementById("sp").dataset.uid;
     const tid = this.document.getElementById("sp").dataset.tid;
     const alcance = this.document.getElementById("sp").dataset.alcance;
 
-    const ref = "http://localhost/BibliotecaKobun/public";
+    //const ref = "http://localhost/BibliotecaKobun/public";
     
     const text_title = document.getElementById("titulo");
 
@@ -94,9 +94,9 @@ window.addEventListener("load", function(){
             formData.append('archivos_id', archivos_id);
             formData.append('usuario_id', uid);
             formData.append('taller_id', tid);
-            formData.append('alcance', tid);
+            formData.append('alcance', alcance);
 
-            fetch(ref + "/publicacion/subir", { 
+            fetch(ref + "publicacion", { 
             method: 'POST',
             body: formData
             })
@@ -229,7 +229,7 @@ window.addEventListener("load", function(){
             formData.append('image_uploads', file);
             formData.append('titulo', file["name"]);
 
-            fetch( ref + '/archivo/subir', { 
+            fetch( ref + 'archivo/subir', { 
             method: 'POST',
             body: formData
             })
