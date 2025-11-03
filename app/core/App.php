@@ -10,6 +10,10 @@ class App{
 
     public function __construct(){
 
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         $urlParts = $this->convertirUrl();
 
         require_once '../app/rutas.php';

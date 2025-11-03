@@ -3,7 +3,7 @@
 
 class libroCtrl extends Controlador{
     
-
+    
 
     public function index($filtro = '', $busqueda = '', $pagina = '1'){
 
@@ -23,9 +23,11 @@ class libroCtrl extends Controlador{
                  "libros" => $libros,
                  "resultados" => $resultados,
                  "offset" => $offset,
-                 "pagina" => $pagina,
+                 "url_paginacion" => $this->urlPaginacion($filtro, $busqueda, $pagina),
+                 "pagina" => $this->chequeoPagina($pagina),
                  "cantidad_paginas" => ceil($resultados / $cantidad_por_pagina) ];
-
+        
+        $data['cssEspecifico'] = 'catalogo.css';
         $this->mostrarVista('catalogo', $data, 'Catalogo');
 
     }
@@ -33,16 +35,20 @@ class libroCtrl extends Controlador{
 
     public function busqueda($filtro = '', $busqueda = '', $pagina = '1'){
 
-
-
         $cantidad_por_pagina = 20;
 
         $libroModel = $this->cargarModelo("libroBD");
         
+        if($this->esEnteroPositivo($filtro)){
+            $pagina = $filtro;
+        }
+
         $offset = ( ((int)$pagina) - 1) * $cantidad_por_pagina;
         $limite = $offset + $cantidad_por_pagina;
 
+
         $libros = $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, $limite );
+
         $resultados = $libroModel->cantResultadosCatalogo($busqueda, $filtro);
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -51,14 +57,19 @@ class libroCtrl extends Controlador{
 
         }
 
+        
+        
+
         $data = ["busqueda" => $busqueda,
                  "filtro" => $filtro,
                  "libros" => $libros,
                  "resultados" => $resultados,
                  "offset" => $offset,
-                 "pagina" => $pagina,
+                 "url_paginacion" => $this->urlPaginacion($filtro, $busqueda, $pagina),
+                 "pagina" => $this->chequeoPagina($pagina),
                  "cantidad_paginas" => ceil($resultados / $cantidad_por_pagina) ];
-
+        
+        $data['cssEspecifico'] = 'catalogo.css';
         $this->mostrarVista('catalogo', $data, 'Catalogo');
 
     }
@@ -69,14 +80,38 @@ class libroCtrl extends Controlador{
 
         $libro = $libroModel->infoLibro($libro_id);
 
+        $ejemplares = $libroModel->ejemplaresTotales($libro_id);
+
         $data = [
-            "libro" => $libro
+            "libro" => $libro,
+            "ejemplares" => $ejemplares,
+            "cssEspecifico" => 'catalogo.css' // Usamos el mismo CSS que el catálogo
+            
         ];
+
 
         $this->mostrarVista('Libro', $data, $libro['titulo']);
 
     }
 
+    private function chequeoPagina($pagina){
+        if (!$this->esEnteroPositivo($pagina) || (int)$pagina < 1) {
+            return 1;
+        }
+        return (int)$pagina;
+    }
+
+    private function urlPaginacion($filtro, $busqueda, $pagina) {
+
+        if($filtro == '' || $busqueda == '') {
+            return BASE_URL . 'catalogo/b/';
+        }
+
+        return BASE_URL . 'catalogo/b/' . $filtro . '/' . urlencode($busqueda) . '/';
+    }
+
+    private function esEnteroPositivo($string) {
+        return preg_match('/^\d+$/', $string);
+    }
 
 }
-

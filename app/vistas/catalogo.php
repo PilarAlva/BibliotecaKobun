@@ -36,7 +36,7 @@
                     <td>
                         <div class="info-libro-contenedor">
                             <div class="info-libro">
-                                <a href="" class="info-libro-link">
+                                <a href="<?=BASE_URL?>libro/id/<?= $libro['id']; ?>" class="info-libro-link">
                                     <h3 class="titulo-libro"><?php echo htmlspecialchars($libro['titulo']); ?></h3>
                                     <p class="autor-libro">Por <?php echo htmlspecialchars($libro['autores']); ?></p>
                                     <p class="descripcion-libro"><?php echo htmlspecialchars($libro['descripcion']); ?></p>
@@ -77,19 +77,19 @@
             <ul>
                 <!-- Página anterior -->
                 <li>
-                    <a href="?filtro=<?php echo $filtro; ?>&q=<?php echo urlencode($busqueda); ?>&pagina=<?php echo $pagina-1; ?>">Anterior</a>
+                    <a href="<?php  echo $url_paginacion . $pagina-1 ?>">Anterior</a>
                 </li>
 
                 <!-- Números de página -->
                 <?php for($i = 1; $i <= $cantidad_paginas; $i++): ?>
                     <li class="<?php if ($i == $pagina) echo 'active'; ?>">
-                        <a href="?filtro=<?php echo $filtro; ?>&q=<?php echo urlencode($busqueda); ?>&pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        <a href="<?php  echo $url_paginacion . $i ?>"><?php echo $i; ?></a>
                     </li>
                 <?php endfor; ?>
 
                 <!-- Página siguiente -->
                 <li>
-                    <a href="?filtro=<?php echo $filtro; ?>&q=<?php echo urlencode($busqueda); ?>&pagina=<?php echo $pagina+1; ?>">Siguiente</a>
+                    <a href="<?php  echo $url_paginacion . $pagina+1 ?>">Siguiente</a>
                 </li>
             </ul>
         </nav>

@@ -1,40 +1,51 @@
 <?php
 
-    
-    require_once "./modelo/libroBD.php";
-    require_once "./modelo/socioBD.php";
 
 
-    class PrestamoCtrl {
+    class PrestamoCtrl extends Controlador{
 
-        $LibroBD;
-        $SocioBD;
-        $PrestamoBD;
 
-        public function __construct(){
 
-            $this->LibroBD = new LibroBD();
-            $this->SocioBD = new socioBD();
-            $this->PrestamoBD = new PrestamoBD();
+        public function prestamo(){
+
+            
+            if (!($_SERVER['REQUEST_METHOD'] == "POST")) {
+            
+            header('Location: ' . BASE_URL );
+            
+            }
+            
+            if(!isset($_SESSION['usuario_id'])){
+            
+            header('Location: ' . BASE_URL . '/libro/id' . $_POST['libro_id']);
+            
+            }
+
+
+            $estado = $this->registrarPrestamoPorIdUsuario($_POST['usuario_id'], $_POST['libro_id'], date('Y-m-d'));
+
+
+            
+
+            header('Location: ' . BASE_URL . 'libro/id/' . $_POST['libro_id'] . '?estado=' . urlencode(serialize($estado)) );
+
 
         }
 
-        public function registrarPrestamo($socio_id, $ejemplar_id, $fecha_prestamo) {
+        public function registrarPrestamoPorIdUsuario($usuario_id, $libro_id, $fecha_prestamo) {
 
-            
-            $socio = $this->SocioBD->obtenerSocioPorId($socio_id);
+            $libroModel = $this->cargarModelo("libroBD");            
+            $socioModel = $this->cargarModelo("socioBD");            
+            $prestamoModel = $this->cargarModelo("prestamoBD");            
+
+            $socio = $socioModel->obtenerSocioPorIdUsuario($usuario_id);
+
             if (!$socio) {
-                return ["error" => "El socio no existe."];
+            return ["error" => "El socio no existe."];
             }
 
-            $ejemplar = $this->LibroBD->obtenerEjemplarPorId($ejemplar_id);
-
-            if (!$ejemplar) {
-                return ["error" => "El ejemplar no está disponible para préstamo."];
-            }
-
-            $antiguedad_socio = $this->SocioBD->antiguedadSocio($socio_id);
-            $cantidad_prestamos = $this->PrestamoBD->cantPrestamosActivosPorSocio($socio_id);
+            $antiguedad_socio = $socioModel->antiguedadSocio($socio['id']);
+            $cantidad_prestamos = $prestamoModel->cantPrestamosActivosPorSocio($socio['id']);
 
             $fecha_vencimiento = date('Y-m-d', strtotime($fecha_prestamo . ' + 15 days'));
 
@@ -63,17 +74,28 @@
             }         
 
             if(!$valido){
-                return ["error" => "El socio no cumple con lso requisitos."]
+                return ["error" => "El socio no cumple con los requisitos."];
             }
             
-            $resultado = $this->PrestamoBD->registrarPrestamo($socio_id, $ejemplar_id, $fecha_prestamo, $fecha_vencimiento);
+            $ejemplares = $libroModel->ejemplaresDisponibles($libro_id);
+
+            if ($ejemplares) {
+                
+                $resultado = $prestamoModel->registrarPrestamo($socio['id'], $ejemplares[0]['id'], $fecha_prestamo, $fecha_vencimiento);
+                
+            }else{
+
+                return ["error" => "No hay ejemplares dispoibles."];
+            }
+            
+
             if ($resultado) {
                 
                 return ["success" => "Préstamo registrado exitosamente."];
 
             } else {
 
-                return ["error" => "Error al registrar el préstamo."];
+                return ["error" => $socio['id'] ."-Error al registrar el préstamo."];
                 
             }
         }

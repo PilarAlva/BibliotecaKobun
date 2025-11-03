@@ -5,8 +5,11 @@ class InicioCtrl extends Controlador{
     
     public function inicio(){
         
-        $this->mostrarVista('inicio', [], 'Inicio');
+        $datos = [
+            'cssEspecifico' => 'inicio.css'
+        ];
 
+        $this->mostrarVista('inicio', $datos, 'Inicio');
     }
 
 }

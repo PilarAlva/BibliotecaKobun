@@ -16,19 +16,25 @@ $rutas = [
     'catalogo/b' => ['controlador' => 'libroCtrl', 'metodo' => 'busqueda'],
 
     'libro/id' => ['controlador' => 'libroCtrl', 'metodo' => 'mostrarLibro'],
-  
 
-    // Route for a specific book page, maps to the 'bookId' metodo of 'Bookcontrolador'
-    'book/id' => ['controlador' => 'Bookcontrolador', 'metodo' => 'bookById'],
+    'libro/prestamo' => ['controlador' => 'prestamoCtrl', 'metodo' => 'prestamo'],
+    
+    'sesion' => ['controlador' => 'SesionCtrl', 'metodo' => 'index'],
 
-    // Route for adding a new book, maps to the 'addBook' metodo of 'Bookcontrolador'
-    'book/add' => ['controlador' => 'Bookcontrolador', 'metodo' => 'addNewBook'],
+    'sesion/cerrar' => ['controlador' => 'SesionCtrl', 'metodo' => 'cerrar_sesion'],
 
-    // Route for deleting a book, maps to the 'delete' metodo of 'Bookcontrolador'
-    'book/delete' => ['controlador' => 'Bookcontrolador', 'metodo' => 'deleteBook'],
+    'talleres' => ['controlador' => 'tallerCtrl', 'metodo' => 'index'],
+    
+    'contacto' => ['controlador' => 'contactoCtrl', 'metodo' => 'index'],
 
-    // Route for updating a book, maps to the 'update' metodo of 'Bookcontrolador'
-    'book/update' => ['controlador' => 'Bookcontrolador', 'metodo' => 'updateBook']
+    'perfil' => ['controlador' => 'perfilCtrl', 'metodo' => 'index'],
+
+    'pago' => ['controlador' => 'pagoCtrl', 'metodo' => 'pago'],
+
+
+
+
+    
 ];
 
 
