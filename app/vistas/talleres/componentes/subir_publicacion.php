@@ -1,15 +1,21 @@
-
 <link href="css/style.css" rel="stylesheet" />
 <link href="css/reset.css" rel="stylesheet" />
-<link href="css/publicacion.css" rel="stylesheet" />
+<link href="css/subir_publicacion.css" rel="stylesheet" />
 
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-<script src="publicacion.js"></script>
 
-<div>
+<script src="js/subir_publicacion.js"></script>
+
+
     
-    <div class= "subir_publicacion">
+    <div class= "subir_publicacion" 
+        id="sp" 
+        data-ref="<?php BASE_URL?>"
+        data-uid="<?php echo $usuario_id?>"
+        data-tid="<?php echo $taller_id?>"
+        data-alcance="<?php echo $alcance?>"
+        >
         
         <div class="sp_encabezado">
 
@@ -21,7 +27,10 @@
                         Publicar en foro
                     </span>
                     <span class="sp_encabezado_texto_usuario hide">
-                        Felipe Da Rosa
+
+                        <?php echo $_SESSION['usuario_nombre'] .
+                        ' ' . $_SESSION['usuario_apellido']?>
+
                     </span>
 
                     <span class="sp_fecha_pub">
@@ -79,6 +88,7 @@
             </div>
         </div>
 
+        <div style="display: none">
             <input
                 type="file"
                 accept="image/*"
@@ -97,7 +107,8 @@
                 class="carga_menu_input"
                 id="inp_pdf"
             />
+        </div>
+            
+        
 
     </div>
-
-    

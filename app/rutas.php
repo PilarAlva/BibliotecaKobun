@@ -41,9 +41,9 @@ $rutas = [
 
     'archivo' => ['controlador' => 'archivoCtrl', 'metodo' => 'inicio'],
 
-    'archivo/id' => ['controlador' => 'archivoCtrl', 'metodo' => 'idArchivo'],
+    'archivo/id' => ['controlador' => 'archivoCtrl', 'metodo' => 'descargar'],
 
-    'archivo/subir' => ['controlador' => 'archivoCtrl', 'metodo' => 'archivo'],
+    'archivo/subir' => ['controlador' => 'archivoCtrl', 'metodo' => 'subir'],
 
     'archivo/lista' => ['controlador' => 'archivoCtrl', 'metodo' => 'lista'],
 

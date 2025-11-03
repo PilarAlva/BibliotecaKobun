@@ -11,6 +11,15 @@ window.addEventListener("load", function(){
 
     const files = [];
 
+    //const ref = this.document.getElementById("sp").dataset.ref;
+    const uid = this.document.getElementById("sp").dataset.uid;
+    const tid = this.document.getElementById("sp").dataset.tid;
+    const alcance = this.document.getElementById("sp").dataset.alcance;
+
+    const ref = "http://localhost/BibliotecaKobun/public";
+    
+    const text_title = document.getElementById("titulo");
+
     const quill = new Quill('#editor', {
         placeholder: 'Escribí el contenido aca ',
         modules: {
@@ -24,10 +33,11 @@ window.addEventListener("load", function(){
     
 
     inputs.forEach((input) =>{
+        
         input.addEventListener("change", (event)=>{
             informacionCargada(input.files[0]);
         });
-
+        
     });
 
     carga_archivos.forEach((carga) =>{
@@ -42,7 +52,6 @@ window.addEventListener("load", function(){
 
     document.querySelector(".sp_btn_archivo").addEventListener("click", ()=>{
         
-        
         document.querySelector(".sp_archivo_menu_contenido").classList.toggle("hide");
         document.querySelector(".sp_archivo_menu_contenido").classList.toggle("selected");
 
@@ -51,6 +60,7 @@ window.addEventListener("load", function(){
      document.querySelector(".sp_btn_borrar").addEventListener("click", ()=>{
 
         borrarTodo();
+
         if(boton_pubicar.hasAttribute("enviar")){
             boton_pubicar.removeAttribute("enviar");
             document.querySelector(".sp_btn_archivo").classList.toggle("hide");
@@ -71,22 +81,22 @@ window.addEventListener("load", function(){
 
         if(boton_pubicar.hasAttribute("enviar")){
 
-            
+            //Envio de archivos
 
             var archivos_id = guardarArchivos();;
             var text_body = quill.root.innerHTML;
-            var text_title = document.getElementById("titulo");
-
-            document.querySelector('#inp_text').value = quill.root.innerHTML;
             
+            //Envio de publicacion
+
             const formData = new FormData();
-            formData.append('titulo', text_title);
+            formData.append('titulo', text_title.value);
             formData.append('cuerpo', text_body);
             formData.append('archivos_id', archivos_id);
-            formData.append('usuario_id', usuario_id);
-            formData.append('taller_id', taller_id);
+            formData.append('usuario_id', uid);
+            formData.append('taller_id', tid);
+            formData.append('alcance', tid);
 
-            fetch('http://192.168.1.51/BibliotecaKobun/public/publicacion/subir', { 
+            fetch(ref + "/publicacion/subir", { 
             method: 'POST',
             body: formData
             })
@@ -99,10 +109,11 @@ window.addEventListener("load", function(){
                 console.error('Error subiendo la publicacion', error);
                 alert('Error subiendo la publicacion, intente mas tarde.');
             });
-
+            
         }else{
 
             document.querySelector(".sp_btn_archivo").classList.toggle("hide");
+            document.querySelector(".sp_cuerpo").classList.toggle("hide");
             document.querySelector(".sp_cuerpo").classList.toggle("selected");
             
             document.querySelector(".sp_encabezado_texto").classList.toggle("hide");
@@ -120,15 +131,9 @@ window.addEventListener("load", function(){
 
     function cargarArchivo(id_carga){
         
-        
         switch(id_carga){
             case 'btn_imagen':
-                
-                inputs.forEach((input)=>{ if (input.id == "inp_imagen"){
-                    console.log(input);  
-                  input.click();
-                } })
-                    
+                inputs.forEach((input)=>{ if (input.id == "inp_imagen") input.click() })
                 break;
             case "btn_pdf":
                 inputs.forEach((input)=>{ if (input.id == "inp_pdf") input.click() })
@@ -189,24 +194,31 @@ window.addEventListener("load", function(){
             alert('Solo podés hasta 5 archivos o explota todo!');
         }
 
-
-        console.log("archivo cargado: ");
+        //console.log("archivo cargado: ");
         console.log(files);
 
     }
     function borrarTodo(){
 
         while(files.length > 0) {
-        files.pop();
+            files.pop();
         }
+
+        text_title.value = "";
+        quill.setText('');
+
+        lista_archivos.innerHTML = "";
+        
 
         
     }
 
     function guardarArchivos(){
 
+        var archivos_id = [];
+
         if(files.length < 1){
-            null;
+            return archivos_id;
         }
         
 
@@ -217,7 +229,7 @@ window.addEventListener("load", function(){
             formData.append('image_uploads', file);
             formData.append('titulo', file["name"]);
 
-            fetch('http://192.168.1.51/BibliotecaKobun/public/archivo/subir', { 
+            fetch( ref + '/archivo/subir', { 
             method: 'POST',
             body: formData
             })
@@ -233,15 +245,6 @@ window.addEventListener("load", function(){
 
             
         });
-
-        
-        
-
-            
-
-
-
-
             
             
         }

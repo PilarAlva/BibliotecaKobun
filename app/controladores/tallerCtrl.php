@@ -124,6 +124,10 @@
                     $data["publicaciones"] = $publicacionModel->obtenerPublicacionesPorTaller($taller_id);
                     $data["recursos"] = $publicacionModel->obtenerPublicacionesPorTaller($taller_id, 'recursos');
                     $data["libreta"] = $publicacionModel->obtenerPublicacionesLibretaPorTaller($taller_id, $_SESSION["usuario_id"] );
+                    $data["taller_id"] = $taller_id;
+                    $data["usuario_id"] = $_SESSION["usuario_id"];
+
+                    $publicacionModel->obtenerPublicacionesLibretaPorTaller($taller_id, $_SESSION["usuario_id"] );
 
                     $this->mostrarVista('talleres/taller/taller', $data, 'Taller');
                     break;

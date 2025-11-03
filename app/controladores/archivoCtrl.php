@@ -21,11 +21,20 @@ class ArchivoCtrl extends Controlador{
     }
 
 
-    public function archivo(){
+    public function subir(){
+
+        //TODO: Se debería hacer la comprobación de si en la sesion hay un usuario registrado.
+        //En este momento cualquiera que haga un post a este enlace puede guardar un archivo.
+
+        //Esto es para el error de cross origin
+        header("Access-Control-Allow-Origin: http://" . SERVER_IP . "");
+        header("Access-Control-Allow-Methods: POST, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type");
 
         $archivoDB = $this->cargarModelo('archivoBD');
 
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
 
             $carpetaDestino = '../almacenamiento/subidos/';
             $archivoDestino = $carpetaDestino . date('YmdHis') . '_' . $_POST['titulo'];
@@ -37,32 +46,46 @@ class ArchivoCtrl extends Controlador{
                 if($archivoDB->registrarArchivo($archivoDestino . '.' . $tipoImagen, $_POST['titulo'])){    
 
                         http_response_code(201);
-                        echo "Archivo " . htmlspecialchars( basename( $_POST['titulo'])) . " guardado.";
+                        $respuesta_data = [
+                                'status' => 'success',
+                                'message' => 'Archivo guardado exitosamente.',
+                                'data' => [
+                                    'id' => $archivoDB->ultimoId(),
+                                ]
+                            ];
 
                 }else{
                         http_response_code(500);
-                        echo "Error al guardar en la base de datos.";
                         unlink($archivoDestino);
+
+                        $respuesta_data = [
+                                'status' => 'error',
+                                'message' => 'No se pudo registrar el archivo.'
+                            ];
+
                 }
 
     
 
             }else{
                 http_response_code(500);
-                echo "No se pudo guardar";
+                 $respuesta_data = [
+                                'status' => 'error',
+                                'message' => 'No se pudo guardar el archivo.'
+                            ];
+                
             }
 
         }
 
-        //header('Location: ' . BASE_URL . 'archivo');
-       // exit();
-
-        //$this->mostrarVista('archivo', [], 'Archivo');
+        echo json_encode($respuesta_data);
+        
 
     }
 
+  
 
-    public function idArchivo($id){
+    public function descargar($id){
     
         $archivoDB = $this->cargarModelo('archivoBD');
 

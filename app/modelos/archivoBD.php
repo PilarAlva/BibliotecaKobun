@@ -5,10 +5,12 @@ require_once '../app/core/BaseDatos.php';
 class ArchivoBD {
 
     private $db;
+    private $ultimo_id;
 
     public function __construct() {
 
         $this->db = new BaseDatos();
+        $this->ultimo_id = -1;
 
     }
 
@@ -42,10 +44,25 @@ class ArchivoBD {
         $this->db->unir(':titulo', $titulo);    
         $this->db->unir(':referencia', $referencia);
         
+        
+        $this->ultimo_id = $this->obtenerUltimoId();
+
         return $this->db->ejecutar();   
+        
 
     }
+    private function obtenerUltimoId(){
+        $consulta = "SELECT LAST_INSERT_ID() AS ultimo_id";  
+                    
+        $this->db->consulta($consulta);
 
+        return $this->db->resultado();   
+
+    }
+    
+    public function ultimoId(){
+            return $this->ultimo_id;
+    }
     
     public function __destruct() {
         $this->db->cerrarConexion();

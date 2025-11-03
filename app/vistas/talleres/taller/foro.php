@@ -1,8 +1,10 @@
 <div>
 
      <?php
-            include '../app/vistas/componentes/subir_archivo.php'; 
+            $alcance = 'foro';
+            include '../app/vistas/talleres/componentes/subir_publicacion.php'; 
         
+
             if(isset($publicaciones))
             foreach($publicaciones as $indice => $publicacion){
         

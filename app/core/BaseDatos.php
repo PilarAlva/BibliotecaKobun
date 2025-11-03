@@ -88,6 +88,11 @@
             
 
         }
+        public function ultimoId(){
+
+            return $this->dbh->lastInsertId();
+
+        }
 
         public function cerrarConexion(){
     

@@ -21,11 +21,11 @@
 
     justify-content: space-between;
 
-    transition: min-height 0.3s cubic-bezier(1, 0, 0, 1);
+    transition: min-height 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .subir_publicacion.selected{
-    min-height: 12rem;
+    min-height: 14rem;
 }
 
 .sp_encabezado{
@@ -62,12 +62,18 @@
     font-size: 18px;
 }
 
-.sp__cuerpo { 
+.sp_cuerpo { 
 
+    border: none;
     display: none;
+    margin-top: 10px;
+    margin-bottom: 6px;
     opacity: 0;
-    transition: opacity, 0.2, ease_is;
+    background-color: rgb(255, 255, 255);
+    transition: opacity 0.5s ease-in-out;
+    
 }
+
 .sp_cuerpo #titulo{
 
     resize: none;
@@ -149,8 +155,6 @@
 .sp_cuerpo.selected {
 
     display: block;
-    margin-top: 10px;
-    margin-bottom: 6px;
     opacity: 1;
 
 }
