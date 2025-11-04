@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS Roles_Usuarios(
 
 CREATE TABLE IF NOT EXISTS Usuarios(
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	rol_id INT,
+	rol_id INT DEFAULT 1,
 	nombre VARCHAR(60) NOT NULL,
 	apellido VARCHAR(60) NOT NULL,
 	mail VARCHAR(100) NOT NULL UNIQUE,
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS Socios(
 	usuario_id INT DEFAULT 1,
 	telefono VARCHAR(60) NOT NULL,
 	dni VARCHAR(60) NOT NULL UNIQUE,
-	fecha_alta DATE NOT NULL,
+	fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	activo BOOLEAN DEFAULT TRUE,
 	fecha_nacimiento DATE,
 
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS Talleres_Usuarios(
 	activo BOOLEAN DEFAULT FALSE,
 	fecha_inscripcion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (taller_id, usuario_id),
-	FOREIGN KEY (taller_id) REFERENCES Talleres(id),
+	FOREIGN KEY (taller_id) REFERENCES Talleres(id) ON DELETE CASCADE,
 	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON DELETE CASCADE
 
 );
@@ -135,8 +135,8 @@ CREATE TABLE IF NOT EXISTS Talleres_Profesores(
 	taller_id INT NOT NULL,
 	usuario_id INT NOT NULL,
 	PRIMARY KEY (taller_id, usuario_id),
-	FOREIGN KEY (taller_id) REFERENCES Talleres(id),
-	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON DELETE CASCADE
+	FOREIGN KEY (taller_id) REFERENCES Talleres(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 /* Contenidos */
@@ -154,8 +154,8 @@ CREATE TABLE IF NOT EXISTS Publicaciones(
 	titulo TEXT NOT NULL,
 	cuerpo TEXT,
 
-	FOREIGN KEY (taller_id) REFERENCES Talleres(id),
-	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id)
+	FOREIGN KEY (taller_id) REFERENCES Talleres(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Publicaciones_Archivo( 
@@ -181,8 +181,8 @@ CREATE TABLE IF NOT EXISTS Prestamos(
 	INDEX (socio_id),
 	INDEX (ejemplar_id),
 
-	FOREIGN KEY (socio_id) REFERENCES Socios(id),
-	FOREIGN KEY (ejemplar_id) REFERENCES Ejemplares(id)
+	FOREIGN KEY (socio_id) REFERENCES Socios(id) ON UPDATE CASCADE,
+	FOREIGN KEY (ejemplar_id) REFERENCES Ejemplares(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Pagos(
