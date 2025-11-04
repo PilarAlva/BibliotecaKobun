@@ -16,7 +16,9 @@
 
         $estado = 'no_inscripto';
         
-        
+        $mis_talleres = [];
+
+
         switch($this->estadoUsuario()){
             case USUARIO::ALUMNO:
                 case USUARIO::PROFESOR:

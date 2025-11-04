@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+/*document.addEventListener("DOMContentLoaded", function() {
 
     console.log("cargado");
 
@@ -174,3 +174,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+*/

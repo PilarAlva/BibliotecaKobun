@@ -16,25 +16,29 @@ window.addEventListener("DOMContentLoaded", function() {
     console.log(section_mis_talleres);
     console.log(section_talleres_busqueda);
 
+    if(btn_mis_talleres && btn_talleres_busqueda){
 
         btn_mis_talleres.addEventListener('click', function() {
-
+    
             select(this);
             deselect(btn_talleres_busqueda);
             section_talleres_busqueda.setAttribute("hidden", "");
             section_mis_talleres.removeAttribute("hidden");
-
+    
         });
-
+    
         btn_talleres_busqueda.addEventListener('click', function() {
-
+    
             select(this);
             deselect(btn_mis_talleres);
              section_mis_talleres.setAttribute("hidden", "");
             section_talleres_busqueda.removeAttribute("hidden", "");
             
-
+    
         });
+        
+    }
+
 
     
 
