@@ -1,0 +1,106 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 2rem;
+    background-color: #fff;
+}
+
+.main-content {
+    max-width: 900px;
+    margin: auto;
+}
+
+.detalle-libro {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.portada img {
+    width: 160px;
+    height: 240px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.info-libro h1 {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.info-libro p {
+    margin: 0.3rem 0;
+}
+
+.disponible {
+    color: #4ca26d;
+    font-weight: bold;
+}
+
+.btn-prestamo {
+    background-color: #4ca26d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-prestamo:hover {
+    background-color: #3d8a5b;
+}
+
+.sinopsis {
+    margin-bottom: 2rem;
+}
+
+.sinopsis h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.existencias h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 0.7rem;
+    text-align: center;
+    vertical-align: middle;
+}
+
+th {
+    background-color: #f8f8f8;
+    font-weight: 600;
+}
+
+td img {
+    width: 32px;
+    height: 32px;
+}
+
+@media (max-width: 768px) {
+    .detalle-libro {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .info-libro {
+        margin-top: 1rem;
+    }
+}
