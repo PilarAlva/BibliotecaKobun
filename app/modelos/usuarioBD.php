@@ -38,7 +38,7 @@ class UsuarioBD {
 
     public function registrarUsuario($nombre, $apellido, $mail, $clave){
 
-        $consulta = "INSERT INTO usuarios (nombre, apellido, mail, password) VALUES (:nombre, :apellido, :mail, :clave)";
+        $consulta = "INSERT INTO usuarios (nombre, apellido, mail, clave) VALUES (:nombre, :apellido, :mail, :clave)";
 
         $this->db->consulta($consulta);
 

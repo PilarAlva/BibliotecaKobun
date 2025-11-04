@@ -3,7 +3,7 @@
 require_once '../app/bd/conexion.php';
 
 
-class prestamoBD {
+class talleresBD {
         
     private $con;
 
@@ -14,8 +14,9 @@ class prestamoBD {
 
     }
 
-    public function registrarPrestamo($socio_id, $ejemplar_id, $fecha_prestamo, $fecha_vencimiento) {
-        
+    /* Agregar las Consultas que faltaannn */
+
+    /* public function registrarPrestamo($socio_id, $ejemplar_id, $fecha_prestamo, $fecha_vencimiento) {
         $consulta = "INSERT INTO prestamos (socio_id, ejemplar_id, fecha_prestamo, fecha_vencimiento) 
                     VALUES (:socio_id, :ejemplar_id, :fecha_prestamo, :fecha_vencimiento )";
 
@@ -27,34 +28,10 @@ class prestamoBD {
         $sql->bindValue(':fecha_vencimiento', $fecha_vencimiento, PDO::PARAM_STR);
 
         return $sql->execute();
+    } */
 
-    }
-    
-    public function devolverPrestamo($prestamo_id) {
-        $consulta = "UPDATE prestamos 
-                    SET fecha_devolucion = NOW() 
-                    WHERE id = :prestamo_id AND fecha_devolucion IS NULL";
-
-        $sql = $this->con->prepare($consulta);
-
-        $sql->bindValue(':prestamo_id', $prestamo_id, PDO::PARAM_INT);
-
-        return $sql->execute();
-    }
-
-    public function cantPrestamosActivosPorSocio($socio_id) {
-        $consulta = "SELECT COUNT(*) AS total FROM prestamos 
-                    WHERE socio_id = :socio_id AND fecha_devolucion IS NULL";
-
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':socio_id', $socio_id, PDO::PARAM_INT);
-        
-        $sql->execute();
-
-        return $sql->fetch(PDO::FETCH_ASSOC);;
-    }
-
-    public function prestamosPorSocio($socio_id) {
+    /* Seguirr por acaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa */
+    public function talleresPorUsuario($usuario_id) {
         $consulta = "SELECT p.id, l.id as libro_id, p.ejemplar_id, p.fecha_prestamo, p.fecha_vencimiento, p.fecha_devolucion, l.titulo, CONCAT(a.nombre, ' ', a.apellido) AS nombre_completo, l.ref_portada AS portada
                         FROM prestamos p 
                             JOIN ejemplares e ON p.ejemplar_id = e.id
@@ -65,16 +42,14 @@ class prestamoBD {
                                 ORDER BY p.fecha_prestamo DESC;";
 
         $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':socio_id', $socio_id, PDO::PARAM_INT);
+        $sql->bindValue(': ... ', $usuario_id, PDO::PARAM_INT);
         
         $sql->execute();
 
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    
-    public function __destruct() {
-        $this->con = null;
-    }
 
 }
+
+?>

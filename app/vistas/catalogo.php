@@ -23,7 +23,7 @@
         <h3>Resultados de búsqueda</h3>
         <p>Cantidad de Resultados <?php echo $resultados ?></p>
     </div>
-
+    
     <div>
         <table class="tabla-libro">
             <tbody>
@@ -31,7 +31,11 @@
                 <tr>
                     <td id="numero"><?php echo $offset + $indice + 1;?>.</td>
                     <td class="imagen-libro">
-                        <img src="img/no.png" alt="...">
+                        <?php
+                            $portadaSrc = !empty($prestamo['portada']) ? 'img/portadas/' . htmlspecialchars($prestamo['portada']) : 'img/no.png';
+                        ?>
+                        <img src="<?php echo $portadaSrc; ?>" alt="Portada del libro <?php echo htmlspecialchars($prestamo['titulo']); ?>">    
+                        <!-- ARREGLAR LAS CONSULTAS PARA LA IMAGEN DINAMICAAAAAA -->
                     </td>
                     <td>
                         <div class="info-libro-contenedor">

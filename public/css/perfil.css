@@ -77,7 +77,12 @@
     background-color: var(--grey-color);
 }
 
-/* ------- Contenido que se Muestra ------- */
+
+
+
+
+
+/* ------------- Contenido que se Muestra ------------- */
 .contenido-perfil {
     padding: var(--padding-cont);
     flex: 1;
@@ -94,7 +99,7 @@
 }
 
 
-/* -------- Contenido en Común -------- */
+/* ------------- Contenido en Común ------------- */
 .boton-derecha {
     display: flex;
     justify-content: end;
@@ -113,6 +118,8 @@
 .sin-contenido {
     color: gray;
 }
+
+
 
 /* -------- Información Personal -------- */
 .tab-content#info-personal.active {
@@ -194,10 +201,50 @@
 
 /* -------- Préstamos -------- */
 
+.libro {
+    background-color: var(--grey-color);
+    border-radius: var(--borde-contenedor);
+    padding: var(--padding-cont);
+    margin-bottom: 20px;
+
+    display: flex;
+    align-items: stretch;
+}
+
+.imagen-libro-cont {
+    width: 30%;
+    max-width: 90px; 
+    flex-shrink: 0;
+    padding-right: 20px;
+}
+.imagen-libro-cont img {
+    width: 100%; 
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.info-libro-contenedor {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.msj-rojo {
+    color: var(--red-color);
+}
 
 
 /* -------- Talleres -------- */
+.taller {
 
+}
+.imagen-taller-cont {
+    
+}
 
 
 /* -------- Accesibilidad -------- */

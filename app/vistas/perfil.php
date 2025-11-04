@@ -86,28 +86,84 @@
 
                     <div>
                         <?php
-                            if (!$socio) {
-                                echo '<p class="sin-contenido">Para ver sus préstamos, primero debe asociarse.</p>';
-                            } elseif (empty($prestamos)) {
-                                echo '<p class="sin-contenido">No tiene préstamos activos.</p>';
-                            } else {
-                                // Aquí puedes iterar sobre los préstamos y mostrarlos
-                                // Ejemplo:
-                                // foreach ($prestamos as $prestamo) { ... }
-                            }
-                        ?>
-                        <div class="muestra-libro">
-                            <!-- ACA TE QUEDAAASTEEEEEE. DESARROLLÁ POR FUERA PARA VERLO, -->
-                        </div>
+                        if (!$socio) {
+                            echo '<p class="sin-contenido">Para pedir préstamos, primero debe asociarse a la biblioteca.</p>';
+                        } elseif (empty($prestamos)) {
+                            echo '<p class="sin-contenido">No tiene préstamos activos.</p>';
+                        } else {
+                            // Iteramos sobre cada préstamo para mostrarlo
+                            foreach ($prestamos as $prestamo) { ?>
+                                <div class="libro">
+                                    <div class="imagen-libro-cont">
+                                        <?php
+                                            $portadaSrc = !empty($prestamo['portada']) ? 'img/portadas/' . htmlspecialchars($prestamo['portada']) : 'img/no.png';
+                                        ?>
+                                        <img src="<?php echo $portadaSrc; ?>" alt="Portada del libro <?php echo htmlspecialchars($prestamo['titulo']); ?>">
+                                    </div>
+                                    <div class="info-libro-contenedor">
+                                        <div>
+                                            <a href="<?=BASE_URL?>libro/id/<?= $prestamo['libro_id']; ?>" class="info-libro-link">
+                                                <h4 class="titulo-libro"><?php echo htmlspecialchars($prestamo['titulo']); ?></h4>
+                                                <p class="autor-libro">Por <?php echo htmlspecialchars($prestamo['nombre_completo']); ?></p>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <?php if ($prestamo['fecha_devolucion']): ?>
+                                                <p class="devuelto">Devuelto el: <?php echo date("d/m/Y", strtotime($prestamo['fecha_devolucion'])); ?></p>
+                                            <?php else: ?>
+                                                <?php if ($prestamo['fecha_vencimiento'] < date('Y-m-d')): ?>
+                                                    <p class="msj-rojo">Reservado hasta: <?php echo date("d/m/Y", strtotime($prestamo['fecha_vencimiento'])); ?></p>
+                                                <?php else: ?>
+                                                    <p>Reservado hasta: <?php echo date("d/m/Y", strtotime($prestamo['fecha_vencimiento'])); ?></p>                                                
+                                                <?php endif; ?>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                        <?php } // Fin del foreach
+                        } // Fin del else ?>
                     </div>
-
                 </div>
 
                 <!-- Contenido para "Talleres" -->
                 <div id="talleres" class="tab-content">
                     <h3>Mis Talleres</h3>
-                    
-                    <p>Aquí se mostrarán los talleres en los que estás inscrito.</p>
+                    <!-- CAMBIAR LOS VALOREEESSS PARA QUE TENGAN LAS CONSULTAS CORRESPONDIENTES PARA LOS TALLERES -->
+                    <div>
+                        <?php
+                            if (empty($talleres)) {
+                                echo '<p class="sin-contenido">No participa de ningún taller.</p>';
+                            } else {
+                                // Iteracion sobre cada taller
+                                foreach ($talleres as $taller) { ?>
+                                    <div class="taller">
+                                        <div class="imagen-taller-cont">
+                                            <?php
+                                                $portadaSrc = !empty($prestamo['portada']) ? 'img/portadas/' . htmlspecialchars($prestamo['portada']) : 'img/no.png';
+                                            ?>
+                                            <img src="<?php echo $portadaSrc; ?>" alt="Portada del libro <?php echo htmlspecialchars($prestamo['titulo']); ?>">
+                                        </div>
+                                        <div class="info-libro-contenedor">
+                                            <div>
+                                                <a href="<?=BASE_URL?>libro/id/<?= $prestamo['libro_id']; ?>" class="info-libro-link">
+                                                    <h4 class="titulo-libro"><?php echo htmlspecialchars($prestamo['titulo']); ?></h4>
+                                                    <p class="autor-libro">Por <?php echo htmlspecialchars($prestamo['nombre_completo']); ?></p>
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <?php if ($prestamo['fecha_devolucion']): ?>
+                                                    <p class="devuelto">Devuelto el: <?php echo date("d/m/Y", strtotime($prestamo['fecha_devolucion'])); ?></p>
+                                                <?php else: ?>
+                                                    <p>Reservado hasta: <?php echo date("d/m/Y", strtotime($prestamo['fecha_vencimiento'])); ?></p>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } // Fin del foreach
+                            }
+                        ?>
+                    </div>
+
                 </div>
 
                 <!-- Contenido para "Accesibilidad" -->
@@ -115,6 +171,7 @@
                     <h3>Opciones de Accesibilidad</h3>
                     <p>Aquí podrás configurar las opciones de accesibilidad del sitio.</p>
                 </div>
+
             </div>
 
         </div>

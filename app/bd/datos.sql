@@ -10,10 +10,10 @@ INSERT INTO Roles_Usuarios (tipo) VALUES
 -- Usuarios
 INSERT INTO Usuarios (rol_id, nombre, apellido, mail, clave, img_perfil) VALUES
 (1, 'Lucía', 'Paredes', 'lucia.paredes@kobun.org', '123456', 'lucia.jpg'),
-(1, 'Carlos', 'Benítez', 'carlos.benitez@kobun.org', '123456', 'carlos.jpg'),
-(2, 'Mariana', 'Suárez', 'mariana.suarez@kobun.org', '123456', 'mariana.jpg'),
-(2, 'Diego', 'Rossi', 'diego.rossi@kobun.org', '123456', 'diego.jpg'),
-(2, 'Elena', 'Martínez', 'elena.martinez@kobun.org', '123456', 'elena.jpg');
+(1, 'Carlos', 'Benítez', 'carlos.benitez@kobun.org', '654321', 'carlos.jpg'),
+(2, 'Mariana', 'Suárez', 'mariana.suarez@kobun.org', '112233', 'mariana.jpg'),
+(2, 'Diego', 'Rossi', 'diego.rossi@kobun.org', '445566', 'diego.jpg'),
+(2, 'Elena', 'Martínez', 'elena.martinez@kobun.org', '778899', 'elena.jpg');
 
 -- Socios (solo algunos usuarios)
 INSERT INTO Socios (usuario_id, telefono, dni, fecha_alta, activo, fecha_nacimiento) VALUES

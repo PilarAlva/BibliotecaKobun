@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS Usuarios(
 	apellido VARCHAR(60) NOT NULL,
 	mail VARCHAR(100) NOT NULL UNIQUE,
 	clave CHAR(255) NOT NULL,
+	img_perfil VARCHAR(150),
 
 	FOREIGN KEY (rol_id) 
 	REFERENCES Roles_Usuarios(id)

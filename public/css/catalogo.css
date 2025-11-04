@@ -1,6 +1,3 @@
-/* :root {
-    --grey-color: #d6d4d4;
-} */
 
 .buscador {
     display: flex;
@@ -44,7 +41,7 @@
     padding: 10px 15px;
     color: var(--accent-color);
     font-family: var(--font-main);
-    flex-grow: 1; /* ¡Esta es la clave! El input crecerá para llenar el espacio */
+    flex-grow: 1;
 }
 
 .boton-busqueda {
@@ -71,13 +68,13 @@
 
 .tabla-libro {
     margin-bottom: 20px;
-    border-collapse: separate; /* Necesario para que border-spacing funcione */
-    border-spacing: 0 20px;  /* 0 horizontal, 15px vertical */
+    border-collapse: separate;
+    border-spacing: 0 20px; 
 }
 
 .tabla-libro td {
-    vertical-align: top; /* Alinea el contenido de todas las celdas arriba */
-    height: 1px; /* Truco para que la celda se estire con su contenido flex */
+    vertical-align: top;
+    height: 1px;
 }
 
 #numero {
@@ -162,7 +159,7 @@
     margin: 0;
     display: flex;
     align-items: center;
-    gap: 5px; /* Espacio entre los botones */
+    gap: 5px;
 }
 
 .paginacion li a {
@@ -175,7 +172,7 @@
     font-size: small;
     transition: all 0.3s ease;
     text-align: center;
-    min-width: 40px; /* Asegura que los números tengan un ancho consistente */
+    min-width: 40px; /* Ancho consistente */
 }
 
 .paginacion li a:hover {

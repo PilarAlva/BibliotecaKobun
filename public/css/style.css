@@ -10,8 +10,9 @@
     --bt-color: #6fa47a;
     --bg-color: #f2f1eb; 
     --grey-color: #d6d4d4;
+    --red-color: #c60f11;
     --font-main: 'Poppins', sans-serif;
-/*     --font-headings: 'Montserrat', sans-serif; */
+    --borde-contenedor: 20px;/*     --font-headings: 'Montserrat', sans-serif; */
 }
 
 * {
