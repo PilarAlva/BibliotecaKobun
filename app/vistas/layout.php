@@ -16,6 +16,10 @@
     <link rel="stylesheet" href="css/subir_archivo.css">
     <link rel="stylesheet" href="css/talleres.css">
 
+    <?php if (isset($cssEspecifico) && !empty($cssEspecifico)): ?>
+        <link rel="stylesheet" href="css/<?php echo htmlspecialchars($cssEspecifico); ?>">
+    <?php endif; ?>
+
 
 
     <title> <?= $titulo; ?></title>

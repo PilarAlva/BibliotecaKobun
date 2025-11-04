@@ -85,9 +85,10 @@ class libroCtrl extends Controlador{
         $ejemplares = $libroModel->ejemplaresTotales($libro_id);
 
         $data = [
+            "es_socio" => $this->esSocio($this->usuarioRegistrado()),
             "libro" => $libro,
-            "ejemplares" => $ejemplares
-            
+            "ejemplares" => $ejemplares,
+            'cssEspecifico' => 'libro.css'
         ];
 
         $this->mostrarVista('Libro', $data, $libro['titulo']);
@@ -96,6 +97,14 @@ class libroCtrl extends Controlador{
 
 
     //Funciones utilitarias
+
+    private function esSocio($usuario_id){  
+        
+        $socioModel = $this->cargarModelo("socioBD");
+
+        return $socioModel->obtenerSocioPorId($usuario_id);
+
+    }
 
     private function quePaginasMostrar($pagina, $cantidad_paginas){
 

@@ -41,7 +41,8 @@ class Controlador{
     protected function usuarioRegistrado(){
 
         //Me gustaría que acá haga más comprobaciones
-        return isset($_SESSION['usuario_id']);
+        return isset($_SESSION['usuario_id']) ? $_SESSION['usuario_id'] : 0;
+
     }
     protected function estadoUsuario(){
         if(isset($_SESSION['usuario_id']))
