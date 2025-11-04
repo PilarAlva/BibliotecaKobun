@@ -127,18 +127,15 @@ class socioBD {
         return $this->db->resultado();
     }
 
-
+    //Devuelve los dias desde el útltimo pago de un socio
     public function deudasPagos($socio_id) {
-        $consulta = "SELECT COUNT(*) AS total_deudas 
-                    FROM pagos 
-                    WHERE socio_id = :socio_id 
-                    AND fecha_devolucion IS NULL 
-                    AND fecha_vencimiento < NOW()";
+        $consulta = "SELECT 
+                    DATEDIFF(CURRENT_DATE,
+                    (SELECT MAX(fecha) FROM PAGOS
+		            WHERE socio_id = :socio_id)) as dias_atraso";
 
         $this->db->consulta($consulta);
         $this->db->unir(':socio_id', $socio_id);
-
-        $this->db->ejecutar();
 
         return $this->db->resultado();
     }
