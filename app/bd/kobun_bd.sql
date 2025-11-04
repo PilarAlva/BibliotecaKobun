@@ -149,7 +149,7 @@ CREATE TABLE IF NOT EXISTS Publicaciones(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	taller_id INT NOT NULL,
 	usuario_id INT NOT NULL,
-	alcance ENUM('foro', 'libreta', 'recurso','privado') NOT NULL DEFAULT 'foro';
+	alcance ENUM('foro', 'libreta', 'recurso','privado') NOT NULL DEFAULT 'foro',
 	fecha_publicacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	titulo TEXT NOT NULL,
 	cuerpo TEXT,

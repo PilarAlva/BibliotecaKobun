@@ -1,11 +1,4 @@
 
-<?php if($accion_publicacion == 'editar'):?>
-
-    <?php 
-        include '../app/vistas/talleres/componentes/subir_publicacion.php'; 
-        ?>
-
-<?php else:?>
 
 <div class="taller_publicacion">
 
@@ -40,7 +33,7 @@
 
                             <span>|</span>
                             
-                            <form class="t-p_acciones_form" method="POST" action="<?php echo BASE_URL . 'taller/id/' . $taller_id  ?>">
+                            <form class="t-p_acciones_form" method="POST" action="<?php echo BASE_URL . 'publicacion/editar/';?>">
                                 <input type="hidden" name="accion" value="editar"/> 
                                 <input type="hidden" name="id" value="<?php echo $publicacion["id"]?>"/> 
                                 <input type="hidden" name="usuario_id" value="<?php echo $publicacion["usuario_id"]?>"/> 
@@ -96,5 +89,3 @@
             </div>
 
 </div>
-
-<?php endif?>

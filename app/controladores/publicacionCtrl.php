@@ -17,13 +17,27 @@
 
             $respuesta_data = [""];
 
+            //ESTO ESTÁ BASTANTE FEO
             switch($metodo){
                 case 'POST':
-                    if(isset($_POST['accion']) && $_POST['accion'] == 'borrar'){
-                        $respuesta_data = $this->borrar();
-                    }else{
-                        $respuesta_data = $this->registrar();
-                    }
+
+                    $accion = $_POST['accion'];
+                    switch($accion){
+                        case 'editar':
+                            $respuesta_data = $this->editar();
+                            break;
+                        case 'borrar':
+                            $respuesta_data = $this->borrar();
+                            break;
+                        case 'subir':
+                            $respuesta_data = $this->registrar();
+                            break;
+                        case 'subir_edicion':
+                            $respuesta_data = $this->subirEdicion();
+                            break;
+                        default:
+                            break;
+                        }
                     break;
                     case 'GET':
                     http_response_code(200);
@@ -34,10 +48,15 @@
                     break;
                     case 'DELETE':
                         http_response_code(200);
-                    $respuesta_data = [
+                        $respuesta_data = [
                         'status' => 'success',
                         'message' => 'Invalido delete'
                     ];
+                    break;
+                    case 'UPDATE':
+                        $publicacionModelo = $this->cargarModelo('publicacionBD');
+                        $resultado = $publicacionModelo->actualizarPublicacion();
+                        http_response_code(200);
                     break;
                 default:
                 http_response_code(501);
@@ -158,9 +177,42 @@
 
             }
 
-            
 
-            
+        }
+
+        public function editar(){
+            $publicacionDB = $this->cargarModelo('publicacionBD');
+
+            if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+                $publicacion = $publicacionDB->obtenerPublicacionPorId($_POST['id']);
+
+                $data = [
+                    'publicacion' => $publicacion,
+                    'usuario_id' => $_POST["usuario_id"],
+    
+                ];
+
+            }
+
+            $this->mostrarVista('publicaciones/editar', $data, 'Editar Publicacion');
+
+
+        }
+        public function subirEdicion(){
+
+            $publicacionDB = $this->cargarModelo('publicacionBD');
+
+            $taller_id = $_POST['taller_id'];
+            $publicacion_id = $_POST['publicacion_id'];
+            $usuario_id = $_POST['usuario_id'];
+            $titulo = $_POST['titulo'];
+            $cuerpo = $_POST['cuerpo'];
+            $archivos_id = $_POST['archivos_id'];
+
+            $resutlado = $publicacionDB->actualizarPublicacion($publicacion_id, $taller_id, $usuario_id, $titulo, $cuerpo, $archivos_id);
+
+            $resultado = FALSE;
 
         }
     

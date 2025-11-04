@@ -1,11 +1,20 @@
-<link href="css/style.css" rel="stylesheet" />
-<link href="css/reset.css" rel="stylesheet" />
-<link href="css/subir_publicacion.css" rel="stylesheet" />
+<header class="header">
+        <?php
+            include '../app/vistas/componentes/header.php'; 
+        ?>
+    </header>
+    
+    <main class="main-content">
 
-<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+        <link href="css/reset.css" rel="stylesheet" />
+       
+        <link href="css/style.css" rel="stylesheet" />
+        <link href="css/subir_publicacion.css" rel="stylesheet" />
 
-<script src="js/subir_publicacion.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+        <script src="js/subir_publicacion.js"></script>
 
 
     
@@ -17,16 +26,16 @@
         data-alcance="<?php echo $alcance?>"        
         >
         
-        <div class="sp_encabezado">
+        <div class="sp_encabezado ">
 
                 <img class="sp_foto_perfil" src="img/no.png"/>
                 
                 <div class="sp_encabezado_info">
 
-                    <span class="sp_encabezado_texto">
+                    <span class="sp_encabezado_texto hide">
                         Publicar en foro
                     </span>
-                    <span class="sp_encabezado_texto_usuario hide">
+                    <span class="sp_encabezado_texto_usuario">
 
                         <?php echo $_SESSION['usuario_nombre'] .
                         ' ' . $_SESSION['usuario_apellido']?>
@@ -36,24 +45,49 @@
                     <span class="sp_fecha_pub">
                         
                     </span>
-                </div>
 
-                <div class="sp_btn_borrar hide">
-                    X
+                    <div class="sp_btn_borrar hide">
+                    
+                    </div>
                 </div>
 
         </div>
 
-        <div class="sp_cuerpo hide">
+        <div class="sp_cuerpo selected">
             <textarea Rows= 1
              autocapitalize="true"
              id="titulo"
-            placeholder="Agrega un asunto"
-             ></textarea>
-            <div id="editor"></div>
+             placeholder="Agrega un asunto"><?php echo $publicacion["titulo"]; ?>
+            </textarea>
+
+            <div id="editor">
+                <?php echo $publicacion["cuerpo"]; ?>
+            </div>
+
         </div>
 
         <div class="sp_archivos"> 
+            <?php
+
+
+                if(isset($publicacion["archivos_titulos"])){
+                    $archivos = explode(',', $publicacion['archivos_titulos']);
+                    $archivos_id = explode(',', $publicacion['archivos_id']);
+                    
+                    foreach($archivos as $archivo){
+
+                    ?>
+                    <div class="sp_archivo">
+                        <span class="sp_archivo_borrar">x</span>
+                        <span class="a_n"><?php echo $archivo ?><span>
+                    </div>
+
+                    <?php
+                
+
+                }}
+            
+            ?>
             
         </div>   
             
@@ -81,11 +115,12 @@
               
             </div>
 
-            <div class="sp_btn_publicar">
+            <div editar=<?php echo $publicacion["id"]; ?> class="sp_btn_publicar selected">
                 <span>
-                    PUBLICAR
+                    EDITAR
                 </span>
             </div>
+            
         </div>
 
         <div style="display: none">
@@ -112,3 +147,14 @@
         
 
     </div>
+
+
+
+    </main>
+
+    <footer>
+        <?php
+            include '../app/vistas/componentes/footer.php';
+        ?>
+
+</footer>

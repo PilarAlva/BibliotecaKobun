@@ -128,6 +128,34 @@ class PublicacionBD extends Modelo{
 
     }
     
+    public function actualizarPublicacion($publicacion_id, $taller_id, $usuario_id, $titulo, $cuerpo, $archivos_id = []){
+
+        if(isset($archivos_id)){
+
+            $this->borrarArchivosPorPublicacion($publicacion_id);
+
+            $array_id = explode(',', $archivos_id);
+
+            foreach($array_id as $archivo_id){  
+                $this->registrarPublicacionArchivo($publicacion_id, $archivo_id);
+            }
+            
+        }
+
+        $consulta = "UPDATE publicaciones SET taller_id = :taller_id, usuario_id = :usuario_id,
+                            titulo = :titulo, cuerpo = :cuerpo 
+                            WHERE id = :publicacion_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':publicacion_id', $publicacion_id);   
+        $this->db->unir(':taller_id', $taller_id);
+        $this->db->unir(':usuario_id', $usuario_id);
+        $this->db->unir(':titulo', $titulo);
+        $this->db->unir(':cuerpo', $cuerpo);
+
+        return $this->db->ejecutar();
+
+    }
 
 
     public function registrarPublicacionArchivo($publicacion_id, $archivo_id){  

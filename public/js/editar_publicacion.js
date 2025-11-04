@@ -58,25 +58,7 @@ window.addEventListener("load", function(){
 
      });
 
-     document.querySelector(".sp_btn_borrar").addEventListener("click", ()=>{
-
-        borrarTodo();
-
-        if(boton_pubicar.hasAttribute("enviar")){
-            boton_pubicar.removeAttribute("enviar");
-            document.querySelector(".sp_btn_archivo").classList.toggle("hide");
-            document.querySelector(".sp_cuerpo").classList.toggle("selected");
-            
-            document.querySelector(".sp_encabezado_texto").classList.toggle("hide");
-            document.querySelector(".sp_encabezado_texto_usuario").classList.toggle("hide");
-            document.querySelector(".sp_btn_borrar").classList.toggle("hide");
-    
-    
-            boton_pubicar.classList.toggle("selected");
-            sp_publicacion.classList.toggle("selected");
-        }
-
-     });
+ 
 
     boton_pubicar.addEventListener("click", async (e)=>{
 

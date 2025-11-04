@@ -19,6 +19,8 @@ $rutas = [
 
     'publicacion' => ['controlador' => 'publicacionCtrl', 'metodo' => 'index'],
 
+    'publicacion/editar' => ['controlador' => 'publicacionCtrl', 'metodo' => 'editar'],
+
     'libro/prestamo' => ['controlador' => 'prestamoCtrl', 'metodo' => 'prestamo'],
     
     'sesion' => ['controlador' => 'SesionCtrl', 'metodo' => 'index'],

@@ -1,6 +1,6 @@
 window.addEventListener("load", function(){
 
-    const sp_publicacion = document.getElementById("id-sp-publicar");
+    const sp_publicacion = document.querySelector("subir_publicacion");
     
     const boton_pubicar = document.querySelector(".sp_btn_publicar");
 
@@ -32,7 +32,6 @@ window.addEventListener("load", function(){
         },
         theme: 'snow',
     });
-    
 
     inputs.forEach((input) =>{
         
@@ -97,7 +96,7 @@ window.addEventListener("load", function(){
             formData.append('usuario_id', uid);
             formData.append('taller_id', tid);
             formData.append('alcance', alcance);
-            formData.append('accion', accion);
+            formData.append('accion', "subir");
 
             fetch(ref + "publicacion", { 
             method: 'POST',
@@ -113,6 +112,39 @@ window.addEventListener("load", function(){
                 alert('Error subiendo la publicacion, intente mas tarde.');
             });
             
+        }else if(boton_pubicar.hasAttribute("editar")){
+ 
+            //Envio de archivos
+
+            var archivos_id = await guardarArchivos();
+            var text_body = quill.root.innerHTML;
+            
+            //Envio de publicacion
+
+            const formData = new FormData();
+            formData.append('titulo', text_title.value);
+            formData.append('cuerpo', text_body);
+            formData.append('archivos_id', archivos_id);
+            formData.append('usuario_id', uid);
+            formData.append('taller_id', tid);
+            formData.append('publicacion_id', boton_pubicar.getAttribute("editar"));
+            formData.append('alcance', alcance);
+            formData.append('accion', 'subir_edicion');
+
+            fetch(ref + "publicacion", { 
+            method: 'POST',
+            body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+                console.log(result); 
+                alert('Publicacion subida');
+            })
+            .catch(error => {
+                console.error('Error subiendo la publicacion', error);
+                alert('Error subiendo la publicacion, intente mas tarde.');
+            });
+
         }else{
 
             document.querySelector(".sp_btn_archivo").classList.toggle("hide");
