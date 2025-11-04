@@ -12,22 +12,25 @@
     --font-main: 'Poppins', sans-serif;
     --bg-color-2: #F2F1EB;
 /*     --font-headings: 'Montserrat', sans-serif; */
+
     /*Varaibles para talleres*/
-    --gris-1: oklch(80.181% 0.00148 285.446);
-    --gris-2: oklch(.928 .006 264.531);
+    --gris-1: oklch(78.377% 0.01976 285.877);
+    --gris-2: oklch(58.544% 0.01646 264.475);
 
-    --gris-texto: oklch(32.747% 0.01201 258.416);
+    --gris-texto: oklch(28.758% 0.01241 258.413);
 
-    --btn-subir: oklch(.278 .033 256.848);
+    --btn-subir: oklch(55.542% 0.19656 1.567);
     --btn-subir-hover: oklch(36.897% 0.03658 259.493);
 
     --btn-borrar: oklch(0.8 0.1 30);
-    --btn-borrar-hover: oklch(0.7 0.1 30);
+    --btn-borrar-hover: okSlch(0.7 0.1 30);
     --sa-cuerpo: oklch(93.1% 0.00011 271.152);
 
     --gris-1: #b0bdc2;
     --redondeo: 0.5rem;
-    --redondeo-btn: 0.25rem;
+    --redondeo-btn: 1.5rem;
+    --redondeo-taller: 1.5rem;
+
 
 }
 

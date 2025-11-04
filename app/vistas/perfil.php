@@ -26,7 +26,8 @@
         <p> Teléfono: <?php echo $socio["telefono"]; ?> </p>
         <p> DNI: <?php echo $socio["dni"]; ?> </p>
     
-                
+        <?php endif; ?>        
+
         <div id="paymentBrick_container">
             </div>
             <script>
@@ -107,7 +108,7 @@
             </script>
 
    
-        <?php endif; ?>
+        
 
 </main>
 

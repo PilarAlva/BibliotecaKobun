@@ -83,7 +83,7 @@
 
             <div class="sp_btn_publicar">
                 <span>
-                    PUBLICAR
+                    SUB
                 </span>
             </div>
         </div>

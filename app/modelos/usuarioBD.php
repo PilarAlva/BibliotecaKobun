@@ -90,9 +90,9 @@ class UsuarioBD {
         $this->db->unir("mail", $mail);
         $this->db->unir("clave", $clave);
 
-        $this->db->ejecutar();
+        
 
-        return $this->db->resultado();
+        return $this->db->ejecutar();
 
     }
     public function registrarProfesor(){

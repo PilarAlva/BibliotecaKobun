@@ -24,9 +24,9 @@
                     $nombre = trim($_POST['nombre']);
                     $apellido =trim($_POST['apellido']);
                     $mail =trim($_POST['mail']);
-                    $clave = password_hash(trim($_POST['contraseña']), PASSWORD_DEFAULT);
+                    $clave = password_hash(trim($_POST['clave']), PASSWORD_DEFAULT);
 
-                    $msj = $this->registrarUsuario($nombre, $apellido, $mail, $contraseña);
+                    $msj = $this->registrarUsuario($nombre, $apellido, $mail, $clave);
 
                     break;
                 default:
@@ -96,7 +96,7 @@
             $usuario = $usuarioModel->obtenerUsuarioPorMail($mail);
 
             if ($usuario) {
-                if (password_verify($clave, $usuario['password'])) {
+                if (password_verify($clave, $usuario['clave'])) {
                     $_SESSION['usuario_mail'] = $mail;
                     $_SESSION['usuario_nombre'] = $usuario['nombre'];
                     $_SESSION['usuario_apellido'] = $usuario['apellido'];

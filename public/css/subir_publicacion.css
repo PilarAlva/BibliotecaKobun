@@ -2,7 +2,7 @@
 .subir_publicacion{
     
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
     margin: 1rem ;
     padding: 16px;
@@ -10,15 +10,19 @@
     min-height: 8rem;
     
     border-radius: var(--redondeo);
-    border: 1px solid black;
+    
     background-color: white;
 
     justify-content: space-between;
 
     transition: min-height 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+
+
 }
 
 .subir_publicacion.selected{
+    
+    flex-direction: column;
     min-height: 14rem;
 }
 

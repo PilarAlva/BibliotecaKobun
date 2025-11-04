@@ -48,7 +48,10 @@
             }
             ?>
 
-            <?php if (isset($_SESSION['usuario_id'])) { ?>
+            
+            <?php 
+            //TODO: Arreglar esto
+            if (isset($_SESSION['usuario_id']) && $_SESSION['usuario_rol'] == 1) { ?>
 
             <form method="POST" action="<?php BASE_URL?>libro/prestamo">
                 <input type="hidden" name="libro_id" value="<?php echo $libro["id"]?>">
@@ -57,7 +60,7 @@
             </form>
 
             <?php } else { ?>
-                <p>Para solicitar un préstamo ser socio <a href="<?php BASE_URL?>sesion">iniciar sesión</a></p>
+                <p>Para solicitar un debe estar registrado <a href="<?php BASE_URL?>sesion">iniciar sesión</a></p>
             <?php } ?>
 
             </ul>

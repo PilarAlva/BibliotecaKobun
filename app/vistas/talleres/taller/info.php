@@ -24,18 +24,24 @@
             <?php if (isset($_SESSION['usuario_id'])) { ?>
 
             <?php echo $estado; ?>
+
             <form method="POST" action="<?php BASE_URL?>taller/ins">
+
                 <input type="hidden" name="taller_id" value="<?php echo $taller["taller_id"]?>">
                 <input type="hidden" name="usuario_id" value="<?php echo $_SESSION['usuario_id'] ?>">
+
                 <?php if ($estado == 'inscripto'):?> 
                     <button type="submit" class="destacado">Ir al taller</button>
                 <?php endif;?>
+            
                 <?php if ($estado == 'no_inscripto'):?> 
                     <button type="submit" class="destacado">Inscribirse</button>
                 <?php endif;?>
+
                 <?php if ($estado == 'en_espera'):?> 
                     <button type="submit" class="destacado">En cola!</button>
                 <?php endif;?>
+                
             </form>
 
             <?php } else { ?>

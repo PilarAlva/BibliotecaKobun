@@ -6,7 +6,15 @@
 
     <table class="tabla-libro">
         <tbody>
-            <?php foreach ($mis_talleres as $indice => $taller) { ?>
+            <?php 
+            if(count($mis_talleres) == 0){ ?>
+
+                <h2>No está inscripo a ningún taller<h2>
+               
+            <?php }else{
+
+            
+            foreach ($mis_talleres as $indice => $taller) { ?>
             <tr>
                 <td id="numero"><?php echo $indice + 1 ?>.</td>
                 <td class="imagen-libro">
@@ -35,7 +43,7 @@
                     
                 </td>
             </tr>
-            <?php } ?>
+            <?php } }?>
         </tbody>
     </table>            
 

@@ -128,8 +128,10 @@ class PublicacionBD extends Modelo{
 
     }
     
-    public function actualizarPublicacion($publicacion_id, $taller_id, $usuario_id, $titulo, $cuerpo, $archivos_id = []){
+    public function actualizarPublicacion($publicacion_id, $titulo, $cuerpo, $archivos_id = []){
 
+        /*
+        
         if(isset($archivos_id)){
 
             $this->borrarArchivosPorPublicacion($publicacion_id);
@@ -142,18 +144,18 @@ class PublicacionBD extends Modelo{
             
         }
 
-        $consulta = "UPDATE publicaciones SET taller_id = :taller_id, usuario_id = :usuario_id,
-                            titulo = :titulo, cuerpo = :cuerpo 
-                            WHERE id = :publicacion_id";
+         */
+        $consulta = "UPDATE publicaciones 
+                    SET titulo = :titulo, cuerpo = :cuerpo 
+                    WHERE id = :publicacion_id";
 
         $this->db->consulta($consulta);
         $this->db->unir(':publicacion_id', $publicacion_id);   
-        $this->db->unir(':taller_id', $taller_id);
-        $this->db->unir(':usuario_id', $usuario_id);
         $this->db->unir(':titulo', $titulo);
         $this->db->unir(':cuerpo', $cuerpo);
 
         return $this->db->ejecutar();
+        
 
     }
 

@@ -1,6 +1,6 @@
 window.addEventListener("load", function(){
 
-    const sp_publicacion = document.querySelector("subir_publicacion");
+    const sp_publicacion = document.querySelector(".subir_publicacion");
     
     const boton_pubicar = document.querySelector(".sp_btn_publicar");
 

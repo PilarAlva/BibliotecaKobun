@@ -152,7 +152,7 @@
         }
 
         public function inscripcion($taller_id = 0){
-            
+        
 
             if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
@@ -160,6 +160,7 @@
                 return;
             }
 
+            //CHEQUEA SI QUE EL TALLER SEA VALIDO
             if($taller_id == 0){
 
                 header('Location: ' . BASE_URL );
@@ -172,7 +173,6 @@
             $accion = 'error';
 
             if($this->existeTaller($taller_id)){
-
 
                 if($this->estaElUsuarioInscripto($taller_id)){
                     

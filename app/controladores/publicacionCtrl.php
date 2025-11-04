@@ -181,6 +181,7 @@
         }
 
         public function editar(){
+
             $publicacionDB = $this->cargarModelo('publicacionBD');
 
             if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -188,12 +189,13 @@
                 $publicacion = $publicacionDB->obtenerPublicacionPorId($_POST['id']);
 
                 $data = [
-                    'publicacion' => $publicacion,
-                    'usuario_id' => $_POST["usuario_id"],
+
+                    'publicacion' => $publicacion
     
                 ];
 
             }
+           
 
             $this->mostrarVista('publicaciones/editar', $data, 'Editar Publicacion');
 
@@ -210,9 +212,11 @@
             $cuerpo = $_POST['cuerpo'];
             $archivos_id = $_POST['archivos_id'];
 
-            $resutlado = $publicacionDB->actualizarPublicacion($publicacion_id, $taller_id, $usuario_id, $titulo, $cuerpo, $archivos_id);
+            $resutlado = $publicacionDB->actualizarPublicacion($publicacion_id, $titulo, $cuerpo, $archivos_id);
 
-            $resultado = FALSE;
+            if($resutlado){
+                http_response_code(200);
+            }
 
         }
     

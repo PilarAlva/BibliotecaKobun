@@ -11,21 +11,17 @@
             
             if (!($_SERVER['REQUEST_METHOD'] == "POST")) {
             
-            header('Location: ' . BASE_URL );
+                header('Location: ' . BASE_URL );
             
             }
             
             if(!isset($_SESSION['usuario_id'])){
             
-            header('Location: ' . BASE_URL . '/libro/id' . $_POST['libro_id']);
+                header('Location: ' . BASE_URL . '/libro/id' . $_POST['libro_id']);
             
             }
 
-
             $estado = $this->registrarPrestamoPorIdUsuario($_POST['usuario_id'], $_POST['libro_id'], date('Y-m-d'));
-
-
-            
 
             header('Location: ' . BASE_URL . 'libro/id/' . $_POST['libro_id'] . '?estado=' . urlencode(serialize($estado)) );
 

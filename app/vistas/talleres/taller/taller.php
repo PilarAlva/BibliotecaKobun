@@ -26,7 +26,8 @@
     </div>
     
     
-    <div class="taller_contenido">
+    <div class="taller_cuerpo">
+
         <div id="taller_section_foro">
             <?php include '../app/vistas/talleres/taller/foro.php' ?>
         </div>
@@ -37,11 +38,7 @@
 
         <div id="taller_section_libreta" hidden>
             <?php include '../app/vistas/talleres/taller/libreta.php' ?>
-        </div>
-        
-        
-        
-        
+        </div>      
         
     <div>
             

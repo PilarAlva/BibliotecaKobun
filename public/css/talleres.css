@@ -1,11 +1,11 @@
 .talleres__encabezado{
 
     display: flex;
+    width: 100%;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     
-
 }
 
 .te_menu{
@@ -46,20 +46,13 @@
 
 }
 
-.selected {
-    
-    background-color: var(--gris-2);
-    border: solid 1px grey;
-}
-
 .taller_main-content{
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem;
-    width: 100%;
-    margin: 0;
-    padding: 0;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     background-color: var(--bg-color-2);
     min-height: 100vh;
 }
@@ -147,19 +140,37 @@
     height: fit-content;
 
 }
+.taller_cuerpo{
+
+    display: flex;
+    flex-direction: column;
+
+    width: 80%;
+    min-height: 100vh;
+    max-width: 800px;
+
+    margin-inline: auto;
+    
+
+}
+.taller_subir{
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--redondeo-taller);
+    border: 1px solid black;
+    background-color: white;
+    margin-bottom: 16px;
+}
 
 .taller_contenido{
 
     display: flex;
     flex-direction: column;
-    width: 80;
-    margin-inline: 10%;
-    padding: 16px;
-    min-height: 100vh;
-    border-radius: 1.25rem;
-    border: 2px solid black;
-    background-color: white;
 
+    padding: 16px;
+    border-radius: var(--redondeo-taller);
+    border: 1px solid black;
+    background-color: white;
 
 }
 
@@ -172,8 +183,8 @@
     width: auto;
     min-height: 12rem;
     max-height: 14rem;
-    border-radius: 1.25rem;
-    border: 2px solid black;
+    border-radius: var(--redondeo-taller);
+    border: 1px solid var(--gris-1);
     background-color: white;
 
 }
