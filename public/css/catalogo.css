@@ -153,19 +153,21 @@
 .paginacion {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-top: 20px;
 }
 
-.paginacion ul {
+.paginacion_numeros{
     list-style: none;
-    padding: 0;
-    margin: 0;
+    padding: 4px;
+    margin: 0px 30px;
     display: flex;
     align-items: center;
-    gap: 5px; /* Espacio entre los botones */
+    gap: 8px; /* Espacio entre los botones */
 }
 
-.paginacion li a {
+.paginacion_siguiente, 
+.paginacion_anterior {
     display: block;
     padding: 5px 15px;
     border-radius: 5px;
@@ -176,18 +178,24 @@
     transition: all 0.3s ease;
     text-align: center;
     min-width: 40px; /* Asegura que los números tengan un ancho consistente */
-}
 
-.paginacion li a:hover {
-    color: grey;
+    &:hover:{
+        color: grey;
     background-color: var(--grey-color);
     border-color: var(--grey-color);
+    }
 }
 
-/* Estilo para la página activa */
-.paginacion li.active a {
+.paginacion_numero.active{
+    padding: 5px 10px;
+    margin: 0px 5px;
     color: white;
     background-color: grey;
     border-color: grey;
     cursor: default;
+    border-radius: var(--redondeo-btn);
+
 }
+
+/* Estilo para la página activa */
+

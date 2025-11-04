@@ -74,24 +74,24 @@
         </table>            
 
         <nav aria-label="Paginación" class="paginacion">
-            <ul>
+            <div class="paginacion_anterior">
+                <a href="<?php  echo $url_paginacion . $pagina-1 ?>">Anterior</a>
+            </div>
+            <ul class="paginacion_numeros">
                 <!-- Página anterior -->
-                <li>
-                    <a href="<?php  echo $url_paginacion . $pagina-1 ?>">Anterior</a>
-                </li>
-
+                
                 <!-- Números de página -->
-                <?php for($i = 1; $i <= $cantidad_paginas; $i++): ?>
-                    <li class="<?php if ($i == $pagina) echo 'active'; ?>">
-                        <a href="<?php  echo $url_paginacion . $i ?>"><?php echo $i; ?></a>
+                <?php foreach($paginas_mostrar as $i => $num_pagina){ ?>
+                    <li class="paginacion_numero <?php if ($num_pagina == $pagina) echo 'active'; ?>">
+                        <a href="<?php  echo $url_paginacion . $num_pagina ?>"><?php echo $num_pagina; ?></a>
                     </li>
-                <?php endfor; ?>
+                <?php } ?>
 
                 <!-- Página siguiente -->
-                <li>
-                    <a href="<?php  echo $url_paginacion . $pagina+1 ?>">Siguiente</a>
-                </li>
             </ul>
+            <div class="paginacion_siguiente">
+                <a href="<?php  echo $url_paginacion . $pagina+1 ?>">Siguiente</a>
+            </div>
         </nav>
 
     </div>
