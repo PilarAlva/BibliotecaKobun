@@ -137,7 +137,7 @@ class TallerBD {
         return $this->db->resultados();
     }
 
-    public function inscribirAlumno ($taller_id, $usuario_id, $activo = 1 ){ 
+    public function inscribirAlumno ($taller_id, $usuario_id, $activo = 0 ){ 
         $consulta = "INSERT IGNORE INTO talleres_usuarios (taller_id, usuario_id, activo) 
                     VALUES (:taller_id, :usuario_id, :activo)
                     
