@@ -35,7 +35,7 @@
                             $portadaSrc = !empty($prestamo['portada']) ? 'img/portadas/' . htmlspecialchars($prestamo['portada']) : 'img/no.png';
                         ?>
                         <img src="<?php echo $portadaSrc; ?>" alt="Portada del libro <?php echo htmlspecialchars($prestamo['titulo']); ?>">    
-                        <!-- ARREGLAR PARA LA IMAGEN DINAMICAAAAAA -->
+                        <!-- ARREGLAR RUTA PARA LA IMAGEN DINAMICAAAAAA -->
                     </td>
                     <td>
                         <div class="info-libro-contenedor">

@@ -527,10 +527,10 @@
     cursor: pointer;
 }
 
-#bt-añadir {
+.bt-añadir {
     background-color: var(--green-color);
 }
-#bt-añadir a {
+.bt-añadir a {
     color: white;
 }
 
@@ -544,10 +544,18 @@
     .cabecera-gestion {
         flex-wrap: wrap;
     }
-    #bt-añadir {
+    .bt-añadir {
         margin-top: 10px;
     }
 }
+
+.contenedor-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
 
 
 /* ------------- GESTIONAR USUARIOS ------------- */
@@ -585,15 +593,19 @@
     height: 0.8px;
 }
 
-.info-nombre-usuario {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
 
 
 /* ------------- GESTIONAR MATERIAL BIBLIOGRAFICO ------------- */
-
-
+#gestion-material .libro {
+    background-color: transparent;
+    margin-bottom: 0;
+    padding: 8px;
+}
+#gestion-material .imagen-libro-cont{
+    padding-right: 10px;
+    width: 50px;
+}
+#gestion-material .info-libro-contenedor {
+    justify-content: center;
+}
 

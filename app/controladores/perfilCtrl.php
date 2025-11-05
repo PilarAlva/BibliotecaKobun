@@ -99,6 +99,8 @@ class PerfilCtrl extends Controlador{
 
         /* Busqueda de Libros */
         
+        /* Listado de Libros */
+        /* $listaLibros = $libroModel->obtenerLibros(); */
 
 
         
@@ -111,6 +113,7 @@ class PerfilCtrl extends Controlador{
             "talleres" => $talleres,
             "estadoSocio" => $estadoSocio,
             "listaUsuarios" => $listaUsuarios,
+            /* "listaLibros" => $listaLibros, */
             
             
             

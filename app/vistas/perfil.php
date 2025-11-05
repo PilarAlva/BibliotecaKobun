@@ -294,7 +294,7 @@
                                             ?>
                                             <img src="<?php echo htmlspecialchars($perfilImg); ?>" alt="Imagen de perfil del usuario">
                                         </div>                                    
-                                        <div class="info-nombre-usuario">
+                                        <div class="contenedor-info">
                                             <p><?php echo htmlspecialchars($usuarioItem['nombre']) . ' ' . htmlspecialchars($usuarioItem['apellido']);?></p>
                                             <!-- BOTON NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                                             <button class="bt-mas-info" >+</button>
@@ -331,7 +331,26 @@
                         </div>
 
                         <div class="cuerpo-gestion-material">
-                            
+                            <div class="muestra-libros">
+                                <!-- REEMPLAZAR $prestamos por $listaLibros + HACER LA LOGICA PORQUE NO SE CONECTA BIEN CON LA BD NO SE PORQUÉ :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+                                <?php foreach ($prestamos as $libroItem) : ?>
+                                    <div class="libro">
+                                    <div class="imagen-libro-cont">
+                                        <?php
+                                            $portadaSrc = !empty($libroItem['ref_portada']) ? 'img/portadas/' . htmlspecialchars($libroItem['ref_portada']) : 'img/no.png';
+                                        ?>
+                                        <img src="<?php echo $portadaSrc; ?>" alt="Portada del libro <?php echo htmlspecialchars($libroItem['titulo']); ?>">
+                                    </div>
+                                    <div class="contenedor-info">
+                                        <div>
+                                            <h4 class="titulo-libro"><?php echo htmlspecialchars($libroItem['titulo']); ?></h4>
+                                            <p class="autor-libro">Por <?php echo htmlspecialchars($libroItem['nombre_completo']); ?></p>
+                                        </div>
+                                        <button class="bt-mas-info" >+</button>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <hr class="linea-divisora">
 
                         </div>
 
