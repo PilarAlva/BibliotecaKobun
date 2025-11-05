@@ -40,7 +40,7 @@
                     <td>
                         <div class="info-libro-contenedor">
                             <div class="info-libro">
-                                <a href="<?=BASE_URL?>libro/id/<?= $libro['id']; ?>" class="info-libro-link">
+                                <a href="<?=BASE_URL?>libro/id/<?= $libro['id']; ?>">
                                     <h3 class="titulo-libro"><?php echo htmlspecialchars($libro['titulo']); ?></h3>
                                     <p class="autor-libro">Por <?php echo htmlspecialchars($libro['autores']); ?></p>
                                     <p class="descripcion-libro"><?php echo htmlspecialchars($libro['descripcion']); ?></p>

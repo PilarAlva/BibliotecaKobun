@@ -128,23 +128,19 @@ class socioBD {
     }
 
 
-    public function deudasPagos($socio_id) {
-        $consulta = "SELECT COUNT(*) AS total_deudas 
-                    FROM pagos 
-                    WHERE socio_id = :socio_id 
-                    AND fecha_devolucion IS NULL 
-                    AND fecha_vencimiento < NOW()";
-
+    public function obtenerUltimoPagoCuota($socio_id) {
+        $consulta = "SELECT MAX(fecha) as ultimo_pago FROM pagos WHERE socio_id = :socio_id";
         $this->db->consulta($consulta);
+        
         $this->db->unir(':socio_id', $socio_id);
-
         $this->db->ejecutar();
-
+        
         return $this->db->resultado();
     }
+    
 
     public function __destruct() {
         $this->con = null;
     }
-
 }   
+?>

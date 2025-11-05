@@ -53,5 +53,11 @@ class UsuarioBD {
 
     }
 
+
+    /* 
+    public function busquedaUsuarios ( ) {
+        
+    } */
+
 }
 ?>

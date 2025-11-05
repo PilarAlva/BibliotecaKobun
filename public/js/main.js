@@ -14,3 +14,17 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+
+/* Menú hamburguesa para PERFIL */
+document.addEventListener('DOMContentLoaded', function () {
+    const perfilNavToggle = document.querySelector('#perfil-nav-toggle');
+    const navPerfil = document.querySelector('.nav-perfil');
+
+    if (perfilNavToggle && navPerfil) {
+        perfilNavToggle.addEventListener('click', function () {
+            navPerfil.classList.toggle('is-active');
+            const isExpanded = navPerfil.classList.contains('is-active');
+            this.setAttribute('aria-expanded', isExpanded);
+        });
+    }
+});

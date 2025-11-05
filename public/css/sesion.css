@@ -54,7 +54,7 @@ input {
 }
 button {
     padding: 15px;
-    background: var(--bt-color);
+    background: var(--green-color);
     color: white;
     border: none;
     border-radius: 15px;
