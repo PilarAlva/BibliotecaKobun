@@ -10,9 +10,14 @@
                     <?php echo $publicacion["usuario_nombre"]?>
                 </span>
 
-                <div class="t-p_acciones_menu">
+                <div class="t-p_acciones_menu 
+                <?php if($_SESSION["usuario_id"] == $publicacion["usuario_id"])
+                        echo 'editable';
+                        ?>
+                ">
 
                     <span class="t-p_fecha_pub">
+
                         <?php echo $publicacion["fecha_publicacion"]?>
                     </span>
 
@@ -55,6 +60,7 @@
                 
 
             </div>
+
             <div class="t-p_cuerpo">
                 <div class="t-p_titulo">
                     <span class="t-p_titulo_text">

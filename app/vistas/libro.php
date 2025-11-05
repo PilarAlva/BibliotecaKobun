@@ -32,11 +32,9 @@
                     Items Disponibles
 
                 </span></p>
-
                 <?php 
                 //TODO: Arreglar esto
                 if (isset($_SESSION['usuario_id'])) { ?>
-
                     <?php if($es_socio){?>
                         <form method="POST" action="<?php BASE_URL?>libro/prestamo">
                             <input type="hidden" name="libro_id" value="<?php echo $libro["id"]?>">
@@ -44,7 +42,7 @@
                             <button type="submit" class="btn-prestamo">Pedir Préstamo</button>
                         </form>
                     <?php }else{?>
-                        <p>Para solicitar ser socio <a href="<?php BASE_URL?>sesion">Asociarse</a></p>    
+                        <p>Para solicitar ser socio  <a href="<?php BASE_URL?>sesion">Asociarse </a></p>    
                     <?php }?>
 
                 <?php } else { ?>

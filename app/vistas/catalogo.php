@@ -30,9 +30,9 @@
                 <?php foreach ($libros as $indice => $libro) { ?>
                 <tr>
                     <td id="numero"><?php echo $offset + $indice + 1;?>.</td>
-                    <td class="imagen-libro">
-                        <img src="img/no.png" alt="...">
-                    </td>
+                        <td class="imagen-libro">
+                            <img src="img/no.png" alt="...">
+                        </td>
                     <td>
                         <div class="info-libro-contenedor">
                             <div class="info-libro">
@@ -52,7 +52,7 @@
                                 </a>
                             </div>
     
-                            <div>
+                            <div class="generos-libro">
                                 <?php
                                 if (!empty($libro['generos'])) {
                                     $generosArray = explode(',', $libro['generos']);

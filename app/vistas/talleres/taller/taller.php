@@ -11,19 +11,18 @@
         <img class="taller_portada" src="img/image.png" alt="...">
     </div>
 
-    <div class="taller_paginas">
+    <nav class="taller_paginas">
         
         <ul class="taller_menu">
             
-            <button id="btn_t_fp" tab ="taller_section_foro" class="taller_menu_btn selected">Foro Público</button>
+            <button id="btn_t_fp" tab ="taller_section_foro" class="taller_menu_btn selected">Foro</button>
             <button id="btn_t_r" tab = "taller_section_recursos" class="taller_menu_btn">Recursos</button>
             <button id="btn_t_l" tab = "taller_section_libreta" class="taller_menu_btn">Libreta</button>
-            
-            
+                
         </ul>
         
         
-    </div>
+    </nav>
     
     
     <div class="taller_cuerpo">

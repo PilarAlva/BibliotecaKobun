@@ -214,6 +214,36 @@ img {
 .hamburger-inner::after { bottom: -10px; }
 
 
+/* ------- Contenido Principal (Main) ------- */
+.main-content {
+    width: 100%;
+    max-width: 1200px;
+    min-height: 100vh;
+    height: 100%;
+    margin: 0 auto;
+    padding: 3rem;
+}
+
+
+/* ------- Divisor de Secciones ------- */
+.linea-divisora {
+    border: 0;
+    height: 1px;
+    background-color: var(--accent-color);
+    opacity: 0.6; 
+    margin: 3rem auto;
+    width: 80%; 
+}
+
+
+/* ------- Footer ------- */
+footer {
+    background-color: var(--primary-color);
+    color: var(--accent-color);
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+}
 
 /* ------- Responsive (Menú Hamburguesa) ------- */
 @media (max-width: 768px) { 
@@ -269,32 +299,12 @@ img {
     .main-nav a:hover::after {
         width: 100%;
     }
-}
-
-/* ------- Contenido Principal (Main) ------- */
-.main-content {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem;
-}
-
-/* ------- Divisor de Secciones ------- */
-.linea-divisora {
-    border: 0;
-    height: 1px;
-    background-color: var(--accent-color);
-    opacity: 0.6; 
-    margin: 3rem auto;
-    width: 80%; 
-}
-
-
-/* ------- Footer ------- */
-footer {
-    background-color: var(--primary-color);
-    color: var(--accent-color);
-    text-align: center;
-    padding: 1rem 0;
-    font-size: 0.9rem;
+    .main-content{
+        padding: 12px;
+        padding-top: 1rem;
+        
+    }
+    .header {
+        position: relative;
+    }
 }

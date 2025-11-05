@@ -49,7 +49,7 @@ class socioBD {
                     s.fecha_alta,
                     s.fecha_nacimiento,
                     s.activo
-                     FROM socios s
+                    FROM socios s
                     LEFT JOIN usuarios u ON s.usuario_id = u.id
                     WHERE u.id = :usuario_id";
 

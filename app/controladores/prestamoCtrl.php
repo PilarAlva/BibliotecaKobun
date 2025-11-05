@@ -41,6 +41,7 @@
             }
 
             $antiguedad_socio = $socioModel->antiguedadSocio($socio['id']);
+
             $cantidad_prestamos = $prestamoModel->cantPrestamosActivosPorSocio($socio['id']);
 
             $fecha_vencimiento = date('Y-m-d', strtotime($fecha_prestamo . ' + 15 days'));
@@ -95,7 +96,6 @@
                 
             }
         }
-
 
 
     }

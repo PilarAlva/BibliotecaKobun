@@ -9,28 +9,23 @@
  
     <!--  <link rel="stylesheet" href="css/estilo.css"> -->
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/inicio.css">
-    
-    <link rel="stylesheet" href="css/catalogo.css">
-    
-    <link rel="stylesheet" href="css/subir_archivo.css">
-    <link rel="stylesheet" href="css/talleres.css">
 
-    <?php if (isset($cssEspecifico) && !empty($cssEspecifico)): ?>
-        <link rel="stylesheet" href="css/<?php echo htmlspecialchars($cssEspecifico); ?>">
-    <?php endif; ?>
+    <?php if (isset($cssEspecifico) && !empty($cssEspecifico)){
+            if (!is_array($cssEspecifico)) $cssEspecifico = [$cssEspecifico];
+            
+            foreach($cssEspecifico as $css){
+        ?>
+        
+            <link rel="stylesheet" href="css/<?php echo htmlspecialchars($css); ?>">
 
-
+    <?php }} ?>
 
     <title> <?= $titulo; ?></title>
 </head>
 
-
     <body>
         <?php require_once '../app/vistas/' . $direccionVista . '.php'; ?>
     </body>
-
-
    
  <!-- Archivos .js -->
     <script src="js/main.js"></script>

@@ -34,7 +34,6 @@ class UsuarioBD {
         return $this->db->resultado();
 
     }
-
     public function obtenerRolUsuario($usuario_id){
 
         $consulta = "SELECT rol_id FROM  usuarios WHERE id = :usuario_id";

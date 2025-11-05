@@ -20,7 +20,9 @@ class libroCtrl extends Controlador{
         $pagina = $this->chequeoPagina($pagina);
         $cantidad_paginas = ceil($resultados / $cantidad_por_pagina);
 
-        $data = ["busqueda" => $busqueda,
+        $data = [
+                "cssEspecifico" => "catalogo.css",
+                 "busqueda" => $busqueda,
                  "filtro" => $filtro,
                  "libros" => $libros,
                  "resultados" => $resultados,
@@ -62,7 +64,8 @@ class libroCtrl extends Controlador{
         $pagina = $this->chequeoPagina($pagina);
         $cantidad_paginas = ceil($resultados / $cantidad_por_pagina);
 
-        $data = ["busqueda" => $busqueda,
+        $data = ["cssEspecifico" => "catalogo.css",
+                 "busqueda" => $busqueda,
                  "filtro" => $filtro,
                  "libros" => $libros,
                  "resultados" => $resultados,
@@ -102,7 +105,7 @@ class libroCtrl extends Controlador{
         
         $socioModel = $this->cargarModelo("socioBD");
 
-        return $socioModel->obtenerSocioPorId($usuario_id);
+        return $socioModel->obtenerSocioPorIdUsuario($usuario_id);
 
     }
 
@@ -116,7 +119,6 @@ class libroCtrl extends Controlador{
 		if($cantidad_paginas == 1){
 			return $numero_paginas;
 		}
-
 		if($pagina == 1){
 			$inicio_paginas = $pagina;
 	        $fin_paginas = $pagina + 4;

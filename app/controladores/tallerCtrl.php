@@ -36,7 +36,9 @@
             
             
             
-            $data = ["talleres" => $talleres,
+            $data = [
+                    "cssEspecifico" => ["catalogo.css", "talleres.css", "publicaciones.css", "libreta.css"],
+                    "talleres" => $talleres,
                      "mis_talleres" => $mis_talleres  ,
                      "resultados" => $resultados,
                      "offset" => $offset,
@@ -84,6 +86,7 @@
             }
 
             $data = [
+                "cssEspecifico" => "talleres.css",
                 "taller" => $taller,
                 "estado" => $estado
             ];
@@ -126,12 +129,15 @@
                     $publicacionModel = $this->cargarModelo("publicacionBD");
 
                     //TODO: estas peticiones se deberían hacer cuando el usuario cambia de pestaña en el taller, pero bueno :/
-                    $data["publicaciones"] = $publicacionModel->obtenerPublicacionesPorTaller($taller_id);
-                    $data["recursos"] = $publicacionModel->obtenerPublicacionesPorTaller($taller_id, 'recursos');
-                    $data["libreta"] = $publicacionModel->obtenerPublicacionesLibretaPorTaller($taller_id, $_SESSION["usuario_id"] );
-                    $data["taller_id"] = $taller_id;
-                    $data["usuario_id"] = $_SESSION["usuario_id"];
-
+                    $data = [
+                        "cssEspecifico" => ["talleres.css", "publicaciones.css", "libreta.css"],
+                        "publicaciones" => $publicacionModel->obtenerPublicacionesPorTaller($taller_id),
+                        "recursos" => $publicacionModel->obtenerPublicacionesPorTaller($taller_id, 'recursos'),
+                        "libreta" => $publicacionModel->obtenerPublicacionesLibretaPorTaller($taller_id, $_SESSION["usuario_id"] ),
+                        "taller_id" => $taller_id,
+                        "usuario_id" => $_SESSION["usuario_id"]
+                    ];
+                    
                     $publicacionModel->obtenerPublicacionesLibretaPorTaller($taller_id, $_SESSION["usuario_id"] );
 
                     $this->mostrarVista('talleres/taller/taller', $data, 'Taller');
