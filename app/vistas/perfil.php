@@ -257,10 +257,11 @@
 
                 <!-- VISTAS ADICIONALES DE ADMINISTRADOR -->
                 <?php
-                if ($usuario['rol_id'] == 1){ ?>
+                if ($usuario['rol_id'] == 1) { ?>
                     <div id="gestion-usuarios" class="tab-content">
                         <h3>Gestionar Usuarios</h3>
                         
+                        <!-- BUSQUEDA NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                         <div class="cabecera-gestion">
                             <div class="buscador">
                                 <form action="" method="POST">
@@ -275,14 +276,64 @@
                                 </form>
                             </div>
 
+                            <!-- BOTON NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                             <div>
-                                <button class="bt" id="bt-añadir-usuario"><a href="<?php /* echo BASE_URL; > */?>...">Añadir Usuario</button>
+                                <button class="bt bt-añadir"><a href="<?php /* echo BASE_URL; > */?>...">Añadir Usuario</a></button>
+                            </div>
+                        </div>
+                        
+
+                        <div class="cuerpo-gestion-usuarios">
+                            <div class="muestra-usuarios">
+                                <?php foreach ($listaUsuarios as $usuarioItem) : ?>
+                                    <div class="usuario">
+                                        <div class="imagen-usuario-cont">
+                                            <?php
+                                                $defaultImg = 'img/perfil-default.png';
+                                                $perfilImg = (isset($usuarioItem['img_perfil']) && !empty($usuarioItem['img_perfil'])) ? $usuarioItem['img_perfil'] : $defaultImg;
+                                            ?>
+                                            <img src="<?php echo htmlspecialchars($perfilImg); ?>" alt="Imagen de perfil del usuario">
+                                        </div>                                    
+                                        <div class="info-nombre-usuario">
+                                            <p><?php echo htmlspecialchars($usuarioItem['nombre']) . ' ' . htmlspecialchars($usuarioItem['apellido']);?></p>
+                                            <!-- BOTON NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+                                            <button class="bt-mas-info" >+</button>
+                                        </div>
+                                    </div>
+                                    <hr class="linea-divisora">
+                                <?php endforeach; ?>
                             </div>
                         </div>
                     </div>
 
+
                     <div id="gestion-material" class="tab-content">
                         <h3>Gestionar Material Bibliográfico</h3>
+                        <!-- BUSQUEDA NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+                        <div class="cabecera-gestion">
+                            <div class="buscador">
+                                <form action="<?php BASE_URL?>catalogo/b/" method="POST">
+                                    <select name="filtro" class="selector">
+                                        <option value="titulo" <?php /* if($filtro=='titulo') */ echo 'selected'; ?>>Título</option>
+                                        <option value="autor" <?php /* if($filtro=='autor') */ echo 'selected'; ?>>Autor</option>
+                                        <option value="genero" <?php /* if($filtro=='genero') */ echo 'selected'; ?>>Género</option>
+                                        <option value="contenido" <?php /* f($filtro=='contenido') */ echo 'selected'; ?>>Contenido</option>
+                                    </select>
+                                    <input type="text" name="q" class="search-input" placeholder="Buscar..." value="<?php /* echo htmlspecialchars($busqueda); */ ?>">
+                                    <button type="submit" class="boton-busqueda"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                </form>
+                            </div>
+                            
+                            <!-- BOTON NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+                            <div>
+                                <button class="bt bt-añadir"><a href="<?php /* echo BASE_URL; > */?>...">Añadir Material</a></button>
+                            </div>
+                        </div>
+
+                        <div class="cuerpo-gestion-material">
+                            
+
+                        </div>
 
                     </div>
 

@@ -59,5 +59,14 @@ class UsuarioBD {
         
     } */
 
+    public function obtenerUsuarios () {
+        $consulta = "SELECT id, nombre, apellido FROM usuarios";
+
+        $this->db->consulta($consulta);
+        $this->db->ejecutar();
+
+        return $this->db->resultados();
+    }
+
 }
 ?>

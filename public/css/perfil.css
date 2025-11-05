@@ -318,9 +318,6 @@
         flex-direction: column;
         align-items: center;
     }
-    .info-datos-personales img {
-        
-    }
 }
 
 /* ------ Perfil: Vista Adicional SOCIOS ------ */
@@ -429,11 +426,11 @@
     display: flex;
     flex-direction: column;
 }
-#talleres .talleres-grid {
+/* #talleres .talleres-grid {
     flex-grow: 1; 
     display: flex;
     flex-direction: column; 
-}
+} */
 
 
 
@@ -463,13 +460,29 @@
 
 
 
-/* ------------- GESTIONAR USUARIOS ------------- */
+/* ------------- VISTA ADICIONAL DE ADMIN (COMÚN) ------------- */
+.bt-mas-info {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding: 10px;
+
+    cursor: pointer;
+}
+
 .buscador {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;    
+    align-items: center;
+    flex-grow: 1; 
+    margin-right: 20px; 
 }
+
+
 .buscador form {
     width: 100%;
     display: flex;
@@ -514,13 +527,12 @@
     cursor: pointer;
 }
 
-#bt-añadir-usuario {
+#bt-añadir {
     background-color: var(--green-color);
 }
-#bt-añadir-usuario a {
+#bt-añadir a {
     color: white;
 }
-
 
 .cabecera-gestion {
     display: flex;
@@ -528,3 +540,60 @@
     align-items: center;
     margin-bottom: 20px;
 }
+@media (max-width: 768px) {
+    .cabecera-gestion {
+        flex-wrap: wrap;
+    }
+    #bt-añadir {
+        margin-top: 10px;
+    }
+}
+
+
+/* ------------- GESTIONAR USUARIOS ------------- */
+.cuerpo-gestion-usuarios {
+    padding: var(--padding-cont);
+}
+
+.muestra-usuarios {
+    display: flex;
+    flex-direction: column;
+}
+
+.usuario {
+    display: flex;
+    box-sizing: border-box;
+}
+
+.imagen-usuario-cont {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.imagen-usuario-cont img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.linea-divisora {
+    width: 100%;
+    height: 0.8px;
+}
+
+.info-nombre-usuario {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+
+
+/* ------------- GESTIONAR MATERIAL BIBLIOGRAFICO ------------- */
+
+
+

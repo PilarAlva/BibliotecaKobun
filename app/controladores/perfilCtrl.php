@@ -10,6 +10,7 @@ class PerfilCtrl extends Controlador{
         $prestamoModel = $this->cargarModelo("prestamoBD");
         $talleresModel = $this->cargarModelo("tallerBD");
         /* $bibliotecaModel = $this->cargarModelo("bibliotecaBD"); */
+        $libroModel = $this->cargarModelo("libroBD");
 
         if(!isset($_SESSION["usuario_id"])){
             header('Location: ' . BASE_URL . 'sesion');
@@ -91,18 +92,27 @@ class PerfilCtrl extends Controlador{
             else
                 $socioHabilitado = false;
         } */
-
         
+        /* Busqueda de Usuarios*/
+        $listaUsuarios = $usuarioModel->obtenerUsuarios();
+
+
+        /* Busqueda de Libros */
+        
+
+
         
         $data = [
             "usuario" => $usuario,
             "socio" => $socio,
             "prestamos" => $prestamos,
-            "talleres" => $talleres,
-            "estadoSocio" => $estadoSocio,
-            
             "socioInfoDeudas" => $socioInfoDeudas,
             "socioHabilitado" => $socioHabilitado,
+            "talleres" => $talleres,
+            "estadoSocio" => $estadoSocio,
+            "listaUsuarios" => $listaUsuarios,
+            
+            
             
             "cssEspecifico" => 'perfil.css',
         ];
