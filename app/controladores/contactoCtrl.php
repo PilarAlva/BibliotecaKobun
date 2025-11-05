@@ -24,14 +24,15 @@
             "registrado" => $registrado
         ];
 
-
-        $this->mostrarVista('contacto', $data, 'Contacto');
-            
+        $this->mostrarVista('contacto', $data, 'Contacto');        
 
     }
 
 
     public function enviar(){
+
+        $contactoModel = $this->cargarModelo("contactoBD");
+
 
         $nombre = $_POST['nombre'];
         $email = $_POST['email'];        // correo ingresado por el usuario
@@ -63,7 +64,12 @@
             $mail->Body    = "Nombre: $nombre\nEmail: $email\nTeléfono: $tel\nComentarios:\n$comentarios";
 
             $mail->send();
-            echo 'Correo enviado correctamente.';
+
+            $contactoModel->enviarCorreo($nombre, $email, $tel, $comentarios);
+
+
+            header('Location: ' . BASE_URL . 'contacto');
+
         } catch (Exception $e) {
             echo "Error al enviar el correo: {$mail->ErrorInfo}";
         }

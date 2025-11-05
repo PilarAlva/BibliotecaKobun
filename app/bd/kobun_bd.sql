@@ -209,4 +209,6 @@ CREATE TABLE Correos (
     email VARCHAR(100) NOT NULL,
     telefono VARCHAR(30),
     consulta TEXT NOT NULL
+	fecha_envio DATE DEFAULT CURRENT_DATE
+
 );
