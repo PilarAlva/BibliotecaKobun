@@ -1,3 +1,4 @@
+
 <?php 
     //esta comprabacion probablemente debería pasar en otro lado_
     $es_profesor = false;
@@ -14,7 +15,6 @@
     }
 
 ?>
-
 
 <div>
     <span>Profesores:</span>

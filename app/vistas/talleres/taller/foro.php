@@ -10,10 +10,9 @@
         ?>
     
     </div>    
-        <div class="taller_contenido">
+    <div class="taller_contenido">
             
         
-
         <?php
             if(isset($publicaciones))
             foreach($publicaciones as $indice => $publicacion){

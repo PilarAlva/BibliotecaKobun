@@ -1,6 +1,6 @@
 window.addEventListener("load", function(){
 
-    const sp_publicacion = document.querySelector(".subir_publicacion");
+    const sp_publicacion = document.getElementById("sp");
     
     const boton_pubicar = document.querySelector(".sp_btn_publicar");
 
@@ -23,6 +23,17 @@ window.addEventListener("load", function(){
     const text_title = document.getElementById("titulo");
 
     const quill = new Quill('#editor', {
+        placeholder: 'Escribí el contenido aca ',
+        modules: {
+            toolbar: [
+            ['bold', 'italic'],
+            ['link', 'blockquote', 'code-block'],
+            ],
+        },
+        theme: 'snow',
+    });
+
+    const quill_libreta = new Quill('#editor-libreta', {
         placeholder: 'Escribí el contenido aca ',
         modules: {
             toolbar: [

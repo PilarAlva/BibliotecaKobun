@@ -18,7 +18,7 @@
 
 
     
-    <div class= "subir_publicacion" 
+    <div class= "subir_publicacion selected" 
         id="sp" 
         data-ref="<?php BASE_URL?>"
         

@@ -38,6 +38,7 @@
         <div id="taller_section_libreta" hidden>
             <?php include '../app/vistas/talleres/taller/libreta.php' ?>
         </div>      
+        
         <div id="taller_section_participantes" hidden>
             <?php include '../app/vistas/talleres/taller/participantes.php' ?>
         </div>      
