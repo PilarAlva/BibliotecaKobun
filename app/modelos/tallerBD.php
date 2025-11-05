@@ -153,46 +153,83 @@ class TallerBD {
     }
     public function cambiarEstadoAlumno($taller_id, $usuario_id, $activo){
 
-        $consulta = "UPDATE talleres_usuarios SET activo = :activo WHERE taller_id = :taller_id AND usuario_id = :usuario_id";
+        $consulta = "UPDATE talleres_usuarios
+                     SET activo = :activo 
+                     WHERE taller_id = :taller_id 
+                     AND usuario_id = :usuario_id";
 
         $this->db->consulta($consulta);
         $this->db->unir(':taller_id', $taller_id);  
         $this->db->unir(':usuario_id', $usuario_id);
         $this->db->unir(':activo', $activo);
-        $this->db->ejecutar();
+        
 
-        return $this->db->resultado();
+        return $this->db->ejecutar();
 
     }
+    public function eliminarAlumno($taller_id, $usuario_id){
+        $consulta = "DELETE FROM talleres_usuarios WHERE taller_id = :taller_id AND usuario_id = :usuario_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':taller_id', $taller_id);
+        $this->db->unir(':usuario_id', $usuario_id);
+    
+        return $this->db->ejecutar();
+    }   
+
     public function alumnosInscriptios ($taller_id){
         
-        $consulta = "SELECT u.id as alumno_id,
-                    concat(u.nombre, ' ', u.apellido) as alumno_nombre,
+        $consulta = "SELECT u.id as usuario_id,
+                    concat(u.nombre, ' ', u.apellido) as usuario_nombre
                     FROM talleres_usuarios tu
-                    LEFT JOIN usuarios u ON tu.usuario_id = u.id;
+                    LEFT JOIN usuarios u ON tu.usuario_id = u.id
                     WHERE tu.taller_id = :taller_id AND tu.activo = 1";
 
         $this->db->consulta($consulta);
         $this->db->unir(':taller_id', $taller_id);
-        $this->db->ejecutar();
+        
 
-        return $this->db->resultado();
+        return $this->db->resultados();
     }  
     public function alumnosPendientes($taller_id){
 
-        $consulta = "SELECT u.id as alumno_id,
-                    concat(u.nombre, ' ', u.apellido) as alumno_nombre,
+        $consulta = "SELECT u.id as usuario_id,
+                    concat(u.nombre, ' ', u.apellido) as usuario_nombre
                     FROM talleres_usuarios tu
-                    LEFT JOIN usuarios u ON tu.usuario_id = u.id;
+                    LEFT JOIN usuarios u ON tu.usuario_id = u.id
                     WHERE tu.taller_id = :taller_id AND tu.activo = 0";
 
         $this->db->consulta($consulta);
         $this->db->unir(':taller_id', $taller_id);
-        $this->db->ejecutar();
+
+        return $this->db->resultados();
+
+    } 
+    public function obtenerProfesores($taller_id){
+        $consulta = "SELECT u.id as usuario_id,
+                    concat(u.nombre, ' ', u.apellido) as usuario_nombre
+                    FROM talleres_profesores tp
+                    LEFT JOIN usuarios u ON tp.usuario_id = u.id
+                    WHERE tp.taller_id = :taller_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':taller_id', $taller_id);
+
+        return $this->db->resultados();
+    }
+
+    public function esProfesorDelTaller($taller_id, $usuario_id){
+        $consulta = "SELECT usuario_id FROM talleres_profesores 
+                    WHERE taller_id = :taller_id 
+                    AND usuario_id = :usuario_id ";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':taller_id', $taller_id);
+        $this->db->unir(':usuario_id', $usuario_id);
 
         return $this->db->resultado();
 
-    } 
+    }
     public function estaElUsuarioInscripto ($taller_id, $usuario_id){
         
         $consulta = "SELECT activo as existe FROM talleres_usuarios  

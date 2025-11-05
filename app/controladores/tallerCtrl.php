@@ -103,7 +103,11 @@
 
             if($this->existeTaller($taller_id)){
 
-                if($this->estaElUsuarioInscripto($taller_id)){
+                
+                if($this->esProfesorDelTaller($taller_id)){
+                    $accion = 'mostrar'; 
+                }
+                else if($this->estaElUsuarioInscripto($taller_id)){
     
                     $accion = 'mostrar';
     
@@ -127,20 +131,26 @@
                     }
 
                     $publicacionModel = $this->cargarModelo("publicacionBD");
+                    
 
                     //TODO: estas peticiones se deberían hacer cuando el usuario cambia de pestaña en el taller, pero bueno :/
                     $data = [
                         "cssEspecifico" => ["talleres.css", "publicaciones.css", "libreta.css"],
                         "publicaciones" => $publicacionModel->obtenerPublicacionesPorTaller($taller_id),
-                        "recursos" => $publicacionModel->obtenerPublicacionesPorTaller($taller_id, 'recursos'),
+                        "recursos" => $publicacionModel->obtenerArchivosPorTaller($taller_id),
                         "libreta" => $publicacionModel->obtenerPublicacionesLibretaPorTaller($taller_id, $_SESSION["usuario_id"] ),
+                        "participantes" => $tallerModel->alumnosInscriptios($taller_id),
+                        "pendientes" => $tallerModel->alumnosPendientes($taller_id),
+                        "profesores" => $tallerModel->obtenerProfesores($taller_id),
                         "taller_id" => $taller_id,
                         "usuario_id" => $_SESSION["usuario_id"]
                     ];
                     
-                    $publicacionModel->obtenerPublicacionesLibretaPorTaller($taller_id, $_SESSION["usuario_id"] );
+                    //$publicacionModel->obtenerPublicacionesLibretaPorTaller($taller_id, $_SESSION["usuario_id"] );
+
 
                     $this->mostrarVista('talleres/taller/taller', $data, 'Taller');
+
                     break;
                 case 'info':
                     header('Location: ' . BASE_URL . 'taller/info/' . $taller_id );
@@ -159,7 +169,6 @@
 
         public function inscripcion($taller_id = 0){
         
-
             if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                 header('Location: ' . BASE_URL . 'taller/ins/' . $_POST['taller_id']);
@@ -180,17 +189,14 @@
 
             if($this->existeTaller($taller_id)){
 
-                if($this->estaElUsuarioInscripto($taller_id)){
-                    
-                    if($this->usuarioRegistrado()){
+                if($this->usuarioRegistrado()){
 
-                        $activo = $tallerModel->estaElUsuarioInscripto($taller_id, $_SESSION['usuario_id']);
+                    $activo = $tallerModel->estaElUsuarioInscripto($taller_id, $_SESSION['usuario_id']);
 
-                        if(!isset($activo)) $accion = 'inscribir';
-                        else if ($activo == 1) $accion = 'inscripto';
-                        else $accion = 'espera';
+                    if(!isset($activo)) $accion = 'inscribir';
+                    else if ($activo == 1) $accion = 'inscripto';
+                    else $accion = 'espera';
 
-                    }
     
                 }else{
 
@@ -228,6 +234,180 @@
         }
 
 
+        public function eliminarAlumno(){
+
+            if ($_SERVER['REQUEST_METHOD'] != "POST") {
+                header('Location: ' . BASE_URL . 'taller/id' . $_POST['taller_id']);
+                return;
+            }
+
+            //CHEQUEA SI QUE EL TALLER SEA VALIDO
+            if($_POST["taller_id"] == 0){
+
+                header('Location: ' . BASE_URL );
+                return;
+
+            }
+
+            $tallerModel = $this->cargarModelo("tallerBD");
+
+            $taller_id = $_POST["taller_id"];
+            $usuario_id = $_POST["usuario_id"];
+
+            $accion = 'error';
+
+            if($this->existeTaller($taller_id)){
+                
+                if($this->esProfesorDelTaller($taller_id)){
+
+                    if($tallerModel->estaElUsuarioInscripto($taller_id, $usuario_id)){
+                    
+                        $accion = 'eliminar';
+                    
+                    }
+
+                }else if($this->estaElUsuarioInscripto($taller_id)){
+                    
+                        $accion = 'eliminar';
+
+                }
+
+            }
+
+            switch($accion){
+                case 'eliminar':              
+                    if($tallerModel->eliminarAlumno($taller_id, $usuario_id)){
+                        header('Location: ' . BASE_URL . 'taller/id/' . $taller_id );
+                    }else{
+                        header('Location: ' . BASE_URL . 'talleres/');
+                    }
+                    break;
+                case 'error':
+                default:
+                    header('Location: ' . BASE_URL );
+                    break;
+
+
+
+                }
+            
+
+        }
+
+        //ESTADO DE ALUMNOS - SOLO UN PROFESOR HACE ESTO DE MOMENTO
+
+        public function rechazarAlumno(){
+            if ($_SERVER['REQUEST_METHOD'] != "POST") {
+                header('Location: ' . BASE_URL . 'taller/id' . $_POST['taller_id']);
+                return;
+            }
+
+            //CHEQUEA SI QUE EL TALLER SEA VALIDO
+            if($_POST["taller_id"] == 0){
+
+                header('Location: ' . BASE_URL );
+                return;
+
+            }
+
+            $tallerModel = $this->cargarModelo("tallerBD");
+
+            $taller_id = $_POST["taller_id"];
+            $usuario_id = $_POST["usuario_id"];
+
+            $accion = 'error';
+
+            if($this->existeTaller($taller_id)){
+                
+                if($this->esProfesorDelTaller($taller_id)){
+
+                    $accion = 'rechazar';
+
+                }
+
+            }
+
+            switch($accion){
+
+                case 'rechazar':
+
+                    //AHORA SE ELIMINAR Y A LA MIERDA, tendría que mandarse una notificacion o algo así
+                    if($tallerModel->eliminarAlumno($taller_id, $usuario_id, 1 )){
+                        header('Location: ' . BASE_URL . 'taller/id/' . $taller_id );
+                    }else{
+                        header('Location: ' . BASE_URL . 'talleres');
+                    }
+                    break;
+
+                case 'error':
+                default:
+                    header('Location: ' . BASE_URL );
+                    break;
+
+
+
+                }
+
+        }
+
+        public function aceptarAlumno(){
+
+            if ($_SERVER['REQUEST_METHOD'] != "POST") {
+                header('Location: ' . BASE_URL . 'taller/id' . $_POST['taller_id']);
+                return;
+            }
+
+            //CHEQUEA SI QUE EL TALLER SEA VALIDO
+            if($_POST["taller_id"] == 0){
+
+                header('Location: ' . BASE_URL );
+                return;
+
+            }
+
+            $tallerModel = $this->cargarModelo("tallerBD");
+
+            $taller_id = $_POST["taller_id"];
+            $usuario_id = $_POST["usuario_id"];
+
+            $accion = 'error';
+
+            if($this->existeTaller($taller_id)){
+                
+                if($this->esProfesorDelTaller($taller_id)){
+
+                
+                    
+                    $accion = 'aceptar';
+                    
+                
+                    
+                }
+
+            }
+
+            switch($accion){
+
+                case 'aceptar':
+                    
+                    if($tallerModel->cambiarEstadoAlumno($taller_id, $usuario_id, 1 )){
+                        header('Location: ' . BASE_URL . 'taller/id/' . $taller_id );
+                    }else{
+                        header('Location: ' . BASE_URL . 'talleres');
+                    }              
+                    break;
+
+                case 'error':
+                default:
+                    header('Location: ' . BASE_URL );
+                    break;
+
+
+
+                }
+
+        }
+
         //FUNCIONALES
 
         function procesarPeticion($accion, &$data){
@@ -262,6 +442,20 @@
                 }
 
         }
+        private function esProfesorDelTaller($taller_id){
+            
+            if($this->usuarioRegistrado()){
+
+                $usuario_id = $_SESSION['usuario_id'];
+
+                $tallerModel = $this->cargarModelo("tallerBD");
+
+                return $tallerModel->esProfesorDelTaller($taller_id, $usuario_id);
+
+            }
+            else return false;
+
+        }
 
         private function estaElUsuarioInscripto($taller_id){
 
@@ -273,7 +467,7 @@
 
                 $existe = $tallerModel->estaElUsuarioInscripto($taller_id, $usuario_id);
 
-                return true;
+                return $existe;
 
                 
 

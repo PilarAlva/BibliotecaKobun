@@ -4,7 +4,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
     const btn_taller_menu = document.querySelectorAll(".taller_menu_btn");
 
-    const talleres_tabs = this.document.querySelector(".taller_contenido");
+    const taller_tab = document.querySelector(".taller_cuerpo");
 
     console.log(btn_taller_menu);
     
@@ -14,6 +14,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
         boton.addEventListener("click", function(){
 
+            
             btn_taller_menu.forEach((sub) => {
             
                 sub.classList.remove("selected");
@@ -21,6 +22,7 @@ window.addEventListener("DOMContentLoaded", function() {
             });
 
             boton.classList.add("selected");
+
             mostrarVista(boton.getAttribute("tab"));
 
 
@@ -30,12 +32,13 @@ window.addEventListener("DOMContentLoaded", function() {
 
 
     function mostrarVista(id){
+        console.log(id);
 
-        Array.from(talleres_tabs.children).forEach((tab) => {
-
+        Array.from(taller_tab.children).forEach((tab) => {
+            console.log(tab);
             tab.setAttribute("hidden", "");
             if(tab.id == id ){
-
+                console.log(id);
                 tab.removeAttribute("hidden");
 
             }

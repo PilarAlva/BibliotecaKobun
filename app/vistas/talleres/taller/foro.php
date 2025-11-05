@@ -3,13 +3,12 @@
     <div class="taller_subir">
     <?php
             $alcance = 'foro';
-    
-
         
             include '../app/vistas/talleres/componentes/subir_publicacion.php'; 
         
             
         ?>
+    
     </div>    
         <div class="taller_contenido">
             

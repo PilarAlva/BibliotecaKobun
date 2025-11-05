@@ -40,6 +40,7 @@
 
         public function resultados(){
 
+            $this->ejecutar();
             return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
 
         }

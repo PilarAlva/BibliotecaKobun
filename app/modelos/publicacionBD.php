@@ -189,6 +189,27 @@ class PublicacionBD extends Modelo{
 
     }
 
+    public function obtenerArchivosPorTaller($taller_id){
+        $consulta = "SELECT a.id as archivo_id,
+                            a.titulo as archivo_titulo,
+                            a.referencia as archivo_referencia,
+                            p.titulo as publicacion_titulo,
+                            CAST(p.fecha_publicacion AS DATE) as fecha_publicacion,
+                            concat (u.nombre, ' ', u.apellido) as usuario_nombre,
+                            u.id as usuario_id
+                    FROM publicaciones_archivo pa
+                    LEFT JOIN archivos a ON pa.archivo_id = a.id
+                    LEFT JOIN publicaciones p ON pa.publicacion_id = p.id
+                    LEFT JOIN usuarios u ON p.usuario_id = u.id
+                    WHERE p.taller_id = :taller_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':taller_id', $taller_id);
+
+        return $this->db->resultados();
+
+    }
+
     public function cantPublicacionesPorTaller($taller_id, $alcance = 'foro'){
         
         $consulta = "SELECT count(p.id) as cantidad FROM publicaciones p
