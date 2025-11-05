@@ -41,6 +41,8 @@ $rutas = [
 
     'contacto' => ['controlador' => 'contactoCtrl', 'metodo' => 'index'],
 
+    'contacto/enviar' => ['controlador' => 'contactoCtrl', 'metodo' => 'enviar'],
+
     'perfil' => ['controlador' => 'perfilCtrl', 'metodo' => 'index'],
 
     'pago' => ['controlador' => 'pagoCtrl', 'metodo' => 'pago'],

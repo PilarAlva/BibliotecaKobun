@@ -12,6 +12,22 @@ class UsuarioBD {
 
     }
 
+    public function obtenerDatosContacto($usuario_id){
+        $consulta = "SELECT 
+                    concat(u.nombre, ' ', u.apellido) as usuario_nombre,
+                    u.mail as usuario_mail,
+                    IFNULL(s.telefono, '') as usuario_telefono
+                    FROM usuarios u
+                    LEFT JOIN socios s ON u.id = s.usuario_id
+                    WHERE u.id = :usuario_id";
+
+        $this->db->consulta($consulta);
+    
+        $this->db->unir(':usuario_id', $usuario_id);
+    
+        return $this->db->resultado();
+    }
+
     public function obtenerUsuarioPorMail($mail){
 
         $consulta = "SELECT * FROM  usuarios WHERE mail = :mail";
