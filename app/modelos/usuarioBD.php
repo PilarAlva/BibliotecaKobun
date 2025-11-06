@@ -110,7 +110,7 @@ class UsuarioBD {
         return $this->db->ejecutar();
 
     }
-    public function registrarProfesor(){
+    public function registrarProfesor($nombre, $apellido, $mail, $clave){
 
         $consulta = "INSERT INTO usuarios (rold_id, nombre, apellido, mail, clave) 
                     VALUES (2, :nombre, :apellido, :mail, :clave)";

@@ -1,6 +1,6 @@
 
-<link href="css/style.css" rel="stylesheet" />
 <link href="css/reset.css" rel="stylesheet" />
+<link href="css/style.css" rel="stylesheet" />
 <link href="css/talleres.css" rel="stylesheet" />
 
 <link href="css/prueba.css" rel="stylesheet" />
@@ -8,58 +8,250 @@
 
 <div>
 
-<div class="taller_publicacion">
+<div class="form_contenedor">
 
-            <div class="t-p_encabezado">
 
-                <img class="t-p_foto_perfil" src="img/no.png"/>
+       <div class="form_contenido">
 
-                <span class="t-p_autor">
-                   Felipe Da Rosa
-                </span>
+            <div class="form_titulo subrayado">Martin Mariano Mendez</div>
 
-                <div class="t-p_acciones_menu">
-                    <span class="t-p_fecha_pub">
-                        11/12/2025
-                    </span>
-                    <div class="t-p_acciones_menu_cont">
-                        <button class="t-p_acciones_btn">X</button>
-                        <span>|</span>
-                        <button class="t-p_acciones_btn">E</button>
+            <section class="form_seccion subrayado">
+
+                <div class="form_informacion">
+                    
+                    <div class="form_fila">
+                        <span>Correo: martinmm@kobun.com</span>
+                    </div>
+                    <div class="form_fila">
+                        <span>Tipo de Usuario: General </span>
+                    </div>
+                    <div class="form_fila">
+                        <span>Socio: No </span>
                     </div>
                 </div>
+                
+            </section>
+
+            <section class="form_seccion">
+
+                <div class="form_fila">
+                    
+                    <div class="form_error">
+                        Acá iria un error
+                    </div>
+
+                </div>
+
+                <div class="form_fila">
+
+                        <div class="form_desplegable">
+    
+                            <button class="form_boton despliega">Hacer Socio</button> 
+                            <div class="form_desplegable_cont">
+                                <form class="form_datos"> 
+                                    <label>Nombre</label>
+                                    <input class="form_input" type="text"/>
+                                    <label>Apellido</label>
+                                    <input class="form_input" type="text"/>
+                                    <label>DNI</label>
+                                    <input class="form_input" type="text"/>
+                                </form>
+                            <div>
+                        
+                        </div>
+                         
+                    </div>
+                    
+                </div>
+
+            </section>
+
+            <div class="form_subtitulo">Ejemplares</div>
+
+            <section class="form_seccion subrayado">
+
+                <div class="form_bloque">
+                    
+                    <div class="form_fila expande">
+                        <div class="form_subtitulo">
+                            <span>Libro</span>
+                        </div>
+                        <input type="checkbox"></input>
+
+                    </div>
+
+                    <div class="form_fila expande">
+
+                        <div class="form_seccion">
+                            <div class="form_fila">
+                                <span>Codigo ejemplar</span>
+                            </div>
+                            <div class="form_fila">
+                                <span>Codigo ejemplar</span>
+                            </div>
+                            <div class="form_fila">
+                                <span>Codigo ejemplar</span>
+                            </div>
+                        </div>
+                        
+                        
+
+                        <div class="form_desplegable inv">
+    
+                        <div class="form_boton despliega">Hacer Socio</div> 
+                            <div class="form_desplegable_cont">
+                                <form class="form_datos"> 
+                                    
+                                    <input class="form_input" type="text"/>
+                                    
+                                    <input class="form_input" type="text"/>
+                                    
+                                    <input class="form_input" type="text"/>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    <div class="form_fila expande">
+                        <div class="form_error">
+                            Acá iria un error
+                        </div>
+                        <div class="boton">
+                            Guardar
+                        </div>
+                    </div>
+
+                </div>
+                    
+                <div class="form_bloque">
+                    
+                    <div class="form_fila expande">
+                        <div class="form_subtitulo">
+                            <span>Libro</span>
+                        </div>
+                        <input type="checkbox"></input>
+
+                    </div>
+
+                    <div class="form_fila expande">
+
+                        <div class="form_seccion">
+                            <div class="form_fila">
+                                <span>Codigo ejemplar</span>
+                            </div>
+                            <div class="form_fila">
+                                <span>Codigo ejemplar</span>
+                            </div>
+                            <div class="form_fila">
+                                <span>Codigo ejemplar</span>
+                            </div>
+                        </div>
+                        
+                        
+
+                        <div class="form_desplegable inv">
+    
+                        <div class="form_boton despliega">Hacer Socio</div> 
+                            <div class="form_desplegable_cont">
+                                <form class="form_datos"> 
+                                    
+                                    <input class="form_input" type="text"/>
+                                    
+                                    <input class="form_input" type="text"/>
+                                    
+                                    <input class="form_input" type="text"/>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    <div class="form_fila expande">
+                        <div class="form_error">
+                            Acá iria un error
+                        </div>
+                        <div class="boton">
+                            Guardar
+                        </div>
+                    </div>
+
+                </div>
+
+                
+
+            </section>
+
+            <div class="form_subtitulo subrayado">Nuevo Libro</div>
+
+            <div class="form_seccion">
+
+                <from class="form_datos">
+
+                    <label>Titulo</label>
+                    <div class="form_fila">
+                    
+                        <input class="form_input">
+                        
+                    </div>
+                    <label>Autor</label>
+                    <div class="form_fila">
+                    
+                        <select name="filtro" class="form_input">
+                            <option value="titulo">Título</option>
+                            <option value="autor" >Autor</option>
+                            <option value="genero">Género</option>
+                            <option value="contenido">Contenido</option>
+                        </select>
+
+                        <div class="form_boton">+
+                        </div>
+                    </div>
+                    <label>Editorial</label>
+                    <div class="form_fila expande">
+
+                        <select name="filtro" class="form_input">
+                            <option value="titulo">Título</option>
+                            <option value="autor" >Autor</option>
+                            <option value="genero">Género</option>
+                            <option value="contenido">Contenido</option>
+                        </select>
+                        <div class="form_boton">+
+                        </div>
+                        
+                    </div>
+                    
+
+
+                </formr>
+
 
             </div>
-            <div class="t-p_cuerpo">
-                <div class="t-p_titulo">
-                    <span class="t-p_titulo_text">
-                        Titulo de prueba 
-                    </span>
-                </div>
-                <div class="t-p_cuerpo_contenido">
-                    <p class="t-p_cuerpo_text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                
-                </div>
-                <div class= "t-p_cuerpo_archivos">
+
+            <section class="form_pie">
+                <div class="form_fila">
+
+                    <div class="form_boton">Quitar privilegios</div>
                     
-
-                        <span class="t-p_archivo">
-                            Foto.img
-                        </span>
-                    
-                        <span class="t-p_archivo">
-                            doc.docx
-                        </span>
-                        <span class="t-p_archivo">
-                            PDF.pdf
-                        </span>
                 </div>
+
+
+                <div class="form_fila expande">
+
+                    <div class="form_boton">Guardar</div>
+                    <div class="form_boton">Cerrar</div>
 
                 </div>
 
-</div>
+            </section>
+
+
+
+       </div>
+
+    
 
 </div>
 

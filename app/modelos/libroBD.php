@@ -4,12 +4,11 @@ require_once '../app/bd/conexion.php';
 
 class LibroBD {
     
-    private $con;
+    private $db;
 
     public function __construct() {
         
-        $db = new Database();
-        $this->con = $db->conectar();
+        $this->db = new BaseDatos();
 
     }
 
@@ -93,23 +92,23 @@ class LibroBD {
 
         $consulta .= " GROUP BY l.id ORDER BY l.titulo ASC LIMIT :limite OFFSET :offset";
 
-        $sql = $this->con->prepare($consulta);
+        $this->db->consulta($consulta);
 
         if ($busqueda != '') {
             if ($filtro == 'autor') {
-                $sql->bindValue(':busqueda_nombre', "%$busqueda%", PDO::PARAM_STR);
-                $sql->bindValue(':busqueda_apellido', "%$busqueda%", PDO::PARAM_STR);
+                $this->db->unir(':busqueda_nombre', "%$busqueda%", PDO::PARAM_STR);
+                $this->db->unir(':busqueda_apellido', "%$busqueda%", PDO::PARAM_STR);
             } else {
-                $sql->bindValue(':busqueda', "%$busqueda%", PDO::PARAM_STR);
+                $this->db->unir(':busqueda', "%$busqueda%", PDO::PARAM_STR);
             }
         }
 
-        $sql->bindValue(':limite', $cant,   PDO::PARAM_INT);
-        $sql->bindValue(':offset', $inicio, PDO::PARAM_INT);
+        $this->db->unir(':limite', $cant,   PDO::PARAM_INT);
+        $this->db->unir(':offset', $inicio, PDO::PARAM_INT);
 
-        $sql->execute(); 
+        $this->db->ejecutar(); 
 
-        return $sql->fetchAll(PDO::FETCH_ASSOC);
+        return $this->db->resultados();
 
     
     }
@@ -171,19 +170,19 @@ class LibroBD {
         }
 
 
-        $sql = $this->con->prepare($consulta);
+        $this->db->consulta($consulta);
 
         if ($busqueda != '') {
             if ($filtro == 'autor') {
-                $sql->bindValue(':busqueda_nombre', "%$busqueda%", PDO::PARAM_STR);
-                $sql->bindValue(':busqueda_apellido', "%$busqueda%", PDO::PARAM_STR);
+                $this->db->unir(':busqueda_nombre', "%$busqueda%", PDO::PARAM_STR);
+                $this->db->unir(':busqueda_apellido', "%$busqueda%", PDO::PARAM_STR);
             } else {
-                $sql->bindValue(':busqueda', "%$busqueda%", PDO::PARAM_STR);
+                $this->db->unir(':busqueda', "%$busqueda%", PDO::PARAM_STR);
             }
         }
-        $sql->execute(); 
+        $this->db->ejecutar(); 
 
-        return $sql->fetchColumn();
+        return $this->db->resultado();
 
     }
 
@@ -199,11 +198,11 @@ class LibroBD {
                     ON e.id = a.ejemplar_id
                     WHERE e.libro_id = :libro_id";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
-        $sql->execute(); 
+        $this->db->consulta($consulta);
+        $this->db->unir(':libro_id', $libro_id, PDO::PARAM_INT);
+        $this->db->ejecutar(); 
 
-        return $sql->fetchColumn();
+        return $this->db->resultado();
     }
 
     public function ejemplaresTotales($libro_id){
@@ -218,11 +217,11 @@ class LibroBD {
                     LEFT JOIN prestamos p ON p.ejemplar_id = e.id AND p.fecha_devolucion IS NULL
                     WHERE e.libro_id = :libro_id";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
-        $sql->execute(); 
+        $this->db->consulta($consulta);
+        $this->db->unir(':libro_id', $libro_id, PDO::PARAM_INT);
+        $this->db->ejecutar(); 
 
-        return $sql->fetchAll(PDO::FETCH_ASSOC);
+        return $this->db->resultados();
     }
 
     public function ejemplaresDisponibles($libro_id){
@@ -238,11 +237,42 @@ class LibroBD {
                         FROM prestamos p WHERE p.fecha_devolucion IS NULL
                     ) AND e.libro_id = :libro_id";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
-        $sql->execute(); 
+        $this->db->consulta($consulta);
+        $this->db->unir(':libro_id', $libro_id, PDO::PARAM_INT);
+        $this->db->ejecutar(); 
 
-        return $sql->fetchAll(PDO::FETCH_ASSOC);
+        return $this->db->resultados();
+    }
+
+    public function obtenerLibroPorEjemplar($id_ejemplar){
+         $consulta = "SELECT 
+                        l.id as id, 
+                        l.isbn as isbn,
+                        l.titulo as titulo,
+                        l.sinopsis as sinopsis,
+                        l.ref_portada as portada,
+                        l.descripcion as descripcion,
+                        group_concat(distinct g.nombre separator ', ') as generos,
+                        group_concat(distinct concat(a.nombre, ' ', a.apellido ) separator ', ') as autores,
+                        group_concat(distinct e.nombre separator ', ') as editorial
+
+                    FROM ejemplares ej
+
+                    LEFT JOIN libros l ON ej.libro_id = l.id
+                    LEFT JOIN libros_generos lg ON l.id = lg.libro_id
+                    LEFT JOIN generos g ON lg.genero_id = g.id
+                    LEFT JOIN libros_autores la ON l.id = la.libro_id
+                    LEFT JOIN autores a ON la.autor_id = a.id
+                    LEFT JOIN libros_editoriales le ON l.id = le.libro_id
+                    LEFT JOIN editoriales e ON le.editorial_id = e.id
+
+                    WHERE ej.id = :ejemplar_id
+                    GROUP BY l.id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':id_ejemplar', $id_ejemplar);
+        return $this->db->resultado();
+        
     }
 
     public function obtenerEjemplarPorId($ejempalr_id){
@@ -252,11 +282,10 @@ class LibroBD {
                     FROM ejemplares e 
                     WHERE e.id = :ejemplar_id ";
 
-        $sql = $this.con->prepare($consulta);
-        $sql->bindValue(":ejemplar_id", $ejempalr_id, PDO::PARAM_INT);    
-        $sql->execute();
+        $this->db->unir(":ejemplar_id", $ejempalr_id, PDO::PARAM_INT);    
+        $this->db->ejecutar();
 
-        return $sql->fectchAll(PDO::FETCH_ASOC);
+        return $this->db->resultados();
     }
 
     public function infoLibro($id_libro){
@@ -284,11 +313,11 @@ class LibroBD {
                     WHERE l.id = :id_libro
                     GROUP BY l.id";
 
-        $sql = $this->con->prepare($consulta);
+        $this->db->consulta($consulta);
 
-        $sql->bindValue(':id_libro', $id_libro, PDO::PARAM_INT);
-        $sql->execute();
-        return $sql->fetch(PDO::FETCH_ASSOC);
+        $this->db->unir(':id_libro', $id_libro, PDO::PARAM_INT);
+        $this->db->ejecutar();
+        return $this->db->resultado();
         
     }
 
@@ -298,14 +327,14 @@ class LibroBD {
         $consulta = "INSERT INTO libros (isbn,titulo, sinopsis, ref_portada, descripcion, activo) 
                      VALUES (:isbn,:titulo, :sinopsis, :ref_portada, :descripcion, 1)";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':isbn', $isbn, PDO::PARAM_STR);
-        $sql->bindValue(':titulo', $titulo, PDO::PARAM_STR);
-        $sql->bindValue(':sinopsis', $sinopsis, PDO::PARAM_STR);
-        $sql->bindValue(':ref_portada', $ref_portada, PDO::PARAM_STR);
-        $sql->bindValue(':descripcion', $descripcion, PDO::PARAM_STR);
+        $this->db->consulta($consulta);
+        $this->db->unir(':isbn', $isbn, PDO::PARAM_STR);
+        $this->db->unir(':titulo', $titulo, PDO::PARAM_STR);
+        $this->db->unir(':sinopsis', $sinopsis, PDO::PARAM_STR);
+        $this->db->unir(':ref_portada', $ref_portada, PDO::PARAM_STR);
+        $this->db->unir(':descripcion', $descripcion, PDO::PARAM_STR);
 
-        $sql->execute();
+        $this->db->ejecutar();
 
         $libro_id = $this->con->lastInsertId();
         $this->agregarLibroAutores($libro_id, $autores);
@@ -326,11 +355,11 @@ class LibroBD {
         $consulta = "INSERT INTO libros_autores (libro_id, autor_id) 
                      VALUES (:libro_id, :autor_id)";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
-        $sql->bindValue(':autor_id', $autor_id, PDO::PARAM_INT);
+        $this->db->consulta($consulta);
+        $this->db->unir(':libro_id', $libro_id, PDO::PARAM_INT);
+        $this->db->unir(':autor_id', $autor_id, PDO::PARAM_INT);
 
-        return $sql->execute();
+        return $this->db->ejecutar();
     }
 
     private function agregarLibroEditoriales($libro_id, $editoriales_id){
@@ -344,11 +373,11 @@ class LibroBD {
         $consulta = "INSERT INTO libros_editoriales (libro_id, editorial_id) 
                      VALUES (:libro_id, :editorial_id)";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
-        $sql->bindValue(':editorial_id', $editorial_id, PDO::PARAM_INT);
+        $this->db->consulta($consulta);
+        $this->db->unir(':libro_id', $libro_id, PDO::PARAM_INT);
+        $this->db->unir(':editorial_id', $editorial_id, PDO::PARAM_INT);
 
-        return $sql->execute();
+        return $this->db->ejecutar();
     }
 
     private function agregarLibroGeneros($libro_id, $generos_id){
@@ -361,11 +390,11 @@ class LibroBD {
         $consulta = "INSERT INTO libros_generos (libro_id, genero_id) 
                      VALUES (:libro_id, :genero_id)";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
-        $sql->bindValue(':genero_id', $genero_id, PDO::PARAM_INT);
+        $this->db->consulta($consulta);
+        $this->db->unir(':libro_id', $libro_id, PDO::PARAM_INT);
+        $this->db->unir(':genero_id', $genero_id, PDO::PARAM_INT);
 
-        return $sql->execute();
+        return $this->db->ejecutar();
     }   
 
     public function editarLibro($isbn, $titulo, $sinopsis, $ref_portada, $descripcion){
@@ -377,14 +406,14 @@ class LibroBD {
                             descripcion = :descripcion 
                             WHERE id = :id ";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':isbn', $isbn, PDO::PARAM_STR);
-        $sql->bindValue(':titulo', $titulo, PDO::PARAM_STR);
-        $sql->bindValue(':sinopsis', $sinopsis, PDO::PARAM_STR);
-        $sql->bindValue(':ref_portada', $ref_portada, PDO::PARAM_STR);
-        $sql->bindValue(':descripcion', $descripcion, PDO::PARAM_STR);
+        $this->db->consulta($consulta);
+        $this->db->unir(':isbn', $isbn, PDO::PARAM_STR);
+        $this->db->unir(':titulo', $titulo, PDO::PARAM_STR);
+        $this->db->unir(':sinopsis', $sinopsis, PDO::PARAM_STR);
+        $this->db->unir(':ref_portada', $ref_portada, PDO::PARAM_STR);
+        $this->db->unir(':descripcion', $descripcion, PDO::PARAM_STR);
 
-        return $sql->execute();        
+        return $this->db->ejecutar();        
 
     }
 
@@ -394,11 +423,11 @@ class LibroBD {
                         SET activo = :activo
                         WHERE id = :libro_id ";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
-        $sql->bindValue(':activo', $activo, PDO::PARAM_INT);
+        $this->db->consulta($consulta);
+        $this->db->unir(':libro_id', $libro_id, PDO::PARAM_INT);
+        $this->db->unir(':activo', $activo, PDO::PARAM_INT);
 
-        return $sql->execute();        
+        return $this->db->ejecutar();        
 
     }
 
@@ -407,11 +436,11 @@ class LibroBD {
         $consulta = "INSERT INTO ejemplares (libro_id, codigo_topografico) 
                      VALUES (:libro_id, :codigo_topografico) ";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
-        $sql->bindValue(':codigo_topografico', $codigo_topografico, PDO::PARAM_STR);
+        $this->db->consulta($consulta);
+        $this->db->unir(':libro_id', $libro_id, PDO::PARAM_INT);
+        $this->db->unir(':codigo_topografico', $codigo_topografico, PDO::PARAM_STR);
 
-        return $sql->execute();        
+        return $this->db->ejecutar();        
 
     }
 
@@ -420,10 +449,10 @@ class LibroBD {
         $consulta = "INSERT INTO generos (nombre) 
                      VALUES (:nombre) ";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':nombre', $nombre, PDO::PARAM_STR);
+        $this->db->consulta($consulta);
+        $this->db->unir(':nombre', $nombre, PDO::PARAM_STR);
 
-        return $sql->execute();
+        return $this->db->ejecutar();
 
     }
 
@@ -432,10 +461,10 @@ class LibroBD {
         $consulta = "INSERT INTO editoriales (nombre) 
                      VALUES (:nombre) ";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':nombre', $nombre, PDO::PARAM_STR);
+        $this->db->consulta($consulta);
+        $this->db->unir(':nombre', $nombre, PDO::PARAM_STR);
 
-        return $sql->execute();
+        return $this->db->ejecutar();
 
     }   
 
@@ -444,11 +473,11 @@ class LibroBD {
         $consulta = "INSERT INTO autores (nombre, apellido) 
                      VALUES (:nombre, :apellido) ";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':nombre', $nombre, PDO::PARAM_STR);
-        $sql->bindValue(':apellido', $apellido, PDO::PARAM_STR);
+        $this->db->consulta($consulta);
+        $this->db->unir(':nombre', $nombre, PDO::PARAM_STR);
+        $this->db->unir(':apellido', $apellido, PDO::PARAM_STR);
 
-        return $sql->execute();
+        return $this->db->ejecutar();
 
     }   
     public function antiguedadLibro($libro_id) {
@@ -458,11 +487,11 @@ class LibroBD {
                     FROM libros l
                     WHERE l.libro_id = :libro_id";
 
-        $sql = $this->con->prepare($consulta);
-        $sql->bindValue(':libro_id', $libro_id, PDO::PARAM_INT);
-        $sql->execute();
+        $this->db->consulta($consulta);
+        $this->db->unir(':libro_id', $libro_id, PDO::PARAM_INT);
+        $this->db->ejecutar();
 
-        return $sql->fetchColumn();
+        return $this->db->resultado();
     }   
 
     public function __destruct() {

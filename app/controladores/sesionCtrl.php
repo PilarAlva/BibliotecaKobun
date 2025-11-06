@@ -46,7 +46,9 @@
 
 
         $data = ["mensaje" => $mensaje,
-                "clase_mensaje" => $clase_mensaje];
+                "clase_mensaje" => $clase_mensaje,
+                "cssEspecifico" => 'sesion.css',
+                ];
 
         if($msj == 0)
         {
@@ -59,6 +61,13 @@
 
     }
 
+    public function cerrar(){
+
+        session_destroy();
+        header('location: ' . BASE_URL);
+
+
+    }
 
     private function registrarUsuario($nombre, $apellido, $mail, $clave){
 

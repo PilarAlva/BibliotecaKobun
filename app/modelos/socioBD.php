@@ -93,7 +93,7 @@ class socioBD {
         $this->db->unir(':dni', $dni);
         $this->db->unir(':fecha_nacimiento', $fecha_nacimiento);    
 
-        return $sql->execute();
+        return $this->db->ejecutar();
     }   
 
     public function eliminarSocio($socio_id) {
@@ -126,20 +126,9 @@ class socioBD {
 
         return $this->db->resultado();
     }
-
+    
     //Devuelve los dias desde el útltimo pago de un socio
-    public function deudasPagos($socio_id) {
-        $consulta = "SELECT 
-                    DATEDIFF(CURRENT_DATE,
-                    (SELECT MAX(fecha) FROM PAGOS
-		            WHERE socio_id = :socio_id)) as dias_atraso";
-
-        $this->db->consulta($consulta);
-        $this->db->unir(':socio_id', $socio_id);
-
-        return $this->db->resultado();
-    }
-
+    
     public function __destruct() {
         $this->con = null;
     }

@@ -55,11 +55,15 @@ class prestamoBD {
     }
 
     public function prestamosPorSocio($socio_id) {
-        $consulta = "SELECT p.id, p.ejemplar_id, 
-                            p.fecha_prestamo, p.fecha_vencimiento,
-                            p.fecha_devolucion, e.titulo, e.autores
+        $consulta = "SELECT p.id,
+                            p.ejemplar_id, 
+                            p.fecha_prestamo,
+                            p.fecha_vencimiento,
+                            p.fecha_devolucion,
+                            p.ejemplar_id as ejemplar_id,
+                            e.libro_id as libro_id
                     FROM prestamos p
-                    JOIN ejemplares e ON p.ejemplar_id = e.id
+                    LEFT JOIN ejemplares e ON p.ejemplar_id = e.id
                     WHERE p.socio_id = :socio_id
                     ORDER BY p.fecha_prestamo DESC";
 
