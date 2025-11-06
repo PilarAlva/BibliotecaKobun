@@ -8,12 +8,20 @@ window.addEventListener("load", ()=>{
     btn.forEach((boton)=>{
         //console.log(boton);
         boton.addEventListener("click",()=>{
+            
+            var seccion = boton.closest(".seccion_formulario");
+            var ocultar = seccion.querySelectorAll(".se_oculta");
+            var plegar = seccion.querySelectorAll(".se_despliega");
+            if(ocultar){
+                ocultar.forEach((node)=>{ node.classList.toggle("ocultado") });
+            }
+            if(plegar){
+                plegar.forEach((node)=>{ 
+                    node.classList.toggle("desplegado");
+                    node.classList.toggle("plegado");
+                });
+            }
 
-            var desplegable = boton.parentNode;
-            //querySelector(".form_desplegable");
-            desplegable = console.log(desplegable.querySelector(".form_desplegable_cont"));
-            console.log(desplegable);
-            desplegable.classList.toggle("desplegado");
 
         });
     })
@@ -23,3 +31,8 @@ window.addEventListener("load", ()=>{
     
 });
 
+
+function usuarios(){
+
+    
+}

@@ -9,49 +9,7 @@
 *{
     font-size: var(--tam-fuente-1);
 }
-/*Utilitarias*/
-.subrayado::after{
-    content: '';
-    width: 100%;;
-    
-    height: 1px;
-    display: block;
-    background-color: var(--form-subrayado);
-    margin-top: 0.5rem;
-}
-.expande{
-    display: flex;
-    justify-content: space-between;
-    margin: 0;
-}
-.rojo{
-    background-color: red;
-}
-.derecha{
-    margin-right: 0;
-    margin-left: auto;
-}
-.desplegado{
 
-    display: block;
-}
-.form_error{
-    color: var(--error);
-    font-size: var(--tam-fuente-1);
-    &::before{
-        content: '⚠' ;
-    }
-}
-.despliega::after{
-    font-size: 10px;
-    content: ' ▼ ' ;
-    margin-right: 5px;
-}
-.despliega:hover:after{
-    font-size: 10px;
-    content: ' ▲' ;
-    margin-right: 5px;
-}
 /*contenedores*/
 .form_contenedor{
 
@@ -108,18 +66,7 @@
 .abs{
     position: absolute;
 }
-.form_desplegable_cont {
 
-    display: block;
-    
-    height: 0px;
-    width: 0px;
-    opacity: 0;
-    overflow-y: hidden;
-    margin-top: 5px;
-    transition: height 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
-
-}
 /*
 .form_desplegable:hover .form_desplegable_cont{ 
 
@@ -177,3 +124,72 @@
     margin-top: 5px;
     
 }
+
+
+/*Utilitarias*/
+.se_despliega{
+    transition: height 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    
+}
+.se_oculta{
+    transition: opacity 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.subrayado::after{
+    content: '';
+    width: 100%;;
+    
+    height: 1px;
+    display: block;
+    background-color: var(--form-subrayado);
+    margin-top: 0.5rem;
+}
+.rellena{
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+    margin: 0;
+}
+.rojo{
+    background-color: red;
+}
+.derecha{
+    margin-right: 0;
+    margin-left: auto;
+}
+.plegado{
+    display: block;
+    
+    height: 0px;
+    width: 0px;
+    opacity: 0;
+    overflow-y: hidden;
+    margin-top: 5px;
+
+}
+.desplegado{
+
+    opacity: 1;
+    height: auto;
+    width: max-content;
+}
+.form_error{
+    color: var(--error);
+    font-size: var(--tam-fuente-1);
+    &::before{
+        content: '⚠' ;
+    }
+}
+.despliega::after{
+    font-size: 10px;
+    content: ' ▼ ' ;
+    margin-right: 5px;
+}
+.despliega:hover:after{
+    font-size: 10px;
+    content: ' ▲' ;
+    margin-right: 5px;
+}
+.ocultado{
+    display: none;   
+}
+
