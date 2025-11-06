@@ -139,11 +139,13 @@
                     <h3>Mis Préstamos</h3>
 
                     <div>
-                        <?php
+                        <p class="msj-gris"><?php
                         if (!$socio) {
-                            echo '<p class="sin-contenido">Para pedir préstamos, primero debe asociarse a la biblioteca.</p>';
+                            echo 'Para pedir préstamos, primero debe asociarse a la biblioteca.';
                         } elseif (empty($prestamos)) {
-                            echo '<p class="sin-contenido">No tiene préstamos activos.</p>';
+                            echo 'No tiene préstamos activos.';
+                        ?></p>
+                        <?php
                         } else {
                             // Iteramos sobre cada préstamo para mostrarlo
                             foreach ($prestamos as $prestamo) { ?>
@@ -182,19 +184,21 @@
                 <!-- Contenido para "Talleres" -->
                 <div id="talleres" class="tab-content">
                     <h3>Mis Talleres</h3>
-                    <div class="talleres-grid">
+                    
                         <?php
-                            if (empty($talleres)) {
-                        ?>
+                        if (empty($talleres)) { ?>
                             <div class="sin-contenido">
-                                <p>No participa de ningún taller.</p>
+                                <p class="msj-gris">No participa de ningún taller.</p>
                                 <div class="boton-derecha">
                                     <button class="bt"><a href="<?php echo BASE_URL; ?>talleres">Ver Talleres</a></button>
                                 </div>
                             </div>
-                        <?php } else {
-                                // Iteracion sobre cada taller
+                        <?php }
+                        else { ?>
+                            <div class="talleres-grid">
+                                <?php // Iteracion sobre cada taller
                                 foreach ($talleres as $taller) { ?>
+                                
                                     <div class="taller">
                                         <a href="<?=BASE_URL?>taller/id/<?= $taller['taller_id']; ?>">
                                             <div class="taller-contenedor">  
@@ -211,12 +215,11 @@
                                             </div>
                                         </a>
                                     </div>
-                                <?php } // Fin del foreach
-                            }
-                        ?>
-
-                    </div>
-
+                                
+                                <?php } ?> <!-- Fin del foreach --> 
+                            </div>
+                        <?php } ?>
+                
                 </div>
 
                 <!-- Contenido para "Accesibilidad" -->

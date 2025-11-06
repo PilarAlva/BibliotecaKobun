@@ -183,10 +183,10 @@
     justify-content: space-between; /* Distribuye el contenido verticalmente */
     height: 100%;
 }
-.sin-contenido p {
+/* .sin-contenido p {
     color: gray;
     margin-bottom: 10px;
-}
+} */
 
 .linea-divisora {
     border: 0;
@@ -372,6 +372,10 @@
 
 
 /* ------------- Talleres ------------- */
+.talleres-grid .sin-contenido {
+    display: block;
+}
+
 .talleres-grid {
     display: flex;
     flex-wrap: wrap;
