@@ -9,6 +9,8 @@ window.addEventListener("load", ()=>{
         //console.log(boton);
         boton.addEventListener("click",()=>{
             
+            this.usuarios();
+
             var seccion = boton.closest(".seccion_formulario");
             var ocultar = seccion.querySelectorAll(".se_oculta");
             var plegar = seccion.querySelectorAll(".se_despliega");
@@ -34,5 +36,25 @@ window.addEventListener("load", ()=>{
 
 function usuarios(){
 
-    
+            const formData = new FormData();
+            formData.append('accion', "usuarios");;
+
+            fetch("http://localhost/BibliotecaKobun/public/peticion", { 
+            method: 'POST',
+            body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+
+                var data = JSON.parse(result).data;
+                //data.forEach((dato) => {console.log("dato: " + data);  })
+                console.log(data.usuarios[0]); 
+                
+
+            })
+            .catch(error => {
+                console.error('Error subiendo la publicacion', error);
+                
+            });
+
 }

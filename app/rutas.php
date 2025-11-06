@@ -59,6 +59,8 @@ $rutas = [
 
     'archivo/lista' => ['controlador' => 'archivoCtrl', 'metodo' => 'lista'],
 
+    'peticion' => ['controlador' => 'peticionCtrl', 'metodo' => 'peticion'],
+
 
 
 

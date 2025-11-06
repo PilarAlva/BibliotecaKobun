@@ -64,10 +64,9 @@ class UsuarioBD {
 
     public function obtenerTodosUsuarios(){
         
-        $consulta = "SELECT * FROM usuarios WHERE rol_id NOT 0";
+        $consulta = "SELECT * FROM usuarios WHERE rol_id != 0";
 
         $this->db->consulta($consulta);
-        $this->db->ejecutar();
 
         return $this->db->resultados();
 
