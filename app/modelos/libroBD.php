@@ -464,10 +464,36 @@ class LibroBD {
         return $sql->fetchColumn();
     }   
 
+
+
+    /* ---------- */
+    /* public function obtenerLibros () {
+        $consulta = "SELECT l.id, l.titulo, l.ref_portada, CONCAT(a.nombre, ' ', a.apellido) AS nombre_completo 
+                        FROM libros l
+                        JOIN libros_autores la ON l.id = la.libro_id
+                        JOIN autores a ON la.autor_id = a.id;";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->execute();
+
+        return $sql->fectchAll(PDO::FETCH_ASOC);
+    }
+
+    public function obtenerLibroPorId($libro_id){
+        $consulta = "SELECT *   
+                    FROM libros l 
+                    WHERE l.id = :libro_id ";
+
+        $sql = $this->con->prepare($consulta);
+        $sql->bindValue(":libro_id", $libro_id, PDO::PARAM_INT);    
+        $sql->execute();
+
+        return $sql->fectchAll(PDO::FETCH_ASOC);
+    } */
+
+
     public function __destruct() {
         $this->con = null;
     }
-
-
  
 }

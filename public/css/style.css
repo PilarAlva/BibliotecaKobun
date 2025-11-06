@@ -7,10 +7,12 @@
     --secondary-color: #f5f5dc;
     --text-color: #272727;
     --accent-color: #372a1e;
-    --bt-color: #6fa47a;
+    --green-color: #6fa47a;
     --bg-color: #f2f1eb; 
+    --grey-color: #d6d4d4;
+    --red-color: #c60f11;
     --font-main: 'Poppins', sans-serif;
-/*     --font-headings: 'Montserrat', sans-serif; */
+    --borde-contenedor: 20px;/*     --font-headings: 'Montserrat', sans-serif; */
 }
 
 * {
@@ -267,7 +269,6 @@ img {
     margin: 3rem auto;
     width: 80%; 
 }
-
 
 /* ------- Footer ------- */
 footer {

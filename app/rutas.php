@@ -21,6 +21,8 @@ $rutas = [
     
     'sesion' => ['controlador' => 'SesionCtrl', 'metodo' => 'index'],
 
+    'sesion/cerrar' => ['controlador' => 'SesionCtrl', 'metodo' => 'cerrar_sesion'],
+
     'talleres' => ['controlador' => 'tallerCtrl', 'metodo' => 'index'],
     
     'contacto' => ['controlador' => 'contactoCtrl', 'metodo' => 'index'],

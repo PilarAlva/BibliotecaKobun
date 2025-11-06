@@ -2,6 +2,7 @@
 
 require_once '../app/core/BaseDatos.php';
 
+
 class UsuarioBD {
     
     private $db;
@@ -37,7 +38,7 @@ class UsuarioBD {
 
     public function registrarUsuario($nombre, $apellido, $mail, $clave){
 
-        $consulta = "INSERT INTO usuarios (nombre, apellido, mail, password) VALUES (:nombre, :apellido, :mail, :clave)";
+        $consulta = "INSERT INTO usuarios (nombre, apellido, mail, clave) VALUES (:nombre, :apellido, :mail, :clave)";
 
         $this->db->consulta($consulta);
 
@@ -50,6 +51,21 @@ class UsuarioBD {
 
         return $this->db->resultado();
 
+    }
+
+
+    /* 
+    public function busquedaUsuarios ( ) {
+        
+    } */
+
+    public function obtenerUsuarios () {
+        $consulta = "SELECT id, nombre, apellido FROM usuarios";
+
+        $this->db->consulta($consulta);
+        $this->db->ejecutar();
+
+        return $this->db->resultados();
     }
 
 }

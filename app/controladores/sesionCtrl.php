@@ -4,120 +4,119 @@
 
     class SesionCtrl extends Controlador{
 
-       public function index(){
-        
-        $msj = 1; //ERROR POR DEFECTO
+        public function index(){
+            $msj = '';
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
-        
-            switch($_POST['action']){
-                case 'login':
-
-                    $mail = isset($_POST['mail']) ? trim($_POST['mail'] ) : '';
-                    $clave = isset($_POST['clave']) ? trim($_POST['clave'] ) : '';
-
-                    $msj = $this->loginUsuario($mail, $clave);
-
-                    break;
-                case 'registro':
-
-                    $nombre = trim($_POST['nombre']);
-                    $apellido =trim($_POST['apellido']);
-                    $mail =trim($_POST['mail']);
-                    $clave = password_hash(trim($_POST['clave']), PASSWORD_DEFAULT);
-
-                    $msj = $this->registrarUsuario($nombre, $apellido, $mail, $clave);
-
-                    break;
-                default:
-                    break;
-
-            };
-         
-        
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
             
+                switch($_POST['action']){
+                    case 'login':
 
-        }
+                        $mail = isset($_POST['mail']) ? trim($_POST['mail'] ) : '';
+                        $clave = isset($_POST['clave']) ? trim($_POST['clave'] ) : '';
 
-        $mensaje = '';
-        $clase_mensaje = '';
+                        $msj = $this->loginUsuario($mail, $clave);
 
-        $this->mensaje($mensaje, $clase_mensaje, $msj);
+                        break;
+                    case 'registro':
 
+                        $nombre = trim($_POST['nombre']);
+                        $apellido =trim($_POST['apellido']);
+                        $mail =trim($_POST['mail']);
+                        $clave = password_hash(trim($_POST['clave']), PASSWORD_DEFAULT);
 
-        $data = ["mensaje" => $mensaje,
-                "clase_mensaje" => $clase_mensaje];
+                        $msj = $this->registrarUsuario($nombre, $apellido, $mail, $clave);
 
-        if($msj == 0)
-        {
-            header('location: ' . BASE_URL);
-        }
-        else{
-            $this->mostrarVista('sesion', $data, 'Sesion');
-        }
-            
+                        break;
+                    default:
+                        break;
 
-    }
-
-
-    private function registrarUsuario($nombre, $apellido, $mail, $clave){
-
-        $msj = 1;
-
-        $usuarioModel = $this->cargarModelo("usuarioBD");
-
-        $chequeo_mail = $usuarioModel->obtenerUsuarioPorMail($mail);
-
-
-        if (!empty($chequeo_mail)) {
-            $msj = 4; //El usuario ya existe. Por favor inicie sesión
-        } else {
-            
-            if ($usuarioModel->registrarUsuario($nombre, $apellido, $mail, $clave)) {
-                $msg = 5; //Registro exitoso. Ahora puede iniciar sesión
-            } else {
-                $msg = 1; //Ha ocurrido un error (3).
+                };        
             }
+
+            $mensaje = '';
+            $clase_mensaje = '';
+
+            $this->mensaje($mensaje, $clase_mensaje, $msj);
+
+
+            $data = ["mensaje" => $mensaje,
+                    "clase_mensaje" => $clase_mensaje,
+                    "cssEspecifico" => "sesion.css"];
+
+            if($msj == 0)
+            {
+                header('location: ' . BASE_URL);
+            }
+            else{
+                $this->mostrarVista('sesion', $data, 'Sesion');
+            }
+            
+
         }
-        return $msj;
 
-    }
 
-    private function loginUsuario($mail, $clave){
+        private function registrarUsuario($nombre, $apellido, $mail, $clave){
 
-        $msj = 1;
+            $msj = 1;
 
-        $usuarioModel = $this->cargarModelo("usuarioBD");
+            $usuarioModel = $this->cargarModelo("usuarioBD");
 
-        if (empty($mail) || empty($clave)) {
-            $msj = 2; //Todos los campos son obligatorios
-        } else {
+            $chequeo_mail = $usuarioModel->obtenerUsuarioPorMail($mail);
 
-            $usuario = $usuarioModel->obtenerUsuarioPorMail($mail);
 
-            if ($usuario) {
-                if (password_verify($clave, $usuario['password'])) {
-                    $_SESSION['usuario_mail'] = $mail;
-                    $_SESSION['usuario_nombre'] = $usuario['nombre'];
-                    $_SESSION['usuario_apellido'] = $usuario['apellido'];
-                    //$_SESSION['img_perfil'] = $usuario['img_perfil'];
-                    $_SESSION['usuario_id'] = $usuario['id'];
-                    $msj = 0;
-                    $error = false;
-                    
+            if (!empty($chequeo_mail)) {
+                $msj = 4; //El usuario ya existe. Por favor inicie sesión
+            } else {
+                
+                if ($usuarioModel->registrarUsuario($nombre, $apellido, $mail, $clave)) {
+                    $msg = 5; //Registro exitoso. Ahora puede iniciar sesión
                 } else {
-                    $msj = 1; //Ha ocurrido un error (2)
-                } 
-            } else {
-                $msj = 3; //El usuario no existe. Por favor regístrate
+                    $msg = 1; //Ha ocurrido un error (3).
+                }
             }
+            return $msj;
+
         }
 
-        return $msj;
+        private function loginUsuario($mail, $clave){
 
-    }
+            $msj = 1;
 
-    private function mensaje(&$mensaje, &$clase_mensaje, $msj){
+            $usuarioModel = $this->cargarModelo("usuarioBD");
+
+            if (empty($mail) || empty($clave)) {
+                $msj = 2; //Todos los campos son obligatorios
+            } else {
+
+                $usuario = $usuarioModel->obtenerUsuarioPorMail($mail);
+
+                if ($usuario) {
+                    if (password_verify($clave, $usuario['clave'])) {
+                        $_SESSION['usuario_mail'] = $mail;
+                        $_SESSION['usuario_nombre'] = $usuario['nombre'];
+                        $_SESSION['usuario_apellido'] = $usuario['apellido'];
+                        //$_SESSION['img_perfil'] = $usuario['img_perfil'];
+                        $_SESSION['usuario_id'] = $usuario['id'];
+                        $_SESSION['rol_id'] = $usuario['rol_id'];
+
+
+                        $msj = 0;
+                        $error = false;
+                        
+                    } else {
+                        $msj = 1; //Ha ocurrido un error (2)
+                    } 
+                } else {
+                    $msj = 3; //El usuario no existe. Por favor regístrate
+                }
+            }
+
+            return $msj;
+
+        }
+
+        private function mensaje(&$mensaje, &$clase_mensaje, $msj){
             
             $mensaje = '';
             $clase_mensaje = 'mensaje-rojo';
@@ -142,9 +141,17 @@
                 default:
                     break;
             }
-
-
         }
+
+        public function cerrar_sesion() {
+            session_destroy(); 
+
+            header("Location: " . BASE_URL . "sesion");
+        }
+            
+
     }
+
+
 
 

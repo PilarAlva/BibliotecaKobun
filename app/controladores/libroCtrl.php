@@ -26,7 +26,8 @@ class libroCtrl extends Controlador{
                  "url_paginacion" => $this->urlPaginacion($filtro, $busqueda, $pagina),
                  "pagina" => $this->chequeoPagina($pagina),
                  "cantidad_paginas" => ceil($resultados / $cantidad_por_pagina) ];
-
+        
+        $data['cssEspecifico'] = 'catalogo.css';
         $this->mostrarVista('catalogo', $data, 'Catalogo');
 
     }
@@ -67,7 +68,8 @@ class libroCtrl extends Controlador{
                  "url_paginacion" => $this->urlPaginacion($filtro, $busqueda, $pagina),
                  "pagina" => $this->chequeoPagina($pagina),
                  "cantidad_paginas" => ceil($resultados / $cantidad_por_pagina) ];
-
+        
+        $data['cssEspecifico'] = 'catalogo.css';
         $this->mostrarVista('catalogo', $data, 'Catalogo');
 
     }
@@ -82,9 +84,11 @@ class libroCtrl extends Controlador{
 
         $data = [
             "libro" => $libro,
-            "ejemplares" => $ejemplares
+            "ejemplares" => $ejemplares,
+            "cssEspecifico" => 'catalogo.css' // Usamos el mismo CSS que el catálogo
             
         ];
+
 
         $this->mostrarVista('Libro', $data, $libro['titulo']);
 
@@ -111,4 +115,3 @@ class libroCtrl extends Controlador{
     }
 
 }
-

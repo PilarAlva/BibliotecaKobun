@@ -55,13 +55,14 @@ class prestamoBD {
     }
 
     public function prestamosPorSocio($socio_id) {
-        $consulta = "SELECT p.id, p.ejemplar_id, 
-                            p.fecha_prestamo, p.fecha_vencimiento,
-                            p.fecha_devolucion, e.titulo, e.autores
-                    FROM prestamos p
-                    JOIN ejemplares e ON p.ejemplar_id = e.id
-                    WHERE p.socio_id = :socio_id
-                    ORDER BY p.fecha_prestamo DESC";
+        $consulta = "SELECT p.id, l.id as libro_id, p.ejemplar_id, p.fecha_prestamo, p.fecha_vencimiento, p.fecha_devolucion, l.titulo, CONCAT(a.nombre, ' ', a.apellido) AS nombre_completo, l.ref_portada AS portada
+                        FROM prestamos p 
+                            JOIN ejemplares e ON p.ejemplar_id = e.id
+                            JOIN libros l ON e.libro_id = l.id
+                            JOIN libros_autores la ON la.libro_id = l.id
+                            JOIN autores a ON la.autor_id = a.id
+                                WHERE p.socio_id = :socio_id
+                                ORDER BY p.fecha_prestamo DESC;";
 
         $sql = $this->con->prepare($consulta);
         $sql->bindValue(':socio_id', $socio_id, PDO::PARAM_INT);

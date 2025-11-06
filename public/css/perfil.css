@@ -1,0 +1,615 @@
+:root {
+    --padding-cont: 20px;
+    --bt-color-neutro: #f2f1eb;
+}
+
+
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    padding: 3rem;
+}
+
+@media (max-width: 768px){
+    .main-content {
+        padding: 1rem;
+    }
+}
+
+.perfil-contenedor {
+    font-family: var(--font-main);
+    background: white;
+    display: flex;
+    flex-direction: column;
+
+    width: 90%;
+    max-width: 1000px;
+    border-radius: 20px;
+    flex: 1; /*El contenedor crece para llenar el main-content */
+}
+/* Botón para mostrar/ocultar menú de perfil en móviles */
+#perfil-nav-toggle {
+    background: var(--bt-color-neutro);
+    border: 1px solid var(--grey-color);
+    padding: 10px 15px;
+    margin: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-main);
+    font-size: 1rem;
+    display: none; /* Oculto por defecto, se muestra en media query */
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+/* Estilo y transición para el ícono de la flecha */
+#perfil-nav-arrow {
+    transition: transform 0.3s ease-in-out;
+}
+
+.encabezado {
+    width: 100%;
+    border-bottom: 1px solid grey;
+}
+
+.encabezado h1 {
+    margin: 0;
+    padding: var(--padding-cont);
+}
+
+.cuerpo-perfil {
+    display: flex;
+    width: 100%;
+    flex: 1;
+}
+@media (max-width: 768px) {
+    .cuerpo-perfil {
+        flex-direction: column;
+    }
+}
+
+.nav-perfil {
+    border-right: 1px solid grey;
+    max-width: 230px;
+}
+@media (max-width: 768px) {
+    .nav-perfil {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+.nav-perfil ul li {
+    list-style: none;
+    margin: 0;
+}
+
+.nav-perfil ul li a {
+    text-decoration: none;
+    display: block;
+    padding: 15px 15px 15px 20px;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    
+}
+
+.nav-perfil ul li a:hover {
+    background-color: var(--grey-color);
+}
+
+@media (max-width: 768px) {
+    #perfil-nav-toggle {
+        display: block;
+    }
+    .nav-perfil {
+        border-right: none;
+        border-bottom: 1px solid grey;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out;
+    }
+    .nav-perfil.is-active {
+        max-height: 500px;
+    }
+
+    .nav-perfil ul li a {
+        padding: 15px var(--padding-cont);
+    }
+}
+/* Eenlace activo */
+.nav-perfil ul li a.active {
+    font-weight: 600;
+    background-color: var(--grey-color);
+}
+
+
+
+
+
+
+/* ------------- Contenido que se Muestra ------------- */
+.contenido-perfil {
+    padding: var(--padding-cont);
+    flex: 1;
+    display: flex;
+}
+
+.tab-content {
+    display: none; /* Oculta todos los contenidos por defecto */
+}
+
+.tab-content.active {
+    display: block; /* Muestra solo el contenido activo */
+    width: 100%;
+}
+
+
+/* ------------- Contenido en Común ------------- */
+.boton-derecha {
+    display: flex;
+    justify-content: end;
+}
+
+.bt-guardar-cambios {
+    background-color: var(--green-color);
+    font-family: var(--font-main);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.bt {
+    font-family: var(--font-main);
+    font-weight: normal;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.sin-contenido {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribuye el contenido verticalmente */
+    height: 100%;
+}
+/* .sin-contenido p {
+    color: gray;
+    margin-bottom: 10px;
+} */
+
+.linea-divisora {
+    border: 0;
+    height: 1px;
+    background-color: grey;
+    opacity: 0.6; 
+    margin: 0.5rem auto;
+    width: 90%; 
+}
+
+.msj-rojo {
+    color: var(--red-color);
+}
+.msj-verde {
+    color: var(--green-color);
+}
+.msj-gris {
+    color: grey;
+}
+
+
+
+
+/* ------------- Información Personal ------------- */
+.tab-content#info-personal.active {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Asegura que la pestaña ocupe todo el espacio del contenedor de contenido */
+}
+
+.info-datos-personales {
+    display: flex;
+    align-items: start;
+}
+
+.perfil-img-cont {
+    width: clamp(100px, 15vw, 180px);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative; /* Necesario para posicionar el overlay */
+    cursor: pointer;
+}
+
+.perfil-img-cont .upload-label {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.perfil-img-cont .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Filtro gris transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.perfil-img-cont:hover .overlay {
+    opacity: 1;
+}
+
+.perfil-img-cont .camera-icon {
+    width: 40px; 
+    height: 40px;
+    filter: invert(1);
+}
+
+.perfil-img-cont img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.form-datos-personales {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex: 1;
+    padding: var(--padding-cont);
+}
+
+.form-datos-personales .info-rol{
+    text-align: end;
+}
+.rol-admin {
+    color: var(--green-color);
+}
+.rol-profesor {
+    color: #fd7e14;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+}
+.form-group input {
+    padding: 10px;
+    border: 1px solid var(--grey-color);
+    border-radius: 30px;
+}
+
+.info-adicional {
+    padding: var(--padding-cont);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#bt-cerrar-sesion a {
+    color: white;
+}
+#bt-cerrar-sesion {
+    background-color: #545454;
+}
+
+@media (max-width: 768px) {
+    .info-datos-personales {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* ------ Perfil: Vista Adicional SOCIOS ------ */
+.info-socio {
+    padding: var(--padding-cont);
+
+}
+#info-personal #bt-pagar-cuota {
+    background-color: var(--bt-color-neutro);
+    border: 1px solid black;
+    padding: 5px 20px;
+    margin: 10px 0;
+}
+
+
+
+
+/* ------------- Préstamos ------------- */
+.libro {
+    background-color: var(--grey-color);
+    border-radius: var(--borde-contenedor);
+    padding: var(--padding-cont);
+    margin-bottom: 20px;
+
+    display: flex;
+    align-items: stretch;
+}
+
+.imagen-libro-cont {
+    width: 30%;
+    max-width: 90px; 
+    flex-shrink: 0;
+    padding-right: 20px;
+}
+.imagen-libro-cont img {
+    width: 100%; 
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.info-libro-contenedor {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+
+
+
+/* ------------- Talleres ------------- */
+.talleres-grid .sin-contenido {
+    display: block;
+}
+
+.talleres-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly; /* Centra los talleres horizontalmente */    
+}
+
+.taller {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 250px;
+    max-width: 300px;
+    margin-bottom: 20px;
+}
+.taller-contenedor {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--borde-contenedor);
+    background-color: var(--grey-color);    
+}
+
+
+.imagen-taller-cont {
+    max-width: 250px; 
+    flex-shrink: 0;
+}
+.imagen-taller-cont img {
+    width: 100%; 
+    aspect-ratio: 3 / 1.5;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.info-taller-contenedor{
+    flex-grow: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+#talleres .bt a {
+    color: black;
+    text-decoration: none;
+}
+#talleres .bt{
+    background-color: var(--bt-color-neutro); 
+    border: 1px solid black;
+}
+/* --- Talleres sin Contenido --- */
+#talleres.tab-content.active {
+    display: flex;
+    flex-direction: column;
+}
+/* #talleres .talleres-grid {
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column; 
+} */
+
+
+
+
+/* ------------- Accesibilidad ------------- */
+.form-datos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#accesibilidad .form-group {
+    margin-bottom: 15px;
+}
+#accesibilidad .form-group input {
+    padding: 15px;
+}
+
+.password-container {
+    position: relative;
+}
+
+
+
+
+
+/* ------------- VISTA ADICIONAL DE ADMIN (COMÚN) ------------- */
+.bt-mas-info {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding: 10px;
+
+    cursor: pointer;
+}
+
+.buscador {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1; 
+    margin-right: 20px; 
+}
+
+
+.buscador form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+.selector {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23372a1e'%3E%3Cpath d='M8 12L2 6h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 10px;
+
+    background-color: var(--grey-color);
+    width: 20%;
+    color: grey;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 40px 10px 15px;
+    cursor: pointer; 
+    font-family: var(--font-main); 
+}
+.search-input {
+    background-color: var(--grey-color);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 15px;
+    color: var(--accent-color);
+    font-family: var(--font-main);
+    flex-grow: 1;
+}
+.boton-busqueda {
+    background-color: var(--grey-color);
+    border: none;
+    border-radius: 50px;
+    padding: 12px;
+    color: grey;
+    cursor: pointer;
+}
+
+.bt-añadir {
+    background-color: var(--green-color);
+}
+.bt-añadir a {
+    color: white;
+}
+
+.cabecera-gestion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+@media (max-width: 768px) {
+    .cabecera-gestion {
+        flex-wrap: wrap;
+    }
+    .bt-añadir {
+        margin-top: 10px;
+    }
+}
+
+.contenedor-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+
+
+/* ------------- GESTIONAR USUARIOS ------------- */
+.cuerpo-gestion-usuarios {
+    padding: var(--padding-cont);
+}
+
+.muestra-usuarios {
+    display: flex;
+    flex-direction: column;
+}
+
+.usuario {
+    display: flex;
+    box-sizing: border-box;
+}
+
+.imagen-usuario-cont {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.imagen-usuario-cont img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.linea-divisora {
+    width: 100%;
+    height: 0.8px;
+}
+
+
+
+/* ------------- GESTIONAR MATERIAL BIBLIOGRAFICO ------------- */
+#gestion-material .libro {
+    background-color: transparent;
+    margin-bottom: 0;
+    padding: 8px;
+}
+#gestion-material .imagen-libro-cont{
+    padding-right: 10px;
+    width: 50px;
+}
+#gestion-material .info-libro-contenedor {
+    justify-content: center;
+}
+
