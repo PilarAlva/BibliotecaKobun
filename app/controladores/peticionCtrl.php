@@ -2,10 +2,14 @@
 
 <?php
 
+    include_once("../app/controladores/sesionCtrl.php");
+
     class peticionCtrl extends Controlador{
 
        public function peticion(){
         
+        $sesionCtrl = new SesionCtrl();
+
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
         header("Access-Control-Allow-Headers: X-Requested-With, Content-Type");
@@ -28,23 +32,25 @@
                         
                         //$cuerpo = $usuarioModel->obtenerTodosUsuarios();
                         $respuesta_data = [
-                            'status' => 'success',
-                            'message' => 'Usuarios obtenidos correctamente.',
+                            'estado' => 'exito',
+                            'mensaje' => 'Usuarios obtenidos correctamente.',
                             'data' => [
                                 'usuarios' => $usuarioModel->obtenerTodosUsuarios()                            ]
                         ];
 
                     break;
                     case 'insertar_usuario':
-                        if($usuarioModel->registrarUsuario($_POST['nombre'], $_POST['apellido'], $_POST['mail'], $_POST['clave'])){
+                        http_response_code(200);
+                        $estado = $sesionCtrl->registrarUsuario($_POST['nombre'], $_POST['apellido'], $_POST['mail'], $_POST['clave']);
+                        if($estado["estado"] == "exito"){
                             $respuesta_data = [
-                            'status' => 'success',
-                            'message' => 'Usuario insertado correctamente.',
-                        ];
+                                'estado' => 'exito',
+                                'mensaje' => $estado["mensaje"],
+                            ];
                         }else{
                             $respuesta_data = [
-                                'status' => 'error',
-                                'message' => 'Error al insertar el usuario.',
+                                'estado' => 'error',
+                                'mensaje' => $estado["mensaje"],
                             ];
                         }
                     break;   

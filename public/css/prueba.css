@@ -2,6 +2,7 @@
     --form-bg-color: #fdfbfa;
     --form-subrayado: #776e71;
     --error: #ac1d0d;
+    --exito: #446b2d;
     --tam-fuente-1: 12px;
     --tam-fuente-titulo: 16px;
     --tam-fuente-subtitulo: 14px;
@@ -177,6 +178,13 @@
     font-size: var(--tam-fuente-1);
     &::before{
         content: '⚠' ;
+    }
+}
+.form_exito{
+    color: var(--exito);
+    font-size: var(--tam-fuente-1);
+    &::before{
+        content: '✓' ;
     }
 }
 .despliega::after{

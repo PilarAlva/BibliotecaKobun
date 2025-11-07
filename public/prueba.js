@@ -51,10 +51,15 @@ window.addEventListener("load", ()=>{
         
         console.log(cola_cambios);
         if(cola_cambios.length > 0){
-            cola_cambios.forEach((cambio)=>{
+            cola_cambios.forEach(async (cambio)=>{
 
-                mensaje = peticion(cambio.formData);
-                mostrarMensaje(cambio.mensaje, mensaje);
+                respuesta = await peticion(cambio.formData);
+                console.log(respuesta);
+                if(respuesta.estado == "error")
+                    mostrarMensaje(cambio.mensaje, respuesta.mensaje, "form_error");
+                else if(respuesta.estado == "exito")
+                    mostrarMensaje(cambio.mensaje, respuesta.mensaje, "form_exito");
+                
 
             })
 
@@ -70,7 +75,13 @@ window.addEventListener("load", ()=>{
         contenedor.classList.add("ocultado");
 
         contenedor.classList.remove("ocultado");
+        contenedor.classList.add("form_exito");
+        contenedor.classList.add("form_error");
+        contenedor.classList.remove("form_error");
+        contenedor.classList.remove("form_exito");
+
         contenedor.classList.add(tipo);
+        
 
 
 
