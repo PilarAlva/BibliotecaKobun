@@ -11,7 +11,7 @@ window.addEventListener("load", ()=>{
             
             this.usuarios();
 
-            var seccion = boton.closest(".seccion_formulario");
+            var seccion = boton.closest(".form_desplegable");
             var ocultar = seccion.querySelectorAll(".se_oculta");
             var plegar = seccion.querySelectorAll(".se_despliega");
             if(ocultar){

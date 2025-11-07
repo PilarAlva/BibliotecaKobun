@@ -1,5 +1,5 @@
 :root{
-    --form-bg-color: #d3d0c2;
+    --form-bg-color: #fdfbfa;
     --form-subrayado: #776e71;
     --error: #ac1d0d;
     --tam-fuente-1: 12px;
@@ -14,15 +14,15 @@
 .form_contenedor{
 
     background-color: var(--form-bg-color);
-     width: 100%;
+    width: 100%;
     min-height: max-content;
+    padding: 2rem;
 }
 .form_contenido{
     
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 2rem;
     gap: 1rem;
 
 }
@@ -89,7 +89,7 @@
     border-radius: 0.5rem;
     padding: 2px;
 }
-
+.form_cabezera,
 .form_pie{
     background-color: var(--form-bg-color);
     position: sticky;

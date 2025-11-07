@@ -35,6 +35,17 @@
                         ];
 
                     break;
+                    case 'usuario':
+                        
+                        //$cuerpo = $usuarioModel->obtenerTodosUsuarios();
+                        $respuesta_data = [
+                            'status' => 'success',
+                            'message' => 'Usuario obtenido correctamente.',
+                            'data' => [
+                                'usuario' => $usuarioModel->obtenerUsuarioPorId($_POST['usuario_id'])                            ]
+                        ];
+
+                    break;
                     
                     default:
                     break;

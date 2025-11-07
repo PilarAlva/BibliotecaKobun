@@ -126,7 +126,7 @@ class PerfilCtrl extends Controlador{
             "cssEspecifico" => 'perfil.css',
         ];
 
-        $this->mostrarVista('perfil', $data, 'Perfil');
+        $this->mostrarVista('perfil/perfil', $data, 'Perfil');
 
     }
 
