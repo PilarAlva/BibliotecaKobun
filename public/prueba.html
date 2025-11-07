@@ -59,13 +59,38 @@
                             <button class="form_boton despliega">Hacer Socio</button> 
 
                             <div class="form_desplegable_cont se_despliega plegado">
-                                <form class="form_datos"> 
+                                <form class="form_datos" id="form-insertar-usuario"> 
+
+                                    <input name="accion" class="form_input" value="insertar_usuario" type="hidden"/>
+
                                     <label>Nombre</label>
-                                    <input class="form_input" type="text"/>
+                                    <div class="form_fila">
+                                        <input name="nombre" class="form_input" type="text" required/>
+                                        <span class="form_input_mensaje form_error ocultado"></span>
+                                    </div>
                                     <label>Apellido</label>
-                                    <input class="form_input" type="text"/>
-                                    <label>DNI</label>
-                                    <input class="form_input" type="text"/>
+                                    <div class="form_fila">
+                                        <input name ="apellido" class="form_input" type="text" required/>
+                                        <span class="form_input_mensaje form_error ocultado"></span>
+                                    </div>
+                                    <label>Mail</label>
+                                    <div class="form_fila">
+                                        <input name ="mail" class="form_input" type="email" required/>
+                                        <span class="form_input_mensaje form_error ocultado"></span>
+                                    </div>
+                                    <label>Contraseña</label>
+                                    <div class="form_fila">
+                                        <input name="clave" class="form_input" type="password" required/>
+                                        <span class="form_input_mensaje form_error ocultado"></span>
+                                    </div>
+
+                                    <div class="form_fila">
+                                        <span class="form_mensaje form_error ocultado" ></span>
+                                    </div>
+                                    
+                                    
+                                    
+
                                 </form>
                             <div>
                         
@@ -227,8 +252,8 @@
 
             <div class="form_fila rellena">
 
-                <div class="form_boton">Guardar</div>
-                <div class="form_boton">Cerrar</div>
+                <div id= "btn-cerrar" class="form_boton">Cerrar</div>
+                <div id= "btn-guardar" class="form_boton">Guardar</div>
 
             </div>
 

@@ -67,9 +67,9 @@
         header('location: ' . BASE_URL);
 
 
-    }
+    } 
 
-    private function registrarUsuario($nombre, $apellido, $mail, $clave){
+    public function registrarUsuario($nombre, $apellido, $mail, $clave){
 
         $msj = 1;
 

@@ -35,6 +35,19 @@
                         ];
 
                     break;
+                    case 'insertar_usuario':
+                        if($usuarioModel->registrarUsuario($_POST['nombre'], $_POST['apellido'], $_POST['mail'], $_POST['clave'])){
+                            $respuesta_data = [
+                            'status' => 'success',
+                            'message' => 'Usuario insertado correctamente.',
+                        ];
+                        }else{
+                            $respuesta_data = [
+                                'status' => 'error',
+                                'message' => 'Error al insertar el usuario.',
+                            ];
+                        }
+                    break;   
                     case 'usuario':
                         
                         //$cuerpo = $usuarioModel->obtenerTodosUsuarios();
