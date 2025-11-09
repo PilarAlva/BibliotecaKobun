@@ -33,10 +33,22 @@
                         <span>Correo: martinmm@kobun.com</span>
                     </div>
                     <div class="form_fila">
-                        <span>Tipo de Usuario: General </span>
+                        <span>Tipo de Usuario: <span class="verde">Admin </span>
                     </div>
                     <div class="form_fila">
-                        <span>Socio: No </span>
+                        <span>Socio: Si</span>
+                    </div>
+                    <div class="form_fila">
+                        <span>Fecha alta: 11/12/1239 </span>
+                    </div>
+                    <div class="form_fila">
+                        <span>Telefono: 11-123123-123 </span>
+                    </div>
+                    <div class="form_fila">
+                        <span>DNI: 12192838 </span>
+                    </div>
+                    <div class="form_fila">
+                        <span>Fecha nacimiento: 11/12/2209 </span>
                     </div>
                 </div>
                 
@@ -63,17 +75,17 @@
 
                                     <input name="accion" class="form_input" value="insertar_usuario" type="hidden"/>
 
-                                    <label>Nombre</label>
+                                    <label>Teléfono:</label>
                                     <div class="form_fila">
                                         <input name="nombre" class="form_input" type="text" required/>
                                         <span class="form_input_mensaje form_error ocultado"></span>
                                     </div>
-                                    <label>Apellido</label>
+                                    <label>DNI:</label>
                                     <div class="form_fila">
                                         <input name ="apellido" class="form_input" type="text" required/>
                                         <span class="form_input_mensaje form_error ocultado"></span>
                                     </div>
-                                    <label>Mail</label>
+                                    <label>Fecha de Nacimiento: </label>
                                     <div class="form_fila">
                                         <input name ="mail" class="form_input" type="email" required/>
                                         <span class="form_input_mensaje form_error ocultado"></span>
@@ -120,7 +132,7 @@
     
                         <div  class="form_fila rellena">
     
-                            <div class="form_seccion se_oculta">
+                            <div class="form_seccion se_despliega">
                                 <div class="form_fila">
                                     <span>Codigo ejemplar</span>
                                 </div>
@@ -132,11 +144,11 @@
                                 </div>
                             </div>
                             
-                            <div class="  rellena inv">
+                            <div class="form_fila base inv rellena">
         
-                            <div class="form_boton despliega">Hacer Socio</div> 
+                            <div class="form_boton base derecha despliega">Editar</div> 
 
-                                <div class="  rellena se_despliega plegado">
+                                <div class="form_fila se_despliega plegado">
                                     <form class="form_datos"> 
                                         
                                         <input class="form_input" type="text"/>
@@ -154,11 +166,11 @@
                             </div>
                         </div>
                         
-                        <div class="form_fila rellena">
-                            <div class="form_error">
+                        <div class="form_fila se_oculta ocultado rellena">
+                            <span class="form_error">
                                 Acá iria un error
-                            </div>
-                            <div class="boton">
+                            </span>
+                            <div class="form_boton verde">
                                 Guardar
                             </div>
                         </div>
@@ -167,11 +179,295 @@
                         
                 </section>
 
-                 
+        
+            </section>
+            
+            <span class="form_subtitulo">
+               Libros en préstamo
+            </span>
 
-                </section>
+            <section class="form_seccion subrayado">
+
+                <div class="form_checks form_seccion">
+
+                    
+                    
+                    <div class="form_bloque">
+                        <div class="form_fila rellena">
+                            <div class="form_seccion">
+                                <div class="form_datos">
+                                    <span>Titulo del Libro</span>
+                                    <span class="form_petit">autor del libro</span>
+                                </div>
+                                
+                            </div>
+                            <div class="form_seccion">
+                                <input class="form_checkbox derecha"
+                                    name="seleccionar-prestamos"
+                                    type="checkbox"></input>
+                            
+            
+                                <span class="form_petit derecha">Prestado: 01/2/2020</span>
+                                <span class="form_petit derecha">Hasta: 12/2/2045</span>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form_bloque">
+                        <div class="form_fila rellena">
+                            <div class="form_seccion">
+                                <div class="form_datos">
+                                    <span>Titulo del Libro</span>
+                                    <span class="form_petit">autor del libro</span>
+                                </div>
+                                
+                            </div>
+                            <div class="form_seccion">
+                                <input class="form_checkbox derecha"
+                                    name="seleccionar-prestamos"
+                                    type="checkbox"></input>
+                            
+            
+                                <span class="form_petit derecha">Prestado: 01/2/2020</span>
+                                <span class="form_petit derecha">Hasta: 12/2/2045</span>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form_checks_cont ocultado">
+
+                        <div class="form_fila">Acá se envia</div>
+
+                    </div>
+
+                </div>
 
                 
+                <div class="form_desplegable form_seccion ">
+                    <div class="form_fila rellena">
+                        <span class="form_subtitulo se_oculta ocultado">
+                            Libros devueltos:
+                        </span>
+                        <div class="form_boton despliega derecha">
+                            Libros devueltos
+                        </div>
+
+                    </div>
+
+                    <div class="form_seccion se_despliega plegado">
+                        
+                    <div class="form_bloque">
+                        <div class="form_fila rellena">
+                            <div class="form_seccion">
+                                <div class="form_datos">
+                                    <span>Titulo del Libro</span>
+                                    <span class="form_petit">autor del libro</span>
+                                </div>
+                                
+                            </div>
+                            <div class="form_seccion">
+                                <input class="derecha"
+                                name="seleccionar-prestamos"
+                                type="checkbox"></input>
+                                
+                                <span class="form_input_mensaje form_error ocultado">error</span>
+            
+                                <span class="form_petit derecha">Prestado: 01/2/2020</span>
+                                <span class="form_petit derecha">Hasta: 12/2/2045</span>
+
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form_bloque">
+                        <div class="form_fila rellena">
+                            <div class="form_seccion">
+                                <div class="form_datos">
+                                    <span>Titulo del Libro</span>
+                                    <span class="form_petit">autor del libro</span>
+                                </div>
+                                
+                            </div>
+                            <div class="form_seccion">
+                                <input class="derecha"
+                                    name="seleccionar-prestamos"
+                                    type="checkbox"></input>
+                            
+            
+                                <span class="form_petit derecha">Prestado: 01/2/2020</span>
+                                <span class="form_petit derecha">Hasta: 12/2/2045</span>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form_bloque">
+                        <div class="form_fila rellena">
+                            <div class="form_seccion">
+                                <div class="form_datos">
+                                    <span>Titulo del Libro</span>
+                                    <span class="form_petit">autor del libro</span>
+                                </div>
+                                
+                            </div>
+                            <div class="form_seccion">
+                                <input class="derecha"
+                                    name="seleccionar-prestamos"
+                                    type="checkbox"></input>
+                            
+            
+                                <span class="form_petit derecha">Prestado: 01/2/2020</span>
+                                <span class="form_petit derecha">Hasta: 12/2/2045</span>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+
+                    </div>
+                </div>
+                    
+
+            </section>
+           
+            <section class="form_seccion subrayado">
+
+                <div class="form_subtitulo">Estado de Cuota</div>
+                <div class="form_informacion">
+                    <div class="form_fila">
+                        Cuota: <span class="form_exito"> $$$</span>
+                    </div>
+                    <div class="form_fila">
+                        Ultimo pago registrado: 12/23/2025
+                    </div>
+                </div>
+
+            </section>
+
+            <span class="form_subtitulo">Multas</span>
+      
+            <section class="form_seccion subrayado">
+                
+
+                <div class="form_fila rellena">
+
+                          <span>Multa por libro:</span>
+
+                </div>
+
+                 <div class="form_fila rellena">
+
+                    <div class="form_fila form_desplegable   expande">
+                        
+                        
+                        <div class="form_bloque se_oculta">
+                            <div class="form_fila">
+                                <span>Titulo del libro #1 :</span>
+                                <span class="form_error"> 500</span>
+
+                            </div> 
+                        </div>
+                        
+                        <div class="form_bloque se_oculta ocultado cancelado">
+                            <div class="form_fila">
+                                <span>Titulo del libro #1 :</span>
+                                <span class="form_error"> 500</span>
+
+                            </div> 
+                        </div>
+
+                        <div class="form_boton despliega derecha">
+                            Eliminar
+                        </div>
+
+                        
+
+
+
+                    </div>
+
+                </div>
+
+                 <div class="form_fila rellena">
+
+                    <div class="form_fila form_desplegable   expande">
+                        
+                        
+                        <div class="form_bloque se_oculta">
+                            <div class="form_fila">
+                                <span>Titulo del libro #2 :</span>
+                                <span class="form_error"> 500</span>
+
+                            </div> 
+                        </div>
+                        
+                        <div class="form_bloque se_oculta ocultado cancelado">
+                            <div class="form_fila">
+                                <span>Titulo del libro #3 :</span>
+                                <span class="form_error"> 500</span>
+
+                            </div> 
+                        </div>
+
+                        <div class="form_boton despliega derecha">
+                            Eliminar
+                        </div>
+
+                        
+
+
+
+                    </div>
+
+                </div>
+
+                <div class="form_fila">
+                    Total de multas: <span class="form_error"> $500</span>  
+                    <div class="form_boton derecha"> Cancelar multa</div>
+                </div>
+
+               
+            </section>
+
+            <seccion class="form_seccion">
+            <form class="form_datos form_desplegable form_seccion subrayado">
+                <div class="form_fila rellena">
+                    <div class="form_boton despliega derecha">
+                        Prestar un libro
+                    </div>
+                    
+                </div>
+
+                <div class="form_seccion se_despliega plegado">
+                    <label>Identificador del ejemplar:</label>
+                    <div class="form_fila">
+                        <input name="nombre" class="form_input" type="number" required/>
+                        <span class="form_input_mensaje form_error ocultado"></span>
+                    </div>
+                    
+                    <div class="form_informacion">
+                        <div class="form_subtitulo">Titulo del libro</div>
+                        
+
+                    </div>
+
+                    <label>Fecha Limite:</label>
+                    <div class="form_fila">
+                        <input name="nombre" class="form_input" type="date" required/>
+                        <span class="form_input_mensaje form_error ocultado"></span>
+                    </div>
+
+                    <div class="form_fila">
+                        <button class="form_boton derecha verde">Realizar prestamo</button>
+                        <span class="form_input_mensaje form_error ocultado"></span>
+                    </div>
+
+                </div>
+
+            </form>
+            </seccion>
 
             </section>
 
@@ -189,7 +485,7 @@
                     </div>
 
                     
-                    <div class=" form_desplegable form_seccion">
+                    <div class="form_desplegable form_seccion">
                         <label>Autor</label>
                         <div class="form_fila">
                             
@@ -252,8 +548,8 @@
 
             <div class="form_fila rellena">
 
-                <div id= "btn-cerrar" class="form_boton">Cerrar</div>
-                <div id= "btn-guardar" class="form_boton">Guardar</div>
+                <div id= "btn-cerrar" class="form_boton rojo">Cerrar</div>
+                <div id= "btn-guardar" class="form_boton verde">Guardar</div>
 
             </div>
 

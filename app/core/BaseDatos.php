@@ -38,6 +38,23 @@
 
         }
 
+        // public function emepzarTransaccion(){
+
+        //     return $this->dbh->beginTransaction();
+
+        // }
+        // public function aceptarTransaccion(){
+
+        //     return $this->dbh->commit();
+
+        // }
+        // public function eliminarTransaccion(){
+
+        //     return $this->dbh->rollback();
+
+        // }
+
+
         public function resultados(){
 
             $this->ejecutar();
@@ -74,9 +91,6 @@
                     break;
                 case 'integer':
                     $this->stmt->bindValue($param, $valor, PDO::PARAM_INT);
-                    break;
-                case 'float':
-                    $this->stmt->bindValue($param, $valor, PDO::PARAM_FLOAT);
                     break;
                 case 'bool':
                     $this->stmt->bindValue($param, $valor, PDO::PARAM_BOOL);

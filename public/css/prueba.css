@@ -1,23 +1,40 @@
 :root{
     --form-bg-color: #fdfbfa;
+    --form-bg-oscurito: #f3f0ef;
     --form-subrayado: #776e71;
+    --form-subrayado-fuerte: #4e4a4a;
     --error: #ac1d0d;
     --exito: #446b2d;
+    --verde-btn: #6e8851;
     --tam-fuente-1: 12px;
     --tam-fuente-titulo: 16px;
     --tam-fuente-subtitulo: 14px;
+    --redondeo-btn-form: 0.8rem;
+    --padding-x: 0px;
+    --padding-y: 12px;
+    --padding-bloque-x: 5px;
+    --padding-bloque-y: 8px;
+    --margin-x: 1px;
+    --margin-y: 1px;
+    --padding-form: 2rem;
+    --gap-seccion: 4px;
 }
 *{
     font-size: var(--tam-fuente-1);
 }
-
+.form_desplegable{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    
+}
 /*contenedores*/
 .form_contenedor{
 
     background-color: var(--form-bg-color);
     width: 100%;
     min-height: max-content;
-    padding: 2rem;
+    padding: var(--padding-form);
 }
 .form_contenido{
     
@@ -36,17 +53,18 @@
 }
 .form_seccion{
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
+    gap: var(--gap-seccion); 
 }
 .form_informacion{
-
-    font-size: 12px;
+    padding: var(--padding-y) 0;
+    font-size: var(--tam-fuente-1);
 }
 .form_fila{
     display: flex;
     flex-direction: row;
-    margin-top: 5px;
-    flex-grow: 1;
+    margin: var(--margin-x) var(--margin-y);
+     
     align-items: center;
 }
 .form_columna{
@@ -54,12 +72,7 @@
     flex-direction: column;
 }
 
-.form_desplegable{
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    
-}
+
 .inv{
     
     flex-direction: row-reverse;
@@ -84,11 +97,19 @@
 .form_boton{
 
     border: 1px solid var(--form-subrayado);
-
+    max-height: fit-content;
     font-size: var(--tam-fuente-1);
     width: fit-content;
-    border-radius: 0.5rem;
-    padding: 2px;
+    border-radius: var(--redondeo-btn-form);
+    padding: 2px 8px;
+    
+    &:hover{
+        outline: 1px solid var(--form-subrayado) ;
+        background-color: var(--form-bg-oscurito);
+        cursor: pointer;
+        
+    }
+
 }
 .form_cabezera,
 .form_pie{
@@ -101,6 +122,10 @@
     display: flex;
     flex-direction: column;
     
+}
+.form_petit{
+    font-size: smaller;
+
 }
 .form_input{
     min-width: 200px;
@@ -116,15 +141,35 @@
     font-size: var(--tam-fuente-subtitulo);
     font-weight: 500;
 }
+.form_boton.verde{
+    background-color: var(--verde-btn);
+    color: var(--form-bg-color);
+    border: 1px solid var(--form-subrayado-fuerte);
+}
+.form_boton.rojo{
+    background-color: #943e35;
+    color: var(--form-bg-color);
+    border: 1px solid var(--form-subrayado-fuerte);
+}
 .form_bloque{
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
-    padding: 4px;
+    
+    padding: var(--padding-bloque-x) var(--padding-bloque-y);
+    opacity: 1;
     border: 1px var(--form-subrayado) solid;
     margin-top: 5px;
+
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+
+    &:hover{
+        outline: 1px solid var(--form-subrayado) ;
+        background-color: var(--form-bg-oscurito);
+        
+    }
     
 }
+
 
 
 /*Utilitarias*/
@@ -148,7 +193,30 @@
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
-    margin: 0;
+}
+.cancelado{    
+    position: relative; 
+}
+.cancelado::after{
+    content: '';
+    display: block;
+    position: absolute;
+
+    width: 120%;
+    height: 2px;
+    
+    transform: translate(-10%, 12px) rotate(-2deg);
+    background-color: var(--error);
+    
+
+}
+.form_bloque.cancelado{
+    opacity: 0.6;
+}
+
+.form_bloque:has(input:checked){
+    background-color: var(--form-bg-oscurito);
+    
 }
 .rojo{
     background-color: red;
@@ -171,7 +239,10 @@
 
     opacity: 1;
     height: auto;
-    width: max-content;
+    
+}
+.ajustar{
+    width: fit-content;
 }
 .form_error{
     color: var(--error);
@@ -200,4 +271,15 @@
 .ocultado{
     display: none;   
 }
-
+.base{
+    margin-bottom: 0;
+    margin-top: auto;
+}
+span.amarillo{
+    font-weight: bold;
+    color: #ca9c39;
+}
+span.verde{
+    font-weight: bold;
+    color: var(--exito);
+}

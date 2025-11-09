@@ -50,6 +50,32 @@ class UsuarioBD {
         return $this->db->resultado();
 
     }
+    public function obtenerInfoCompletaUsuarioPorId($usuario_id){
+
+         $consulta = "SELECT 
+                        u.id as usuario_id,
+                        s.id as socio_id,
+                        u.rol_id,
+                        u.nombre,
+                        u.apellido,
+                        u.mail,
+                        u.clave,
+                        u.img_perfil,
+                        s.telefono,
+                        s.dni,
+                        s.fecha_nacimiento,
+                        s.fecha_alta
+                    FROM  usuarios u 
+                    LEFT JOIN socios s ON u.id = s.usuario_id
+                    WHERE u.id = :usuario_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir("usuario_id", $usuario_id);
+        $this->db->ejecutar();
+
+        return $this->db->resultado();
+
+    }
     public function obtenerRolUsuario($usuario_id){
 
         $consulta = "SELECT rol_id FROM  usuarios WHERE id = :usuario_id";
@@ -74,7 +100,7 @@ class UsuarioBD {
 
     public function obtenerUsuarios(){
         
-        $consulta = "SELECT * FROM usuarios WHERE rol_id = 1";
+        $consulta = "SELECT * FROM usuarios WHERE rol_id = 3";
 
         $this->db->consulta($consulta);
         $this->db->ejecutar();

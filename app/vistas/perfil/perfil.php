@@ -276,21 +276,21 @@
                 
                 
             <section class="form_pie">
-                <div class="form_fila">
+            <div class="form_fila">
 
-                    <div class="form_boton">Quitar privilegios</div>
-                    
-                </div>
+                <div class="form_boton">Quitar privilegios</div>
+                
+            </div>
 
 
-                <div class="form_fila rellena">
+            <div class="form_fila rellena">
 
-                    <div class="form_boton">Guardar</div>
-                    <div class="form_boton">Cerrar</div>
+                <div id= "btn-cerrar" class="form_boton rojo">Cerrar</div>
+                <div id= "btn-guardar" class="form_boton verde">Guardar</div>
 
-                </div>
+            </div>
 
-            </section>
+        </section>
 
     </div>
 
@@ -308,7 +308,7 @@
 </footer>
 
 
-<script src="js/perfil.js"></script>
+<script src="js/perfil.js" type="module"></script>
 
 
 

@@ -21,109 +21,128 @@ export class Cambio {
  * Handles API requests to the backend.
  */
 export class Peticion {
-    static API_URL = "http://localhost/BibliotecaKobun/public/peticion";
+    static #API_URL = "http://localhost/BibliotecaKobun/public/peticion";
 
     /**
      * Performs a fetch request.
      * @param {FormData} formData - The data to be sent.
      * @returns {Promise<any>} - The JSON response from the server.
      */
-    static async peticion(formData) {
+    static async #doRequest(formData) {
         try {
-            const response = await fetch(this.API_URL, {
+            const response = await fetch(this.#API_URL, {
                 method: 'POST',
                 body: formData
             });
-            const resultado = await response.text();
+            const resultText = await response.text();
             try {
-                return JSON.parse(resultado);
+                return JSON.parse(resultText);
             } catch (e) {
-                console.warn("error en el JSON:", resultado);
+                console.warn("Response was not valid JSON:", resultText);
                 return resultText;
             }
         } catch (error) {
-            console.error('Error en la peticion:', error);
+            console.error('Error in Peticion:', error);
             throw error;
         }
     }
 
+    /**
+     * Sends a generic petition.
+     * @param {FormData} formData - The form data for the request.
+     * @returns {Promise<any>}
+     */
+    static peticion(formData) {
+        return this.#doRequest(formData);
+    }
 
-    static transaccion(accion) {
+    static #transaccion(accion) {
         const formData = new FormData();
         formData.append('accion', accion);
-        return this.peticion(formData);
+        return this.#doRequest(formData);
     }
 
     static empezar() {
-        return this.transaccion("empezar-transaccion");
+        return this.#transaccion("empezar-transaccion");
     }
 
     static cerrar() {
-        return this.transaccion("cerrar-transaccion");
+        return this.#transaccion("cerrar-transaccion");
     }
 
     static aceptar() {
-        return this.transaccion("commit-transaccion");
+        return this.#transaccion("commit-transaccion");
     }
 }
 
+/**
+ * Manages form interactions, state, and dynamic content updates.
+ */
 export class Formulario {
-    formulario;
-    contenido;
-    colaPaginas = [];
-    colaCambios = [];
+    #formulario;
+    #contenido;
+    #colaPaginas = [];
+    #colaCambios = [];
 
     constructor(formulario) {
-        this.formulario = formulario;
-        this.contenido = this.formulario.querySelector(".form_contenido");
+        this.#formulario = formulario;
+        this.#contenido = this.#formulario.querySelector(".form_contenido");
+
+        if (!this.#contenido) {
+            throw new Error("Formulario content area (.form_contenido) not found.");
+        }
 
         Peticion.empezar();
-        this.colaPaginas.push(this.contenido.cloneNode(true));
-        this.initEventListeners();
+        this.#colaPaginas.push(this.#contenido.cloneNode(true));
+        this.#initEventListeners();
     }
 
-    initEventListeners() {
-        this.formulario.addEventListener("click", this.handleFormClick.bind(this));
-        this.formulario.addEventListener("submit", this.handleFormSubmit.bind(this));
-        this.formulario.addEventListener("change", this.handleFormChange.bind(this));
+    //--------------------------------------------------------------------------
+    // Event Handling (using Event Delegation)
+    //--------------------------------------------------------------------------
+
+    #initEventListeners() {
+        this.#formulario.addEventListener("click", this.#handleFormClick.bind(this));
+        this.#formulario.addEventListener("submit", this.#handleFormSubmit.bind(this));
+        this.#formulario.addEventListener("change", this.#handleFormChange.bind(this));
     }
 
-    handleFormClick(event) {
+    #handleFormClick(event) {
         const target = event.target;
 
-        if (target.matches("btn-retroceso")) {
+        if (target.matches("#btn-retroceso")) {
             this.retroceder();
-        } else if (target.matches("btn-guardar")) {
+        } else if (target.matches("#btn-guardar")) {
             this.guardarCambios();
-        } else if (target.matches("btn-cerrar")) {
+        } else if (target.matches("#btn-cerrar")) {
             this.borrarCambios();
         } else if (target.matches(".form_boton.despliega")) {
-            this.toggleDesplegable(target);
+            this.#toggleDesplegable(target);
         } else if (target.matches(".form_checkbox")) {
-            this.handleCheckboxClick(target);
+            this.#handleCheckboxClick(target);
         }
     }
 
-    handleFormSubmit(event) {
+    #handleFormSubmit(event) {
         event.preventDefault();
         const form = event.target;
-        if (form.matches(".form_datos") && this.validar(form)) {
-            this.insertarCambio(form);
-            this.cargarCambio();
+        if (form.matches(".form_datos") && this.#validar(form)) {
+            this.#insertarCambio(form);
+            this.#cargarCambio();
         }
     }
 
-    handleFormChange(event) {
+    #handleFormChange(event) {
         const target = event.target;
         if (target.matches('input, select, textarea')) {
             const form = target.closest('form.form_datos');
-            if (form && this.validarCampo(target)) {
-                this.insertarCambio(form);
+            if (form && this.#validarCampo(target)) {
+                this.#insertarCambio(form);
             }
         }
     }
 
-    toggleDesplegable(boton) {
+    #toggleDesplegable(boton) {
         const seccion = boton.closest(".form_desplegable, .seccion_formulario");
         if (!seccion) return;
 
@@ -134,7 +153,7 @@ export class Formulario {
         });
     }
 
-    handleCheckboxClick(check) {
+    #handleCheckboxClick(check) {
         const seccion = check.closest(".form_checks");
         if (!seccion) return;
 
@@ -152,12 +171,12 @@ export class Formulario {
 
     async editarUsuario(id) {
         try {
-            const usuarioData = await this.getUsuario(id);
-            this.mostrarPaginaUsuario(usuarioData.data);
-            this.mostrarPagina();
+            const usuarioData = await this.#getUsuario(id);
+            this.#mostrarPaginaUsuario(usuarioData.data);
+            this.#mostrarPagina();
         } catch (error) {
             console.error("Failed to edit user:", error);
-            this.mostrarMensaje(this.contenido, "Error al cargar los datos del usuario.", "form_error");
+            this.mostrarMensaje(this.#contenido, "Error al cargar los datos del usuario.", "form_error");
         }
     }
 
@@ -166,53 +185,42 @@ export class Formulario {
     //--------------------------------------------------------------------------
 
     retroceder() {
-        if (this.colaPaginas.length > 1) {
-            this.colaPaginas.pop();
-            this.mostrarPagina();
+        if (this.#colaPaginas.length > 1) {
+            this.#colaPaginas.pop();
+            this.#mostrarPagina();
         }
     }
 
-    mostrarPagina() {
-        const pagina = this.colaPaginas[this.colaPaginas.length - 1];
+    #mostrarPagina() {
+        const pagina = this.#colaPaginas[this.#colaPaginas.length - 1];
         if (pagina) {
-            this.contenido.innerHTML = ''; // Clear existing content
-            this.contenido.appendChild(pagina);
+            this.#contenido.innerHTML = ''; // Clear existing content
+            this.#contenido.appendChild(pagina);
         }
     }
 
     borrarCambios() {
-        console.log("Borrando cambios:", this.colaCambios);
-        this.colaCambios = [];
-        Peticion.cerrar().then(() => Peticion.empezar()); 
+        console.log("Borrando cambios:", this.#colaCambios);
+        this.#colaCambios = [];
+        Peticion.cerrar().then(() => Peticion.empezar()); // Reset transaction
+        // Optionally, provide user feedback
     }
 
-    async cargarCambio() {
-        if (this.colaCambios.length === 0) {
+    async #cargarCambio() {
+        if (this.#colaCambios.length === 0) {
             console.log("No hay cambios para cargar.");
             return;
         }
 
-        const { id, cambio } = this.colaCambios.pop();
+        const cambio = this.#colaCambios.pop();
         console.log("Procesando cambio:", cambio);
 
         try {
             const respuesta = await Peticion.peticion(cambio.formData);
             if (respuesta.estado === "exito") {
                 this.mostrarMensaje(cambio.mensaje, respuesta.mensaje, "form_exito");
-
-                // Después de una acción exitosa, actualiza la sección correspondiente.
-                const accion = cambio.formData.get('accion');
-                const usuarioId = cambio.formData.get('usuario_id');
-
-                switch (accion) {
-                    case 'devolver-prestamo':
-                        if (usuarioId) {
-                            this.actualizarSeccionPrestamos(usuarioId);
-                        }
-                        break;
-                    // TODO: Añadir casos para otras acciones que necesiten refrescar la UI.
-                }
-
+                // Optionally re-render part of the UI
+                // e.g., cambio.target.innerHTML = cambio.plantilla();
             } else {
                 this.mostrarMensaje(cambio.mensaje, respuesta.mensaje || "Ocurrió un error.", "form_error");
             }
@@ -222,12 +230,12 @@ export class Formulario {
     }
 
     async guardarCambios() {
-        if (this.colaCambios.length === 0) {
+        if (this.#colaCambios.length === 0) {
             console.log("No hay cambios para guardar.");
             return;
         }
 
-        const peticiones = this.colaCambios.map(cambio =>
+        const peticiones = this.#colaCambios.map(cambio =>
             Peticion.peticion(cambio.formData).then(respuesta => ({
                 respuesta,
                 cambio
@@ -242,14 +250,14 @@ export class Formulario {
             });
 
             // Clear queue after processing
-            this.colaCambios = [];
+            this.#colaCambios = [];
             console.log("Todos los cambios han sido procesados.");
         } catch (error) {
             console.error("Error al guardar cambios:", error);
         }
     }
 
-    insertarCambio(form) {
+    #insertarCambio(form) {
         const id = form.id;
         if (!id) {
             console.error("Form must have an ID to track changes.", form);
@@ -265,30 +273,30 @@ export class Formulario {
             // Add plantilla and data if needed
         );
 
-        const index = this.colaCambios.findIndex(c => c.id === id);
+        const index = this.#colaCambios.findIndex(c => c.id === id);
         if (index !== -1) {
-            this.colaCambios[index] = { id, cambio };
+            this.#colaCambios[index] = { id, cambio };
         } else {
-            this.colaCambios.push({ id, cambio });
+            this.#colaCambios.push({ id, cambio });
         }
-        console.log("Cambio insertado/actualizado. Cola:", this.colaCambios);
+        console.log("Cambio insertado/actualizado. Cola:", this.#colaCambios);
     }
 
     //--------------------------------------------------------------------------
     // Validation
     //--------------------------------------------------------------------------
 
-    validar(form) {
+    #validar(form) {
         let esValido = true;
         form.querySelectorAll('input[required], select[required], textarea[required]').forEach(campo => {
-            if (!this.validarCampo(campo)) {
+            if (!this.#validarCampo(campo)) {
                 esValido = false;
             }
         });
         return esValido;
     }
 
-    validarCampo(campo) {
+    #validarCampo(campo) {
         const spanError = campo.parentNode.querySelector(".form_input_mensaje");
         let err = "";
 
@@ -316,34 +324,11 @@ export class Formulario {
         contenedor.classList.add(tipo);
     }
 
-    async actualizarSeccionPrestamos(usuarioId) {
-        console.log(`Actualizando sección de préstamos para el usuario ${usuarioId}...`);
-        try {
-            const container = this.formulario.querySelector('seccion-prestamos-container');
-            if (!container) {
-                console.error("El contenedor de la sección de préstamos no fue encontrado.");
-                return;
-            }
-
-            const usuarioData = await this.getUsuario(usuarioId);
-            if (usuarioData && usuarioData.data) {
-                const nuevoHtml = this.cargarPrestamos(usuarioData.data.prestamos, usuarioData.data.usuario);
-                container.innerHTML = nuevoHtml;
-                console.log("Sección de préstamos actualizada.");
-            } else {
-                console.error("No se pudieron obtener los datos actualizados del usuario.");
-            }
-        } catch (error) {
-            console.error("Error al actualizar la sección de préstamos:", error);
-        }
-    }
-
-
     //--------------------------------------------------------------------------
     // Data Fetching
     //--------------------------------------------------------------------------
 
-    async getUsuario(id) {
+    async #getUsuario(id) {
         const formData = new FormData();
         formData.append('accion', "usuario");
         formData.append('usuario_id', id);
@@ -353,11 +338,11 @@ export class Formulario {
     //--------------------------------------------------------------------------
     // HTML Template Generators
     //--------------------------------------------------------------------------
-    mostrarPaginaUsuario(data) {
+    #mostrarPaginaUsuario(data) {
         const contenido = document.createElement("div");
         contenido.classList.add("form_contenido_dinamico");
 
-        const paginaHTML = this.cargarPaginaUsuario(data);
+        const paginaHTML = this.#cargarPaginaUsuario(data);
         if (typeof paginaHTML === 'string') {
             contenido.innerHTML = paginaHTML;
         } else {
@@ -365,47 +350,47 @@ export class Formulario {
         }
 
 
-        this.colaPaginas.push(contenido);
+        this.#colaPaginas.push(contenido);
     }
 
-    cargarPaginaUsuario(data) {
-        let cont = this.cargarEstadoUsuario(data.usuario);
+    #cargarPaginaUsuario(data) {
+        let cont = this.#cargarEstadoUsuario(data.usuario);
 
         if (data.usuario.socio_id) {
-            cont += this.cargarPrestamos(data.prestamos, data.usuario);
+            cont += this.#cargarPrestamos(data.prestamos);
             if (data.estado_cuenta) {
-                cont += this.cargarEstadoCuenta(data.estado_cuenta);
+                cont += this.#cargarEstadoCuenta(data.estado_cuenta);
             }
             if (data.multas && data.multas.length > 0) {
-                cont += this.cargarMultas(data.multas);
+                cont += this.#cargarMultas(data.multas);
             }
             if (data.socio_habilitado) {
-                cont += this.cargarPrestarLibro(data.usuario);
+                cont += this.#cargarPrestarLibro(data.usuario);
             }
         } else {
-            cont += this.cargarHacerSocio(data.usuario);
+            cont += this.#cargarHacerSocio(data.usuario);
         }
         return cont;
     }
 
-    cargarEstadoUsuario(usuario) {
+    #cargarEstadoUsuario(usuario) {
         return `
             <div class="form_titulo subrayado">${usuario.nombre} ${usuario.apellido}</div>
             <section class="form_seccion subrayado">
                 <div class="form_informacion">
                     <div class="form_fila"><span>Correo: ${usuario.mail}</span></div>
-                    <div class="form_fila"><span>Tipo de Usuario: ${this.cargarTipoUsuario(usuario)}</span></div>
-                    ${this.cargarEsSocio(usuario)}
+                    <div class="form_fila"><span>Tipo de Usuario: ${this.#cargarTipoUsuario(usuario)}</span></div>
+                    ${this.#cargarEsSocio(usuario)}
                 </div>
             </section>`;
     }
 
-    cargarTipoUsuario(usuario) {
+    #cargarTipoUsuario(usuario) {
         const roles = { 1: "Admin", 2: "Profesor", 3: "General" };
         return roles[usuario.rol_id] || "Desconocido";
     }
 
-    cargarEsSocio(usuario) {
+    #cargarEsSocio(usuario) {
         if (usuario.socio_id) {
             return `
                 <div class="form_fila"><span>Socio: Si</span></div>
@@ -417,25 +402,23 @@ export class Formulario {
         return `<div class="form_fila"><span>Socio: no</span></div>`;
     }
 
-    cargarPrestamos(prestamos, usuario) {
+    #cargarPrestamos(prestamos) {
         const activos = prestamos?.filter(p => p.activo == 1) || [];
         const devueltos = prestamos?.filter(p => p.activo != 1) || [];
 
         const prestamos_activos = activos.length > 0
-            ? activos.map(p => this.cargarLibroPrestamo(p.id, p.titulo, p.autores, p.fecha_prestamo, p.fecha_vencimiento)).join('')
+            ? activos.map(p => this.#cargarLibroPrestamo(p.id, p.titulo, p.autores, p.fecha_prestamo, p.fecha_vencimiento)).join('')
             : "<div class='form_informacion'>No tiene préstamos activos</div>";
 
         const prestamos_devueltos = devueltos.length > 0
-            ? devueltos.map(p => this.cargarLibroDevuelto(p.id, p.titulo, p.autores, p.fecha_prestamo, p.fecha_devolucion)).join('')
+            ? devueltos.map(p => this.#cargarLibroDevuelto(p.id, p.titulo, p.autores, p.fecha_prestamo, p.fecha_devolucion)).join('')
             : "<div class='form_petit'>No tiene historial de devoluciones</div>";
 
         return `
-        <div id="seccion-prestamos-container">
             <span class="form_subtitulo">Libros en préstamo</span>
             <form class="form_datos form_seccion subrayado" id="devolver-prestamos">
                 <div class="form_fila"><span class="form_mensaje ocultado"></span></div>
                 <input name="accion" value="devolver-prestamo" type="hidden" />
-                <input name="usuario_id" value="${usuario.id}" type="hidden" />
                 <div class="form_checks form_seccion" id="form-prestamos">
                     ${prestamos_activos}
                     <div class="form_checks_cont form_fila rellena ocultado">
@@ -449,11 +432,10 @@ export class Formulario {
                     </div>
                     <div class="form_seccion se_despliega plegado">${prestamos_devueltos}</div>
                 </div>
-            </form>
-        </div>`;
+            </form>`;
     }
 
-    cargarLibroPrestamo(id, titulo, autor, fecha1, fecha2) {
+    #cargarLibroPrestamo(id, titulo, autor, fecha1, fecha2) {
         return `
             <div class="form_bloque">
                 <div class="form_fila rellena">
@@ -464,7 +446,7 @@ export class Formulario {
                         </div>
                     </div>
                     <div class="form_seccion">
-                        <input class="form_checkbox derecha" name="prestamo_id" value=${id} type="checkbox">
+                        <input class="form_checkbox derecha" name="prestamo_id[]" value=${id} type="checkbox">
                         <span class="form_input_mensaje form_error ocultado">error</span>
                         <span class="form_petit derecha">Prestado: ${fecha1}</span>
                         <span class="form_petit derecha">Hasta: ${fecha2}</span>
@@ -473,7 +455,7 @@ export class Formulario {
             </div>`;
     }
 
-    cargarLibroDevuelto(id, titulo, autor, fecha1, fecha2) {
+    #cargarLibroDevuelto(id, titulo, autor, fecha1, fecha2) {
         return `
             <div class="form_bloque">
                 <div class="form_fila rellena">
@@ -491,9 +473,9 @@ export class Formulario {
             </div>`;
     }
 
-    cargarMultas(multas) {
+    #cargarMultas(multas) {
         const total_multas = multas.reduce((acc, multa) => acc + parseFloat(multa.total_multa || 0), 0);
-        const multas_todas = multas.map(multa => this.cargarMulta(multa.titulo, multa.total_multa)).join('');
+        const multas_todas = multas.map(multa => this.#cargarMulta(multa.titulo, multa.total_multa)).join('');
 
         return `
             <span class="form_subtitulo">Multas</span>
@@ -507,7 +489,7 @@ export class Formulario {
             </section>`;
     }
 
-    cargarMulta(titulo, monto) {
+    #cargarMulta(titulo, monto) {
         return `
             <div class="form_fila form_desplegable expande">
                 <div class="form_bloque se_oculta">
@@ -520,7 +502,7 @@ export class Formulario {
             </div>`;
     }
 
-    cargarEstadoCuenta(estado_cuenta) {
+    #cargarEstadoCuenta(estado_cuenta) {
         return `
             <section class="form_seccion subrayado">
                 <div class="form_subtitulo">Estado de Cuota</div>
@@ -531,7 +513,7 @@ export class Formulario {
             </section>`;
     }
 
-    cargarHacerSocio(usuario) {
+    #cargarHacerSocio(usuario) {
         return `
             <div class="form_desplegable">
                 <button class="form_boton despliega">Hacer Socio</button>
@@ -540,16 +522,16 @@ export class Formulario {
                         <input name="accion" value="agregar-socio" type="hidden" />
                         <input name="usuario_id" value=${usuario.id} type="hidden" />
                         <span class="form_mensaje ocultado"></span>
-                        ${this.cargarInputNormal('Teléfono:', 'telefono', '', 'number', 'required')}
-                        ${this.cargarInputNormal('DNI:', 'dni', '', 'text', 'required')}
-                        ${this.cargarInputNormal('Fecha de Nacimiento:', 'fecha_nacimiento', '', 'date', 'required')}
+                        ${this.#cargarInputNormal('Teléfono:', 'telefono', '', 'number', 'required')}
+                        ${this.#cargarInputNormal('DNI:', 'dni', '', 'text', 'required')}
+                        ${this.#cargarInputNormal('Fecha de Nacimiento:', 'fecha_nacimiento', '', 'date', 'required')}
                         <button type="submit" class="form_boton verde">Confirmar</button>
                     </form>
                 </div>
             </div>`;
     }
 
-    cargarPrestarLibro(usuario) {
+    #cargarPrestarLibro(usuario) {
         return `
             <section class="form_seccion">
                 <form class="form_datos form_desplegable form_seccion subrayado" id="form-prestar-libro">
@@ -560,9 +542,9 @@ export class Formulario {
                         <span class="form_mensaje ocultado"></span>
                         <input name="accion" value="prestar-libro" type="hidden" />
                         <input name="usuario_id" value=${usuario.id} type="hidden" />
-                        ${this.cargarInputNormal('Identificador del ejemplar:', 'ejemplar_id', '', 'number', 'required')}
+                        ${this.#cargarInputNormal('Identificador del ejemplar:', 'ejemplar_id', '', 'number', 'required')}
                         <div class="form_informacion" data-libro-info></div>
-                        ${this.cargarInputNormal('Fecha Límite:', 'fecha_limite', '', 'date', 'required')}
+                        ${this.#cargarInputNormal('Fecha Límite:', 'fecha_limite', '', 'date', 'required')}
                         <div class="form_fila">
                             <button type="submit" class="form_boton derecha verde">Realizar prestamo</button>
                         </div>
@@ -571,7 +553,7 @@ export class Formulario {
             </section>`;
     }
 
-    cargarInputNormal(titulo, nombre, clase, tipo, extras) {
+    #cargarInputNormal(titulo, nombre, clase, tipo, extras) {
         return `
             <label>${titulo}</label>
             <div class="form_fila">
@@ -580,3 +562,4 @@ export class Formulario {
             </div>`;
     }
 }
+

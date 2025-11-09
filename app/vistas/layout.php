@@ -28,7 +28,8 @@
         <?php require_once '../app/vistas/' . $direccionVista . '.php'; ?>
     </body>
    
- <!-- Archivos .js -->
+    <!-- Archivos .js -->
+    <script src="js/formulario.js" type="module"></script>
     <script src="js/main.js"></script>
     <script src="js/subir_archivo.js"></script>
     

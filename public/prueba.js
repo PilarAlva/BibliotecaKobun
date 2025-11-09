@@ -12,7 +12,9 @@ class Cambio{
 window.addEventListener("load", ()=>{
 
     console.log("Cargado");
+    const btn_check = document.querySelectorAll(".form_checkbox");
     const btn = document.querySelectorAll(".form_boton.despliega");
+    
     const btn_guardar = document.querySelector("#btn-guardar");
     const btn_cerrar = document.querySelector("#btn-cerrar");
     
@@ -21,6 +23,8 @@ window.addEventListener("load", ()=>{
 
     btn_guardar.addEventListener("click", ()=>{guardarCambios()});
     btn_cerrar.addEventListener("click", ()=>{});
+
+    
 
     const form_datos = document.getElementById("form-insertar-usuario");
 
@@ -162,6 +166,36 @@ window.addEventListener("load", ()=>{
 
 
     }
+    btn_check.forEach((check)=>{
+
+        check.addEventListener("click", ()=>{
+
+            
+            var seccion = check.closest(".form_checks");
+            var seccion_visible = seccion.querySelector(".form_checks_cont");
+            var checks = seccion.querySelectorAll(".form_checkbox");
+            
+            
+            let activar = false;
+            
+            checks.forEach((c) =>{
+                if(c.checked) {
+                    activar = true
+                }
+            })
+            
+            if(activar){
+                seccion_visible.classList.remove("ocultado");
+            }else{
+                seccion_visible.classList.add("ocultado");  
+            }
+            
+            console.log(checks, seccion_visible);
+            
+        });
+
+    });
+
 
     btn.forEach((boton)=>{
         //console.log(boton);

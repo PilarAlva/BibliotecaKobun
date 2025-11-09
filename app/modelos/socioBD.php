@@ -113,7 +113,13 @@ class socioBD {
 
         return $this->db->resultados();
     }   
+    public function esSocioHabilitado($socio_id) {
+        $consulta = "SELECT activo FROM socios WHERE id = :socio_id";       
+            $this->db->consulta($consulta);
+            $this->db->unir(':socio_id', $socio_id);
 
+            return $this->db->resultado();
+    }
     public function antiguedadSocio($socio_id) {
         $consulta = "SELECT DATEDIFF(NOW(), fecha_alta) AS dias_antiguedad 
                     FROM socios 
