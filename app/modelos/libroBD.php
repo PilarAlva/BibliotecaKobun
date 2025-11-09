@@ -263,6 +263,7 @@ class LibroBD {
 
         $consulta = "SELECT 
                         l.id as id, 
+                        l.isbn as isbn,
                         l.titulo as titulo,
                         l.sinopsis as sinopsis,
                         l.ref_portada as portada,

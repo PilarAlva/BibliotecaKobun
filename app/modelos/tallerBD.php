@@ -188,11 +188,35 @@ class TallerBD {
 
         $this->db->consulta($consulta);
         $this->db->unir(':taller_id', $taller_id);
-        $this->db->ejecutar();
+
+        return $this->db->resultados();
+
+    } 
+    public function obtenerProfesores($taller_id){
+        $consulta = "SELECT u.id as usuario_id,
+                    concat(u.nombre, ' ', u.apellido) as usuario_nombre
+                    FROM talleres_profesores tp
+                    LEFT JOIN usuarios u ON tp.usuario_id = u.id
+                    WHERE tp.taller_id = :taller_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':taller_id', $taller_id);
+
+        return $this->db->resultados();
+    }
+
+    public function esProfesorDelTaller($taller_id, $usuario_id){
+        $consulta = "SELECT usuario_id FROM talleres_profesores 
+                    WHERE taller_id = :taller_id 
+                    AND usuario_id = :usuario_id ";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':taller_id', $taller_id);
+        $this->db->unir(':usuario_id', $usuario_id);
 
         return $this->db->resultado();
 
-    } 
+    }
     public function estaElUsuarioInscripto ($taller_id, $usuario_id){
         
         $consulta = "SELECT activo as existe FROM talleres_usuarios  

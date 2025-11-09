@@ -35,10 +35,70 @@ class UsuarioBD {
         return $this->db->resultado();
 
     }
+    public function obtenerRolUsuario($usuario_id){
+
+        $consulta = "SELECT rol_id FROM  usuarios WHERE id = :usuario_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir("usuario_id", $usuario_id);
+        $this->db->ejecutar();
+
+        return $this->db->resultado();
+
+    }
+
+    public function obtenerTodosUsuarios(){
+        
+        $consulta = "SELECT * FROM usuarios WHERE rol_id NOT 0";
+
+        $this->db->consulta($consulta);
+        $this->db->ejecutar();
+
+        return $this->db->resultados();
+
+    }
+
+    public function obtenerUsuarios(){
+        
+        $consulta = "SELECT * FROM usuarios WHERE rol_id = 1";
+
+        $this->db->consulta($consulta);
+        $this->db->ejecutar();
+
+        return $this->db->resultados();
+
+    }
+    public function obtenerProfesores(){
+
+        $consulta = "SELECT * FROM usuarios WHERE rol_id = 2";
+
+        $this->db->consulta($consulta);
+        $this->db->ejecutar();
+
+        return $this->db->resultados();
+
+    }   
 
     public function registrarUsuario($nombre, $apellido, $mail, $clave){
 
         $consulta = "INSERT INTO usuarios (nombre, apellido, mail, clave) VALUES (:nombre, :apellido, :mail, :clave)";
+
+        $this->db->consulta($consulta);
+
+        $this->db->unir("nombre", $nombre);
+        $this->db->unir("apellido", $apellido);
+        $this->db->unir("mail", $mail);
+        $this->db->unir("clave", $clave);
+
+        
+
+        return $this->db->ejecutar();
+
+    }
+    public function registrarProfesor($nombre, $apellido, $mail, $clave){
+
+        $consulta = "INSERT INTO usuarios (rold_id, nombre, apellido, mail, clave) 
+                    VALUES (2, :nombre, :apellido, :mail, :clave)";
 
         $this->db->consulta($consulta);
 
@@ -59,14 +119,26 @@ class UsuarioBD {
         
     } */
 
-    public function obtenerUsuarios () {
-        $consulta = "SELECT id, nombre, apellido FROM usuarios";
 
+
+    public function cambiarRolUsuario($usuario_id, $rol_id){
+
+        $consulta = "UPDATE usuarios SET rol_id = :rol_id WHERE id = :usuario_id";
+        
         $this->db->consulta($consulta);
+        $this->db->unir("usuario_id", $usuario_id); 
+        $this->db->unir("rol_id", $rol_id);
+
         $this->db->ejecutar();
 
-        return $this->db->resultados();
+        return $this->db->resultado();
+
     }
+
+    public function __destruct() {
+        $this->db->cerrarConexion();
+    }
+
 
 }
 ?>

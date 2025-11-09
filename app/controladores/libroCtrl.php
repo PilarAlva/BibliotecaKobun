@@ -12,22 +12,26 @@ class libroCtrl extends Controlador{
         $libroModel = $this->cargarModelo("libroBD");
         
         $offset = ( ((int)$pagina) - 1) * $cantidad_por_pagina;
-        $limite = $offset + $cantidad_por_pagina;
 
-        $libros = $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, $limite );
+        $libros = $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, $cantidad_por_pagina );
 
         $resultados = $libroModel->cantResultadosCatalogo($busqueda, $filtro);
 
-        $data = ["busqueda" => $busqueda,
+        $pagina = $this->chequeoPagina($pagina);
+        $cantidad_paginas = ceil($resultados / $cantidad_por_pagina);
+
+        $data = [
+                "cssEspecifico" => "catalogo.css",
+                 "busqueda" => $busqueda,
                  "filtro" => $filtro,
                  "libros" => $libros,
                  "resultados" => $resultados,
                  "offset" => $offset,
                  "url_paginacion" => $this->urlPaginacion($filtro, $busqueda, $pagina),
-                 "pagina" => $this->chequeoPagina($pagina),
-                 "cantidad_paginas" => ceil($resultados / $cantidad_por_pagina) ];
-        
-        $data['cssEspecifico'] = 'catalogo.css';
+                 "pagina" => $pagina,
+                 "cantidad_paginas" => $cantidad_paginas,
+                 "paginas_mostrar" => $this->quePaginasMostrar($pagina, $cantidad_paginas) ];
+
         $this->mostrarVista('catalogo', $data, 'Catalogo');
 
     }
@@ -47,7 +51,7 @@ class libroCtrl extends Controlador{
         $limite = $offset + $cantidad_por_pagina;
 
 
-        $libros = $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, $limite );
+        $libros = $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, $cantidad_por_pagina );
 
         $resultados = $libroModel->cantResultadosCatalogo($busqueda, $filtro);
 
@@ -56,25 +60,26 @@ class libroCtrl extends Controlador{
             header('Location: ' . BASE_URL . 'catalogo/b/' . $_POST['filtro'] . '/' . $_POST['q']);
 
         }
+  
+        $pagina = $this->chequeoPagina($pagina);
+        $cantidad_paginas = ceil($resultados / $cantidad_por_pagina);
 
-        
-        
-
-        $data = ["busqueda" => $busqueda,
+        $data = ["cssEspecifico" => "catalogo.css",
+                 "busqueda" => $busqueda,
                  "filtro" => $filtro,
                  "libros" => $libros,
                  "resultados" => $resultados,
                  "offset" => $offset,
                  "url_paginacion" => $this->urlPaginacion($filtro, $busqueda, $pagina),
-                 "pagina" => $this->chequeoPagina($pagina),
-                 "cantidad_paginas" => ceil($resultados / $cantidad_por_pagina) ];
-        
-        $data['cssEspecifico'] = 'catalogo.css';
+                 "pagina" => $pagina,
+                 "cantidad_paginas" => $cantidad_paginas,
+                 "paginas_mostrar" => $this->quePaginasMostrar($pagina, $cantidad_paginas) ];
+
         $this->mostrarVista('catalogo', $data, 'Catalogo');
 
     }
 
-       public function mostrarLibro($libro_id = '1'){
+    public function mostrarLibro($libro_id = '1'){
         
         $libroModel = $this->cargarModelo("libroBD");
 
@@ -83,16 +88,61 @@ class libroCtrl extends Controlador{
         $ejemplares = $libroModel->ejemplaresTotales($libro_id);
 
         $data = [
+            "es_socio" => $this->esSocio($this->usuarioRegistrado()),
             "libro" => $libro,
             "ejemplares" => $ejemplares,
-            "cssEspecifico" => 'catalogo.css' // Usamos el mismo CSS que el catálogo
-            
+            "cssEspecifico" => ['catalogo.css','libro.css'] // Usamos el mismo CSS que el catálogo
         ];
 
 
         $this->mostrarVista('Libro', $data, $libro['titulo']);
 
     }
+
+
+    //Funciones utilitarias
+
+    private function esSocio($usuario_id){  
+        
+        $socioModel = $this->cargarModelo("socioBD");
+
+        return $socioModel->obtenerSocioPorIdUsuario($usuario_id);
+
+    }
+
+    private function quePaginasMostrar($pagina, $cantidad_paginas){
+
+        $numero_paginas = [1];
+
+        $inico = 1;
+        $fin = $cantidad_paginas;
+
+		if($cantidad_paginas == 1){
+			return $numero_paginas;
+		}
+		if($pagina == 1){
+			$inicio_paginas = $pagina;
+	        $fin_paginas = $pagina + 4;
+		}else if($pagina == $cantidad_paginas){
+			$inicio_paginas = $pagina - 4 ;
+	        $fin_paginas = $pagina;
+		}else{
+	        $inicio_paginas = $pagina - 2;
+	        $fin_paginas = $pagina + 2;
+			
+		}
+		
+
+        for($i = $inicio_paginas; $i <= $fin_paginas; $i++){
+            if($i > 1 && $i < $cantidad_paginas){
+                $numero_paginas[] = $i;
+            }
+        }
+        
+		array_push($numero_paginas, $fin);
+
+        return $numero_paginas;
+}     
 
     private function chequeoPagina($pagina){
         if (!$this->esEnteroPositivo($pagina) || (int)$pagina < 1) {

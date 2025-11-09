@@ -10,6 +10,16 @@
     <!-- CSS Global que se carga en todas las páginas -->
     <link rel="stylesheet" href="css/style.css">
 
+    <?php if (isset($cssEspecifico) && !empty($cssEspecifico)){
+            if (!is_array($cssEspecifico)) $cssEspecifico = [$cssEspecifico];
+            
+            foreach($cssEspecifico as $css){
+        ?>
+        
+            <link rel="stylesheet" href="css/<?php echo htmlspecialchars($css); ?>">
+
+    <?php }} ?>
+
     <!-- Carga de CSS específico para cada página -->
     <?php if (isset($cssEspecifico) && !empty($cssEspecifico)): ?>
         <link rel="stylesheet" href="css/<?php echo htmlspecialchars($cssEspecifico); ?>">
@@ -18,14 +28,15 @@
     <title> <?= $titulo; ?></title>
 </head>
 
-
     <body>
         <?php require_once '../app/vistas/' . $direccionVista . '.php'; ?>
     </body>
-
    
     <!-- Archivos .js -->
     <script src="js/main.js"></script>
+    <script src="js/subir_archivo.js"></script>
+    
+    
 
 
 </html>

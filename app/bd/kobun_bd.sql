@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS Ejemplares(
 	
 	INDEX(libro_id),
 
-	FOREIGN KEY(libro_id) REFERENCES Libros(id)
+	FOREIGN KEY(libro_id) REFERENCES Libros(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS Libros_Autores (
@@ -47,8 +47,8 @@ CREATE TABLE IF NOT EXISTS Libros_Autores (
 	autor_id INT NOT NULL,
 	
 	PRIMARY KEY (libro_id, autor_id),
-	FOREIGN KEY (libro_id) REFERENCES Libros(id),
-	FOREIGN KEY (autor_id) REFERENCES Autores(id)
+	FOREIGN KEY (libro_id) REFERENCES Libros(id) ON UPDATE CASCADE ON DELETE CASCADE, 
+	FOREIGN KEY (autor_id) REFERENCES Autores(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS Libros_Editoriales (
@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS Libros_Generos (
 	libro_id INT NOT NULL,
 	genero_id INT NOT NULL,
 	PRIMARY KEY (libro_id, genero_id),
-	FOREIGN KEY (libro_id) REFERENCES Libros(id),
-	FOREIGN KEY (genero_id) REFERENCES Generos(id)
+	FOREIGN KEY (libro_id) REFERENCES Libros(id) ON DELETE CASCADE,
+	FOREIGN KEY (genero_id) REFERENCES Generos(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 
@@ -79,11 +79,12 @@ CREATE TABLE IF NOT EXISTS Roles_Usuarios(
 
 CREATE TABLE IF NOT EXISTS Usuarios(
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	rol_id INT,
+	rol_id INT DEFAULT 1,
 	nombre VARCHAR(60) NOT NULL,
 	apellido VARCHAR(60) NOT NULL,
 	mail VARCHAR(100) NOT NULL UNIQUE,
 	clave CHAR(255) NOT NULL,
+	img_perfil VARCHAR(100),
 
 	FOREIGN KEY (rol_id) 
 	REFERENCES Roles_Usuarios(id)
@@ -92,10 +93,10 @@ CREATE TABLE IF NOT EXISTS Usuarios(
 
 CREATE TABLE IF NOT EXISTS Socios(
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	usuario_id INT NOT NULL,
+	usuario_id INT DEFAULT 1,
 	telefono VARCHAR(60) NOT NULL,
 	dni VARCHAR(60) NOT NULL UNIQUE,
-	fecha_alta DATE NOT NULL,
+	fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	activo BOOLEAN DEFAULT TRUE,
 	fecha_nacimiento DATE,
 
@@ -112,6 +113,8 @@ CREATE TABLE IF NOT EXISTS Talleres(
 	horario VARCHAR(100),
 	lugar VARCHAR(100),
 	activo BOOLEAN DEFAULT TRUE,	
+	cupo INT NULL,
+	fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	
 	INDEX (nombre)
 );
@@ -119,9 +122,11 @@ CREATE TABLE IF NOT EXISTS Talleres(
 CREATE TABLE IF NOT EXISTS Talleres_Usuarios(
 	taller_id INT NOT NULL,
 	usuario_id INT NOT NULL,
+	activo BOOLEAN DEFAULT FALSE,
+	fecha_inscripcion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (taller_id, usuario_id),
-	FOREIGN KEY (taller_id) REFERENCES Talleres(id),
-	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id)
+	FOREIGN KEY (taller_id) REFERENCES Talleres(id) ON DELETE CASCADE,
+	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON DELETE CASCADE
 
 );
 
@@ -130,8 +135,8 @@ CREATE TABLE IF NOT EXISTS Talleres_Profesores(
 	taller_id INT NOT NULL,
 	usuario_id INT NOT NULL,
 	PRIMARY KEY (taller_id, usuario_id),
-	FOREIGN KEY (taller_id) REFERENCES Talleres(id),
-	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id)
+	FOREIGN KEY (taller_id) REFERENCES Talleres(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 /* Contenidos */
@@ -144,13 +149,13 @@ CREATE TABLE IF NOT EXISTS Publicaciones(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	taller_id INT NOT NULL,
 	usuario_id INT NOT NULL,
-    	public BOOLEAN DEFAULT TRUE,
-    	fecha_publicacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	alcance ENUM('foro', 'libreta', 'recurso','privado') NOT NULL DEFAULT 'foro',
+	fecha_publicacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	titulo TEXT NOT NULL,
 	cuerpo TEXT,
 
-	FOREIGN KEY (taller_id) REFERENCES Talleres(id),
-	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id)
+	FOREIGN KEY (taller_id) REFERENCES Talleres(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Publicaciones_Archivo( 
@@ -158,8 +163,8 @@ CREATE TABLE IF NOT EXISTS Publicaciones_Archivo(
     publicacion_id INT NOT NULL,
 
     PRIMARY KEY (archivo_id, publicacion_id),
-    FOREIGN KEY(archivo_id) REFERENCES Archivos(id),
-    FOREIGN KEY (publicacion_id) REFERENCES Publicaciones(id)
+    FOREIGN KEY(archivo_id) REFERENCES Archivos(id) ON DELETE CASCADE,
+    FOREIGN KEY (publicacion_id) REFERENCES Publicaciones(id) ON DELETE CASCADE
 );
 
 /*Gestion*/
@@ -176,8 +181,8 @@ CREATE TABLE IF NOT EXISTS Prestamos(
 	INDEX (socio_id),
 	INDEX (ejemplar_id),
 
-	FOREIGN KEY (socio_id) REFERENCES Socios(id),
-	FOREIGN KEY (ejemplar_id) REFERENCES Ejemplares(id)
+	FOREIGN KEY (socio_id) REFERENCES Socios(id) ON UPDATE CASCADE,
+	FOREIGN KEY (ejemplar_id) REFERENCES Ejemplares(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Pagos(
@@ -196,4 +201,12 @@ CREATE TABLE IF NOT EXISTS Datos_Biblioteca(
 	cuota_socio DECIMAL(10, 2),
 	limite_prestamos_nuevos INT,
 	limite_prestamos INT
+);
+
+CREATE TABLE Correos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    telefono VARCHAR(30),
+    consulta TEXT NOT NULL
 );

@@ -48,12 +48,22 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ***********************************
 
 -- Datos_Biblioteca
+
+-- #######################################################################
+-- # PASO 2: INSERCIÓN DE DATOS AMPLIADOS DE PRUEBA
+-- #######################################################################
+
+-- ***********************************
+-- 1. Tablas Maestras
+-- ***********************************
+
+-- Datos_Biblioteca
 INSERT INTO Datos_Biblioteca (mail, multa, cuota_socio, limite_prestamos_nuevos, limite_prestamos) VALUES
 ('contacto@kobun-db.com', 0.50, 25.00, 5, 10);
 
 -- Roles_Usuarios
 INSERT INTO Roles_Usuarios (tipo) VALUES
-('Administrador'), ('Bibliotecario'), ('Socio'), ('Profesor');
+('Administrador'), ('Usuario'), ('Profesor');
 
 -- Géneros (Ampliados)
 INSERT INTO Generos (nombre) VALUES
@@ -90,17 +100,17 @@ INSERT INTO Editoriales (nombre) VALUES
 -- ***********************************
 
 -- Usuarios (5 usuarios iniciales + 5 nuevos para talleres)
-INSERT INTO Usuarios (rol_id, nombre, apellido, mail, password) VALUES
+INSERT INTO Usuarios (rol_id, nombre, apellido, mail, clave) VALUES
 (1, 'Juan', 'Pérez', 'juan.perez@kobun.com', 'hash_admin_seguro_123'), -- 1 (Admin)
-(2, 'Maria', 'Gómez', 'maria.gomez@kobun.com', 'hash_bibliotecario_seguro_123'), -- 2 (Bibliotecario)
-(3, 'Carlos', 'López', 'carlos.lopez@mail.com', 'hash_socio_1_seguro_123'), -- 3 (Socio 1)
-(3, 'Ana', 'Martínez', 'ana.martinez@mail.com', 'hash_socio_2_seguro_123'), -- 4 (Socio 2)
-(4, 'Pedro', 'Sánchez', 'pedro.sanchez@kobun.com', 'hash_profesor_seguro_123'), -- 5 (Profesor 1)
-(3, 'Laura', 'Díaz', 'laura.diaz@mail.com', 'hash_socio_3_seguro_123'), -- 6 (Socio 3)
-(3, 'Miguel', 'Ruiz', 'miguel.ruiz@mail.com', 'hash_socio_4_seguro_123'), -- 7 (Socio 4)
-(4, 'Elena', 'Vargas', 'elena.vargas@kobun.com', 'hash_profesor_2_seguro_123'), -- 8 (Profesor 2)
-(3, 'Jorge', 'Castro', 'jorge.castro@mail.com', 'hash_socio_5_seguro_123'), -- 9 (Socio 5)
-(3, 'Sofia', 'Mora', 'sofia.mora@mail.com', 'hash_socio_6_seguro_123'); -- 10 (Socio 6)
+(1, 'Maria', 'Gómez', 'maria.gomez@kobun.com', 'hash_bibliotecario_seguro_123'), --  (Bibliotecario)
+(1, 'Carlos', 'López', 'carlos.lopez@mail.com', 'hash_socio_1_seguro_123'), -- 3 (Socio 1)
+(1, 'Ana', 'Martínez', 'ana.martinez@mail.com', 'hash_socio_2_seguro_123'), -- 4 (Socio 2)
+(1, 'Pedro', 'Sánchez', 'pedro.sanchez@kobun.com', 'hash_profesor_seguro_123'), -- 5 (Profesor 1)
+(1, 'Laura', 'Díaz', 'laura.diaz@mail.com', 'hash_socio_3_seguro_123'), -- 6 (Socio 3)
+(1, 'Miguel', 'Ruiz', 'miguel.ruiz@mail.com', 'hash_socio_4_seguro_123'), -- 7 (Socio 4)
+(1, 'Elena', 'Vargas', 'elena.vargas@kobun.com', 'hash_profesor_2_seguro_123'), -- 8 (Profesor 2)
+(1, 'Jorge', 'Castro', 'jorge.castro@mail.com', 'hash_socio_5_seguro_123'), -- 9 (Socio 5)
+(1, 'Sofia', 'Mora', 'sofia.mora@mail.com', 'hash_socio_6_seguro_123'); -- 10 (Socio 6)
 
 -- Socios (usuario_id 3, 4, 6, 7, 9, 10)
 INSERT INTO Socios (usuario_id, telefono, dni, fecha_alta, fecha_nacimiento) VALUES

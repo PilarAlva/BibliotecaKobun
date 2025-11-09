@@ -5,6 +5,9 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+    min-width: 60%;
+    max-width: 100%;
+    
 }
 .buscador form {
     width: 100%;
@@ -23,6 +26,7 @@
     background-repeat: no-repeat;
     background-position: right 15px center;
     background-size: 10px;
+    content: none;
 
     background-color: var(--grey-color);
     width: 20%;
@@ -37,7 +41,7 @@
 .search-input {
     background-color: var(--grey-color);
     border: none;
-    border-radius: 10px;
+    border-radius: 40px;
     padding: 10px 15px;
     color: var(--accent-color);
     font-family: var(--font-main);
@@ -82,8 +86,9 @@
 }
 .imagen-libro {
     width: 30%;
-    max-width: 90px; 
+    max-width: 120px; 
     padding-right: 20px;
+    height: 100%;
 }
 
 .imagen-libro img {
@@ -150,19 +155,21 @@
 .paginacion {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-top: 20px;
 }
 
-.paginacion ul {
+.paginacion_numeros{
     list-style: none;
-    padding: 0;
-    margin: 0;
+    padding: 4px;
+    margin: 0px 30px;
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
-.paginacion li a {
+.paginacion_siguiente, 
+.paginacion_anterior {
     display: block;
     padding: 5px 15px;
     border-radius: 5px;
@@ -172,19 +179,67 @@
     font-size: small;
     transition: all 0.3s ease;
     text-align: center;
-    min-width: 40px; /* Ancho consistente */
-}
+    min-width: 40px; /* Asegura que los números tengan un ancho consistente */
 
-.paginacion li a:hover {
-    color: grey;
+    &:hover:{
+        color: grey;
     background-color: var(--grey-color);
     border-color: var(--grey-color);
+    }
 }
 
-/* Estilo para la página activa */
-.paginacion li.active a {
+.paginacion_numero.active{
+    padding: 5px 10px;
+    margin: 0px 5px;
     color: white;
     background-color: grey;
     border-color: grey;
     cursor: default;
+    border-radius: var(--redondeo-btn);
+}
+.generos-libro{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-x: hidden;
+    gap: 5px;
+}
+/* Estilo para la página activa */
+
+
+@media (max-width: 768px) {
+    .selector,
+    .boton-busqueda{    
+        height: 3rem; 
+        width: 3rem;   
+        padding: 12px;
+        border-radius: 50%;
+    }
+    .search-input{
+        height: 3rem;   
+        width: 200px;
+    }   
+    .buscador{
+        margin-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        min-width: 100%;
+    }
+    #numero{
+        display: none;
+    }
+    .tabla-libro{
+        width: 100%;
+    }
+    .info-libro-contenedor{
+        
+        padding: 0px;
+    }
+    .info-libro *{
+        margin: 0px;
+    }
+    .imagen-libro{
+        width: 40%;
+    }
+    
 }

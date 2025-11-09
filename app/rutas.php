@@ -17,6 +17,10 @@ $rutas = [
 
     'libro/id' => ['controlador' => 'libroCtrl', 'metodo' => 'mostrarLibro'],
 
+    'publicacion' => ['controlador' => 'publicacionCtrl', 'metodo' => 'index'],
+
+    'publicacion/editar' => ['controlador' => 'publicacionCtrl', 'metodo' => 'editar'],
+
     'libro/prestamo' => ['controlador' => 'prestamoCtrl', 'metodo' => 'prestamo'],
     
     'sesion' => ['controlador' => 'SesionCtrl', 'metodo' => 'index'],
@@ -24,12 +28,34 @@ $rutas = [
     'sesion/cerrar' => ['controlador' => 'SesionCtrl', 'metodo' => 'cerrar_sesion'],
 
     'talleres' => ['controlador' => 'tallerCtrl', 'metodo' => 'index'],
-    
+
+    'taller/info' => ['controlador' => 'tallerCtrl', 'metodo' => 'mostrarInfoTaller'],
+
+    'taller/id' => ['controlador' => 'tallerCtrl', 'metodo' => 'taller'],
+
+    'taller/ins' => ['controlador' => 'tallerCtrl', 'metodo' => 'inscripcion'],
+
+    'ins/eliminar' => ['controlador' => 'tallerCtrl', 'metodo' => 'eliminarAlumno'],
+
+    'ins/rechazar' => ['controlador' => 'tallerCtrl', 'metodo' => 'rechazarAlumno'],
+
+    'ins/aceptar' => ['controlador' => 'tallerCtrl', 'metodo' => 'aceptarAlumno'],
+
     'contacto' => ['controlador' => 'contactoCtrl', 'metodo' => 'index'],
 
     'perfil' => ['controlador' => 'perfilCtrl', 'metodo' => 'index'],
 
     'pago' => ['controlador' => 'pagoCtrl', 'metodo' => 'pago'],
+
+    'pago/procesar' => ['controlador' => 'pagoCtrl', 'metodo' => 'procesarPago'],
+
+    'archivo' => ['controlador' => 'archivoCtrl', 'metodo' => 'inicio'],
+
+    'archivo/id' => ['controlador' => 'archivoCtrl', 'metodo' => 'descargar'],
+
+    'archivo/subir' => ['controlador' => 'archivoCtrl', 'metodo' => 'subir'],
+
+    'archivo/lista' => ['controlador' => 'archivoCtrl', 'metodo' => 'lista'],
 
 
 
