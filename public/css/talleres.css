@@ -120,7 +120,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 0; /* Estado inicial: sin ancho */
+    width: 0;
     height: 3px;
     background-color: var(--brown-color);
     transition: width 0.3s ease; 
@@ -136,8 +136,60 @@
 
 
 
+/* --------------- INFO DE CADA TALLER INDIVIDUAL ---------------- */
+#info-por-taller body {
+    background-color: white;
+}
 
+.banner {
+    position: relative;
+    width: 100%;
+    height: 275px;
+    overflow: hidden;
+}
+.banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
 
+.main-content {
+    padding: 1rem 8rem 2rem 8rem;
+}
+
+.flecha-atras div{
+    margin-bottom: 0px;
+    display: inline-block; /* Hace que el contenedor se ajuste al tamaño del contenido */
+}
+.flecha-atras img {
+    height: 40px;
+}
+
+#info-por-taller h1, h3{
+    margin-bottom: 0;
+}
+#info-por-taller div {
+    margin-bottom: 30px;
+}
+
+.informacion {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 40px;
+}
+
+/* ACAAA ME QUEDEEEEE. TENGO QUE PROBARLO 
+DESDE OTRO PERFIL NO ADMIN */
+.bt {
+    font-family: var(--font-main);
+    font-weight: normal;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px 20px;
+}
 
 
 

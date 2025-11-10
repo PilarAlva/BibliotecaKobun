@@ -48,9 +48,9 @@
                                         if (isset($misTalleresLookup[$taller['taller_id']])) {
                                             $mi_taller_coincidente = $misTalleresLookup[$taller['taller_id']];
                                             if ($mi_taller_coincidente["activo_usuario"] == 1) : ?>
-                                                <small style="color: green"> Anotado</small>
+                                                <small style="color: green">Anotado</small>
                                             <?php else: ?>
-                                                <small style="color: red"> En espera</small>
+                                                <small style="color: red">Pendiente</small>
                                             <?php endif;
                                         } ?>
 
@@ -90,9 +90,9 @@
                                             <p>Profesor: <?php echo htmlspecialchars($taller['profesor_nombre'])?></p>
                                             
                                             <?php if ($taller["activo_usuario"] == 1):?>                                
-                                                <small style="color: green"> Anotado</small>
+                                                <small style="color: green">Anotado</small>
                                             <?php  else: ?>
-                                                <small style="color: red"> En espera</small>
+                                                <small style="color: red">Pendiente</small>
                                             <?php endif;?>
                                         </div>
                                     </div>
