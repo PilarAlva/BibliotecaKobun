@@ -50,6 +50,14 @@ class UsuarioBD {
         return $this->db->resultado();
 
     }
+    public function borrarUsuario($usuario_id){
+
+        $consulta = "DELETE FROM usuarios WHERE id = :usuario_id AND rol_id NOT 1";
+        $this->db->consulta($consulta);
+        $this->db->unir("usuario_id", $usuario_id);
+        $this->db->ejecutar();
+
+    }
     public function obtenerInfoCompletaUsuarioPorId($usuario_id){
 
          $consulta = "SELECT 
@@ -163,9 +171,9 @@ class UsuarioBD {
         $this->db->unir("usuario_id", $usuario_id); 
         $this->db->unir("rol_id", $rol_id);
 
-        $this->db->ejecutar();
+       
 
-        return $this->db->resultado();
+        return $this->db->ejecutar();
 
     }
 

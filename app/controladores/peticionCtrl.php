@@ -15,11 +15,13 @@
         header("Access-Control-Allow-Headers: X-Requested-With, Content-Type");
 
         $usuarioModel = $this->cargarModelo("usuarioBD");
+        $socioModel = $this->cargarModelo("socioBD");
         $transaccionModel = $this->cargarModelo("transaccionBD");
         $prestamosModel = $this->cargarModelo("prestamoBD");
         $pagoModel = $this->cargarModelo("pagoDB");
         $socioModel = $this->cargarModelo("socioBD");
         $talleresModel = $this->cargarModelo("tallerBD");
+        $libroModel = $this->cargarModelo("libroBD");
 
         $respuesta_data = [
                         'estado' => 'error',
@@ -71,44 +73,48 @@
                     //     }
                     //     break;
                     case 'usuarios':
-                        
-                        //$cuerpo = $usuarioModel->obtenerTodosUsuarios();
                         $respuesta_data = [
                             'estado' => 'exito',
                             'mensaje' => 'Usuarios obtenidos correctamente.',
                             'data' => [
-                                'usuarios' => $usuarioModel->obtenerTodosUsuarios()                            ]
+                                'usuarios' => $usuarioModel->obtenerTodosUsuarios() ]
                         ];
 
                     break;
-                    case 'insertar-usuario':
-                        http_response_code(200);
-                        $estado = $sesionCtrl->registrarUsuario($_POST['nombre'], $_POST['apellido'], $_POST['mail'], $_POST['clave']);
-                        if($estado["estado"] == "exito"){
-                            $respuesta_data = [
-                                'estado' => 'exito',
-                                'mensaje' => $estado["mensaje"],
+                    case 'prestamos':
+                        $respuesta_data = [
+                            'estado' => 'exito',
+                            'mensaje' => 'Prestamos obtenidos correctamente.',
+                            'data' => [
+                                'prestamos' => $prestamosModel->prestamosPorSocio($_POST['socio_id']) 
+                                ]
+                        ];
+                    break;
+                    case 'multas':
+                        $respuesta_data = [
+                            'estado' => 'exito',
+                            'mensaje' => 'Multas obtenidos correctamente.',
+                            'data' => [
+                                'multas' => $prestamosModel->obtenerMultas($_POST['socio_id']) 
+                                ]
+                        ];
+
+                    break;
+                    case 'estado-cuenta':
+                        $respuesta_data = [
+                            'estado' => 'exito',
+                            'mensaje' => 'Estado obtenido correctamente.',
+                            'data' => [
+                                'estado_cuenta' => $pagoModel->estadoCuenta($_POST['socio_id']) 
+                                ]
                             ];
-                        }else{
-                            $respuesta_data = [
-                                'estado' => 'error',
-                                'mensaje' => $estado["mensaje"],
-                            ];
-                        }
-                    break;   
+                            
+                            break;
                     case 'usuario':
-                        
-                        //$cuerpo = $usuarioModel->obtenerTodosUsuarios();
                         $usuario = $usuarioModel->obtenerInfoCompletaUsuarioPorId($_POST['usuario_id']);
-                        $prestamos = [];
-                        $estado_cuenta = []; 
-                        $multas = [];
                         $socio_habilitado = false;
                         
                         if(isset($usuario["socio_id"])){
-                            $prestamos = $prestamosModel->prestamosPorSocio($usuario["socio_id"]);
-                            $estado_cuenta = $pagoModel->estadoCuenta($usuario["socio_id"]);
-                            $multas = $prestamosModel->obtenerMultas($usuario["socio_id"]);
                             $socio_habilitado = $socioModel->esSocioHabilitado($usuario["socio_id"]);
                         }
 
@@ -117,18 +123,88 @@
                             'mensaje' => 'Usuario obtenido correctamente.',
                             'data' => [
                                 'usuario' => $usuario,
-                                'socio_habilitado' => $socio_habilitado,
-                                'prestamos' => $prestamos,
-                                'estado_cuenta' => $estado_cuenta,
-                                'multas' => $multas
+                                'socio_habilitado' => $socio_habilitado
                             ]];
 
                     break;
+                    case 'registrar-usuario':
+                        http_response_code(200);
+                        $nombre = htmlspecialchars($_POST['nombre']);
+                        $apellido = htmlspecialchars($_POST['apellido']);
+                        $mail = htmlspecialchars($_POST['mail']);
+                        $clave = htmlspecialchars($_POST['nombre'] . "1234");
+
+                        $estado = $sesionCtrl->registrarUsuario($nombre, $apellido, $mail, $clave);
+                        if($estado["estado"] == "exito"){
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje' => $estado["mensaje"],
+                                'data' => [
+                                    'usuario_id' => $usuarioModel->obtenerUsuarioPorMail($mail)["id"]
+                                    ]
+                            ];
+                        }else{
+                            $respuesta_data = [
+                                'estado' => 'error',
+                                'mensaje' => $estado["mensaje"],
+                            ];
+                        }
+                    break;   
                     case 'agregar-socio':
+                        $resultado = $socioModel->registrarSocio($_POST['usuario_id'], $_POST['telefono'], $_POST['dni'], $_POST['fecha_nacimiento']);
+                        if($resultado){
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje' => 'Registrado como socio',
+                            ];
+
+                        }else{
                         $respuesta_data = [
                             'estado' => 'error',
                             'mensaje' => 'No se pudo ingresar el socio'
-                        ];
+                        ];}
+                        break;
+                    case 'agregar-profesor':
+                        $resultado = $usuarioModel->cambiarRolUsuario($_POST['usuario_id'], 2);
+                        if($resultado){
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje' => 'Registrado como profesor',
+                            ];
+
+                        }else{
+                        $respuesta_data = [
+                            'estado' => 'error',
+                            'mensaje' => 'No se pudo hacer profesor'
+                        ];}
+                        break;
+                    case 'quitar-profesor':
+                        $resultado = $usuarioModel->cambiarRolUsuario($_POST['usuario_id'], 3);
+                        if($resultado){
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje' => 'Quitado rol de profesor',
+                            ];
+
+                        }else{
+                        $respuesta_data = [
+                            'estado' => 'error',
+                            'mensaje' => 'Ya no quiero poner más errores'
+                        ];}
+                        break;
+                    case 'borrar-usuario':
+                        $resultado =  false; // $usuarioModel->borrarUsuario($_POST['usuario_id']);
+                        if($resultado){
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje' => 'Quitado rol de profesor',
+                            ];
+
+                        }else{
+                        $respuesta_data = [
+                            'estado' => 'error',
+                            'mensaje' => 'Está implementado, pero da miedito'
+                        ];}
                         break;
                     case 'devolver-prestamo':
                         
@@ -136,29 +212,50 @@
                             'estado' => 'exito',
                             'mensaje' => 'Devuelto '
                         ];
-                        foreach ($_POST as $key => $value) {
-                            if($key == 'prestamo_id') {
+                        foreach ($_POST as $index => $valor) {
+                            if($index == 'prestamo_id') {
                             if($prestamosModel->devolverPrestamo($_POST['prestamo_id'])){
-                                $respuesta_data['mensaje'] .=''. $key .''. $value .'';
+                                $respuesta_data['mensaje'] .='-'. $index .'-'. $valor .'';
                             }else{
                                 $respuesta_data = [
                                     'estado' => 'error',
                                     'mensaje'=> "no se pudo devolver"
                                 ];
-                            }
+                                }
+                            }   
                         }   
-                    }
+                        break;
+                    case 'busqueda-meterial':
+                        $tabla = htmlspecialchars($_POST['tabla']);
+                        $busqueda = htmlspecialchars($_POST['q']);
+                        $filtro = htmlspecialchars($_POST['filtro']);   
+                        $offset = htmlspecialchars($_POST['pagina']);
+                        $offset = ($offset - 1) * 20;
 
-                        
-                    break;
+                        switch ($tabla) {
+                            case 'libros':
+                                $respuesta_data = [
+                                    'estado' => 'exito',
+                                    'mensaje'=> "Libros devuelto",
+                                    'data' => [
+                                        'cantidad' => $libroModel->cantResultadosCatalogo($busqueda, $filtro),
+                                        'resultados' => $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, 20 )
+                                    ]
+                                ];
+                                break;
+                            default:
+                                break;
+                        }
+
+                        break;
                     case 'profesores':
                               
                        
 
-                    break;
+                        break;
                     
                     default:
-                    break;
+                        break;
             }
 
 

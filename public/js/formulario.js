@@ -79,16 +79,16 @@ export class Formulario {
 
         Peticion.empezar();
         this.colaPaginas.push(this.contenido.cloneNode(true));
-        this.initEventListeners();
+        this.eventos();
     }
 
-    initEventListeners() {
-        this.formulario.addEventListener("click", this.handleFormClick.bind(this));
-        this.formulario.addEventListener("submit", this.handleFormSubmit.bind(this));
-        this.formulario.addEventListener("change", this.handleFormChange.bind(this));
+    eventos() {
+        this.formulario.addEventListener("click", this.gestionarClicks.bind(this));
+        this.formulario.addEventListener("submit", this.gestionarEnvios.bind(this));
+        this.formulario.addEventListener("change", this.gestionarCambios.bind(this));
     }
 
-    handleFormClick(event) {
+    gestionarClicks(event) {
         const target = event.target;
 
         if (target.matches("btn-retroceso")) {
@@ -104,7 +104,7 @@ export class Formulario {
         }
     }
 
-    handleFormSubmit(event) {
+    gestionarEnvios(event) {
         event.preventDefault();
         const form = event.target;
         if (form.matches(".form_datos") && this.validar(form)) {
@@ -113,7 +113,7 @@ export class Formulario {
         }
     }
 
-    handleFormChange(event) {
+    gestionarCambios(event) {
         const target = event.target;
         if (target.matches('input, select, textarea')) {
             const form = target.closest('form.form_datos');
@@ -152,17 +152,38 @@ export class Formulario {
 
     async editarUsuario(id) {
         try {
-            const usuarioData = await this.getUsuario(id);
-            this.mostrarPaginaUsuario(usuarioData.data);
+            const usuarioData = await this.obtenerUsuario(id);
+            if(usuarioData.data.usuario.socio_id){
+                var socio_id = usuarioData.data.usuario.socio_id;
+                const prestamosData = await this.obtenerPrestamos(socio_id);
+                const multasData = await this.obtenerMultas(id);
+                const estadoCuentaData = await this.obtenerEstadoCuenta(id);
+
+                
+
+                this.mostrarPaginaUsuario(usuarioData.data.usuario, prestamosData.data.prestamos, multasData.data.multas, estadoCuentaData.data.estadoCuenta);
+
+            }else{
+                this.mostrarPaginaUsuario(usuarioData.data.usuario);
+            }
+
             this.mostrarPagina();
         } catch (error) {
-            console.error("Failed to edit user:", error);
+            console.error("No se pudo cargar el usuario:", error);
             this.mostrarMensaje(this.contenido, "Error al cargar los datos del usuario.", "form_error");
+            return null;
         }
     }
 
+    agregarUsuario() {
+
+        this.mostrarPaginaAgregarUsuario();
+        this.mostrarPagina();
+ 
+    }
+
     //--------------------------------------------------------------------------
-    // Page and State Management
+    // Paginas y la cola de páginas 
     //--------------------------------------------------------------------------
 
     retroceder() {
@@ -193,31 +214,63 @@ export class Formulario {
         }
 
         const { id, cambio } = this.colaCambios.pop();
-        console.log("Procesando cambio:", cambio);
+        console.log("Procesando cambio:", cambio.formData.get('accion'));
 
         try {
             const respuesta = await Peticion.peticion(cambio.formData);
             if (respuesta.estado === "exito") {
-                this.mostrarMensaje(cambio.mensaje, respuesta.mensaje, "form_exito");
-
+                
                 // Después de una acción exitosa, actualiza la sección correspondiente.
                 const accion = cambio.formData.get('accion');
-                const usuarioId = cambio.formData.get('usuario_id');
+                const usuario_id = cambio.formData.get('usuario_id');
+                const socio_id = cambio.formData.get('socio_id');
 
                 switch (accion) {
                     case 'devolver-prestamo':
-                        if (usuarioId) {
-                            this.actualizarSeccionPrestamos(usuarioId);
+                        if (usuario_id) {
+                            const nueva_seccion = await this.actualizarSeccionPrestamos(usuario_id, socio_id);
+                            //console.log(cambio.mensaje);
+                        
+                            var mensaje = nueva_seccion.querySelector(".form_mensaje");
+                            
+                            this.mostrarMensaje(mensaje, "Prestamo devuelto", "form_exito");
                         }
                         break;
-                    // TODO: Añadir casos para otras acciones que necesiten refrescar la UI.
-                }
+                    case 'agregar-socio':
+                        if (usuario_id) {
+                            //console.log(cambio.mensaje);
+                            
+                            await this.editarUsuario(usuario_id);
+                            mensaje = this.formulario.querySelector(".form_mensaje");
+                            this.mostrarMensaje(mensaje, "Socio agregado", "form_exito");   
 
+                        }
+                        break;
+                    case 'quitar-profesor':
+                    case 'agregar-profesor':
+                        if (usuario_id) {
+                            
+                            await this.editarUsuario(usuario_id);
+                            mensaje = this.formulario.querySelector(".form_mensaje");
+                            this.mostrarMensaje(mensaje, "Cambio de esto", "form_exito");   
+
+                        }
+                    
+                    break;
+                    case 'registrar-usuario':
+                        await this.editarUsuario(respuesta.data.usuario_id);
+                        mensaje = this.formulario.querySelector(".form_mensaje");
+                        this.mostrarMensaje(mensaje, "Registro exitoso", "form_exito");   
+                        break;
+
+                    }
+                    
             } else {
                 this.mostrarMensaje(cambio.mensaje, respuesta.mensaje || "Ocurrió un error.", "form_error");
             }
         } catch (error) {
             this.mostrarMensaje(cambio.mensaje, "Error de conexión al procesar el cambio.", "form_error");
+            console.error("Error en el puto submit", error);
         }
     }
 
@@ -275,7 +328,7 @@ export class Formulario {
     }
 
     //--------------------------------------------------------------------------
-    // Validation
+    // La validación de campos
     //--------------------------------------------------------------------------
 
     validar(form) {
@@ -312,87 +365,167 @@ export class Formulario {
     mostrarMensaje(contenedor, mensaje, tipo = 'form_error') {
         if (!contenedor) return;
         contenedor.innerText = mensaje;
-        contenedor.className = "form_mensaje"; // Reset classes
+        contenedor.className = "form_mensaje"; 
         contenedor.classList.add(tipo);
+        contenedor.classList.add("aparecer");
+
+        setTimeout(() =>{
+            contenedor.classList.remove("aparecer");
+        },10);
+
+        setTimeout(() =>{
+            contenedor.classList.add("desaparecer");
+             setTimeout(() =>{
+                contenedor.classList.remove("desaparecer");
+                contenedor.classList.add("ocultado");
+            },100);
+        },2000);
+
     }
 
-    async actualizarSeccionPrestamos(usuarioId) {
-        console.log(`Actualizando sección de préstamos para el usuario ${usuarioId}...`);
+    async actualizarSeccionPrestamos(usuario_id, socio_id) {
+        console.log(`Actualizando sección de préstamos para el usuario ${socio_id}...`);
         try {
-            const container = this.formulario.querySelector('seccion-prestamos-container');
-            if (!container) {
-                console.error("El contenedor de la sección de préstamos no fue encontrado.");
+            const seccion = this.formulario.querySelector('#seccion-prestamos-seccion');
+            if (!seccion) {
+                console.error("No está la sección crack");
                 return;
             }
 
-            const usuarioData = await this.getUsuario(usuarioId);
-            if (usuarioData && usuarioData.data) {
-                const nuevoHtml = this.cargarPrestamos(usuarioData.data.prestamos, usuarioData.data.usuario);
-                container.innerHTML = nuevoHtml;
+            
+            const prestamosData = await this.obtenerPrestamos(socio_id);
+
+            if (prestamosData && prestamosData.data) {
+                const nuevoHtml = this.cargarPrestamos({"usuario_id": usuario_id, "socio_id": socio_id}, prestamosData.data.prestamos);
+                seccion.innerHTML = nuevoHtml;
                 console.log("Sección de préstamos actualizada.");
             } else {
-                console.error("No se pudieron obtener los datos actualizados del usuario.");
+                console.error("No se consiguieron los préstamos");
             }
+            return seccion;
         } catch (error) {
-            console.error("Error al actualizar la sección de préstamos:", error);
+            console.error("Hubo un error master:", error);
+            return null;
         }
     }
 
 
     //--------------------------------------------------------------------------
-    // Data Fetching
+    // Datos
     //--------------------------------------------------------------------------
 
-    async getUsuario(id) {
+    async obtenerUsuario(id) {
         const formData = new FormData();
         formData.append('accion', "usuario");
         formData.append('usuario_id', id);
+        return Peticion.peticion(formData);
+    }
+    async obtenerPrestamos(socio_id) {
+        const formData = new FormData();
+        formData.append('accion', "prestamos");
+        formData.append('socio_id', socio_id);
+        return Peticion.peticion(formData);
+    }
+    async obtenerMultas(socio_id) {
+        const formData = new FormData();
+        formData.append('accion', "multas");
+        formData.append('socio_id', socio_id);
+        return Peticion.peticion(formData);
+    }
+    async obtenerEstadoCuenta(socio_id) {
+        const formData = new FormData();
+        formData.append('accion', "estado-cuenta");
+        formData.append('socio_id', socio_id);
         return Peticion.peticion(formData);
     }
 
     //--------------------------------------------------------------------------
     // HTML Template Generators
     //--------------------------------------------------------------------------
-    mostrarPaginaUsuario(data) {
+    mostrarPaginaUsuario(usuario, prestamos = [], multas = [], estado_cuenta =[]) {
+
         const contenido = document.createElement("div");
         contenido.classList.add("form_contenido_dinamico");
 
-        const paginaHTML = this.cargarPaginaUsuario(data);
-        if (typeof paginaHTML === 'string') {
+        const pie = document.createElement("div");
+        pie.classList.add("form_pie");
+
+        const paginaHTML = this.cargarPaginaUsuario(usuario, prestamos, multas, estado_cuenta);
+        
+        if(typeof paginaHTML === "string"){
             contenido.innerHTML = paginaHTML;
-        } else {
+        }else{
             contenido.appendChild(paginaHTML);
         }
-
-
         this.colaPaginas.push(contenido);
+
+    }
+    mostrarPaginaAgregarUsuario(){
+
+        const contenido = document.createElement("div");
+        contenido.classList.add("form_contenido_dinamico");
+
+        const paginaHTML = this.cargarPaginaAgregarUsuario();
+        
+        if(typeof paginaHTML === "string"){
+            contenido.innerHTML = paginaHTML;
+        }else{
+            contenido.appendChild(paginaHTML);
+        }
+        this.colaPaginas.push(contenido);
+
     }
 
-    cargarPaginaUsuario(data) {
-        let cont = this.cargarEstadoUsuario(data.usuario);
 
-        if (data.usuario.socio_id) {
-            cont += this.cargarPrestamos(data.prestamos, data.usuario);
-            if (data.estado_cuenta) {
-                cont += this.cargarEstadoCuenta(data.estado_cuenta);
+    cargarPaginaUsuario(usuario, prestamos, multas, estado_cuenta) {
+
+        let cont = this.cargarEstadoUsuario(usuario);
+
+        if (usuario.socio_id) {
+            cont += this.cargarPrestamos(usuario, prestamos);
+            if (estado_cuenta) {
+                cont += this.cargarEstadoCuenta(estado_cuenta);
             }
-            if (data.multas && data.multas.length > 0) {
-                cont += this.cargarMultas(data.multas);
+            if (multas && multas.length > 0) {
+                cont += this.cargarMultas(multas);
             }
-            if (data.socio_habilitado) {
-                cont += this.cargarPrestarLibro(data.usuario);
+            if (usuario.socio_habilitado) {
+                cont += this.cargarPrestarLibro(usuario);
             }
         } else {
-            cont += this.cargarHacerSocio(data.usuario);
+            cont += this.cargarHacerSocio(usuario);
         }
-        return cont;
+
+        cont += this.cargarHacerProfesorBorrar(usuario);
+
+        return cont
+    }
+
+    cargarPaginaAgregarUsuario(){
+        return `
+            <div class="form_titulo subrayado">Añadir nuevo usuario</div>
+            
+            
+            <form class="form_datos" id="form-registrar-usuario">
+                <input name="accion" value="registrar-usuario" type="hidden" />
+                <div class="form_seccion">
+                    <span class="form_mensaje ocultado"></span>
+                    ${this.cargarInputNormal('Correo:', 'mail', '', 'email', 'required')}
+                    ${this.cargarInputNormal('Nombre:', 'nombre', '', 'text', 'required')}
+                    ${this.cargarInputNormal('Apellido:', 'apellido', '', 'text', 'required')}
+                
+                </div>
+                <span class="form_mensaje ocultado"></span>
+                <button class="form_boton">Registrar</button>
+            </form>`;
     }
 
     cargarEstadoUsuario(usuario) {
         return `
             <div class="form_titulo subrayado">${usuario.nombre} ${usuario.apellido}</div>
             <section class="form_seccion subrayado">
-                <div class="form_informacion">
+            <div class="form_informacion">
+                    <div class="form_fila"><span class="form_mensaje ocultado"></span></div>
                     <div class="form_fila"><span>Correo: ${usuario.mail}</span></div>
                     <div class="form_fila"><span>Tipo de Usuario: ${this.cargarTipoUsuario(usuario)}</span></div>
                     ${this.cargarEsSocio(usuario)}
@@ -417,7 +550,7 @@ export class Formulario {
         return `<div class="form_fila"><span>Socio: no</span></div>`;
     }
 
-    cargarPrestamos(prestamos, usuario) {
+    cargarPrestamos(usuario, prestamos) {
         const activos = prestamos?.filter(p => p.activo == 1) || [];
         const devueltos = prestamos?.filter(p => p.activo != 1) || [];
 
@@ -430,12 +563,13 @@ export class Formulario {
             : "<div class='form_petit'>No tiene historial de devoluciones</div>";
 
         return `
-        <div id="seccion-prestamos-container">
+        <div id="seccion-prestamos-seccion">
             <span class="form_subtitulo">Libros en préstamo</span>
             <form class="form_datos form_seccion subrayado" id="devolver-prestamos">
                 <div class="form_fila"><span class="form_mensaje ocultado"></span></div>
                 <input name="accion" value="devolver-prestamo" type="hidden" />
-                <input name="usuario_id" value="${usuario.id}" type="hidden" />
+                <input name="usuario_id" value="${usuario.usuario_id}" type="hidden" />
+                <input name="socio_id" value="${usuario.socio_id}" type="hidden" />
                 <div class="form_checks form_seccion" id="form-prestamos">
                     ${prestamos_activos}
                     <div class="form_checks_cont form_fila rellena ocultado">
@@ -538,7 +672,7 @@ export class Formulario {
                 <div class="form_desplegable_cont se_despliega plegado">
                     <form class="form_datos" id="form-agregar-socio">
                         <input name="accion" value="agregar-socio" type="hidden" />
-                        <input name="usuario_id" value=${usuario.id} type="hidden" />
+                        <input name="usuario_id" value=${usuario.usuario_id} type="hidden" />
                         <span class="form_mensaje ocultado"></span>
                         ${this.cargarInputNormal('Teléfono:', 'telefono', '', 'number', 'required')}
                         ${this.cargarInputNormal('DNI:', 'dni', '', 'text', 'required')}
@@ -579,4 +713,32 @@ export class Formulario {
                 <span class="form_input_mensaje form_error ocultado"></span>
             </div>`;
     }
+
+    cargarHacerProfesorBorrar(usuario){
+        const boton = usuario.rol_id == 3 ? `
+        <input name="accion" value="agregar-profesor" type="hidden" />
+        <button class="form_boton">Hacer profesor</button>` :`
+        <input name="accion" value="quitar-profesor" type="hidden" />
+        <button class="form_boton">Quitar privilegios</button>`;
+
+
+
+        return `
+            <section class="form_pie">
+                <div class="form_fila rellena">
+                    <form class="form_datos form_seccion" id="form-estado-profesor">
+                        <input name="usuario_id" value=${usuario.usuario_id} type="hidden" />
+                        ${boton}
+                        <span class="form_mensaje ocultado"></span>
+                    </form>
+                    <form class="form_datos form_seccion" id="form-borrar-usuario">
+                        <input name="accion" value="borrar-usuario" type="hidden" />
+                        <input name="usuario_id" value=${usuario.usuario_id} type="hidden" />
+                        <button class="form_boton">Borrar Usuario</button>
+                        <span class="form_mensaje ocultado derecha "></span>
+                    </form>
+                </div>
+            </section>`;
+    }
+        
 }

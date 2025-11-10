@@ -107,11 +107,9 @@ class PerfilCtrl extends Controlador{
         } /**/
         
         /* Busqueda de Usuarios*/
-        $listaUsuarios = $usuarioModel->obtenerUsuarios();
+        $listaUsuarios = $usuarioModel->obtenerTodosUsuarios();
 
 
-        /* Busqueda de Libros */
-        
         $data = [
             "usuario" => $usuario,
             "socio" => $socio,
@@ -123,7 +121,7 @@ class PerfilCtrl extends Controlador{
             "estadoSocio" => $estadoSocio,
             "listaUsuarios" => $listaUsuarios,
 
-            "cssEspecifico" => 'perfil.css',
+            "cssEspecifico" => ['perfil.css'],
         ];
 
         $this->mostrarVista('perfil/perfil', $data, 'Perfil');
