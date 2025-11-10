@@ -556,11 +556,9 @@ export class Formulario {
         this.colaPaginas.push(contenido);
     }
 
-    async cargarPaginaAgregarLibro(autores, editoriales, generos){
+    async cargarPaginaAgregarUsuario(){
         return `
             <div class="form_titulo subrayado">Nuevo libro</div>
-            
-            
             <form class="form_datos" id="form-registrar-usuario">
                 <input name="accion" value="registrar-usuario" type="hidden" />
                 <div class="form_seccion">
@@ -599,8 +597,8 @@ export class Formulario {
         return cont
     }
 
-    cargarPaginaAgregarUsuario(){
-        return `
+    cargarPaginaAgregarLibro(){
+        let cont = `
             <div class="form_titulo subrayado">Añadir nuevo usuario</div>
             
             
@@ -615,12 +613,13 @@ export class Formulario {
                     ${this.cargarInputNormal('Codigo Topográfico:', 'codigo_topografico', '', 'text', 'required')}
                     ${this.cargarInputNormal('Descripcion', 'descripcion', 'text', '', 'textrequired')}
                     ${this.cargarInputDesplegable('Generos:', 'generos', '', 'text', 'required')}
-                    ${this.cargarInputArchivo('Portada:', 'portada', '', 'img', 'required')}
+                    ${this.cargarInputImagen('Portada:', 'portada', '', 'required')}
                 
                 </div>
                 <span class="form_mensaje ocultado"></span>
                 <button class="form_boton">Agregar</button>
             </form>`;
+            return cont;
     }
 
     cargarPaginaInfoLibro(libro, disponibles, ejemplares){
@@ -870,13 +869,13 @@ export class Formulario {
                 <span class="form_input_mensaje form_error ocultado"></span>
             </div>`;
     }
-    cargarInputDesplegable(nombre, opciones, submenu = ""){
+    cargarInputDesplegable(titulo, nombre, opciones, submenu = ""){
         return `
             <div class="form_desplegable form_seccion">
-                <label>${nombre}</label>
+                <label>${titulo}</label>
                 <div class="form_fila">
                     
-                    <select name="filtro" class="form_input">
+                    <select name=${nombre} class="form_input">
                         ${opciones}
                     </select>
 
