@@ -287,6 +287,34 @@ class LibroBD {
         return $this->db->resultado();
         
     }
+    public function obtenerEditoriales(){
+        $consulta = "SELECT 
+                        id,
+                        nombre
+                    FROM editoriales";
+        $this->db->consulta($consulta);
+
+        return $this->db->resultados();
+    }
+
+    public function obtenerAutores(){
+        $consulta = "SELECT id,
+                        concat(nombre, ' ', apellido) as nombre
+                    FROM autores";
+        $this->db->consulta($consulta);
+
+        return $this->db->resultados();
+    }
+
+    public function obtenerGeneros(){
+        $consulta = "SELECT 
+                        id,
+                        nombre
+                    FROM generos";
+        $this->db->consulta($consulta);
+
+        return $this->db->resultados();
+    }
 
     public function obtenerEjemplarPorId($ejempalr_id){
 

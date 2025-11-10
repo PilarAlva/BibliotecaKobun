@@ -300,10 +300,28 @@
                         }
 
                         break;
-                    case 'profesores':
-                              
-                       
+                    case 'opciones':
 
+                        $respuesta_data = [
+                            'estado' => 'exito',
+                            'mensaje'=> "Opciones devueltas",
+                        ];
+
+                        $resultado = "";
+                        switch($_POST["nombre"]){
+                            case "autores":
+                                $resultado = $libroModel->obtenerAutores();
+                                break;
+                            case "editoriales":
+                                $resultado = $libroModel->obtenerEditoriales();
+                                break;    
+                            case "generos":
+                                $resultado = $libroModel->obtenerGeneros();
+                                break;
+                        }
+                        $respuesta_data["data"]=$resultado;
+
+                        
                         break;
                     
                     default:

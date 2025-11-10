@@ -207,9 +207,14 @@ export class Formulario {
             return null;
         }
     }
-    agregarLibro() {
+    async agregarLibro() {
 
-        this.mostrarPaginaAgregarLibro();
+        const autoresData = await this.obtenerOpciones("autores");
+        const editorialesData = await this.obtenerOpciones("editoriales");
+        const generosData = await this.obtenerOpciones("generos");
+
+
+        this.mostrarPaginaAgregarLibro(autoresData.data, editorialesData.data, generosData.data);
         this.mostrarPagina();
  
     }
@@ -490,6 +495,12 @@ export class Formulario {
         formData.append('libro_id', id);
         return Peticion.peticion(formData);
     }    
+    async obtenerOpciones(opcion){
+        const formData = new FormData();
+        formData.append('accion', "opciones");
+        formData.append('nombre', opcion);
+        return Peticion.peticion(formData);
+    }
 
     //--------------------------------------------------------------------------
     // HTML Template Generators
@@ -512,12 +523,12 @@ export class Formulario {
         this.colaPaginas.push(contenido);
 
     }
-    mostrarPaginaAgregarUsuario(){
+    async mostrarPaginaAgregarUsuario(){
 
         const contenido = document.createElement("div");
         contenido.classList.add("form_contenido_dinamico");
 
-        const paginaHTML = this.cargarPaginaAgregarUsuario();
+        const paginaHTML = await this.cargarPaginaAgregarUsuario();
         
         if(typeof paginaHTML === "string"){
             contenido.innerHTML = paginaHTML;
@@ -542,11 +553,13 @@ export class Formulario {
         this.colaPaginas.push(contenido);
 
     }
-    mostrarPaginaAgregarLibro(){
+    mostrarPaginaAgregarLibro(autores, editoriales, generos){
         const contenido = document.createElement("div");
         contenido.classList.add("form_contenido_dinamico");
 
-        const paginaHTML = this.cargarPaginaAgregarLibro();
+        console.log(autores, editoriales, generos);
+
+        const paginaHTML = this.cargarPaginaAgregarLibro(autores, editoriales, generos);
         
         if(typeof paginaHTML === "string"){
             contenido.innerHTML = paginaHTML;
@@ -557,8 +570,8 @@ export class Formulario {
     }
 
     async cargarPaginaAgregarUsuario(){
-        return `
-            <div class="form_titulo subrayado">Nuevo libro</div>
+         let cont =`
+            <div class="form_titulo subrayado">Nuevo usuario</div>
             <form class="form_datos" id="form-registrar-usuario">
                 <input name="accion" value="registrar-usuario" type="hidden" />
                 <div class="form_seccion">
@@ -571,6 +584,7 @@ export class Formulario {
                 <span class="form_mensaje ocultado"></span>
                 <button class="form_boton">Registrar</button>
             </form>`;
+            return cont;
     }
 
     cargarPaginaUsuario(usuario, prestamos, multas, estado_cuenta) {
@@ -597,9 +611,14 @@ export class Formulario {
         return cont
     }
 
-    cargarPaginaAgregarLibro(){
+    cargarPaginaAgregarLibro(autores, editoriales, generos){
+        
+        let todos_autores = autores.map(a => this.cargarOpcion(a));
+        let todos_editoriales = editoriales.map(a => this.cargarOpcion(a));
+        let todos_generos = generos.map(a => this.cargarOpcion(a));
+
         let cont = `
-            <div class="form_titulo subrayado">Añadir nuevo usuario</div>
+            <div class="form_titulo subrayado">Nuevo libro</div>
             
             
             <form class="form_datos" id="form-registrar-usuario">
@@ -607,12 +626,12 @@ export class Formulario {
                 <div class="form_seccion">
                     <span class="form_mensaje ocultado"></span>
                     ${this.cargarInputNormal('Titulo:', 'titulo', '', 'text', 'required')}
-                    ${this.cargarInputDesplegable('Autores:', 'autores', '', 'text', 'required')}
-                    ${this.cargarInputDesplegable('Editorial:', 'editorial', '', 'text', 'required')}
+                    ${this.cargarInputDesplegable('Autores:', 'autores', todos_autores, 'text', 'required')}
+                    ${this.cargarInputDesplegable('Editorial:', 'editorial', todos_editoriales, 'text', 'required')}
                     ${this.cargarInputNormal('ISBN:', 'isbn', '', 'text', 'required')}
                     ${this.cargarInputNormal('Codigo Topográfico:', 'codigo_topografico', '', 'text', 'required')}
                     ${this.cargarInputNormal('Descripcion', 'descripcion', 'text', '', 'textrequired')}
-                    ${this.cargarInputDesplegable('Generos:', 'generos', '', 'text', 'required')}
+                    ${this.cargarInputDesplegable('Generos:', 'generos', todos_generos, 'text', 'required')}
                     ${this.cargarInputImagen('Portada:', 'portada', '', 'required')}
                 
                 </div>
@@ -680,7 +699,7 @@ export class Formulario {
         return `
             <div class="form_titulo subrayado">${usuario.nombre} ${usuario.apellido}</div>
             <section class="form_seccion subrayado">
-            <div class="form_informacion">
+                <div class="form_informacion">
                     <div class="form_fila"><span class="form_mensaje ocultado"></span></div>
                     <div class="form_fila"><span>Correo: ${usuario.mail}</span></div>
                     <div class="form_fila"><span>Tipo de Usuario: ${this.cargarTipoUsuario(usuario)}</span></div>
@@ -704,6 +723,14 @@ export class Formulario {
                 <div class="form_fila"><span>Fecha nacimiento: ${usuario.fecha_nacimiento}</span></div>`;
         }
         return `<div class="form_fila"><span>Socio: no</span></div>`;
+    }
+
+    cargarOpcion(opcion){
+        let cont = `
+        <option value=${opcion.id}>${opcion.nombre}</option>`
+
+        return cont;
+
     }
 
     cargarPrestamos(usuario, prestamos) {

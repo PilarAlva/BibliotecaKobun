@@ -33,7 +33,7 @@
 
         
     background-color: var(--form-bg-color);
-    width: 100%;
+    width: 60%;
     min-height: max-content;
     padding: var(--padding-form);
 }
