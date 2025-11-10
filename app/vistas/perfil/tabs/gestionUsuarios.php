@@ -4,9 +4,10 @@
             <!-- BUSQUEDA NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
             <div class="cabecera-gestion">
                 <div class="buscador">
-                        <form id="buscador-material" action="/" method="POST">
+                        <form id="buscador-usuarios" action="/" method="POST">
                         <select name="filtro" class="selector">
-                            <option value="usuario-gral" <?php /* if($filtro=='usuraio-gral') */ echo 'selected'; ?>>Usuarios Generales</option>
+                            <option value="todos" <?php /* if($filtro=='usuraio-gral') */ echo 'selected'; ?>>Todos</option>
+                            <option value="usuario-gral" <?php /* if($filtro=='usuraio-gral') */ echo 'selected'; ?>>Usuarios</option>
                             <option value="socios" <?php /* if($filtro=='socios') */ echo 'selected'; ?>>Socios</option>
                             <option value="profesores" <?php /* if($filtro=='profesores') */ echo 'selected'; ?>>Profesores</option>
                             <option value="administradores" <?php /* if($filtro=='administradores') */ echo 'selected'; ?>>Administradores</option>

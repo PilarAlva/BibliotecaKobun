@@ -71,14 +71,21 @@ window.addEventListener("load", async () => {
     async function gestionarEnvios(event) {
         const form = event.target;
         if (form.matches("#buscador-material")) {
+            let formData = new FormData(form);
+            const q = formData.get('q');
+            const filtro = formData.get('filtro');
+            event.preventDefault();
+
+            var resultados = await obtenerBusqueda('libros', q, filtro, 1);
+            mostrarResultadosBusqueda(cuerpo_material, resultados.data.resultados, cargarLibro)
+        }if (form.matches("#buscador-usuarios")) {
             event.preventDefault();
             let formData = new FormData(form);
             const q = formData.get('q');
             const filtro = formData.get('filtro');
-            //const pagina = formData.get('pagina');
 
-            var resultados = await obtenerBusqueda('libros', q, filtro, 1);
-            mostrarResultadosBusqueda(cuerpo_material, resultados.data.resultados, cargarLibro)
+            var resultados = await obtenerBusqueda('usuarios', q, filtro, 1);
+            mostrarResultadosBusqueda(cuerpo_usuarios, resultados.data.resultados, cargarUsuario)
         }
     }
     /*
@@ -102,13 +109,17 @@ window.addEventListener("load", async () => {
 
     async function obtenerBusqueda(tabla, q, filtro, pagina) {
         const formData = new FormData();
-        formData.append('accion', "busqueda-meterial");
+        formData.append('accion', "busqueda-dinamica");
         formData.append('tabla', tabla);
         formData.append('q', q);
         formData.append('filtro', filtro);
         formData.append('pagina', pagina);
         return Peticion.peticion(formData);
     }
+
+    //------------------------------------------------
+    // Plantilla HTML
+    //------------------------------------------------
 
     function cargarLibro(libro) {
         
@@ -132,20 +143,23 @@ window.addEventListener("load", async () => {
     }
     function cargarUsuario(usuario) {
     
+        let perfilImg = usuario.img_perfil? usuario.img_perfil : 'img/perfil-default.png';
+
+
         return `
-             <div class="usuario">
+            <div class="usuario">
                 <div class="imagen-usuario-cont">
-                    <?php
-                        $defaultImg = 'img/perfil-default.png';
-                        $perfilImg = (isset($usuarioItem['img_perfil']) && !empty($usuarioItem['img_perfil'])) ? $usuarioItem['img_perfil'] : $defaultImg;
-                    ?>
-                    <img src="<?php echo htmlspecialchars($perfilImg); ?>" alt="Imagen de perfil del usuario">
+                    <img src=${perfilImg} alt="Imagen de perfil del usuario">
                 </div>                                    
-                <div class="contenedor-info">
-                        <p><?php echo htmlspecialchars($usuarioItem['nombre']) . ' ' . htmlspecialchars($usuarioItem['apellido']);?></p>
-                        <button class="bt-mas-info" >+</button>
-                    </div>
+                <div class="info-nombre-usuario">
+                    <p> ${usuario.nombre}  ${usuario.apellido}</p>
+                    <button id="bt-mas-info-usuario"
+                            class="bt-mas-info"
+                            data-usuario=${usuario.id}>
+                            +
+                    </button>
                 </div>
+            </div>
             <hr class="linea-divisora">
         
         `;

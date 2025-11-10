@@ -225,7 +225,7 @@
                             }   
                         }   
                         break;
-                    case 'busqueda-meterial':
+                    case 'busqueda-dinamica':
                         $tabla = htmlspecialchars($_POST['tabla']);
                         $busqueda = htmlspecialchars($_POST['q']);
                         $filtro = htmlspecialchars($_POST['filtro']);   
@@ -236,10 +236,20 @@
                             case 'libros':
                                 $respuesta_data = [
                                     'estado' => 'exito',
-                                    'mensaje'=> "Libros devuelto",
+                                    'mensaje'=> "Libros devueltos",
                                     'data' => [
                                         'cantidad' => $libroModel->cantResultadosCatalogo($busqueda, $filtro),
                                         'resultados' => $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, 20 )
+                                    ]
+                                ];
+                                break;
+                             case 'usuarios':
+                                $respuesta_data = [
+                                    'estado' => 'exito',
+                                    'mensaje'=> "Uusarios devueltos",
+                                    'data' => [
+                                        'cantidad' => $usuarioModel->cantResultadosBusqueda($busqueda, $filtro),
+                                        'resultados' => $usuarioModel->busquedaUsuarios($busqueda, $filtro, $offset, 20 )
                                     ]
                                 ];
                                 break;

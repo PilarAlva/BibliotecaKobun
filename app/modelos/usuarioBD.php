@@ -127,6 +127,102 @@ class UsuarioBD {
 
     }   
 
+    public function cantResultadosBusqueda($busqueda, $filtro){
+
+        $consulta = "SELECT
+                    COUNT(u.id) as cantidad
+                    FROM usuarios u 
+                    LEFT JOIN socios s ON u.id = s.usuario_id ";
+
+        if ($busqueda != '') {
+            
+            switch ($filtro) {
+                case 'usuario-gral':
+                    $consulta .= "WHERE u.rol_id = 3 ";
+                    break;
+                case 'socios':
+                    $consulta .= "WHERE s.id IS NOT NULL ";
+                    break;
+                case 'profesores':
+                    $consulta .= "WHERE u.rol_id = 2 ";
+                    break;
+                case 'administrador':
+                    $consulta .= "WHERE u.rol_id = 1 ";
+                default:
+                    $consulta .= " ";
+                    break;    
+                }
+            $consulta .= " AND (u.nombre LIKE :busqueda_nombre OR u.apellido LIKE :busqueda_apellido)";
+        
+        }
+
+
+        $this->db->consulta($consulta);
+
+        if ($busqueda != '') {
+                $this->db->unir(':busqueda_nombre', "%$busqueda%");
+                $this->db->unir(':busqueda_apellido', "%$busqueda%");
+            
+            }
+
+        $this->db->ejecutar(); 
+
+        return $this->db->resultado();
+
+    }
+    public function busquedaUsuarios($busqueda, $filtro, $inicio = 0, $cant = 1000){
+
+        $consulta = "SELECT
+                    u.id,
+                    u.nombre,
+                    u.apellido,
+                    u.mail,
+                    u.rol_id,
+                    u.img_perfil,
+                    s.id as socio_id
+                    FROM usuarios u 
+                    LEFT JOIN socios s ON u.id = s.usuario_id ";
+
+        if ($busqueda != '') {
+            
+            switch ($filtro) {
+                case 'usuario-gral':
+                    $consulta .= "WHERE u.rol_id = 3  ";
+                    break;
+                case 'socios':
+                    $consulta .= "WHERE s.id IS NOT NULL  ";
+                    break;
+                case 'profesores':
+                    $consulta .= "WHERE u.rol_id = 2  ";
+                    break;
+                case 'administrador':
+                    $consulta .= "WHERE u.rol_id = 1  ";
+                default:
+                    $consulta .= " WHERE u.rol_id != 0  ";
+                    break;    
+                }
+            $consulta .= " AND (u.nombre LIKE :busqueda_nombre OR u.apellido LIKE :busqueda_apellido) ";
+        
+        }
+
+        $consulta .= " GROUP BY u.id ORDER BY u.id ASC LIMIT :limite OFFSET :offset";
+
+        $this->db->consulta($consulta);
+
+        if ($busqueda != '') {
+                $this->db->unir(':busqueda_nombre', "%$busqueda%");
+                $this->db->unir(':busqueda_apellido', "%$busqueda%");
+            
+            }
+
+        $this->db->unir(':limite', $cant);
+        $this->db->unir(':offset', $inicio);
+
+        $this->db->ejecutar(); 
+
+        return $this->db->resultados();
+    
+    }
     public function registrarUsuario($nombre, $apellido, $mail, $clave){
 
         $consulta = "INSERT INTO usuarios (nombre, apellido, mail, clave) VALUES (:nombre, :apellido, :mail, :clave)";
