@@ -53,13 +53,13 @@ class Controlador{
     protected function estadoUsuario(){
         if(isset($_SESSION['usuario_id']))
         {
-            switch($_SESSION['usuario_rol']){
-                case 0:
+            switch($_SESSION['rol_id']){
+                case 1:
                     return USUARIO::ADMINISTRADOR;
                     break;
-                case 1:
+                /* case 1:
                     return USUARIO::ALUMNO;
-                    break;
+                    break; */
                 case 2:
                     return USUARIO::PROFESOR;
                     break;

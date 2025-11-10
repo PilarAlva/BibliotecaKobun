@@ -70,9 +70,9 @@
             } else {
                 
                 if ($usuarioModel->registrarUsuario($nombre, $apellido, $mail, $clave)) {
-                    $msg = 5; //Registro exitoso. Ahora puede iniciar sesión
+                    $msj = 5; //Registro exitoso. Ahora puede iniciar sesión
                 } else {
-                    $msg = 1; //Ha ocurrido un error (3).
+                    $msj = 1; //Ha ocurrido un error (3).
                 }
             }
             return $msj;
@@ -151,7 +151,3 @@
             
 
     }
-
-
-
-

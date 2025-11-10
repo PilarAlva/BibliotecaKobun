@@ -74,23 +74,31 @@
         </table>            
 
         <nav aria-label="Paginación" class="paginacion">
-            <div class="paginacion_anterior">
-                <a href="<?php  echo $url_paginacion . $pagina-1 ?>">Anterior</a>
+            <div class="paginacion_anterior <?php if ($pagina <= 1) echo 'disabled'; ?>">
+                <?php if ($pagina > 1): ?>
+                    <a href="<?php echo $url_paginacion . ($pagina - 1); ?>">Anterior</a>
+                <?php else: ?>
+                    <span>Anterior</span>
+                <?php endif; ?>
             </div>
             <ul class="paginacion_numeros">
                 <!-- Página anterior -->
                 
                 <!-- Números de página -->
                 <?php foreach($paginas_mostrar as $i => $num_pagina){ ?>
-                    <li class="paginacion_numero <?php if ($num_pagina == $pagina) echo 'active'; ?>">
-                        <a href="<?php  echo $url_paginacion . $num_pagina ?>"><?php echo $num_pagina; ?></a>
+                    <li>
+                        <a class="paginacion_numero <?php if ($num_pagina == $pagina) echo 'active'; ?>" href="<?php  echo $url_paginacion . $num_pagina ?>"><?php echo $num_pagina; ?></a>
                     </li>
                 <?php } ?>
 
                 <!-- Página siguiente -->
             </ul>
-            <div class="paginacion_siguiente">
-                <a href="<?php  echo $url_paginacion . $pagina+1 ?>">Siguiente</a>
+            <div class="paginacion_siguiente <?php if ($pagina >= $cantidad_paginas) echo 'disabled'; ?>">
+                <?php if ($pagina < $cantidad_paginas): ?>
+                    <a href="<?php echo $url_paginacion . ($pagina + 1); ?>">Siguiente</a>
+                <?php else: ?>
+                    <span>Siguiente</span>
+                <?php endif; ?>
             </div>
         </nav>
 

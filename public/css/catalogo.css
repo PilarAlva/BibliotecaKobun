@@ -152,20 +152,38 @@
 
 
 /* ---------------------------------- */
-.paginacion {
+.paginacion{
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+    gap: 10px; /* Añade un espacio entre los botones y la lista de números */
 }
 
-.paginacion_numeros{
-    list-style: none;
-    padding: 4px;
-    margin: 0px 30px;
+ul.paginacion_numeros{
     display: flex;
-    align-items: center;
-    gap: 5px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.paginacion_numeros li{
+    margin: 0 2px; /* Espacio entre números */
+}
+
+.paginacion_numero {
+    display: block;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.paginacion_numero:hover {
+    background-color: var(--grey-color);
+    border-color: var(--grey-color);
 }
 
 .paginacion_siguiente, 
@@ -180,22 +198,27 @@
     transition: all 0.3s ease;
     text-align: center;
     min-width: 40px; /* Asegura que los números tengan un ancho consistente */
-
-    &:hover:{
-        color: grey;
+}
+.paginacion_siguiente:hover,
+.paginacion_anterior:hover {
+    color: grey;
     background-color: var(--grey-color);
     border-color: var(--grey-color);
-    }
+}
+
+.paginacion_anterior.disabled,
+.paginacion_siguiente.disabled {
+    background-color: #f0f0f0;
+    color: #ccc;
+    border-color: #ddd;
+    cursor: not-allowed;
 }
 
 .paginacion_numero.active{
-    padding: 5px 10px;
-    margin: 0px 5px;
     color: white;
     background-color: grey;
     border-color: grey;
     cursor: default;
-    border-radius: var(--redondeo-btn);
 }
 .generos-libro{
     display: flex;
@@ -204,9 +227,8 @@
     overflow-x: hidden;
     gap: 5px;
 }
+
 /* Estilo para la página activa */
-
-
 @media (max-width: 768px) {
     .selector,
     .boton-busqueda{    

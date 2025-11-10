@@ -167,23 +167,23 @@ class TallerBD {
     public function alumnosInscriptios ($taller_id){
         
         $consulta = "SELECT u.id as alumno_id,
-                    concat(u.nombre, ' ', u.apellido) as alumno_nombre,
+                    concat(u.nombre, ' ', u.apellido) as alumno_nombre
                     FROM talleres_usuarios tu
-                    LEFT JOIN usuarios u ON tu.usuario_id = u.id;
+                    LEFT JOIN usuarios u ON tu.usuario_id = u.id
                     WHERE tu.taller_id = :taller_id AND tu.activo = 1";
 
         $this->db->consulta($consulta);
         $this->db->unir(':taller_id', $taller_id);
         $this->db->ejecutar();
 
-        return $this->db->resultado();
+        return $this->db->resultados();
     }  
     public function alumnosPendientes($taller_id){
 
         $consulta = "SELECT u.id as alumno_id,
-                    concat(u.nombre, ' ', u.apellido) as alumno_nombre,
+                    concat(u.nombre, ' ', u.apellido) as alumno_nombre
                     FROM talleres_usuarios tu
-                    LEFT JOIN usuarios u ON tu.usuario_id = u.id;
+                    LEFT JOIN usuarios u ON tu.usuario_id = u.id
                     WHERE tu.taller_id = :taller_id AND tu.activo = 0";
 
         $this->db->consulta($consulta);

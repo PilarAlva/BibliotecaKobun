@@ -25,7 +25,6 @@
 
 .saludo h1 {
     font-size: 2em;
-    margin: 0;
     font-family: var(--font-headings); 
 }
 

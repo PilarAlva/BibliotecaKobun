@@ -12,24 +12,20 @@
            <?php if (isset($_SESSION['usuario_id'])): ?>
                
                <ul class="taller_menu">
-               
                <button id="btn_t_mt" tab ="talleres_section_mis_talleres" class="taller_menu_btn ">Mis talleres</button>
                <button id="btn_t_b" tab = "talleres_section_talleres_busqueda" class="taller_menu_btn selected">Busqueda</button>
-                   
                </ul>
                
                <?php endif; ?>
     </nav>
 
     <div class="talleres__encabezado">
-
         <div class="buscador">
             <form action="<?php BASE_URL?>talleres/b/" method="POST">
                 <input type="text" name="q" class="search-input" placeholder="Buscar..." value="<?php echo htmlspecialchars(''); ?>">
                 <button type="submit" class="boton-busqueda"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
         </div>
-        
     </div>
         
 

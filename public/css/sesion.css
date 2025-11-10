@@ -1,6 +1,7 @@
 
 .main-content {
     flex-grow: 1;
+    min-height: auto; /* Anula el min-height heredado */
     display: flex;
     justify-content: center;
     align-items: center;

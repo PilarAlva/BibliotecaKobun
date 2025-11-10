@@ -1,11 +1,158 @@
-.talleres__encabezado{
+/* Varaibles para talleres */
+:root {
+    --gris-1: oklch(78.377% 0.01976 285.877);
+    --gris-2: oklch(58.544% 0.01646 264.475);
 
+    --gris-texto: oklch(28.758% 0.01241 258.413);
+
+    --btn-subir: oklch(55.542% 0.19656 1.567);
+    --btn-subir-hover: oklch(36.897% 0.03658 259.493);
+
+    --btn-borrar: oklch(0.8 0.1 30);
+    --btn-borrar-hover: okSlch(0.7 0.1 30);
+    --sa-cuerpo: oklch(93.1% 0.00011 271.152);
+
+    --gris-1: #b0bdc2;
+    --redondeo: 0.5rem;
+    --redondeo-btn: 1.5rem;
+    --redondeo-taller: 1.5rem;
+}
+
+.main-content {
+    padding: 1rem 2rem 2rem 2rem;
+}
+
+.sin-contenido {
+    display: block;
+}
+
+.encabezado-talleres {
+    display: flex;
+    justify-content: center;
+    margin: 25px 0 40px 0;
+    grid-column: 1 / -1; /* Hace que el título ocupe todas las columnas de la grilla */
+}
+
+.listado_talleres {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.taller {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 300px;
+    justify-self: center; /* Centra el taller dentro de su celda en la grilla */
+    margin-bottom: 20px;
+}
+.taller-contenedor {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--borde-contenedor);
+    background-color: var(--grey-color);    
+}
+
+
+.imagen-taller-cont {
+    width: 100%; 
+    flex-shrink: 0;
+    border-radius: var(--borde-contenedor) var(--borde-contenedor) 0 0;
+    overflow: hidden;
+}
+.imagen-taller-cont img {
+    width: 100%; 
+    aspect-ratio: 3 / 1.5;
+    object-fit: cover;
+    object-position: center;
+}
+.info-taller-contenedor{
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.bt a {
+    color: black;
+    text-decoration: none;
+}
+.bt{
+    background-color: var(--bt-color-neutro); 
+    border: 1px solid black;
+}
+
+
+.talleres_vista {
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+
+.taller_menu_btn{
+    font-family: var(--font-headings);
+    font-size: 1rem;
+
+    border: none;
+    padding: 1.25rem 1.25rem 1.7rem;
+    height: calc(0.25rem * 10);
+    background-color: var(--bg-color);
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;    
+}
+
+@media (max-width: 768px) {
+    .taller_menu_btn {
+        width: 40%;
+        font-size: 14px; 
+    }
+}
+
+.taller_menu_btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0; /* Estado inicial: sin ancho */
+    height: 3px;
+    background-color: var(--brown-color);
+    transition: width 0.3s ease; 
+}
+.taller_menu_btn.selected::after{
+    width: 100%; 
+    display: block;
+}
+
+.taller_menu_btn:hover{
+    background-color: var(--grey-color);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ----------------------------------------------------------------------------------------------------------------- */
+.talleres__encabezado{
     display: flex;
     width: 100%;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    
 }
 
 .te_menu{
@@ -20,7 +167,6 @@
 
 }
 .te_menu__btn{
-
     display: flex;
     padding: 1rem;
     width: auto;
@@ -78,8 +224,6 @@
 
 
 .taller_menu{
-
-    
     margin-top: 4px;
     list-style: none;
     display: flex;
@@ -92,7 +236,7 @@
 
 }
 
-.taller_menu_btn{
+/* .taller_menu_btn{
     font-family: var(--font-headings);
     font-weight: 400;
     font-size: 1rem;
@@ -101,7 +245,7 @@
     padding: 1.25rem 1.25rem 2rem;
     width: 25%;
     height: calc(0.25rem * 10);
-    background-color: var(--bg-color-2);
+    background-color: var(--bg-color);
     position: relative;
 
     align-items: center;
@@ -109,31 +253,26 @@
     justify-content: center;
     transition: background-color 0.3s ease;
 
-    cursor: pointer;
-     
-    
-}
+    cursor: pointer;    
+} */
+
 .taller_menu_btn::after {
    
-    }
-.taller_menu_btn:hover{
+}
+/* .taller_menu_btn:hover{
     background-color: var(--gris-2);
-}
-.taller_menu_btn:hover::after{
-    width: 12%;
-}
-.taller_menu_btn.selected::after{
+} */
 
-   content: '';
+/* .taller_menu_btn.selected::after{
+    content: '';
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%; /* Example: a partial border */
+    width: 100%;
     height: 3px;
-    background-color: var(--btn-subir);
+    background-color: var(--brown-color);
     display: block;
-
-}
+} */
 
 .taller_portada{
     width: 100%;
@@ -390,11 +529,7 @@
         z-index: 1;
         
     }
-    .taller_menu_btn{
-        padding: 2px;
-        font-size: 14px;
-        
-    }
+    
     .taller_publicacion{
         margin: 6px 0;
         padding: 10px;

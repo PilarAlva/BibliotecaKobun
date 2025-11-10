@@ -39,15 +39,16 @@
             $data = [
                     "cssEspecifico" => ["catalogo.css", "talleres.css", "publicaciones.css", "libreta.css"],
                     "talleres" => $talleres,
-                     "mis_talleres" => $mis_talleres  ,
-                     "resultados" => $resultados,
-                     "offset" => $offset,
-                     "url_paginacion" => $this->urlPaginacion('', '', $pagina),
-                     "pagina" => $this->chequeoPagina($pagina),
-                     "cantidad_paginas" => ceil(10 / $cantidad_por_pagina) ];
+                    "mis_talleres" => $mis_talleres  ,
+                    "resultados" => $resultados,
+                    "offset" => $offset,
+                    "url_paginacion" => $this->urlPaginacion('', '', $pagina),
+                    "pagina" => $this->chequeoPagina($pagina),
+                    "cantidad_paginas" => ceil(10 / $cantidad_por_pagina) ];
 
 
-        $this->mostrarVista('talleres/lista', $data, 'Talleres');
+        /* $this->mostrarVista('talleres/lista', $data, 'Talleres'); */
+        $this->mostrarVista('talleres/talleres', $data, 'Talleres');
             
 
     }

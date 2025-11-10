@@ -11,30 +11,9 @@
     --bg-color: #f2f1eb; 
     --grey-color: #d6d4d4;
     --red-color: #c60f11;
+    --brown-color: #6b5540;
     --font-main: 'Poppins', sans-serif;
-    --borde-contenedor: 20px;/*     --font-headings: 'Montserrat', sans-serif; */
-    --bg-color-2: #F2F1EB;
-/*     --font-headings: 'Montserrat', sans-serif; */
-
-    /*Varaibles para talleres*/
-    --gris-1: oklch(78.377% 0.01976 285.877);
-    --gris-2: oklch(58.544% 0.01646 264.475);
-
-    --gris-texto: oklch(28.758% 0.01241 258.413);
-
-    --btn-subir: oklch(55.542% 0.19656 1.567);
-    --btn-subir-hover: oklch(36.897% 0.03658 259.493);
-
-    --btn-borrar: oklch(0.8 0.1 30);
-    --btn-borrar-hover: okSlch(0.7 0.1 30);
-    --sa-cuerpo: oklch(93.1% 0.00011 271.152);
-
-    --gris-1: #b0bdc2;
-    --redondeo: 0.5rem;
-    --redondeo-btn: 1.5rem;
-    --redondeo-taller: 1.5rem;
-
-
+    --borde-contenedor: 20px;    
 }
 
 * {
@@ -158,7 +137,7 @@ img {
     height: 40px;
     border-radius: 50%; 
     object-fit: cover; 
-    padding: 2px; /* <--- Esta es la propiedad que añade el espacio interior */
+    padding: 2px;
     border: 2px solid var(--accent-color);
 }
 .btn-perfil:hover .img-perfil {
@@ -220,9 +199,10 @@ img {
 /* ------- Contenido Principal (Main) ------- */
 .main-content {
     width: 100%;
-    max-width: 1200px;
-    min-height: 100vh;
-    height: 100%;
+    /* min-height: 100vh;
+    height: 100%; */
+    max-width: 1200px;    
+    flex-grow: 1;
     margin: 0 auto;
     padding: 3rem;
 }
@@ -308,30 +288,4 @@ footer {
     }
 }
 
-/* ------- Contenido Principal (Main) ------- */
-.main-content {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem;
-}
 
-/* ------- Divisor de Secciones ------- */
-.linea-divisora {
-    border: 0;
-    height: 1px;
-    background-color: var(--accent-color);
-    opacity: 0.6; 
-    margin: 3rem auto;
-    width: 80%; 
-}
-
-/* ------- Footer ------- */
-footer {
-    background-color: var(--primary-color);
-    color: var(--accent-color);
-    text-align: center;
-    padding: 1rem 0;
-    font-size: 0.9rem;
-    
-}
