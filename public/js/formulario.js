@@ -117,11 +117,14 @@ export class Formulario {
 
     gestionarCambios(event) {
         const target = event.target;
-        if (target.matches('input, select, textarea')) {
+        if (target.matches('select')) {
             const form = target.closest('form.form_datos');
-            if (form && this.validarCampo(target)) {
-                this.insertarCambio(form);
-            }
+
+            console.log(target.value);
+            console.dir(target);
+            // if (form && this.validarCampo(target)) {
+            //     this.insertarCambio(form);
+            // }
         }
     }
 
@@ -727,7 +730,10 @@ export class Formulario {
 
     cargarOpcion(opcion){
         let cont = `
-        <option value=${opcion.id}>${opcion.nombre}</option>`
+        <option data-id=${opcion.id} value=${opcion.nombre}>${opcion.nombre}
+        </option>
+        
+        `
 
         return cont;
 
@@ -903,7 +909,7 @@ export class Formulario {
                 <div class="form_fila">
                     
                     <select name=${nombre} class="form_input">
-                        ${opciones}
+                        ${opciones} 
                     </select>
 
                     <div class="form_boton despliega">+
