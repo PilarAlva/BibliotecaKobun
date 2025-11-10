@@ -149,6 +149,16 @@
     font-size: smaller;
 
 }
+.form_petit.rojo{
+    color: var(--form-subrayado-fuerte);
+    background-color: transparent;
+    font-weight: bold;
+}
+.form_petit.verde{
+    color: var(--exito);
+    font-weight: bold;
+    background-color: transparent;
+}
 .form_input{
     min-width: 200px;
     max-width: 100%;

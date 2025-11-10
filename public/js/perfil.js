@@ -68,6 +68,8 @@ window.addEventListener("load", async () => {
             formulario.agregarUsuario();
         }else if (target.matches("#bt-mas-info-material")) {
             formulario.editarLibro(target.getAttribute("data-libro"));
+        }else if (target.matches("#bt-agregar-material")) {
+            formulario.agregarLibro();
         }
 
     }

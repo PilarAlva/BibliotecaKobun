@@ -186,8 +186,9 @@ export class Formulario {
 
     async editarLibro(id){
         try {
+            
             const libroData = await this.obtenerLibro(id);
-            if(libroData.data.activo){
+            if(libroData.data.libro.activo){
 
                 var libro_id = libroData.data.libro.id;
                 
@@ -195,7 +196,7 @@ export class Formulario {
                 const ejemplaresData = await this.obtenerEjemplares(libro_id);
 
                 this.mostrarPaginaLibro(libroData.data.libro,
-                                        cantidadData.data.cantidad,
+                                        cantidadData.data.disponibles,
                                         ejemplaresData.data.ejemplares);
             }
 
@@ -205,6 +206,12 @@ export class Formulario {
             this.mostrarMensaje(this.contenido, "Error al cargar los datos del libro.", "form_error");
             return null;
         }
+    }
+    agregarLibro() {
+
+        this.mostrarPaginaAgregarLibro();
+        this.mostrarPagina();
+ 
     }
 
     //--------------------------------------------------------------------------
@@ -526,7 +533,7 @@ export class Formulario {
         contenido.classList.add("form_contenido_dinamico");
 
         const paginaHTML = this.cargarPaginaInfoLibro(libro, disponibles, ejemplares);
-        
+       
         if(typeof paginaHTML === "string"){
             contenido.innerHTML = paginaHTML;
         }else{
@@ -535,7 +542,38 @@ export class Formulario {
         this.colaPaginas.push(contenido);
 
     }
+    mostrarPaginaAgregarLibro(){
+        const contenido = document.createElement("div");
+        contenido.classList.add("form_contenido_dinamico");
 
+        const paginaHTML = this.cargarPaginaAgregarLibro();
+        
+        if(typeof paginaHTML === "string"){
+            contenido.innerHTML = paginaHTML;
+        }else{
+            contenido.appendChild(paginaHTML);
+        }
+        this.colaPaginas.push(contenido);
+    }
+
+    async cargarPaginaAgregarLibro(autores, editoriales, generos){
+        return `
+            <div class="form_titulo subrayado">Nuevo libro</div>
+            
+            
+            <form class="form_datos" id="form-registrar-usuario">
+                <input name="accion" value="registrar-usuario" type="hidden" />
+                <div class="form_seccion">
+                    <span class="form_mensaje ocultado"></span>
+                    ${this.cargarInputNormal('Correo:', 'mail', '', 'email', 'required')}
+                    ${this.cargarInputNormal('Nombre:', 'nombre', '', 'text', 'required')}
+                    ${this.cargarInputNormal('Apellido:', 'apellido', '', 'text', 'required')}
+                
+                </div>
+                <span class="form_mensaje ocultado"></span>
+                <button class="form_boton">Registrar</button>
+            </form>`;
+    }
 
     cargarPaginaUsuario(usuario, prestamos, multas, estado_cuenta) {
 
@@ -570,13 +608,18 @@ export class Formulario {
                 <input name="accion" value="registrar-usuario" type="hidden" />
                 <div class="form_seccion">
                     <span class="form_mensaje ocultado"></span>
-                    ${this.cargarInputNormal('Correo:', 'mail', '', 'email', 'required')}
-                    ${this.cargarInputNormal('Nombre:', 'nombre', '', 'text', 'required')}
-                    ${this.cargarInputNormal('Apellido:', 'apellido', '', 'text', 'required')}
+                    ${this.cargarInputNormal('Titulo:', 'titulo', '', 'text', 'required')}
+                    ${this.cargarInputDesplegable('Autores:', 'autores', '', 'text', 'required')}
+                    ${this.cargarInputDesplegable('Editorial:', 'editorial', '', 'text', 'required')}
+                    ${this.cargarInputNormal('ISBN:', 'isbn', '', 'text', 'required')}
+                    ${this.cargarInputNormal('Codigo Topográfico:', 'codigo_topografico', '', 'text', 'required')}
+                    ${this.cargarInputNormal('Descripcion', 'descripcion', 'text', '', 'textrequired')}
+                    ${this.cargarInputDesplegable('Generos:', 'generos', '', 'text', 'required')}
+                    ${this.cargarInputArchivo('Portada:', 'portada', '', 'img', 'required')}
                 
                 </div>
                 <span class="form_mensaje ocultado"></span>
-                <button class="form_boton">Registrar</button>
+                <button class="form_boton">Agregar</button>
             </form>`;
     }
 
@@ -594,11 +637,8 @@ export class Formulario {
                         
                         <div class="form_fila">
                             <span>Autor: ${libro.autores}</span>
-                            <span class="form_subtitulo derecha">ID: ${libro.id}</span>
-                        </div>
-                        <div class="form_fila">
-                            <span>Cantidad de ejemplates: ${disponibles}</span>
-                        </div>
+                            <span class="form_subtitulo derecha">ID: 102${libro.id}</span>
+                        </div>   
                         <div class="form_fila">
                             <span>Editorial: ${libro.editorial}</span>
                         </div>
@@ -606,8 +646,15 @@ export class Formulario {
                             <span>ISBN: ${libro.isbn}</span>
                         </div>
                         <div class="form_fila">
-                            <span>Descripcion: asdjasjdlkasjdl</span>
-                            <form class="form_datos rellena">
+                            <span>Descripcion: ${libro.descripcion}</span>
+                            
+                        </div>
+                        <div class="form_fila subtitulo">
+                            <span>Cantidad de ejemplares: ${ejemplares.length}</span>
+                        </div>
+                        <div class="form_fila subtitulo">
+                            <span>Disponilbles: ${disponibles.length}</span>
+                            <form class="form_datos rellena" id="form-estado-libro">
                                 <input name="accion" value="estado-libro" type="hidden"></input>
                                 <input name="libro_id" value=${libro.id} type="hidden"></input>
                                 <span class="form_mensaje ocultado" ></span>
@@ -624,7 +671,7 @@ export class Formulario {
                 
             </section>
 
-            ${this.cargarSeccionEjemplares(ejemplares)}
+            ${this.cargarSeccionEjemplares(ejemplares, libro.titulo)}
 
         `;
 
@@ -823,6 +870,39 @@ export class Formulario {
                 <span class="form_input_mensaje form_error ocultado"></span>
             </div>`;
     }
+    cargarInputDesplegable(nombre, opciones, submenu = ""){
+        return `
+            <div class="form_desplegable form_seccion">
+                <label>${nombre}</label>
+                <div class="form_fila">
+                    
+                    <select name="filtro" class="form_input">
+                        ${opciones}
+                    </select>
+
+                    <div class="form_boton despliega">+
+                    </div>
+
+                </div>
+
+                <div class="form_informacion se_despliega plegado">
+                    ${submenu}
+                </div>
+
+            </div>
+        `;
+    };
+
+    cargarInputImagen(titulo, nombre, clase ="",  extras){
+        return `
+            <label>${titulo}</label>
+            <div class="form_fila">
+                <input name="${nombre}" class="form_input ${clase}" type="file" ${extras}
+                accept="image/*" />
+                <span class="form_input_mensaje form_error ocultado"></span>
+            </div>
+                 `;
+    };
 
     cargarHacerProfesorBorrar(usuario){
         const boton = usuario.rol_id == 3 ? `
@@ -848,9 +928,9 @@ export class Formulario {
                 </div>
             </section>`;
     }
-    cargarSeccionEjemplares(ejemplares){
+    cargarSeccionEjemplares(ejemplares, titulo){
 
-        let todos_ejemplares = ejemplares.map(e => this.cargarEjemplar(e)).join('');
+        let todos_ejemplares = ejemplares.map(e => this.cargarEjemplar(e, titulo)).join('');
 
         return `
         <div class="form_subtitulo">Ejemplares</div>
@@ -863,28 +943,28 @@ export class Formulario {
         </section>
         `;
     }
-    cargarEjemplar(ejemplar){
-        let disponible = ejemplar.activo == 0 ?
+    cargarEjemplar(ejemplar, titulo){
+        let disponible = ejemplar.activo == 1 ?
             '<span class="form_petit rojo">No Disponible</span>' :
             '<span class="form_petit verde">Disponible</span>';
 
         return `
           <section class="form_datos form_desplegable">
                 <input name="accion" value="editar-ejemplar" type="hidden">
-                <input name="ejemplar_id" value=${ejemplar.id} type="hidden">
+                <input name="ejemplar_id" value=${ejemplar.ejemplar_id} type="hidden">
                 <span class="form_mensaje ocultado"></span>
                 
                 <div class="form_bloque">
                     
                     <div class="form_fila rellena form_subtitulo">
-                        <span>${ejemplar.titulo}</span>   
+                        <span>${titulo}</span>   
                     </div>
 
                     <div class="form_fila rellena">
 
                         <div class="form_seccion se_despliega">
                             <div class="form_fila">
-                                <span class="form_petit">Codigo ejemplar: ${ejemplar.id}${ejemplar.libro_id} </span>
+                                <span class="form_petit">Codigo ejemplar: 100${ejemplar.libro_id} </span>
                             </div>
                             <div class="form_fila ">
                                 <span class="form_petit">Disponibilidad:</span>
@@ -900,9 +980,7 @@ export class Formulario {
                             <div class="form_seccion se_despliega plegado">
                                 
                                 <div class="form_fila ">
-                                    <input name="codigo_ejemplar" class="form_input" type="text" required>
-                                        ${ejemplar.id}
-                                    </input>
+                                    <input name="codigo_ejemplar" class="form_input" type="text" value=${ejemplar.ejemplar_id} required></input>
                                     <span class="form_input_mensaje"></span>
                                 </div>
 
@@ -912,9 +990,7 @@ export class Formulario {
                                 </div>
                                 
                                 <div class="form_fila ">
-                                    <input name="codigo_topografico" class="form_input" type="text" required>
-                                        ${ejemplar.codigo_topografico}
-                                    </input>
+                                    <input name="codigo_topografico" class="form_input" type="text" value=${ejemplar.codigo_topografico} required></input>
                                     <span class="form_input_mensaje"></span>
                                 </div>    
 

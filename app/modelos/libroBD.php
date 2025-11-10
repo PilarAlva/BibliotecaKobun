@@ -223,6 +223,19 @@ class LibroBD {
 
         return $this->db->resultados();
     }
+    public function cantEjemplaresTotales($libro_id){
+        
+        $consulta = "SELECT 
+                        COUNT(e.id) disponibles
+                    FROM ejemplares e 
+                    WHERE e.libro_id = :libro_id";
+                    
+        $this->db->consulta($consulta);
+        $this->db->unir(':libro_id', $libro_id);
+
+        return $this->db->resultado();
+    }
+
 
     public function ejemplaresDisponibles($libro_id){
         

@@ -19,7 +19,7 @@
                             
                             <!-- BOTON NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                             <div>
-                                <button class="bt bt-añadir"><a href="<?php /* echo BASE_URL; > */?>...">Añadir Material</a></button>
+                                <button id="bt-agregar-material" class="bt bt-añadir"><a href="<?php /* echo BASE_URL; > */?>...">Añadir Material</a></button>
                             </div>
                         </div>
 
