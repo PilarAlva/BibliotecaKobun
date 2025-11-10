@@ -294,6 +294,7 @@ class LibroBD {
                         l.id as id, 
                         l.isbn as isbn,
                         l.titulo as titulo,
+                        l.activo as activo,
                         l.sinopsis as sinopsis,
                         l.ref_portada as portada,
                         l.descripcion as descripcion,

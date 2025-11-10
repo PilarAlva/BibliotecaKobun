@@ -46,6 +46,7 @@ window.addEventListener("load", async () => {
     
     const btn_mas_info_usuarios = document.querySelectorAll("#bt-mas-info-usuario");
     const btn_agregar_usuario = document.querySelectorAll("#bt-agregar-usuario");
+    const btn_mas_info_libro = document.querySelectorAll("#bt-mas-info-material");
     const cuerpo_material = document.querySelector("#cuerpo-material");
     const cuerpo_usuarios = document.querySelector("#cuerpo-usuarios");
     
@@ -65,6 +66,8 @@ window.addEventListener("load", async () => {
             formulario.editarUsuario(target.getAttribute("data-usuario"));
         } else if (target.matches("#bt-agregar-usuario")) {
             formulario.agregarUsuario();
+        }else if (target.matches("#bt-mas-info-material")) {
+            formulario.editarLibro(target.getAttribute("data-libro"));
         }
 
     }
@@ -87,6 +90,7 @@ window.addEventListener("load", async () => {
             var resultados = await obtenerBusqueda('usuarios', q, filtro, 1);
             mostrarResultadosBusqueda(cuerpo_usuarios, resultados.data.resultados, cargarUsuario)
         }
+        
     }
     /*
     function gestionarCambios(event) {

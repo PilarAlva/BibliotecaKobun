@@ -126,7 +126,49 @@
                                 'socio_habilitado' => $socio_habilitado
                             ]];
 
-                    break;
+                        break;
+                    case 'libro':
+                        $libro = $libroModel->infoLibro($_POST['libro_id']); 
+
+                        $respuesta_data = [
+                            'estado' => 'extio',
+                            'mensaje' => 'Libro obtenido correctamente.',
+                            'data' => [
+                                'libro' => $libro
+                            ]];
+                    
+                        break;
+                    case 'ejemplares':
+                        $ejemplares = $libroModel->ejemplaresTotales($_POST['libro_id']); 
+
+                        $respuesta_data = [
+                            'estado' => 'extio',
+                            'mensaje' => 'Ejemplares obtenidos correctamente.',
+                            'data' => [
+                                'ejemplares' => $ejemplares
+                            ]];
+                    
+                        break;
+                    case 'ejemplares-disponibles':
+                        $disponibles = $libroModel->ejemplaresDisponibles($_POST['libro_id']); 
+
+                        $respuesta_data = [
+                            'estado' => 'extio',
+                            'mensaje' => 'Ejemplares obtenidos correctamente.',
+                            'data' => [
+                                'disponibles' => $disponibles
+                            ]];
+                    
+                        break;
+                    case 'estado-libro':
+                        $respuesta_data = [
+                            'estado' => 'extio',
+                            'mensaje' => 'Cambio de estado libro',
+                            'data' =>[
+                                "estado" => $libroModel->cambiarEstado($_POST['libro_id'], $_POST['activado'])
+                            ]
+                        ];
+                        break;
                     case 'registrar-usuario':
                         http_response_code(200);
                         $nombre = htmlspecialchars($_POST['nombre']);

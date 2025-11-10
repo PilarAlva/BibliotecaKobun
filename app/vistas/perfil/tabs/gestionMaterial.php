@@ -10,6 +10,7 @@
                                         <option value="autor" <?php /* if($filtro=='autor') */ echo 'selected'; ?>>Autor</option>
                                         <option value="genero" <?php /* if($filtro=='genero') */ echo 'selected'; ?>>Género</option>
                                         <option value="contenido" <?php /* f($filtro=='contenido') */ echo 'selected'; ?>>Contenido</option>
+                                        <option value="isbn" <?php /* f($filtro=='contenido') */ echo 'selected'; ?>>ISBN</option>
                                     </select>
                                     <input type="text" name="q" class="search-input" placeholder="Buscar..." value="<?php /* echo htmlspecialchars($busqueda); */ ?>">
                                     <button type="submit" class="boton-busqueda"><i class="fa-solid fa-magnifying-glass"></i></button>

@@ -72,11 +72,13 @@ export class Formulario {
     contenido;
     colaPaginas = [];
     colaCambios = [];
+    cant_cambios;
 
     constructor(formulario) {
         this.formulario = formulario;
         this.contenido = this.formulario.querySelector(".form_contenido");
-
+        this.cant_cambios = this.formulario.querySelector("#cant-cambios");
+        
         Peticion.empezar();
         this.colaPaginas.push(this.contenido.cloneNode(true));
         this.eventos();
@@ -147,7 +149,7 @@ export class Formulario {
 
 
     //--------------------------------------------------------------------------
-    // Public API
+    //  La parte publica
     //--------------------------------------------------------------------------
 
     async editarUsuario(id) {
@@ -182,6 +184,29 @@ export class Formulario {
  
     }
 
+    async editarLibro(id){
+        try {
+            const libroData = await this.obtenerLibro(id);
+            if(libroData.data.activo){
+
+                var libro_id = libroData.data.libro.id;
+                
+                const cantidadData = await this.obtenerEjemplaresDisponibles(libro_id);
+                const ejemplaresData = await this.obtenerEjemplares(libro_id);
+
+                this.mostrarPaginaLibro(libroData.data.libro,
+                                        cantidadData.data.cantidad,
+                                        ejemplaresData.data.ejemplares);
+            }
+
+            this.mostrarPagina();
+        } catch (error) {
+            console.error("No se pudo cargar el libro:", error);
+            this.mostrarMensaje(this.contenido, "Error al cargar los datos del libro.", "form_error");
+            return null;
+        }
+    }
+
     //--------------------------------------------------------------------------
     // Paginas y la cola de páginas 
     //--------------------------------------------------------------------------
@@ -212,6 +237,8 @@ export class Formulario {
             console.log("No hay cambios para cargar.");
             return;
         }
+        let cantidad = this.colaCambios.length;
+        this.cant_cambios.innerText = "Cantidad de cambios: " + cantidad;
 
         const { id, cambio } = this.colaCambios.pop();
         console.log("Procesando cambio:", cambio.formData.get('accion'));
@@ -438,6 +465,24 @@ export class Formulario {
         formData.append('socio_id', socio_id);
         return Peticion.peticion(formData);
     }
+    async obtenerLibro(id) {
+        const formData = new FormData();
+        formData.append('accion', "libro");
+        formData.append('libro_id', id);
+        return Peticion.peticion(formData);
+    }
+    async obtenerEjemplares(id) {
+        const formData = new FormData();
+        formData.append('accion', "ejemplares");
+        formData.append('libro_id', id);
+        return Peticion.peticion(formData);
+    }
+    async obtenerEjemplaresDisponibles(id) {
+        const formData = new FormData();
+        formData.append('accion', "ejemplares-disponibles");
+        formData.append('libro_id', id);
+        return Peticion.peticion(formData);
+    }    
 
     //--------------------------------------------------------------------------
     // HTML Template Generators
@@ -466,6 +511,21 @@ export class Formulario {
         contenido.classList.add("form_contenido_dinamico");
 
         const paginaHTML = this.cargarPaginaAgregarUsuario();
+        
+        if(typeof paginaHTML === "string"){
+            contenido.innerHTML = paginaHTML;
+        }else{
+            contenido.appendChild(paginaHTML);
+        }
+        this.colaPaginas.push(contenido);
+
+    }
+    mostrarPaginaLibro(libro, disponibles, ejemplares){
+
+        const contenido = document.createElement("div");
+        contenido.classList.add("form_contenido_dinamico");
+
+        const paginaHTML = this.cargarPaginaInfoLibro(libro, disponibles, ejemplares);
         
         if(typeof paginaHTML === "string"){
             contenido.innerHTML = paginaHTML;
@@ -518,6 +578,56 @@ export class Formulario {
                 <span class="form_mensaje ocultado"></span>
                 <button class="form_boton">Registrar</button>
             </form>`;
+    }
+
+    cargarPaginaInfoLibro(libro, disponibles, ejemplares){
+
+        let checked = libro.activado == 1 ? 'checked' : '';
+
+        return `
+            <div class="form_titulo subrayado">${libro.titulo}</div>
+
+            <section class="form_seccion subrayado">
+                
+                <div class="form_seccion">
+                    <div class="form_informacion">
+                        
+                        <div class="form_fila">
+                            <span>Autor: ${libro.autores}</span>
+                            <span class="form_subtitulo derecha">ID: ${libro.id}</span>
+                        </div>
+                        <div class="form_fila">
+                            <span>Cantidad de ejemplates: ${disponibles}</span>
+                        </div>
+                        <div class="form_fila">
+                            <span>Editorial: ${libro.editorial}</span>
+                        </div>
+                        <div class="form_fila">
+                            <span>ISBN: ${libro.isbn}</span>
+                        </div>
+                        <div class="form_fila">
+                            <span>Descripcion: asdjasjdlkasjdl</span>
+                            <form class="form_datos rellena">
+                                <input name="accion" value="estado-libro" type="hidden"></input>
+                                <input name="libro_id" value=${libro.id} type="hidden"></input>
+                                <span class="form_mensaje ocultado" ></span>
+                                <div class="form_fila derecha">
+                                    <span >Libro Activo: </span>
+                                    
+                                    <input name="activo" type="checkbox" ${checked}></input>
+                                    <span class="form_input_mensaje ocultado" ></span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+            </section>
+
+            ${this.cargarSeccionEjemplares(ejemplares)}
+
+        `;
+
     }
 
     cargarEstadoUsuario(usuario) {
@@ -721,8 +831,6 @@ export class Formulario {
         <input name="accion" value="quitar-profesor" type="hidden" />
         <button class="form_boton">Quitar privilegios</button>`;
 
-
-
         return `
             <section class="form_pie">
                 <div class="form_fila rellena">
@@ -739,6 +847,97 @@ export class Formulario {
                     </form>
                 </div>
             </section>`;
+    }
+    cargarSeccionEjemplares(ejemplares){
+
+        let todos_ejemplares = ejemplares.map(e => this.cargarEjemplar(e)).join('');
+
+        return `
+        <div class="form_subtitulo">Ejemplares</div>
+        <section class="form_seccion subrayado">
+            <div class="form_fila rellena">
+                <button class="form_boton"> Agregar ejemplar</button>
+                <button class="form_checks_cont ocultado form_boton"> Eliminar </button>
+            </div>
+            ${todos_ejemplares}
+        </section>
+        `;
+    }
+    cargarEjemplar(ejemplar){
+        let disponible = ejemplar.activo == 0 ?
+            '<span class="form_petit rojo">No Disponible</span>' :
+            '<span class="form_petit verde">Disponible</span>';
+
+        return `
+          <section class="form_datos form_desplegable">
+                <input name="accion" value="editar-ejemplar" type="hidden">
+                <input name="ejemplar_id" value=${ejemplar.id} type="hidden">
+                <span class="form_mensaje ocultado"></span>
+                
+                <div class="form_bloque">
+                    
+                    <div class="form_fila rellena form_subtitulo">
+                        <span>${ejemplar.titulo}</span>   
+                    </div>
+
+                    <div class="form_fila rellena">
+
+                        <div class="form_seccion se_despliega">
+                            <div class="form_fila">
+                                <span class="form_petit">Codigo ejemplar: ${ejemplar.id}${ejemplar.libro_id} </span>
+                            </div>
+                            <div class="form_fila ">
+                                <span class="form_petit">Disponibilidad:</span>
+                                ${disponible}
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="form_fila base inv rellena">
+    
+                        <div class="form_boton base derecha despliega">✎</div> 
+
+                            <div class="form_seccion se_despliega plegado">
+                                
+                                <div class="form_fila ">
+                                    <input name="codigo_ejemplar" class="form_input" type="text" required>
+                                        ${ejemplar.id}
+                                    </input>
+                                    <span class="form_input_mensaje"></span>
+                                </div>
+
+                                <div class="form_fila ">
+                                    <span class="form_petit">Disponibilidad:</span>
+                                    <span class="form_petit verde">${disponible}</span>
+                                </div>
+                                
+                                <div class="form_fila ">
+                                    <input name="codigo_topografico" class="form_input" type="text" required>
+                                        ${ejemplar.codigo_topografico}
+                                    </input>
+                                    <span class="form_input_mensaje"></span>
+                                </div>    
+
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                        <!--GUARDAR CAMBIOS -->
+
+                    <div class="form_fila se_oculta ocultado rellena">
+                        <span class="form_input_mensaje ocultado">
+                        </span>
+                        <button type="submit" class="form_boton">
+                            Guardar
+                        </button>
+                    </div>
+
+                </div>
+                        
+        </section>
+        `;
+
     }
         
 }

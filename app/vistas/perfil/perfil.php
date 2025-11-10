@@ -73,6 +73,7 @@
                     <div class="form_fila rellena">
 
                         <div id="btn-retroceso" class="form_boton"><</div>
+                        <div id="cant-cambios">Cantidad de cambios:</div>
                         <div id="btn-cerrar" class="form_boton">X</div>
 
                     </div>

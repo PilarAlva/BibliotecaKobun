@@ -23,6 +23,129 @@
 
        <div class="form_contenido">
 
+            
+            <div class="form_titulo subrayado">Titulo del libro</div>
+
+            <section class="form_seccion subrayado">
+                
+                <div class="form_seccion">
+                    <div class="form_informacion">
+                        
+                        <div class="form_fila">
+                            <span>Autor: Asd</span>
+                            <span class="form_subtitulo derecha">ID: #123123</span>
+                        </div>
+                        <div class="form_fila">
+                            <span>Cantidad de ejemplates: 12</span>
+                        </div>
+                        <div class="form_fila">
+                            <span>Editorial: kobun.com</span>
+                        </div>
+                        <div class="form_fila">
+                            <span>ISBN: 123123123</span>
+                        </div>
+                        <div class="form_fila">
+                            <span>Descripcion: asdjasjdlkasjdl</span>
+                            <form class="form_datos rellena">
+                                <input name="accion" value="estado-libro" type="hidden"></input>
+                                <span class="form_mensaje ocultado" ></span>
+                                <div class="form_fila derecha">
+                                    <span >Libro Activo </span>
+                                    
+                                    <input name="activo" type="checkbox"></input>
+                                    <span class="form_input_mensaje ocultado" ></span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+            </section>
+
+            <div class="form_subtitulo">Ejemplares</div>
+
+            <!--EJEMPLARES -->
+
+            <section class="form_datos form_seccion subrayado">
+
+                <div class="form_fila rellena">
+                    <button class="form_boton"> Agregar ejemplar</button>
+                    <button class="form_checks_cont ocultado form_boton"> Eliminar </button>
+                </div>
+
+                <span class="form_mensaje form_error" >Aca va el error</span>
+
+                <section class="form_datos form_desplegable">
+                    <input name="accion" value="editar-ejemplar" type="hidden">
+                    <input name="ejemplar_id" value="ejemplar_id" type="hidden">
+                    <div class="form_bloque">
+                        
+                        <div class="form_fila rellena form_subtitulo">
+                            <span>Titulo del libro</span>   
+                        </div>
+    
+                        <div  class="form_fila rellena">
+    
+                            <div class="form_seccion se_despliega">
+                                <div class="form_fila">
+                                    <span class="form_petit">Codigo ejemplar: ####</span>
+                                </div>
+                                <div class="form_fila ">
+                                    <span class="form_petit">Disponibilidad:</span>
+                                    <span class="form_petit verde">disponible</span>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="form_fila base inv rellena">
+        
+                            <div class="form_boton base derecha despliega">✎</div> 
+
+                                <div class="form_seccion se_despliega plegado">
+                                 
+                                    <div class="form_fila ">
+                                        <input name="codigo_ejemplar" class="form_input" type="text" required/>
+                                        <span class="form_input_mensaje"></span>
+                                    </div>
+
+                                    <div class="form_fila ">
+                                        <span class="form_petit">Disponibilidad:</span>
+                                        <span class="form_petit verde">disponible</span>
+                                    </div>
+                                    
+                                    <div class="form_fila ">
+                                        <input name="codigo_topografico" class="form_input" type="text" required/>
+                                        <span class="form_input_mensaje"></span>
+                                    </div>    
+    
+                                </div>
+    
+                            </div>
+                        </div>
+                        
+                         <!--GUARDAR CAMBIOS -->
+
+                        <div class="form_fila se_oculta ocultado rellena">
+                            <span class="form_input_mensaje">
+                                Acá iria un error
+                            </span>
+                            <button type="submit" class="form_boton">
+                                Guardar
+                            </button>
+                        </div>
+    
+                         <!--TERMINA -->
+
+                    </div>
+                        
+                </section>
+
+        
+            </section>
+
+
+             <!--TERMINA EJEMPLARES -->
+
             <div class="form_titulo subrayado">Martin Mariano Mendez</div>
 
             <section class="form_seccion subrayado">
@@ -114,73 +237,7 @@
 
             </section>
 
-            <div class="form_subtitulo">Ejemplares</div>
-
-            <section class="form_seccion subrayado">
-
-                <section class="form_desplegable">
-
-                    <div class="form_bloque">
-                        
-                        <div class="form_fila rellena">
-                            <div class="form_subtitulo">
-                                <span>Libro</span>
-                            </div>
-                            <input type="checkbox"></input>
-    
-                        </div>
-    
-                        <div  class="form_fila rellena">
-    
-                            <div class="form_seccion se_despliega">
-                                <div class="form_fila">
-                                    <span>Codigo ejemplar</span>
-                                </div>
-                                <div class="form_fila">
-                                    <span>Codigo ejemplar</span>
-                                </div>
-                                <div class="form_fila">
-                                    <span>Codigo ejemplar</span>
-                                </div>
-                            </div>
-                            
-                            <div class="form_fila base inv rellena">
-        
-                            <div class="form_boton base derecha despliega">Editar</div> 
-
-                                <div class="form_fila se_despliega plegado">
-                                    <form class="form_datos"> 
-                                        
-                                        <input class="form_input" type="text"/>
-                                        
-                                        <input class="form_input" type="text"/>
-                                        
-                                        <input class="form_input" type="text"/>
-
-                                        <input class="form_input" type="text"/>
-
-                                    </form>
-    
-                                </div>
-    
-                            </div>
-                        </div>
-                        
-                        <div class="form_fila se_oculta ocultado rellena">
-                            <span class="form_error">
-                                Acá iria un error
-                            </span>
-                            <div class="form_boton verde">
-                                Guardar
-                            </div>
-                        </div>
-    
-                    </div>
-                        
-                </section>
-
-        
-            </section>
+            
             
             <span class="form_subtitulo">
                Libros en préstamo
