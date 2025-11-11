@@ -87,7 +87,7 @@ export class Formulario {
     eventos() {
         this.formulario.addEventListener("click", this.gestionarClicks.bind(this));
         this.formulario.addEventListener("submit", this.gestionarEnvios.bind(this));
-        this.formulario.addEventListener("change", this.gestionarCambios.bind(this));
+        this.formulario.addEventListener("input", this.gestionarCambios.bind(this));
     }
 
     gestionarClicks(event) {
@@ -103,6 +103,12 @@ export class Formulario {
             this.toggleDesplegable(target);
         } else if (target.matches(".form_checkbox")) {
             this.handleCheckboxClick(target);
+        } else if (target.closest('.form_multiselect_contenedor')) {
+            this.gestionarMultiselectClick(event);
+        }
+
+        if (!target.closest('.form_multiselect_contenedor')) {
+            this.cerrarTodosLosMultiselect();
         }
     }
 
@@ -117,14 +123,15 @@ export class Formulario {
 
     gestionarCambios(event) {
         const target = event.target;
-        if (target.matches('select')) {
-            const form = target.closest('form.form_datos');
-
-            console.log(target.value);
-            console.dir(target);
-            // if (form && this.validarCampo(target)) {
-            //     this.insertarCambio(form);
-            // }
+        console.log("cambio")
+        if (target.matches('.form_multiselect_filtro')) {
+            const contenedor = target.closest('.form_multiselect_contenedor');
+            const filtro = target.value.toLowerCase();
+            const opciones = contenedor.querySelectorAll('.form_multiselect_opcion');
+            opciones.forEach(opcion => {
+                const nombre = opcion.dataset.nombre.toLowerCase();
+                opcion.style.display = nombre.includes(filtro) ? '' : 'none';
+            });
         }
     }
 
@@ -149,6 +156,68 @@ export class Formulario {
 
         seccionVisible?.classList.toggle("ocultado", !isAnyChecked);
     }
+
+    gestionarMultiselectClick(event) {
+        const contenedor = event.target.closest('.form_multiselect_contenedor');
+        if (!contenedor) return;
+
+        const opcionesLista = contenedor.querySelector('.form_multiselect_opciones');
+
+
+        if (event.target.matches('.form_multiselect_desplegar, .form_multiselect_filtro')) {
+            const estaAbierto = !opcionesLista.classList.contains('ocultado');
+            this.cerrarTodosLosMultiselect();
+            if (!estaAbierto) {
+                opcionesLista.classList.remove('ocultado');
+            }
+        }
+
+      
+        if (event.target.matches('.form_multiselect_opcion')) {
+            this.toggleOpcionMultiselect(event.target);
+        }
+
+    
+        if (event.target.matches('.pill_remover')) {
+            const pill = event.target.parentElement;
+            const id = pill.dataset.id;
+            const opcionCorrespondiente = contenedor.querySelector(`.form_multiselect_opcion[data-id="${id}"]`);
+            if (opcionCorrespondiente) {
+                this.toggleOpcionMultiselect(opcionCorrespondiente);
+            }
+        }
+    }
+
+    toggleOpcionMultiselect(opcion) {
+        const contenedor = opcion.closest('.form_multiselect_contenedor');
+        const id = opcion.dataset.id;
+        const nombre = opcion.dataset.nombre;
+        const pillsContenedor = contenedor.querySelector('.form_multiselect_pills');
+        const inputOculto = contenedor.querySelector('input[type="hidden"]');
+
+        opcion.classList.toggle('seleccionado');
+
+        if (opcion.classList.contains('seleccionado')) {
+            const pillHTML = `<span class="pill" data-id="${id}">${nombre} <button type="button" class="pill_remover">×</button></span>`;
+            pillsContenedor.insertAdjacentHTML('beforeend', pillHTML);
+        } else {
+            const pillParaQuitar = pillsContenedor.querySelector(`.pill[data-id="${id}"]`);
+            if (pillParaQuitar) {
+                pillParaQuitar.remove();
+            }
+        }
+
+        const pillsActuales = pillsContenedor.querySelectorAll('.pill');
+        const idsSeleccionados = Array.from(pillsActuales).map(p => p.dataset.id);
+        inputOculto.value = idsSeleccionados.join(',');
+    }
+
+    cerrarTodosLosMultiselect() {
+        document.querySelectorAll('.form_multiselect_opciones').forEach(lista => {
+            lista.classList.add('ocultado');
+        });
+    }
+
 
 
     //--------------------------------------------------------------------------
@@ -625,6 +694,7 @@ export class Formulario {
             
             
             <form class="form_datos" id="form-registrar-usuario">
+            <form class="form_datos" id="form-registrar-libro">
                 <input name="accion" value="registrar-usuario" type="hidden" />
                 <div class="form_seccion">
                     <span class="form_mensaje ocultado"></span>
@@ -635,6 +705,8 @@ export class Formulario {
                     ${this.cargarInputNormal('Codigo Topográfico:', 'codigo_topografico', '', 'text', 'required')}
                     ${this.cargarInputNormal('Descripcion', 'descripcion', 'text', '', 'textrequired')}
                     ${this.cargarInputDesplegable('Generos:', 'generos', todos_generos, 'text', 'required')}
+                    ${this.cargarInputNormal('Descripcion', 'descripcion', '', 'text', 'required')}
+                    ${this.cargarInputMultiselect('Géneros:', 'generos', generos, )}
                     ${this.cargarInputImagen('Portada:', 'portada', '', 'required')}
                 
                 </div>
@@ -935,6 +1007,29 @@ export class Formulario {
             </div>
                  `;
     };
+
+    cargarInputMultiselect(titulo, nombre, opciones) {
+        const opcionesHTML = opciones.map(op => `
+            <div class="form_fila form_multiselect_opcion" data-id="${op.id}" data-nombre="${op.nombre}">
+                ${op.nombre}
+                <span class="check">✔</span>
+            </div>
+        `).join('');
+
+        return `
+            <div class="form_seccion form_multiselect_contenedor" data-nombre-campo="${nombre}">
+                <label>${titulo}</label>
+                <div class="form_seccion form_multiselect_input_wrapper">
+                    <div class="form_fila form_multiselect_pills">
+                    </div>
+                    <div class="form_fila">
+                        <input type="text" class="form_input form_multiselect_filtro despliega" placeholder="Buscar o seleccionar...">
+                    </div>
+                </div>
+                <div class="form_seccion form_multiselect_opciones ocultado">${opcionesHTML}</div>
+                <input type="hidden" name="${nombre}_ids" id="hidden-input-${nombre}">
+            </div>`;
+    }
 
     cargarHacerProfesorBorrar(usuario){
         const boton = usuario.rol_id == 3 ? `

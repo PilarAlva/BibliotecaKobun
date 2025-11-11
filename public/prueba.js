@@ -13,6 +13,7 @@ window.addEventListener("load", ()=>{
 
     console.log("Cargado");
     const btn_check = document.querySelectorAll(".form_checkbox");
+    const btn_opciones = document.querySelectorAll(".form_opcion");
     const btn = document.querySelectorAll(".form_boton.despliega");
     
     const btn_guardar = document.querySelector("#btn-guardar");
@@ -23,8 +24,6 @@ window.addEventListener("load", ()=>{
 
     btn_guardar.addEventListener("click", ()=>{guardarCambios()});
     btn_cerrar.addEventListener("click", ()=>{});
-
-    
 
     const form_datos = document.getElementById("form-insertar-usuario");
 
@@ -50,7 +49,12 @@ window.addEventListener("load", ()=>{
             //console.log('An input value changed:', event.target.name, event.target.value);
             
     }});
+    btn_opciones.forEach((opcion)=>{
+        opcion.addEventListener("click", ()=>{
+            
+        })
 
+    });
     function guardarCambios(){
         
         console.log(cola_cambios);

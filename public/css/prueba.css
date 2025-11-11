@@ -1,5 +1,6 @@
 :root{
     --form-bg-color: #fdfbfa;
+    --form-bg-seleccionado: #f3f2ef;
     --form-bg-oscurito: #f3f0ef;
     --form-subrayado: #776e71;
     --form-subrayado-fuerte: #4e4a4a;
@@ -10,6 +11,7 @@
     --tam-fuente-titulo: 16px;
     --tam-fuente-subtitulo: 14px;
     --redondeo-btn-form: 0.8rem;
+    --padding-input: 5px;
     --padding-x: 0px;
     --padding-y: 12px;
     --padding-bloque-x: 5px;
@@ -70,7 +72,7 @@
     display: flex;
     flex-direction: row;
     margin: var(--margin-x) var(--margin-y);
-     
+    gap: 10px;
     align-items: center;
 }
 .form_columna{
@@ -168,6 +170,7 @@
     width: fit-content;
     border-radius: 1rem;
     flex-grow: 1;
+    padding: var(--padding-input) 8px
 }
 .form_subtitulo{
     font-size: var(--tam-fuente-subtitulo);
@@ -202,6 +205,45 @@
     
 }
 
+
+.pill {
+    background-color: var(--primary-color);;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.pill_remover {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.1em;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.form_multiselect_opcion:hover {
+    background-color: var(--form-bg-oscurito);
+}
+
+.form_multiselect_opcion .check {
+    display: none;
+    color: var(--form-subrayado);
+}
+
+.form_multiselect_opcion.seleccionado {
+    background-color: var(--form-bg-seleccionado);
+    font-weight: bold;
+}
+
+.form_multiselect_opcion.seleccionado .check {
+    display: inline;
+}
 
 
 /*Utilitarias*/
@@ -244,6 +286,12 @@
     background-color: var(--error);
     
 
+}
+.form_opcion{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
 }
 .form_bloque.cancelado{
     opacity: 0.6;

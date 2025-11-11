@@ -62,9 +62,10 @@
                 
             </section>
 
-            <div class="form_subtitulo">Ejemplares</div>
-
+            
             <!--EJEMPLARES -->
+            
+            <div class="form_subtitulo">Ejemplares</div>
 
             <section class="form_datos form_seccion subrayado">
 
@@ -73,11 +74,12 @@
                     <button class="form_checks_cont ocultado form_boton"> Eliminar </button>
                 </div>
 
-                <span class="form_mensaje form_error" >Aca va el error</span>
-
+                
                 <section class="form_datos form_desplegable">
                     <input name="accion" value="editar-ejemplar" type="hidden">
                     <input name="ejemplar_id" value="ejemplar_id" type="hidden">
+                    <span class="form_mensaje form_error" >Aca va el error</span>
+
                     <div class="form_bloque">
                         
                         <div class="form_fila rellena form_subtitulo">
@@ -542,28 +544,37 @@
                     </div>
 
                     
-                    <div class="form_desplegable form_seccion">
+                    <div class="form_opciones form_desplegable form_seccion">
+
                         <label>Autor</label>
+
                         <div class="form_fila">
-                            
-                            <select name="filtro" class="form_input">
-                                <option value="titulo">Título</option>
-                                <option value="autor" >Autor</option>
-                                <option value="genero">Género</option>
-                                <option value="contenido">Contenido</option>
-                            </select>
-    
-                            <div class="form_boton despliega">+
+                            <div class="form_opciones_select rellena form_boton despliega">+
                             </div>
-    
+                        </div>
+                        
+                        <ul class="form_opciones_cont se_despliega plegado">
+                           <li class="form_opcion">buenas</li> 
+                           <li class="form_opcion">buenas</li> 
+                           <li class="form_opcion">buenas</li> 
+                           <li class="form_opcion">buenas</li> 
+                        </ul>
+
+                        <div class="form_opciones_pildoras form_fila">
+
+                            <span class="form_pildora">Autor 1
+                                <button type="button" class="form_pildora_borrar">x</button>
+                            </span>  
+                            <span class="form_pildora">Autor 2
+                                <button type="button" class="form_pildora_borrar">x</button>
+                            </span>  
+                            <span class="form_pildora">Autor 3
+                                <button type="button" class="form_pildora_borrar">x</button>
+                            </span> 
+
                         </div>
 
-                        <div class="form_informacion se_despliega plegado">
-                           <div class="form_fila">Hola buenas</div> 
-                           <div class="form_fila">Hola buenas</div> 
-                           <div class="form_fila">Hola buenas</div> 
-                           <div class="form_fila">Hola buenas</div> 
-                       </div>
+                        <input type="text" readonly class="form_input" value=""/>
 
                     </div>
 
