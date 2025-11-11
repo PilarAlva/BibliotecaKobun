@@ -1,3 +1,5 @@
+
+
 window.addEventListener("load", function(){
 
     const sp_publicacion = document.getElementById("sp");
@@ -15,25 +17,13 @@ window.addEventListener("load", function(){
     const ref = this.document.getElementById("sp").dataset.ref;
     const uid = this.document.getElementById("sp").dataset.uid;
     const tid = this.document.getElementById("sp").dataset.tid;
-    const alcance = this.document.getElementById("sp").dataset.alcance;
-    const accion = this.document.getElementById("sp").dataset.accion;
+    let alcance = this.document.getElementById("sp").dataset.alcance;
 
     //const ref = "http://localhost/BibliotecaKobun/public";
     
     const text_title = document.getElementById("titulo");
 
     const quill = new Quill('#editor', {
-        placeholder: 'Escribí el contenido aca ',
-        modules: {
-            toolbar: [
-            ['bold', 'italic'],
-            ['link', 'blockquote', 'code-block'],
-            ],
-        },
-        theme: 'snow',
-    });
-
-    const quill_libreta = new Quill('#editor-libreta', {
         placeholder: 'Escribí el contenido aca ',
         modules: {
             toolbar: [
@@ -99,6 +89,7 @@ window.addEventListener("load", function(){
             var text_body = quill.root.innerHTML;
             
             //Envio de publicacion
+            alcance = sp_publicacion.dataset.alcance;
 
             const formData = new FormData();
             formData.append('titulo', text_title.value);

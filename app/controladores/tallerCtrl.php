@@ -145,7 +145,7 @@
                     $data = [
                         "cssEspecifico" => ["talleres.css", "publicaciones.css", "libreta.css"],
                         "publicaciones" => $publicacionModel->obtenerPublicacionesPorTaller($taller_id),
-                        "recursos" => $publicacionModel->obtenerArchivosPorTaller($taller_id),
+                        "recursos" => $publicacionModel->obtenerPublicacionesPorTaller($taller_id, "recurso"),
                         "taller" => $taller,
                         "libreta" => $publicacionModel->obtenerPublicacionesLibretaPorTaller($taller_id, $_SESSION["usuario_id"] ),
                         "participantes" => $tallerModel->alumnosInscriptios($taller_id),

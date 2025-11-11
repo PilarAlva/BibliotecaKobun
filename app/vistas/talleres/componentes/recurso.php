@@ -7,7 +7,7 @@
                 <img class="t-p_foto_perfil" src="img/no.png"/>
 
                 <span class="t-p_autor">
-                    <?php echo $recurso["archivo_titulo"] ?>
+                    <?php echo $recurso["titulo"] ?>
                     <?php /*echo $recurso["usuario_nombre"]*/?>
                 </span>
 

@@ -7,14 +7,12 @@
 
 <script src="js/subir_publicacion.js"></script>
 
-
-    
     <div class= "subir_publicacion" 
         id="sp" 
         data-ref="<?php BASE_URL?>"
         data-uid="<?php echo $usuario_id?>"
         data-tid="<?php echo $taller_id?>"
-        data-alcance="<?php echo $alcance?>"        
+        data-alcance ="foro"     
         >
         
         <div class="sp_encabezado">
@@ -85,7 +83,7 @@
               
             </div>
 
-            <div class="sp_btn_publicar">
+            <div id="publicar-<?php $alcance?>" class="sp_btn_publicar">
                 <span>
                     PUBLICAR
                 </span>

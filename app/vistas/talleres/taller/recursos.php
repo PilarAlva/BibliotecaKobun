@@ -1,8 +1,6 @@
 <div>
-
-  
+       
     <div class="taller_contenido">
-            
         <?php
             if(isset($recursos))
                 
@@ -12,8 +10,6 @@
 
             }
         ?>
-
     </div>
-        
 
 </div>

@@ -36,6 +36,10 @@
     
     <div class="taller_cuerpo">
 
+        <div class="taller_subir">
+            <?php include '../app/vistas/talleres/componentes/subir_publicacion.php'; ?>
+        </div>
+
         <div id="taller_section_foro">
             <?php include '../app/vistas/talleres/taller/foro.php' ?>
         </div>

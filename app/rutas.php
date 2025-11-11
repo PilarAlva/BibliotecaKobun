@@ -43,6 +43,8 @@ $rutas = [
 
     'contacto' => ['controlador' => 'contactoCtrl', 'metodo' => 'index'],
 
+    'contacto/enviar' => ['controlador' => 'contactoCtrl', 'metodo' => 'enviar'],
+
     'perfil' => ['controlador' => 'perfilCtrl', 'metodo' => 'index'],
 
     'pago' => ['controlador' => 'pagoCtrl', 'metodo' => 'pago'],
@@ -56,6 +58,8 @@ $rutas = [
     'archivo/subir' => ['controlador' => 'archivoCtrl', 'metodo' => 'subir'],
 
     'archivo/lista' => ['controlador' => 'archivoCtrl', 'metodo' => 'lista'],
+
+    'peticion' => ['controlador' => 'peticionCtrl', 'metodo' => 'peticion'],
 
 
 
