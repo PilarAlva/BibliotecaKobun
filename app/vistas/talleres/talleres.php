@@ -43,7 +43,7 @@
                                         <img src="<?php echo $portadaSrc; ?>" alt="Portada del taller <?php echo htmlspecialchars($taller['taller_nombre']); ?>">
                                     </div>
                                     <div class="info-taller-contenedor">
-                                        <h4 class="titulo-taller"><?php echo htmlspecialchars($taller['taller_nombre']); ?></h4>
+                                        <h4><?php echo htmlspecialchars($taller['taller_nombre']); ?></h4>
                                         <p>Profesor: <?php echo htmlspecialchars($taller['profesor_nombre'])?></p>
                                         
                                         <?php
@@ -85,7 +85,7 @@
                                                     <img src="img/talleres-default.webp" alt="Portada del taller <?php echo htmlspecialchars($taller['taller_nombre']); ?>">
                                                 </div>
                                                 <div class="info-taller-contenedor">
-                                                    <h4 class="titulo-taller"><?php echo htmlspecialchars($taller['taller_nombre']); ?></h4>
+                                                    <h4><?php echo htmlspecialchars($taller['taller_nombre']); ?></h4>
                                                     <p>Profesor: <?php echo htmlspecialchars($taller['profesor_nombre'])?></p>
                                                 </div>
                                             </div>
@@ -122,7 +122,7 @@
                                             <img src="<?php echo $portadaSrc; ?>" alt="Portada del taller <?php echo htmlspecialchars($taller['taller_nombre']); ?>">
                                         </div>
                                         <div class="info-taller-contenedor">
-                                            <h4 class="titulo-taller"><?php echo htmlspecialchars($taller['taller_nombre']); ?></h4>
+                                            <h4><?php echo htmlspecialchars($taller['taller_nombre']); ?></h4>
                                             <p>Profesor: <?php echo htmlspecialchars($taller['profesor_nombre'])?></p>
                                             
                                             <?php if ($taller["activo_usuario"] == 1):?>                                
