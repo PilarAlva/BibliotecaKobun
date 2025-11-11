@@ -91,18 +91,21 @@
 
                     $ultimo_indice = $publicacionDB->ultimo_id();
 
+                    $test_dummy = 0;
                     if($archivos_id != '' && $resultado){
 
                         $array_id = explode(',', $archivos_id);
 
+                       
                         foreach($array_id as $archivo_id){
+                            $test_dummy = $test_dummy + 1;
                             if($publicacionDB->registrarPublicacionArchivo($ultimo_indice, $archivo_id)){
                                 $resultado = TRUE;
                             }else{
                                 $resultado = FALSE;
+                                break;
                             }
                             
-                            break;
                         }
                         
                     }
@@ -111,15 +114,16 @@
                     if($resultado){
 
                         http_response_code(201);
-
-                        return $respuesta_data = [
+                        $respuesta_data = [
                             'status' => 'success',
                             'message' => 'Archivo guardado exitosamente.',
                             'data' => [
                                 'id' => $ultimo_indice,
-                                'archivos_id' => $archivos_id
+                                'archivos_id' => $archivos_id,
+                                'ids' => $test_dummy
                             ]
                         ];
+                        return $respuesta_data;
                     }else{
                         http_response_code(500);
                         return $respuesta_data = [
