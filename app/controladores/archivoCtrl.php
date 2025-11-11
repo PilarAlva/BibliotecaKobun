@@ -27,7 +27,7 @@ class ArchivoCtrl extends Controlador{
         //En este momento cualquiera que haga un post a este enlace puede guardar un archivo.
 
         //Esto es para el error de cross origin
-        header("Access-Control-Allow-Origin: http://" . SERVER_IP . "");
+        header("Access-Control-Allow-Origin: * ");
         header("Access-Control-Allow-Methods: POST, OPTIONS");
         header("Access-Control-Allow-Headers: Content-Type");
 
