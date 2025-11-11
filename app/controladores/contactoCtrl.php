@@ -24,7 +24,8 @@
 
         $data = [
             "usuario" => $usuario,
-            "registrado" => $registrado
+            "registrado" => $registrado,
+            "cssEspecifico" => "contacto.css"
         ];
 
         $this->mostrarVista('contacto', $data, 'Contacto');        
