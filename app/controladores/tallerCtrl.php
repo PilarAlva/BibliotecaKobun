@@ -14,22 +14,26 @@
         $talleres = $tallerModel->obtenerTalleres(0, 10);
         $resultados = $tallerModel->cantTalleres();
 
-        $estado = 'no_inscripto';
+        $estado = '';
         
         $mis_talleres = [];
+        $talleresInactivos = [];
 
 
         switch($this->estadoUsuario()){
             case USUARIO::ALUMNO:
-                case USUARIO::PROFESOR:
-                case USUARIO::ADMINISTRADOR:
-                
+            case USUARIO::PROFESOR:
+                $estado = 'inscripto';
                 //TODO: Habria que agregar el offset y límite para esto tmb, pero qué paja 
                 $mis_talleres = $tallerModel->obtenerTalleresUsuario($_SESSION['usuario_id']);
-                
+                break;
+            case USUARIO::ADMINISTRADOR:
+                $estado = 'admin';
+                $mis_talleres = $tallerModel->obtenerTalleresUsuario($_SESSION['usuario_id']);
+                $talleresInactivos = $tallerModel->obtenerTalleresInactivos();
                 break;
                 default:
-                $estado = 'no_inscripto';
+                $estado = 'no_logueado';
                 break;
                 
             }
@@ -39,7 +43,9 @@
             $data = [
                     "cssEspecifico" => ["catalogo.css", "talleres.css", "publicaciones.css", "libreta.css"],
                     "talleres" => $talleres,
+                    "estado" => $estado,
                     "mis_talleres" => $mis_talleres  ,
+                    "talleresInactivos" => $talleresInactivos,
                     "resultados" => $resultados,
                     "offset" => $offset,
                     "url_paginacion" => $this->urlPaginacion('', '', $pagina),
@@ -501,5 +507,3 @@
 
 
     }
-
-

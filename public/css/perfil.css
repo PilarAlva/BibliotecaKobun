@@ -168,25 +168,22 @@
     padding: 10px 20px;
 }
 
-.bt {
+/* .bt { 
     font-family: var(--font-main);
     font-weight: normal;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     padding: 10px 20px;
-}
+} 
+    ES GLOBAL */
 
 .sin-contenido {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Distribuye el contenido verticalmente */
+    justify-content: space-between;
     height: 100%;
 }
-/* .sin-contenido p {
-    color: gray;
-    margin-bottom: 10px;
-} */
 
 .linea-divisora {
     border: 0;
@@ -195,16 +192,6 @@
     opacity: 0.6; 
     margin: 0.5rem auto;
     width: 90%; 
-}
-
-.msj-rojo {
-    color: var(--red-color);
-}
-.msj-verde {
-    color: var(--green-color);
-}
-.msj-gris {
-    color: grey;
 }
 
 

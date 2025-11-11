@@ -18,8 +18,11 @@
     --redondeo-taller: 1.5rem;
 }
 
+/* ---------------------------------------------------- */
+
 .main-content {
     padding: 1rem 2rem 2rem 2rem;
+
 }
 
 .sin-contenido {
@@ -44,7 +47,7 @@
     align-items: center;
     justify-content: center;
     max-width: 300px;
-    justify-self: center; /* Centra el taller dentro de su celda en la grilla */
+    justify-self: center;
     margin-bottom: 20px;
 }
 .taller-contenedor {
@@ -74,22 +77,12 @@
     display: flex;
     flex-direction: column;
 }
-.bt a {
-    color: black;
-    text-decoration: none;
-}
-.bt{
-    background-color: var(--bt-color-neutro); 
-    border: 1px solid black;
-}
-
 
 .talleres_vista {
     display: flex;
     justify-content: space-evenly;
 
 }
-
 
 .taller_menu_btn{
     font-family: var(--font-headings);
@@ -137,8 +130,18 @@
 
 
 /* --------------- INFO DE CADA TALLER INDIVIDUAL ---------------- */
-#info-por-taller body {
+#info-por-taller {
+    width: 100%;
     background-color: white;
+    margin: 0;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#info-por-taller .info-taller-contenedor {
+    width: 70%;
+    padding: 10px 20px;
 }
 
 .banner {
@@ -154,13 +157,10 @@
     object-position: center;
 }
 
-.main-content {
-    padding: 1rem 8rem 2rem 8rem;
-}
 
-.flecha-atras div{
-    margin-bottom: 0px;
-    display: inline-block; /* Hace que el contenedor se ajuste al tamaño del contenido */
+.flecha-atras{
+    display: inline-block;
+    margin-bottom: 10px;
 }
 .flecha-atras img {
     height: 40px;
@@ -169,36 +169,147 @@
 #info-por-taller h1, h3{
     margin-bottom: 0;
 }
-#info-por-taller div {
-    margin-bottom: 30px;
+#titulo {
+    margin-bottom: 60px;
 }
 
 .informacion {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    gap: 40px;
+}
+#descripcion {
+    width: 55%;
 }
 
-/* ACAAA ME QUEDEEEEE. TENGO QUE PROBARLO 
-DESDE OTRO PERFIL NO ADMIN */
+.contenedor-boton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    margin-top: 5rem;
+    gap: 10px;
+}
+
+.contenedor-boton form {
+    display: inline-block;
+    width: auto;
+}
+
 .bt {
-    font-family: var(--font-main);
-    font-weight: normal;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
+    background-color: var(--green-color);
+    color: white;
     padding: 10px 20px;
+    font-size: medium;
+}
+#bt-pendiente {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+#bt-pendiente:hover {
+    background-color: var(--green-color); /* Evita que cambie de color en hover */
 }
 
 
 
+/* --- INFO DE CADA TALLER: VISTA ADMINISTRADOR --- */
+.editar-taller {
+    width: 100%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+    width: 100%;    
+    justify-content: space-between;
+    gap: 5rem;
+}
+#form-contenedor {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.form-grupo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px; 
+}
+
+/* Estilos para textarea e inputs */
+#descripcion-textarea,
+#form-contenedor input[type="text"] {
+    width: 100%;
+    padding: 5px 15px;
+    border: 1px solid var(--grey-color);
+    border-radius: 20px;
+    font-family: inherit;
+    background-color: white;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Estilos específicos para el textarea */
+#descripcion-textarea {
+    resize: vertical; 
+}
+#form-descripcion {
+    width: 55%;
+}
+#descripcion-textarea:focus,
+#form-contenedor input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 5px rgba(55, 42, 30, 0.3);
+}
+
+.editar-taller #bt-eliminar {
+    background-color: var(--red-color);
+}
+
+.editar-taller {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    #info-por-taller .info-taller-contenedor {
+        width: 100%;
+    }
+    
+    #form-contenedor {
+        flex-direction: column;
+        gap: 20px;
+    }
+    #form-descripcion {
+        width: 100%; /* Hacemos que la descripción ocupe todo el ancho */
+    } 
+    .editar-taller {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+
+/* -------------------------- DENTRO DE CADA TALLER -------------------------- */
 
 
 
 
 
-/* ----------------------------------------------------------------------------------------------------------------- */
+
+
+
+
+
+
+/* ------------ Estilos de Felipe :) ----------------------------------------------------------------------------------------------------- */
 .talleres__encabezado{
     display: flex;
     width: 100%;
@@ -208,7 +319,6 @@ DESDE OTRO PERFIL NO ADMIN */
 }
 
 .te_menu{
-
     display: flex;
     width: 50%;
     flex-direction: row;
@@ -308,10 +418,10 @@ DESDE OTRO PERFIL NO ADMIN */
     cursor: pointer;    
 } */
 
-.taller_menu_btn::after {
+/* .taller_menu_btn::after {
    
 }
-/* .taller_menu_btn:hover{
+ *//* .taller_menu_btn:hover{
     background-color: var(--gris-2);
 } */
 
@@ -332,7 +442,6 @@ DESDE OTRO PERFIL NO ADMIN */
 
 }
 .taller_cuerpo{
-
     display: flex;
     flex-direction: column;
 
@@ -341,8 +450,6 @@ DESDE OTRO PERFIL NO ADMIN */
     max-width: 800px;
 
     margin-inline: auto;
-    
-
 }
 .taller_subir{
     display: flex;
@@ -399,9 +506,9 @@ DESDE OTRO PERFIL NO ADMIN */
     height: 42px;
     border-radius: 50%;
 }
-.t-p_autor{
+/* .t-p_autor{
 
-}
+} */
 .t-p_fecha_pub{
     color: var(--gris-1);
     display: flex;

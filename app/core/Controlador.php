@@ -55,18 +55,13 @@ class Controlador{
         {
             switch($_SESSION['rol_id']){
                 case 1:
-                    return USUARIO::ADMINISTRADOR;
-                    break;
-                /* case 1:
-                    return USUARIO::ALUMNO;
-                    break; */
+                    return USUARIO::ADMINISTRADOR; // Rol de Administrador
                 case 2:
-                    return USUARIO::PROFESOR;
-                    break;
+                    return USUARIO::PROFESOR; // Rol de Profesor
                 default:
-                    return USUARIO::NO_REGISTRADO;
-                    break;
-            }   
+                    // Cualquier otro rol logueado se considera Alumno
+                    return USUARIO::ALUMNO;
+            }
 
         }
         return USUARIO::NO_REGISTRADO;

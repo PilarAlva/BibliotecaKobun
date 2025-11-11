@@ -24,10 +24,13 @@
             <!-- MUESTRA DE TODOS LOS TALLERES-->
             <div id="talleres_section_todos_los_talleres">
                 <h1 class="encabezado-talleres">Todos los Talleres</h1>
+                <?php if (empty($talleres)): ?>
+                    <p class="msj-gris">No hay talleres disponibles en este momento.</p>
+                <?php else: ?>
 
                 <div class="listado_talleres">
                     <?php
-                    // 1. Mapa de búsqueda para acceso rápido -> clave: 'taller_id', valor: el taller completo.
+                    // Mapa de búsqueda para acceso rápido -> clave: 'taller_id', valor: el taller completo.
                     $misTalleresLookup = array_column($mis_talleres, null, 'taller_id');
                     foreach ($talleres as $taller) { ?> 
                         <div class="taller">
@@ -44,7 +47,7 @@
                                         <p>Profesor: <?php echo htmlspecialchars($taller['profesor_nombre'])?></p>
                                         
                                         <?php
-                                        // 2. Se verifica si el taller actual existe en el mapa de búsqueda.
+                                        // Se verifica si el taller actual existe en el mapa de búsqueda.
                                         if (isset($misTalleresLookup[$taller['taller_id']])) {
                                             $mi_taller_coincidente = $misTalleresLookup[$taller['taller_id']];
                                             if ($mi_taller_coincidente["activo_usuario"] == 1) : ?>
@@ -59,6 +62,39 @@
                             </a>
                         </div>            
                     <?php } ?> <!-- Fin del foreach --> 
+                </div>
+                <?php endif; ?>
+
+                
+                <!-- MUESTRA LOS TALLERES INACTIVOS - VISTA HABILITADO SOLO PARA ADMINS -->
+                <div>
+                    <?php if ($estado == 'admin'): ?> 
+                        <hr class="linea-divisora">
+                        <h2 class="encabezado-talleres"> Talleres Inactivos </h2>
+                        <?php if ( empty($talleresInactivos) ): ?>
+                            <div class="sin-contenido">
+                                <p class="msj-gris">No hay talleres inactivos en este momento.</p>
+                            </div>
+                        <?php else: ?>
+                            <div class="listado_talleres">
+                                <?php foreach ($talleresInactivos as $taller) { ?>
+                                    <div class="taller">
+                                        <a href="<?=BASE_URL?>taller/id/<?= $taller['taller_id']; ?>">
+                                            <div class="taller-contenedor">
+                                                <div class="imagen-taller-cont">
+                                                    <img src="img/talleres-default.webp" alt="Portada del taller <?php echo htmlspecialchars($taller['taller_nombre']); ?>">
+                                                </div>
+                                                <div class="info-taller-contenedor">
+                                                    <h4 class="titulo-taller"><?php echo htmlspecialchars($taller['taller_nombre']); ?></h4>
+                                                    <p>Profesor: <?php echo htmlspecialchars($taller['profesor_nombre'])?></p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                <?php } ?>
+                            </div> <!-- Fin del listado_talleres -->
+                        <?php endif; ?>
+                    <?php endif;?>
                 </div>
             </div>
             
@@ -102,7 +138,6 @@
                     </div>
                 <?php endif; ?>
             </div>
-            
 
         </div> <!-- Fin del div: 'talleres-cuerpo' -->
     <?php } ?>

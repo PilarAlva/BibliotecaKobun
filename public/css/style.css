@@ -52,8 +52,33 @@ img {
     font-weight: bold;
 }
 
+/* ------- Botones ------- */
+.bt {
+    font-family: var(--font-main);
+    font-weight: normal;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+.bt:hover {
+    background-color: #517c5a ;
+}
 
-/* ------- Header ------- */
+/* ------- Mensajes ------- */
+.msj-rojo {
+    color: var(--red-color);
+}
+.msj-verde {
+    color: var(--green-color);
+}
+.msj-gris {
+    color: grey;
+}
+
+
+
+/* ------- HEADER ------- */
 .header {
     align-items: center;
     display: flex;
