@@ -113,6 +113,7 @@ class TallerBD {
         return $this->db->resultados();
     }
 
+
     public function obtenerTallerPorId($taller_id){
 
         $consulta = "SELECT 
@@ -179,6 +180,18 @@ class TallerBD {
 
         return $this->db->resultado();
     }
+    public function eliminarAlumno($taller_id, $usuario_id){
+
+        $consulta = "DELETE FROM talleres_usuarios WHERE taller_id = :taller_id AND usuario_id = :usuario_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(":taller_id", $taller_id);
+        $this->db->unir(":usuario_id", $usuario_id);
+
+        return $this->db->ejecutar();
+
+    }
+
     public function cambiarEstadoAlumno($taller_id, $usuario_id, $activo){
 
         $consulta = "UPDATE talleres_usuarios SET activo = :activo WHERE taller_id = :taller_id AND usuario_id = :usuario_id";

@@ -9,7 +9,7 @@
             //TODO: Se debería hacer la comprobación de si en la sesion hay un usuario registrado.
 
             //Esto es para el error de cross origin
-            header("Access-Control-Allow-Origin: http://" . SERVER_IP . "");
+            header("Access-Control-Allow-Origin: *");
             header("Access-Control-Allow-Methods: POST, OPTIONS");
             header("Access-Control-Allow-Headers: Content-Type");
 

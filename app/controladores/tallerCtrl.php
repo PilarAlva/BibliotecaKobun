@@ -341,10 +341,10 @@
                 case 'rechazar':
 
                     //AHORA SE ELIMINAR Y A LA MIERDA, tendría que mandarse una notificacion o algo así
-                    if($tallerModel->eliminarAlumno($taller_id, $usuario_id, 1 )){
+                    if($tallerModel->eliminarAlumno($taller_id, $usuario_id)){
                         header('Location: ' . BASE_URL . 'taller/id/' . $taller_id );
                     }else{
-                        header('Location: ' . BASE_URL . 'talleres');
+                        echo 'la puta madre esta cosa no funciona';
                     }
                     break;
 
@@ -408,7 +408,7 @@
 
                 case 'error':
                 default:
-                    header('Location: ' . BASE_URL );
+                    header('Location: ' . BASE_URL . 'taller/id/' . $taller_id );
                     break;
 
 

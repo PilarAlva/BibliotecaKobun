@@ -8,4 +8,5 @@
     /* define('BASE_URL', 'http://192.168.1.51/BibliotecaKobun/public/'); */
     define('BASE_URL', 'http://localhost/Kobun/public/');
     
+    
 ?>
