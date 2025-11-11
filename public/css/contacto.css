@@ -4,9 +4,19 @@
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  max-width: 1500px;
-  margin: 0 auto;
+  max-width: 1200px; /* Ancho máximo para el contenido */
+  margin: 0 auto;    /* Centra el contenedor principal */
   padding: 1rem 1rem;
+  flex-grow: 1;
+}
+
+.contenedor-contacto {
+  display: flex;
+  flex-direction: row;
+  align-items: center; 
+  justify-content: center; 
+  gap: 2rem;
+  width: 100%;
 }
 
 /* --- Introducción --- */
@@ -24,17 +34,22 @@
   font-weight: 300;
 }
 
+/* --- Contenedor del Formulario --- */
+#formulario-contacto {
+  flex: 1; /* Hace que este contenedor ocupe el espacio disponible */
+}
+
 /* --- Formulario --- */
 #formulario-contacto form {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.7rem;
   background: #fff;
   border-radius: 10px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   width: 100%;
-  min-height: 100px; /* agregado */
+  height: 100%;
 }
 
 #formulario-contacto h5 {
@@ -59,6 +74,12 @@
 #formulario-contacto textarea:focus {
   outline: none;
   border-color: #b99772;
+}
+
+.espacio-form {
+  display: flex;
+  flex-direction: column;
+  gap: 7rem;
 }
 
 /* --- Botones --- */
@@ -99,11 +120,13 @@
 
 /* --- Información de contacto --- */
 #info-contacto {
-  width: 100%;
   background-color: #fff;
   border-radius: 10px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  flex: 1; /* Hace que este contenedor ocupe el espacio disponible */
+  display: flex; /* Lo convierte en contenedor flex */
+  flex-direction: column; /* Apila sus hijos verticalmente */
 }
 
 #info-contacto h5 {
@@ -123,8 +146,15 @@
 }
 
 #datos-contacto {
+  display: flex;
+  flex-direction: column;
   font-style: normal;
   line-height: 1.6;
+  gap: 0.5rem; /* Ahora sí se aplicará el espaciado */
+}
+#datos-contacto #nombre {
+  display: flex;
+  align-self: center;
 }
 
 #datos-contacto a {
@@ -141,6 +171,12 @@
   text-align: center;
   margin-top: 1rem;
 }
+#redes div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
 
 #redes img {
   margin: 0 0.4rem;
@@ -153,6 +189,10 @@
 
 /* --- Responsividad --- */
 @media (max-width: 768px) {
+  .contenedor-contacto {
+    flex-direction: column;
+  }
+
   #contacto-main {
     padding: 1rem;
   }
