@@ -13,6 +13,22 @@ class UsuarioBD {
 
     }
 
+    public function obtenerDatosContacto($usuario_id){
+        $consulta = "SELECT 
+                    concat(u.nombre, ' ', u.apellido) as usuario_nombre,
+                    u.mail as usuario_mail,
+                    IFNULL(s.telefono, '') as usuario_telefono
+                    FROM usuarios u
+                    LEFT JOIN socios s ON u.id = s.usuario_id
+                    WHERE u.id = :usuario_id";
+
+        $this->db->consulta($consulta);
+    
+        $this->db->unir(':usuario_id', $usuario_id);
+    
+        return $this->db->resultado();
+    }
+
     public function obtenerUsuarioPorMail($mail){
 
         $consulta = "SELECT * FROM  usuarios WHERE mail = :mail";
@@ -35,6 +51,40 @@ class UsuarioBD {
         return $this->db->resultado();
 
     }
+    public function borrarUsuario($usuario_id){
+
+        $consulta = "DELETE FROM usuarios WHERE id = :usuario_id AND rol_id NOT 1";
+        $this->db->consulta($consulta);
+        $this->db->unir("usuario_id", $usuario_id);
+        $this->db->ejecutar();
+
+    }
+    public function obtenerInfoCompletaUsuarioPorId($usuario_id){
+
+         $consulta = "SELECT 
+                        u.id as usuario_id,
+                        s.id as socio_id,
+                        u.rol_id,
+                        u.nombre,
+                        u.apellido,
+                        u.mail,
+                        u.clave,
+                        u.img_perfil,
+                        s.telefono,
+                        s.dni,
+                        s.fecha_nacimiento,
+                        s.fecha_alta
+                    FROM  usuarios u 
+                    LEFT JOIN socios s ON u.id = s.usuario_id
+                    WHERE u.id = :usuario_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir("usuario_id", $usuario_id);
+        $this->db->ejecutar();
+
+        return $this->db->resultado();
+
+    }
     public function obtenerRolUsuario($usuario_id){
 
         $consulta = "SELECT rol_id FROM  usuarios WHERE id = :usuario_id";
@@ -49,10 +99,9 @@ class UsuarioBD {
 
     public function obtenerTodosUsuarios(){
         
-        $consulta = "SELECT * FROM usuarios WHERE rol_id NOT 0";
+        $consulta = "SELECT * FROM usuarios WHERE rol_id != 0";
 
         $this->db->consulta($consulta);
-        $this->db->ejecutar();
 
         return $this->db->resultados();
 
@@ -60,7 +109,7 @@ class UsuarioBD {
 
     public function obtenerUsuarios(){
         
-        $consulta = "SELECT * FROM usuarios WHERE rol_id = 1";
+        $consulta = "SELECT * FROM usuarios WHERE rol_id = 3";
 
         $this->db->consulta($consulta);
         $this->db->ejecutar();
@@ -79,6 +128,102 @@ class UsuarioBD {
 
     }   
 
+    public function cantResultadosBusqueda($busqueda, $filtro){
+
+        $consulta = "SELECT
+                    COUNT(u.id) as cantidad
+                    FROM usuarios u 
+                    LEFT JOIN socios s ON u.id = s.usuario_id ";
+
+        if ($busqueda != '') {
+            
+            switch ($filtro) {
+                case 'usuario-gral':
+                    $consulta .= "WHERE u.rol_id = 3 ";
+                    break;
+                case 'socios':
+                    $consulta .= "WHERE s.id IS NOT NULL ";
+                    break;
+                case 'profesores':
+                    $consulta .= "WHERE u.rol_id = 2 ";
+                    break;
+                case 'administrador':
+                    $consulta .= "WHERE u.rol_id = 1 ";
+                default:
+                    $consulta .= " ";
+                    break;    
+                }
+            $consulta .= " AND (u.nombre LIKE :busqueda_nombre OR u.apellido LIKE :busqueda_apellido)";
+        
+        }
+
+
+        $this->db->consulta($consulta);
+
+        if ($busqueda != '') {
+                $this->db->unir(':busqueda_nombre', "%$busqueda%");
+                $this->db->unir(':busqueda_apellido', "%$busqueda%");
+            
+            }
+
+        $this->db->ejecutar(); 
+
+        return $this->db->resultado();
+
+    }
+    public function busquedaUsuarios($busqueda, $filtro, $inicio = 0, $cant = 1000){
+
+        $consulta = "SELECT
+                    u.id,
+                    u.nombre,
+                    u.apellido,
+                    u.mail,
+                    u.rol_id,
+                    u.img_perfil,
+                    s.id as socio_id
+                    FROM usuarios u 
+                    LEFT JOIN socios s ON u.id = s.usuario_id ";
+
+        if ($busqueda != '') {
+            
+            switch ($filtro) {
+                case 'usuario-gral':
+                    $consulta .= "WHERE u.rol_id = 3  ";
+                    break;
+                case 'socios':
+                    $consulta .= "WHERE s.id IS NOT NULL  ";
+                    break;
+                case 'profesores':
+                    $consulta .= "WHERE u.rol_id = 2  ";
+                    break;
+                case 'administrador':
+                    $consulta .= "WHERE u.rol_id = 1  ";
+                default:
+                    $consulta .= " WHERE u.rol_id != 0  ";
+                    break;    
+                }
+            $consulta .= " AND (u.nombre LIKE :busqueda_nombre OR u.apellido LIKE :busqueda_apellido) ";
+        
+        }
+
+        $consulta .= " GROUP BY u.id ORDER BY u.id ASC LIMIT :limite OFFSET :offset";
+
+        $this->db->consulta($consulta);
+
+        if ($busqueda != '') {
+                $this->db->unir(':busqueda_nombre', "%$busqueda%");
+                $this->db->unir(':busqueda_apellido', "%$busqueda%");
+            
+            }
+
+        $this->db->unir(':limite', $cant);
+        $this->db->unir(':offset', $inicio);
+
+        $this->db->ejecutar(); 
+
+        return $this->db->resultados();
+    
+    }
     public function registrarUsuario($nombre, $apellido, $mail, $clave){
 
         $consulta = "INSERT INTO usuarios (nombre, apellido, mail, clave) VALUES (:nombre, :apellido, :mail, :clave)";
@@ -129,9 +274,9 @@ class UsuarioBD {
         $this->db->unir("usuario_id", $usuario_id); 
         $this->db->unir("rol_id", $rol_id);
 
-        $this->db->ejecutar();
+       
 
-        return $this->db->resultado();
+        return $this->db->ejecutar();
 
     }
 

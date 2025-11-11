@@ -2,9 +2,9 @@
        
     <div class="taller_contenido">
         <?php
-            if(isset($recursos))
+            if(isset($libreta))
                 
-                foreach($recursos as $indice => $publicacion){
+                foreach($libreta as $indice => $publicacion){
             
                 include '../app/vistas/talleres/componentes/publicacion.php';
 

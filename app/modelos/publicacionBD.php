@@ -265,6 +265,7 @@ class PublicacionBD extends Modelo{
                     LEFT JOIN publicaciones_archivo pa ON p.id = pa.publicacion_id
                     WHERE p.usuario_id = :usuario_id
                     AND p.taller_id = :taller_id
+                    AND p.alcance = 'libreta'
                     GROUP BY p.id
                     ORDER BY p.fecha_publicacion DESC
                     LIMIT :limite OFFSET :offset";
