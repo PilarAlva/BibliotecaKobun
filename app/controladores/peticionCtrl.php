@@ -3,12 +3,14 @@
 <?php
 
     include_once("../app/controladores/sesionCtrl.php");
+    include_once("../app/controladores/archivoCtrl.php");
 
     class peticionCtrl extends Controlador{
 
        public function peticion(){
         
         $sesionCtrl = new SesionCtrl();
+        $archivoCtrl = new ArchivoCtrl();
 
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
@@ -138,6 +140,40 @@
                             ]];
                     
                         break;
+                    case 'buscar-ejemplares':
+                        $ejemplares = $libroModel->ejemplaresDisponiblesPorTitulo($_POST['q']); 
+
+                        $respuesta_data = [
+                            'estado' => 'exito',
+                            'mensaje' => 'Ejemplares obtenidos correctamente.',
+                            'data' => [
+                                'ejemplares' => $ejemplares
+                            ]];
+                    
+                        break;
+                    case 'prestar-libro':
+                        $socio = $socioModel->obtenerSocioPorIdUsuario($_POST['usuario_id']);
+                        $resultado = false;
+                        if($socio){
+                            $resultado = $prestamosModel->registrarPrestamo($socio["id"], $_POST['ejemplar_id'], date('Y-m-DD'), $_POST['fecha_limite']);
+                        }
+                        if($resultado){
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje' => 'Prestamo registrado con exito.',
+                                'data' => [
+                                    'prestamo_id' => $resultado
+                                ]
+                            ];                            
+                        }else{
+                            $respuesta_data = [
+                                'estado' => 'error',
+                                'mensaje' => 'No se pudo registrar el prestamo.'
+                            ];
+
+                        }
+                        
+                        break;
                     case 'ejemplares':
                         $ejemplares = $libroModel->ejemplaresTotales($_POST['libro_id']); 
 
@@ -148,6 +184,22 @@
                                 'ejemplares' => $ejemplares
                             ]];
                     
+                        break;
+                    case 'agregar-ejemplar':
+                        $resultado  = $libroModel->agregarEjemplar($_POST['libro_id']);
+                        if($resultado){
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje' => 'Ejemplares agregado correctamente.',
+                                'data' => [
+                                    'ejemplar_id' => $resultado,
+                                    'libro_id' => $_POST['libro_id']
+                                ]];
+                            
+                        }else{
+                            $respuesta_data = ['estado' => 'error',
+                            'mensaje' => 'No se pudo agregar el ejemplar.'];
+                        }
                         break;
                     case 'ejemplares-disponibles':
                         $disponibles = $libroModel->ejemplaresDisponibles($_POST['libro_id']); 
@@ -168,6 +220,79 @@
                                 "estado" => $libroModel->cambiarEstado($_POST['libro_id'], $_POST['activado'])
                             ]
                         ];
+                        break;
+                    case 'agregar-autor':
+                        $nombre = $_POST['nombre'];
+                        $apellido = $_POST['apellido'];
+                        $fecha_nacimiento = $_POST['fecha_nacimiento'];
+                        $fecha_muerte = $_POST['fecha_muerte'];
+                        $resultado  = $libroModel->agregarAutor($nombre, $apellido, $fecha_nacimiento, $fecha_muerte);
+                        if($resultado){
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje' => 'Autor agregado correctamente'
+                            ];
+                        }
+                        break;
+                    case 'agregar-editorial':
+                        $nombre = $_POST['nombre'];
+                        $resultado  = $libroModel->agregarEditorial($nombre);
+                        if($resultado){
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje' => 'Editorial agregada correctamente'
+                            ];
+                        }
+                        break;
+                    case 'agregar-genero':
+                        $nombre = $_POST['nombre'];
+                        $resultado  = $libroModel->agregarGenero($nombre);
+                        if($resultado){
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje' => 'Genero agregado correctamente'
+                            ];
+                        }
+                        break;
+                    case 'registrar-libro':
+
+                        $isbn = htmlspecialchars($_POST['isbn']);
+                        $titulo = htmlspecialchars($_POST['titulo']);
+
+                        $autores = htmlspecialchars($_POST['autores_ids']);
+                        $autores = explode(',', $autores);
+
+                        $editoriales = htmlspecialchars($_POST['editorial_id']);
+                        $editoriales = [$editoriales];
+
+                        $generos = htmlspecialchars($_POST['generos_ids']);
+                        $generos = explode(',', $generos);
+
+                        $descripcion = htmlspecialchars($_POST['descripcion']);
+                        
+                        $sinopsis = htmlspecialchars($_POST['sinopsis']);
+                        
+                        $ref_portada = $archivoCtrl->guardarPortada($titulo, $_FILES['portada']);
+
+                        $libro_id = $libroModel->agregarLibro($isbn, $titulo, $sinopsis, $ref_portada, $descripcion, $autores, $generos, $editoriales);
+
+                        if($libro_id){
+                            $respuesta_data = [
+                                "estado" => "exito",
+                                "mensaje" => "Libro registrado correctamente",
+                                "data" => [
+                                    "libro_id" => $libro_id
+                                ]
+                            ];
+
+                        }else{
+
+                            $respuesta_data = [
+                                "estado" => "error",
+                                "mensaje" => "No se pudo guardar el libro"
+                            ];
+
+                        }
                         break;
                     case 'registrar-usuario':
                         http_response_code(200);

@@ -86,6 +86,31 @@ class ArchivoCtrl extends Controlador{
 
     }
 
+    public function guardarPortada($nombre, $portada){
+
+        $archivoDB = $this->cargarModelo('archivoBD');
+
+        $nombre = strtolower(htmlspecialchars($nombre));
+
+        $carpetaDestino = '../almacenamiento/portadas/';
+        $archivoDestino = $carpetaDestino . date('YmdHis') . '_' . $nombre;
+
+        $tipoImagen = strtolower(pathinfo($portada["name"], PATHINFO_EXTENSION));
+        
+        if(move_uploaded_file($portada["tmp_name"], $archivoDestino . '.' . $tipoImagen)){                
+
+            $resultado = $archivoDB->registrarArchivo($archivoDestino . '.' . $tipoImagen, $nombre);
+
+            if($resultado){
+                return $archivoDestino . '.' . $tipoImagen;
+            }
+            
+            unlink($archivoDestino);
+
+        }
+        return null;
+
+    }
   
 
     public function descargar($id){

@@ -7,6 +7,7 @@
     --error: #ac1d0d;
     --exito: #446b2d;
     --verde-btn: #6e8851;
+    --rojo-btn:  #943e35;
     --tam-fuente-1: 12px;
     --tam-fuente-titulo: 16px;
     --tam-fuente-subtitulo: 14px;
@@ -52,12 +53,14 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    gap: 1rem;
 }
 .form_titulo{
     font-size: var(--tam-fuente-titulo);
     font-weight: bold;
     width: fit-content;
     text-align: center;
+    margin-bottom: 10px;
 }
 .form_seccion{
     display: flex;
@@ -142,11 +145,6 @@
     width: 100%;
     
 }
-.form_datos{
-    display: flex;
-    flex-direction: column;
-    
-}
 .form_petit{
     font-size: smaller;
 
@@ -165,7 +163,6 @@
     min-width: 200px;
     max-width: 100%;
     border: 1px solid var(--form-subrayado);
-    margin-bottom: 4px;
     font-size: var(--tam-fuente-1);
     width: fit-content;
     border-radius: 1rem;
@@ -177,14 +174,23 @@
     font-weight: 500;
 }
 .form_boton.verde{
-    background-color: var(--verde-btn);
-    color: var(--form-bg-color);
-    border: 1px solid var(--form-subrayado-fuerte);
+    background-color: var(--form-bg-color);
+    color: var(--verde-btn);
+    font-weight: bold;
+    border: 1px solid var(--verde-btn);
+    &:hover{
+        background-color: color-mix(in srgb, var(--verde-btn) 20%, var(--form-bg-color) 10%) ;
+        
+    }
 }
 .form_boton.rojo{
-    background-color: #943e35;
-    color: var(--form-bg-color);
-    border: 1px solid var(--form-subrayado-fuerte);
+    background-color: var(--form-bg-color) ;
+    color: var(--rojo-btn);
+    border: 1px solid var(--rojo-btn);
+    
+    &:hover{
+        background-color: color-mix(in srgb, var(--rojo-btn) 20%, var(--form-bg-color) 10%) ;
+    }
 }
 .form_bloque{
     display: flex;
@@ -215,6 +221,10 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    &:hover{
+        outline: 1px solid var(--form-subrayado) ;
+        cursor: pointer;
+    }
 }
 
 .pill_remover {
@@ -253,6 +263,23 @@
 }
 .se_oculta{
     transition: opacity 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.form_division{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 1px;
+    margin: 10px 0px;
+    background-color: var(--form-subrayado);
+
+}
+.form_separacion{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 0px;
+    margin: 10px 0px;
+
 }
 .subrayado::after{
     content: '';

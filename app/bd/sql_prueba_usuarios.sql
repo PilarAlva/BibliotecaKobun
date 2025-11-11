@@ -98,13 +98,14 @@ INSERT INTO Ejemplares (id, libro_id, codigo_topografico) VALUES
 INSERT INTO Usuarios (rol_id, nombre, apellido, mail, clave) VALUES
 ( 3, 'Alex', 'Ruiz', 'alex.ruiz@test.com', SHA2('clavealex', 256)),
 ( 3, 'Brenda', 'Castro', 'brenda.castro@test.com', SHA2('clavebrenda', 256)),
-( 3, 'Carlos', 'Dominguez', 'carlos.dominguez@test.com', SHA2('clavecarlos', 256));
+( 3, 'Carlos', 'Dominguez', 'carlos.dominguez@test.com', SHA2('clavecarlos', 256)),
+( 1, 'Felipe', 'Da Rosa', 'fadmin@mail.com', '$2y$10$Nc9vPiaAmxCSJkZyght9O.PDTWV1UBx59M/e43jIgcDeoQfAeMdY.');
 
 -- PASO 2: LOS 3 USUARIOS SE HACEN SOCIOS (Fechas de alta recientes)
 INSERT INTO Socios (id, usuario_id, telefono, dni, fecha_alta, fecha_nacimiento) VALUES
-(1, 10, '555-1010', '11111111A', '2025-09-01', '1990-05-15'), -- Alex
-(2, 11, '555-2020', '22222222B', '2025-09-01', '1985-11-20'), -- Brenda
-(3, 12, '555-3030', '33333333C', '2025-09-01', '2000-02-01'); -- Carlos
+(1, 1, '555-1010', '11111111A', '2025-09-01', '1990-05-15'), -- Alex
+(2, 2, '555-2020', '22222222B', '2025-09-01', '1985-11-20'), -- Brenda
+(3, 4, '555-3030', '33333333C', '2025-09-01', '2000-02-01'); -- Carlos
 
 -- PASO 3: REGISTRO DE PAGOS DE CUOTA ANUAL (Los 3 pagan la cuota al inicio)
 INSERT INTO Pagos (socio_id, monto, medio, fecha) VALUES

@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS Libros(
 	titulo varchar(100) NOT NULL,
 	sinopsis TEXT,
 	ref_portada VARCHAR(100),
-	fecha_alta DATE,
+	fecha_alta DATE DEFAULT CURRENT_DATE,
 	activo BOOLEAN DEFAULT TRUE,
 	descripcion TEXT NOT NULL
 );
@@ -212,3 +212,29 @@ CREATE TABLE Correos (
 	fecha_envio DATE DEFAULT CURRENT_DATE
 
 );
+
+DELIMITER //
+
+CREATE TRIGGER asignar_codigo_topografico
+AFTER INSERT ON ejemplares
+FOR EACH ROW
+BEGIN
+    DECLARE v_editorial VARCHAR(100);
+    DECLARE v_prefijo VARCHAR(3);
+    DECLARE v_codigo VARCHAR(50);
+
+    SELECT e.nombre INTO v_editorial
+    FROM Libros_Editoriales le 
+	LEFT JOIN editoriales e ON le.editorial_id = e.id
+    WHERE le.libro_id = NEW.libro_id
+    LIMIT 1;
+
+    SET v_prefijo = UPPER(LEFT(v_editorial, 3));
+
+    SET v_codigo = CONCAT('LIB', v_prefijo, NEW.libro_id, '-', NEW.id);
+
+ 	SET NEW.codigo_topografico = CONCAT('LIB', v_prefijo, NEW.libro_id, '-BKN');
+END;
+//
+
+DELIMITER ;

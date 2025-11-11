@@ -223,6 +223,22 @@ class LibroBD {
 
         return $this->db->resultados();
     }
+    public function ejemplaresDisponiblesPorTitulo($titulo){
+        
+        $consulta = "SELECT 
+                        e.id as ejemplar_id,
+                        l.titulo
+                    FROM ejemplares e
+                    LEFT JOIN prestamos p ON p.ejemplar_id = e.id AND p.fecha_devolucion != NULL 
+                    LEFT JOIN libros l ON e.libro_id = l.id
+                    WHERE l.titulo LIKE :busqueda
+                    LIMIT 1";
+                    
+        $this->db->consulta($consulta);
+        $this->db->unir(':busqueda', "%$titulo%");
+        return $this->db->resultados();
+
+    }
     public function cantEjemplaresTotales($libro_id){
         
         $consulta = "SELECT 
@@ -366,24 +382,26 @@ class LibroBD {
     public function agregarLibro($isbn, $titulo, $sinopsis, $ref_portada, $descripcion, $autores, $generos, $editoriales){
         
 
-        $consulta = "INSERT INTO libros (isbn,titulo, sinopsis, ref_portada, descripcion, activo) 
-                     VALUES (:isbn,:titulo, :sinopsis, :ref_portada, :descripcion, 1)";
-
+       $consulta = "INSERT INTO libros (isbn, titulo, sinopsis, ref_portada, descripcion, activo) 
+                                VALUES (:isbn, :titulo, :sinopsis, :ref_portada, :descripcion, 1)";
+       
         $this->db->consulta($consulta);
         $this->db->unir(':isbn', $isbn);
         $this->db->unir(':titulo', $titulo);
         $this->db->unir(':sinopsis', $sinopsis);
         $this->db->unir(':ref_portada', $ref_portada);
         $this->db->unir(':descripcion', $descripcion);
+        
+        $libro_id = 0;
+        if($this->db->ejecutar()){
+            $libro_id = $this->db->ultimoId();
+            $this->agregarLibroAutores($libro_id, $autores);
+            $this->agregarLibroGeneros($libro_id, $generos);      
+            $this->agregarLibroEditoriales($libro_id, $editoriales);
+        };
 
-        $this->db->consulta($consulta);
 
-        $libro_id = $this->db->ultimoId();
-        $this->agregarLibroAutores($libro_id, $autores);
-        $this->agregarLibroGeneros($libro_id, $generos);      
-        $this->agregarLibroEditoriales($libro_id, $editoriales);
-
-        return $libro_id;
+       return $libro_id;
     }
 
     private function agregarLibroAutores($libro_id, $autores_id){
@@ -473,14 +491,13 @@ class LibroBD {
 
     }
 
-    public function agregarEjemplar($libro_id, $codigo_topografico ){
+    public function agregarEjemplar($libro_id){
         
         $consulta = "INSERT INTO ejemplares (libro_id, codigo_topografico) 
-                     VALUES (:libro_id, :codigo_topografico) ";
+                     VALUES (:libro_id, '-') ";
 
         $this->db->consulta($consulta);
         $this->db->unir(':libro_id', $libro_id);
-        $this->db->unir(':codigo_topografico', $codigo_topografico);
 
         return $this->db->ejecutar();        
 
@@ -510,14 +527,16 @@ class LibroBD {
 
     }   
 
-    public function agregarAutor($nombre, $apellido) {
+    public function agregarAutor($nombre, $apellido, $fecha_nacimiento, $fecha_muerte = NULL) {
 
-        $consulta = "INSERT INTO autores (nombre, apellido) 
-                     VALUES (:nombre, :apellido) ";
+        $consulta = "INSERT INTO autores (nombre, apellido, fecha_nacimiento, fecha_muerte) 
+                     VALUES (:nombre, :apellido, :fecha_nacimiento, :fecha_muerte) ";
 
         $this->db->consulta($consulta);
         $this->db->unir(':nombre', $nombre);
         $this->db->unir(':apellido', $apellido);
+        $this->db->unir(':fecha_nacimiento', $fecha_nacimiento);
+        $this->db->unir(':fecha_muerte', $fecha_muerte);
 
         return $this->db->ejecutar();
 

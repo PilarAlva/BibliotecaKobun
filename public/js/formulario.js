@@ -92,7 +92,7 @@ export class Formulario {
 
     gestionarClicks(event) {
         const target = event.target;
-
+          
         if (target.matches("btn-retroceso")) {
             this.retroceder();
         } else if (target.matches("btn-guardar")) {
@@ -103,13 +103,42 @@ export class Formulario {
             this.toggleDesplegable(target);
         } else if (target.matches(".form_checkbox")) {
             this.handleCheckboxClick(target);
-        } else if (target.closest('.form_multiselect_contenedor')) {
+        } else if (target.matches(".form_a")) {
+            event.preventDefault();
+            
+            const pagina = target.getAttribute("ref");
+            console.log(pagina)  
+            this.gestionarPaginasInternas(pagina);
+        }else if (target.closest('.form_multiselect_contenedor')) {
             this.gestionarMultiselectClick(event);
         }
 
         if (!target.closest('.form_multiselect_contenedor')) {
             this.cerrarTodosLosMultiselect();
         }
+    }
+
+    gestionarPaginasInternas(ultimo) {
+        switch(ultimo){
+            case "agregar-autor":
+                this.agregarAutor();
+                break;
+            case "agregar-genero":
+                this.agregarGenero();
+                break;
+            case "agregar-editorial":
+                this.agregarEditorial();
+                break;
+            case "agregar-usuario":
+                this.agregarUsuario();
+                break;
+            case "agregar-libro":
+                this.agregarLibro();
+                break;
+
+
+        }
+
     }
 
     gestionarEnvios(event) {
@@ -123,7 +152,7 @@ export class Formulario {
 
     gestionarCambios(event) {
         const target = event.target;
-        console.log("cambio")
+        
         if (target.matches('.form_multiselect_filtro')) {
             const contenedor = target.closest('.form_multiselect_contenedor');
             const filtro = target.value.toLowerCase();
@@ -132,7 +161,29 @@ export class Formulario {
                 const nombre = opcion.dataset.nombre.toLowerCase();
                 opcion.style.display = nombre.includes(filtro) ? '' : 'none';
             });
+        } else if (target.matches('.form_input_select')) {
+            // Encontrar la opción seleccionada
+            const selectedOption = target.options[target.selectedIndex];
+            if (selectedOption) {
+                // Obtener el data-id de la opción
+                const selectedId = selectedOption.dataset.id;
+
+                // Encontrar el input oculto correspondiente para guardar el ID
+                const contenedor = target.closest('.form_desplegable');
+                const hiddenInput = contenedor.querySelector('input[type="hidden"]');
+
+                if (hiddenInput) {
+                    // Asignar el ID al valor del input oculto
+                    hiddenInput.value = selectedId;
+                    
+                }
+            }
+        }else if (target.matches('.form_input[name="q"]')) {
+            const contenedor = target.closest('.form_datos');
+            contenedor.requestSubmit();
+            console.log("busqueda ejemplar");
         }
+        
     }
 
     toggleDesplegable(boton) {
@@ -232,10 +283,13 @@ export class Formulario {
                 const prestamosData = await this.obtenerPrestamos(socio_id);
                 const multasData = await this.obtenerMultas(id);
                 const estadoCuentaData = await this.obtenerEstadoCuenta(id);
+                const disponiblesData = await this.obtenerEjemplaresDisponibles(id);
 
                 
 
-                this.mostrarPaginaUsuario(usuarioData.data.usuario, prestamosData.data.prestamos, multasData.data.multas, estadoCuentaData.data.estadoCuenta);
+                this.mostrarPaginaUsuario(usuarioData.data.usuario, prestamosData.data.prestamos,
+                                         multasData.data.multas, estadoCuentaData.data.estadoCuenta,
+                                         disponiblesData.data.disponibles);
 
             }else{
                 this.mostrarPaginaUsuario(usuarioData.data.usuario);
@@ -289,6 +343,30 @@ export class Formulario {
         this.mostrarPaginaAgregarLibro(autoresData.data, editorialesData.data, generosData.data);
         this.mostrarPagina();
  
+    }
+    async agregarAutor(){
+
+        const autoresData = await this.obtenerOpciones("autores");
+
+        this.mostrarPaginaAgregarAutor(autoresData.data);
+        this.mostrarPagina();
+
+    }
+    async agregarEditorial(){
+
+        const editorialesData = await this.obtenerOpciones("generos");
+
+        this.mostrarPaginaAgregarEditorial(editorialesData.data);
+        this.mostrarPagina();
+
+    }
+    async agregarGenero(){
+
+        const generosData = await this.obtenerOpciones("editoriales");
+
+        this.mostrarPaginaAgregarGenero(generosData.data);
+        this.mostrarPagina();
+
     }
 
     //--------------------------------------------------------------------------
@@ -373,7 +451,28 @@ export class Formulario {
                         mensaje = this.formulario.querySelector(".form_mensaje");
                         this.mostrarMensaje(mensaje, "Registro exitoso", "form_exito");   
                         break;
+                        
+                    case 'agregar-ejemplar':
+                        var titulo = cambio.formData.get('libro_titulo');
+                        const nueva_seccion = await this.actualizarSeccionEjemplares(respuesta.data.libro_id, titulo);
+                        var mensaje = nueva_seccion.querySelector(".form_mensaje");
+                        this.mostrarMensaje(mensaje, "Ejemplar agregado", "form_exito");   
+                        break;
+                    case 'buscar-ejemplares':
+                        
+                        await this.actualizarEjemplaresDisponibles(usuario_id, respuesta.data.ejemplares);
+                        //this.mostrarMensaje(cambio.mensaje, "Ejemplar obtenido", "form_exito");  
 
+                        break;
+                    case 'prestar-libro':
+                        await this.actualizarEjemplaresDisponibles(usuario_id, respuesta.data.ejemplares);
+                        await this.actualizarSeccionPrestamos(usuario_id, socio_id);
+                        mensaje = this.formulario.querySelector(".form_mensaje");
+                        this.mostrarMensaje(mensaje, "Prestamo realizado", "form_exito");   
+                        break
+                    default:
+                        this.mostrarMensaje(cambio.mensaje, respuesta.mensaje, "form_exito");   
+                        break;
                     }
                     
             } else {
@@ -502,14 +601,13 @@ export class Formulario {
                 console.error("No está la sección crack");
                 return;
             }
-
-            
             const prestamosData = await this.obtenerPrestamos(socio_id);
+           
 
             if (prestamosData && prestamosData.data) {
-                const nuevoHtml = this.cargarPrestamos({"usuario_id": usuario_id, "socio_id": socio_id}, prestamosData.data.prestamos);
+                const nuevoHtml = this.cargar({"usuario_id": usuario_id, "socio_id": socio_id}, prestamosData.data.prestamos);
                 seccion.innerHTML = nuevoHtml;
-                console.log("Sección de préstamos actualizada.");
+                console.log("Sección de prestamos actualizada.");
             } else {
                 console.error("No se consiguieron los préstamos");
             }
@@ -519,7 +617,50 @@ export class Formulario {
             return null;
         }
     }
+    async actualizarSeccionEjemplares(libro_id, titulo){
+        console.log(`Actualizando sección de ejempalres...`);
+        try {
+            const seccion = this.formulario.querySelector('#seccion-ejemplares');
+            if (!seccion) {
+                console.error("No está la sección crack");
+                return;
+            }
 
+            const ejemplaresData = await this.obtenerEjemplares(libro_id);
+
+            if (ejemplaresData && ejemplaresData.data) {
+                const nuevoHtml = this.cargarSeccionEjemplares(ejemplaresData.data.ejemplares, titulo);
+                seccion.innerHTML = nuevoHtml;
+                console.log("Sección de ejemplares actualizada.");
+            } else {
+                console.error("No se consiguieron los ejemplares");
+            }
+            return seccion;
+        } catch (error) {
+            console.error("Hubo un error master:", error);
+            return null;
+        }
+
+    }
+    async actualizarEjemplaresDisponibles(usuario_id, disponibles){
+        console.log(`Actualizando sección de ejemplares...`);
+        try {
+            const seccion = this.formulario.querySelector('#seccion-ejemplares-disponibles');
+            if (!seccion) {
+                console.error("No está la sección crack");
+                return;
+            }
+
+            const nuevoHtml = this.cargarEjemplaresDisponibles(usuario_id, disponibles);
+            seccion.innerHTML = nuevoHtml;
+                
+            return seccion;
+        } catch (error) {
+            console.error("Hubo un error master:", error);
+            return null;
+        }
+
+    }
 
     //--------------------------------------------------------------------------
     // Datos
@@ -573,11 +714,17 @@ export class Formulario {
         formData.append('nombre', opcion);
         return Peticion.peticion(formData);
     }
+    async obtenerTodosEjemplaresDisponibles(id) {
+        const formData = new FormData();
+        formData.append('accion', "ejemplares-disponibles");
+        formData.append('libro_id', id);
+        return Peticion.peticion(formData);
+    } 
 
     //--------------------------------------------------------------------------
     // HTML Template Generators
     //--------------------------------------------------------------------------
-    mostrarPaginaUsuario(usuario, prestamos = [], multas = [], estado_cuenta =[]) {
+    mostrarPaginaUsuario(usuario, prestamos = [], multas = [], estado_cuenta =[], disponibles = []) {
 
         const contenido = document.createElement("div");
         contenido.classList.add("form_contenido_dinamico");
@@ -585,7 +732,7 @@ export class Formulario {
         const pie = document.createElement("div");
         pie.classList.add("form_pie");
 
-        const paginaHTML = this.cargarPaginaUsuario(usuario, prestamos, multas, estado_cuenta);
+        const paginaHTML = this.cargarPaginaUsuario(usuario, prestamos, multas, estado_cuenta, disponibles);
         
         if(typeof paginaHTML === "string"){
             contenido.innerHTML = paginaHTML;
@@ -641,6 +788,103 @@ export class Formulario {
         this.colaPaginas.push(contenido);
     }
 
+    mostrarPaginaAgregarAutor(autores){
+        const contenido = document.createElement("div");
+        contenido.classList.add("form_contenido_dinamico");
+
+        const paginaHTML = this.cargarPaginaAgregarAutor(autores);
+        
+        if(typeof paginaHTML === "string"){
+            contenido.innerHTML = paginaHTML;
+        }else{
+            contenido.appendChild(paginaHTML);
+        }
+        this.colaPaginas.push(contenido);
+    }
+
+    cargarPaginaAgregarAutor(autores){
+
+        let cont =`
+            <div class="form_titulo subrayado">Agregar autor</div>
+            <div class="form_separacion"></div>
+            <form class="form_datos" id="form-agregar-autor">
+                <input name="accion" value="agregar-autor" type="hidden" />
+                <div class="form_seccion">
+                    ${this.cargarInputNormal('Nombre:', 'nombre', '', 'text', 'required')}
+                    ${this.cargarInputNormal('Apellido:', 'apellido', '', 'text', 'required')}
+                    ${this.cargarInputNormal('Fecha nacimiento:', 'fecha_nacimiento', '', 'date', 'required')}
+                    ${this.cargarInputNormal('Fecha muerte:', 'fecha_muerte', '', 'date')}
+                </div>
+                <span class="form_mensaje ocultado"></span>
+                <div class="form_separacion"></div>
+                <button type="submit" class="form_boton derecha">Agregar</button>
+            </form>`;
+            return cont;
+
+    }
+
+    mostrarPaginaAgregarEditorial(editoriales){
+        const contenido = document.createElement("div");
+        contenido.classList.add("form_contenido_dinamico");
+
+        const paginaHTML = this.cargarPaginaAgregarEditorial(editoriales);
+        
+        if(typeof paginaHTML === "string"){
+            contenido.innerHTML = paginaHTML;
+        }else{
+            contenido.appendChild(paginaHTML);
+        }
+        this.colaPaginas.push(contenido);
+    }
+    cargarPaginaAgregarEditorial(editoriales){
+
+        let cont =`
+            <div class="form_titulo subrayado">Agregar editorial</div>
+            <div class="form_separacion"></div>
+            <form class="form_datos" id="form-agregar-editorial">
+                <input name="accion" value="agregar-editorial" type="hidden" />
+                <div class="form_seccion">
+                    ${this.cargarInputNormal('Nombre:', 'nombre', '', 'text', 'required')}
+                </div>
+                <span class="form_mensaje ocultado"></span>
+                <div class="form_separacion"></div>
+                <button type="submit" class="form_boton derecha">Agregar</button>
+            </form>`;
+            return cont;
+
+    }
+    mostrarPaginaAgregarGenero(generos){
+        const contenido = document.createElement("div");
+        contenido.classList.add("form_contenido_dinamico");
+
+        const paginaHTML = this.cargarPaginaAgregarGenero(generos);
+        
+        if(typeof paginaHTML === "string"){
+            contenido.innerHTML = paginaHTML;
+        }else{
+            contenido.appendChild(paginaHTML);
+        }
+        this.colaPaginas.push(contenido);
+    }
+    cargarPaginaAgregarGenero(generos){
+
+        let cont =`
+            <div class="form_titulo subrayado">Agregar genero</div>
+            <div class="form_separacion"></div>
+            <form class="form_datos" id="form-agregar-genero">
+                <input name="accion" value="agregar-genero" type="hidden" />
+                <div class="form_seccion">
+                    ${this.cargarInputNormal('Nombre:', 'nombre', '', 'text', 'required')}
+                </div>
+                <span class="form_mensaje ocultado"></span>
+                <div class="form_separacion"></div>
+                <button type="submit" class="form_boton derecha">Agregar</button>
+            </form>`;
+            return cont;
+
+    }
+
+
     async cargarPaginaAgregarUsuario(){
          let cont =`
             <div class="form_titulo subrayado">Nuevo usuario</div>
@@ -659,7 +903,7 @@ export class Formulario {
             return cont;
     }
 
-    cargarPaginaUsuario(usuario, prestamos, multas, estado_cuenta) {
+    cargarPaginaUsuario(usuario, prestamos, multas, estado_cuenta, disponibles) {
 
         let cont = this.cargarEstadoUsuario(usuario);
 
@@ -671,9 +915,9 @@ export class Formulario {
             if (multas && multas.length > 0) {
                 cont += this.cargarMultas(multas);
             }
-            if (usuario.socio_habilitado) {
-                cont += this.cargarPrestarLibro(usuario);
-            }
+            //if (usuario.socio_habilitado) {
+                cont += this.cargarPrestarLibro(usuario, disponibles);
+            //}
         } else {
             cont += this.cargarHacerSocio(usuario);
         }
@@ -685,33 +929,37 @@ export class Formulario {
 
     cargarPaginaAgregarLibro(autores, editoriales, generos){
         
-        let todos_autores = autores.map(a => this.cargarOpcion(a));
+        
         let todos_editoriales = editoriales.map(a => this.cargarOpcion(a));
-        let todos_generos = generos.map(a => this.cargarOpcion(a));
+        
 
         let cont = `
             <div class="form_titulo subrayado">Nuevo libro</div>
-            
-            
-            <form class="form_datos" id="form-registrar-usuario">
             <form class="form_datos" id="form-registrar-libro">
-                <input name="accion" value="registrar-usuario" type="hidden" />
+                <input name="accion" value="registrar-libro" type="hidden" />
+                <span class="form_mensaje ocultado"></span>
                 <div class="form_seccion">
                     <span class="form_mensaje ocultado"></span>
                     ${this.cargarInputNormal('Titulo:', 'titulo', '', 'text', 'required')}
-                    ${this.cargarInputDesplegable('Autores:', 'autores', todos_autores, 'text', 'required')}
-                    ${this.cargarInputDesplegable('Editorial:', 'editorial', todos_editoriales, 'text', 'required')}
+                    ${this.cargarInputMultiselect('Autor/es:', 'autores', autores, 'required',
+                          '<div class="form_boton form_a" ref="agregar-autor">+</div>'
+                    )}
+                    ${this.cargarInputDesplegable('Editorial:', 'editorial',
+                                                  todos_editoriales, 'required',
+                        '<div class="form_boton form_a" ref="agregar-editorial">+</div>'
+                    )}
+                    <div class="form_division"></div>
                     ${this.cargarInputNormal('ISBN:', 'isbn', '', 'text', 'required')}
                     ${this.cargarInputNormal('Codigo Topográfico:', 'codigo_topografico', '', 'text', 'required')}
                     ${this.cargarInputNormal('Descripcion', 'descripcion', 'text', '', 'textrequired')}
-                    ${this.cargarInputDesplegable('Generos:', 'generos', todos_generos, 'text', 'required')}
+                    ${this.cargarInputMultiselect('Géneros:', 'generos', generos, 'required',
+                         '<div class="form_boton form_a" ref="agregar-genero">+</div>'
+                    )}
                     ${this.cargarInputNormal('Descripcion', 'descripcion', '', 'text', 'required')}
-                    ${this.cargarInputMultiselect('Géneros:', 'generos', generos, )}
                     ${this.cargarInputImagen('Portada:', 'portada', '', 'required')}
-                
+                    ${this.cargarInputTexto('Sinopsis:', 'sinopsis', '', 'required')}
                 </div>
-                <span class="form_mensaje ocultado"></span>
-                <button class="form_boton">Agregar</button>
+                <button type="submit" class="form_boton">Agregar</button>
             </form>`;
             return cont;
     }
@@ -944,29 +1192,62 @@ export class Formulario {
             </div>`;
     }
 
-    cargarPrestarLibro(usuario) {
+    cargarPrestarLibro(usuario, disponibles) {
+        /*
+            ${this.cargarInputMultiselect('Géneros:', 'generos', generos, 'required',
+                         '<div class="form_boton form_a" ref="agregar-genero">+</div>'
+                    )}
+        */
+       disponibles = disponibles? disponibles : [];
         return `
-            <section class="form_seccion">
-                <form class="form_datos form_desplegable form_seccion subrayado" id="form-prestar-libro">
+            <section class="form_seccion form_desplegable subrayado" id="seccion-prestar-libro">
+
+                
                     <div class="form_fila rellena">
-                        <div class="form_boton despliega derecha">Prestar un libro</div>
+                            <div class="form_boton despliega derecha">Prestar un libro</div>
                     </div>
-                    <div class="form_seccion se_despliega plegado">
-                        <span class="form_mensaje ocultado"></span>
-                        <input name="accion" value="prestar-libro" type="hidden" />
-                        <input name="usuario_id" value=${usuario.id} type="hidden" />
-                        ${this.cargarInputNormal('Identificador del ejemplar:', 'ejemplar_id', '', 'number', 'required')}
-                        <div class="form_informacion" data-libro-info></div>
-                        ${this.cargarInputNormal('Fecha Límite:', 'fecha_limite', '', 'date', 'required')}
-                        <div class="form_fila">
-                            <button type="submit" class="form_boton derecha verde">Realizar prestamo</button>
-                        </div>
+                <div class="form_seccion se_despliega plegado">
+                    <label>Buscar libro:</label>
+                    <div class="form_fila"> 
+                        <form class="form_fila form_datos rellena" id="form_buscador-libro">
+                            <input name="accion" value="buscar-ejemplares" type="hidden" />
+                            <input class="form_input" name="q"></input>
+                            <span class="form_mensaje ocultado"></span>
+                        </form>
+
                     </div>
-                </form>
+                    <div class="form_seccion" >
+                        <form class="form_datos" id="form-prestar-libro">
+                            <input name="accion" value="prestar-libro" type="hidden" />
+                            <input name="usuario_id" value=${usuario.usuario_id} type="hidden" />
+                             ${this.cargarEjemplaresDisponibles(usuario.usuario_id, disponibles)}
+
+                             ${this.cargarInputNormal('Fecha Límite:', 'fecha_limite', '', 'date', 'required')}
+
+                            <div class="form_fila">
+                                <button type="submit" class="form_boton derecha verde">Realizar prestamo</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </section>`;
     }
+    cargarEjemplaresDisponibles(usuario_id, disponibles){
 
-    cargarInputNormal(titulo, nombre, clase, tipo, extras) {
+        disponibles = disponibles.map(d => {
+            return `<option data-id=${d.ejemplar_id} value="${d.ejemplar_id}"> ${d.titulo}-${d.ejemplar_id}</option>`;
+        }).join('');
+
+        return `
+            <div class="form_seccion" id="seccion-ejemplares-disponibles">
+
+                ${this.cargarInputDesplegable("Ejemplares:", "ejemplar_id", disponibles, "required" )}
+               
+            </div>
+        `;
+    }
+
+    cargarInputNormal(titulo, nombre, clase, tipo, extras ="") {
         return `
             <label>${titulo}</label>
             <div class="form_fila">
@@ -974,25 +1255,20 @@ export class Formulario {
                 <span class="form_input_mensaje form_error ocultado"></span>
             </div>`;
     }
-    cargarInputDesplegable(titulo, nombre, opciones, submenu = ""){
+    cargarInputDesplegable(titulo, nombre, opciones, extras = "", al_lado = ""){
         return `
             <div class="form_desplegable form_seccion">
                 <label>${titulo}</label>
                 <div class="form_fila">
                     
-                    <select name=${nombre} class="form_input">
+                    <select name=${nombre} class="form_input_select form_input ${extras}">
                         ${opciones} 
                     </select>
-
-                    <div class="form_boton despliega">+
-                    </div>
-
+                    ${al_lado}
                 </div>
 
-                <div class="form_informacion se_despliega plegado">
-                    ${submenu}
-                </div>
-
+                <input type="hidden" name=${nombre}_id></input>
+                <span class="form_input_mensaje form_error ocultado"></span>
             </div>
         `;
     };
@@ -1004,11 +1280,25 @@ export class Formulario {
                 <input name="${nombre}" class="form_input ${clase}" type="file" ${extras}
                 accept="image/*" />
                 <span class="form_input_mensaje form_error ocultado"></span>
+                
             </div>
                  `;
     };
-
-    cargarInputMultiselect(titulo, nombre, opciones) {
+    cargarInputTexto(titulo, nombre, clase ="",  extras){
+        return `
+            <label>${titulo}</label>
+            <div class="form_fila">
+                <textarea name="${nombre}" class="form_input ${clase}" type="text" ${extras}
+                accept="image/*" 
+                rows="5"
+                cols="40"
+                placeholder="Sinópsis"
+                ></textarea>
+                <span class="form_input_mensaje form_error ocultado"></span>
+            </div>
+                 `;
+    };
+    cargarInputMultiselect(titulo, nombre, opciones, extras, al_lado = "") {
         const opcionesHTML = opciones.map(op => `
             <div class="form_fila form_multiselect_opcion" data-id="${op.id}" data-nombre="${op.nombre}">
                 ${op.nombre}
@@ -1017,17 +1307,18 @@ export class Formulario {
         `).join('');
 
         return `
+            <label>${titulo}</label>
             <div class="form_seccion form_multiselect_contenedor" data-nombre-campo="${nombre}">
-                <label>${titulo}</label>
                 <div class="form_seccion form_multiselect_input_wrapper">
                     <div class="form_fila form_multiselect_pills">
                     </div>
                     <div class="form_fila">
                         <input type="text" class="form_input form_multiselect_filtro despliega" placeholder="Buscar o seleccionar...">
+                        ${al_lado}
                     </div>
                 </div>
-                <div class="form_seccion form_multiselect_opciones ocultado">${opcionesHTML}</div>
-                <input type="hidden" name="${nombre}_ids" id="hidden-input-${nombre}">
+                <div class="form_seccion form_multiselect_opciones ocultado subrayado">${opcionesHTML}</div>
+                <input ${extras} type="hidden" name="${nombre}_ids" id="hidden-input-${nombre}">
             </div>`;
     }
 
@@ -1060,12 +1351,21 @@ export class Formulario {
         let todos_ejemplares = ejemplares.map(e => this.cargarEjemplar(e, titulo)).join('');
 
         return `
-        <div class="form_subtitulo">Ejemplares</div>
-        <section class="form_seccion subrayado">
-            <div class="form_fila rellena">
-                <button class="form_boton"> Agregar ejemplar</button>
+        <section class="form_seccion subrayado" id="seccion-ejemplares">
+            <div class="form_subtitulo">Ejemplares</div>
+            <form class="form_datos form_fila rellena" id="form-agregar-ejemplar">
+                <input name="accion" value="agregar-ejemplar" type="hidden">
+                <input name="libro_titulo" value=${titulo} type="hidden">
+                
+                <div class="form_seccion derecha">
+                <input name="libro_id" value=${ejemplares[0].libro_id} type="hidden">
+                <span class="form_mensaje ocultado derecha"></span>
+                </div>
+                
+                <button class="form_boton derecha"> Agregar ejemplar</button>
+
                 <button class="form_checks_cont ocultado form_boton"> Eliminar </button>
-            </div>
+            </form>
             ${todos_ejemplares}
         </section>
         `;

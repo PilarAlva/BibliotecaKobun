@@ -55,7 +55,7 @@ class socioBD {
 
         $this->db->consulta($consulta);
         $this->db->unir(':usuario_id', $usuario_id);
-        $this->db->ejecutar();
+        
 
         return $this->db->resultado();
     }   
@@ -76,7 +76,6 @@ class socioBD {
 
         $this->db->consulta($consulta);
         $this->db->unir(':mail', $mail);
-        $this->db->ejecutar();
 
         return $this->db->resultado();
     }           

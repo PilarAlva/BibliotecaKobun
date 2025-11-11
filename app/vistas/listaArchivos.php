@@ -18,8 +18,24 @@
                 <?php foreach ($archivos as $indice => $archivo) { ?>
                 <tr>
                     <td id="numero"><?php echo $indice + 1;?>.</td>
+                    
+                    <?php
+                        $tipo = strtolower(pathinfo($archivo['referencia'], PATHINFO_EXTENSION));
+                        if($tipo == "png" || $tipo == "jpg"){
+                            /*$image = fopen((string)$archivo['referencia'], 'rb');
+                            $Data = fread($image,filesize($image));
+                            fclose($image);
+                            $src = "data:image/jpeg;base64,'.base64_encode($Data).'";*/
+                            //$src = "../app/archivo.php?f=" . $archivo["referencia"];
+                            $src = BASE_URL . "archivo/id/" . $archivo["id"];
+                        }else{
+                            $src = "img/no.png";
+                        }
+                        
+                    ?>
+
                     <td class="imagen-libro">
-                        <img src="img/no.png" alt="...">
+                        <img src="<?php echo $src; ?>"/>
                     </td>
                     <td>
                         <div class="info-libro-contenedor">
