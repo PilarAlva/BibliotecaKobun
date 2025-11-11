@@ -7,11 +7,19 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
+include ('BD/conexion.php');
+
 
 $nombre = $_POST['nombre'];
-$email = $_POST['email'];        // correo ingresado por el usuario
+$email = $_POST['email'];        
 $tel = $_POST['tel'];
-$comentarios = $_POST['mensaje'];
+$mensaje = $_POST['mensaje'];
+
+$stmt = $conn->prepare("INSERT INTO correos (nombre, email, telefono, consulta) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("ssss", $nombre, $email, $tel, $mensaje);
+$stmt->execute();
+$stmt->close();
+
 
 $mail = new PHPMailer(true);
 
