@@ -6,10 +6,19 @@
         ?>
 </header>
 
-<main class="taller_main-content">
+<main class="taller-main-content">
     
-    <div class= "taller_encabezado" >
-        <img class="taller_portada" src="img/image.png" alt="...">
+    <div class= "banner" >                
+        <?php
+            $portadaSrc = !empty($taller['taller_portada']) ? 'img/portadas/' . htmlspecialchars($taller['taller_portada']) : 'img/talleres-default.webp';
+        ?>
+        <div class="titulo-taller">
+            <?php
+                $titulo = htmlspecialchars($taller['taller_nombre']);
+                echo "<h2>" . $titulo . "</h2>";
+            ?>
+        </div>
+        <img src="<?php echo $portadaSrc; ?>" alt="Portada del taller <?php echo htmlspecialchars($taller['taller_nombre']); ?>">
     </div>
 
     <nav class="taller_paginas">

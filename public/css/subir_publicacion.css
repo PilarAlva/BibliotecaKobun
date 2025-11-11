@@ -1,23 +1,19 @@
 
 .subir_publicacion{
-    
     display: flex;
     flex-direction: row;
 
-    margin: 1rem ;
-    padding: 16px;
+    margin: 10px ;
+    padding: 1rem;
     width: auto;
-    min-height: 8rem;
+    min-height: 5rem;
     
     border-radius: var(--redondeo);
-    
     background-color: white;
-
     justify-content: space-between;
+    /* align-items: center; */
 
     transition: min-height 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-
-
 }
 
 .subir_publicacion.selected{
@@ -41,8 +37,8 @@
 
 }
 .sp_foto_perfil{
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
 }
 .sp_encabezado_texto,
@@ -61,7 +57,6 @@
 }
 
 .sp_cuerpo { 
-
     border: none;
     display: none;
     margin-top: 10px;
@@ -73,10 +68,10 @@
 }
 
 .sp_cuerpo #titulo{
-
     resize: none;
     width: 100%;
     margin-top: 0.25rem;
+    margin-bottom: 20px;
     border: 0.1em solid rgb(204, 200, 200);
     max-height: 130px;
     line-height: 1;
@@ -157,12 +152,13 @@
 
 }
 .sp_btn_borrar{
-
     margin-left: auto;
     margin-right: 0;
     opacity: 1;
     transition: opacity 1s ease-in;
-    
+}
+.sp_btn_borrar img {
+    height: 20px;
 }
 
 .sp_info{

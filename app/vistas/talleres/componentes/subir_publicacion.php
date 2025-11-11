@@ -19,28 +19,32 @@
         
         <div class="sp_encabezado">
 
-                <img class="sp_foto_perfil" src="img/no.png"/>
-                
-                <div class="sp_encabezado_info">
+            <?php
+                $defaultImg = 'img/perfil-default.png';
+                $perfilImg = isset($_SESSION['img_perfil']) && !empty($_SESSION['img_perfil']) ? $_SESSION['img_perfil'] : $defaultImg;
+            ?>
+            <img class="sp_foto_perfil" src="<?php echo htmlspecialchars($perfilImg); ?>" alt="Imagen de perfil del usuario">
+            
+            <div class="sp_encabezado_info">
 
-                    <span class="sp_encabezado_texto">
-                        Publicar en foro
-                    </span>
-                    <span class="sp_encabezado_texto_usuario hide">
+                <span class="sp_encabezado_texto">
+                    Publicar en foro
+                </span>
+                <span class="sp_encabezado_texto_usuario hide">
 
-                        <?php echo $_SESSION['usuario_nombre'] .
-                        ' ' . $_SESSION['usuario_apellido']?>
+                    <?php echo $_SESSION['usuario_nombre'] .
+                    ' ' . $_SESSION['usuario_apellido']?>
 
-                    </span>
+                </span>
 
-                    <span class="sp_fecha_pub">
-                        
-                    </span>
-                </div>
+                <span class="sp_fecha_pub">
+                    
+                </span>
+            </div>
 
-                <div class="sp_btn_borrar hide">
-                    X
-                </div>
+            <div class="sp_btn_borrar hide">
+                <img src="<?= BASE_URL ?>/img/letra-x.png" alt="Borrar">
+            </div>
 
         </div>
 

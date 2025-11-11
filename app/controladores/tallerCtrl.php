@@ -139,12 +139,14 @@
 
                     $publicacionModel = $this->cargarModelo("publicacionBD");
                     
+                    $taller = $tallerModel->obtenerTallerPorId($taller_id);
 
                     //TODO: estas peticiones se deberían hacer cuando el usuario cambia de pestaña en el taller, pero bueno :/
                     $data = [
                         "cssEspecifico" => ["talleres.css", "publicaciones.css", "libreta.css"],
                         "publicaciones" => $publicacionModel->obtenerPublicacionesPorTaller($taller_id),
                         "recursos" => $publicacionModel->obtenerArchivosPorTaller($taller_id),
+                        "taller" => $taller,
                         "libreta" => $publicacionModel->obtenerPublicacionesLibretaPorTaller($taller_id, $_SESSION["usuario_id"] ),
                         "participantes" => $tallerModel->alumnosInscriptios($taller_id),
                         "pendientes" => $tallerModel->alumnosPendientes($taller_id),

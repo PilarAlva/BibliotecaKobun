@@ -14,7 +14,7 @@
 <main id="info-por-taller" class="main-content">
     <div class="info-taller-contenedor">
         <div class="flecha-atras">
-            <a href="<?= BASE_URL ?>talleres"><img src="<?= BASE_URL ?>/img/icono-back.png" alt="Volver a talleres"></a>
+            <a href="<?= BASE_URL ?>talleres"><img src="<?= BASE_URL ?>/img/icono-volver.png" alt="Volver a talleres"></a>
         </div>
 
         <div id="titulo">
