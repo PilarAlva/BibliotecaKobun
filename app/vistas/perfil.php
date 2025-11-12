@@ -300,7 +300,7 @@
                                         <div class="contenedor-info">
                                             <p><?php echo htmlspecialchars($usuarioItem['nombre']) . ' ' . htmlspecialchars($usuarioItem['apellido']);?></p>
                                             <!-- BOTON NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-                                            <button class="bt-mas-info" >+</button>
+                                            <button class="bt-mas-info"><img src="<?= BASE_URL ?>/img/icono-mas.png" alt="icono mas informacion"></button>
                                         </div>
                                     </div>
                                     <hr class="linea-divisora">
@@ -349,7 +349,7 @@
                                             <h4 class="titulo-libro"><?php echo htmlspecialchars($libroItem['titulo']); ?></h4>
                                             <p class="autor-libro">Por <?php echo htmlspecialchars($libroItem['nombre_completo']); ?></p>
                                         </div>
-                                        <button class="bt-mas-info" >+</button>
+                                        <button class="bt-mas-info"><img src="<?= BASE_URL ?>/img/icono-mas.png" alt="icono mas informacion"></button>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
