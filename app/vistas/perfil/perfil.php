@@ -66,38 +66,42 @@
         
         
     </main>
+    <!-- FORMULARIO DEL ADMIN -->
+    <?php
+    if ($usuario['rol_id'] == 1) { ?>
+        <div id= "formulario" class="form_contenedor">
+            <div id="btn-despliege" class="form_seccion form_lengueta">
+                  <
+            </div>
+            <div class="form_cuerpo">
+                <section class="form_cabezera">
+                        <div class="form_fila rellena">
+                            <!-- <div id="btn-retroceso" class="form_boton"><</div> -->
+                            <!-- <div id="cant-cambios">Cantidad de cambios:</div> -->
+                            <!-- <div id="btn-cerrar" class="form_boton">X</div> -->
+                        </div>
 
-    <div id= "formulario" class="form_contenedor">
+                </section>
 
-            <section class="form_cabezera">
-            
+                <div class="form_contenido"> 
+                    Primero deberías tocar alguna opcion crack!   
+                </div>
+                    
+                    
+                <section class="form_pie">
                     <div class="form_fila rellena">
-
-                        <div id="btn-retroceso" class="form_boton"><</div>
-                        <div id="cant-cambios">Cantidad de cambios:</div>
-                        <div id="btn-cerrar" class="form_boton">X</div>
-
+                        <!-- <div id= "btn-cerrar" class="form_boton rojo">Cerrar</div> -->
+                        <!-- <div id= "btn-guardar" class="form_boton verde">Guardar</div> -->
                     </div>
-
-            </section>
-
-            <div class="form_contenido">    
-            </div>
-                
-                
-        <section class="form_pie">
-
-
-            <div class="form_fila rellena">
-
-                <div id= "btn-cerrar" class="form_boton rojo">Cerrar</div>
-                <div id= "btn-guardar" class="form_boton verde">Guardar</div>
+                </section>
 
             </div>
+        </div>
 
-        </section>
 
-    </div>
+    <?php } ?>
+
+    
 
 
 </div>

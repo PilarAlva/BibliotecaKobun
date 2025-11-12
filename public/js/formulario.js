@@ -92,12 +92,13 @@ export class Formulario {
 
     gestionarClicks(event) {
         const target = event.target;
-          
-        if (target.matches("btn-retroceso")) {
+        if (target.matches("#btn-despliege")) {
+            this.ocultar();
+        } else if (target.matches("#btn-retroceso")) {
             this.retroceder();
-        } else if (target.matches("btn-guardar")) {
+        } else if (target.matches("#btn-guardar")) {
             this.guardarCambios();
-        } else if (target.matches("btn-cerrar")) {
+        } else if (target.matches("#btn-cerrar")) {
             this.borrarCambios();
         } else if (target.matches(".form_boton.despliega")) {
             this.toggleDesplegable(target);
@@ -402,6 +403,7 @@ export class Formulario {
 
     mostrarPagina() {
         const pagina = this.colaPaginas[this.colaPaginas.length - 1];
+        this.formulario.classList.remove("form_oculto");
         if (pagina) {
             this.contenido.innerHTML = ''; // Clear existing content
             this.contenido.appendChild(pagina);
@@ -420,7 +422,7 @@ export class Formulario {
             return;
         }
         let cantidad = this.colaCambios.length;
-        this.cant_cambios.innerText = "Cantidad de cambios: " + cantidad;
+        //this.cant_cambios.innerText = "Cantidad de cambios: " + cantidad;
 
         const { id, cambio } = this.colaCambios.pop();
         console.log("Procesando cambio:", cambio.formData.get('accion'));
@@ -508,6 +510,11 @@ export class Formulario {
             this.mostrarMensaje(cambio.mensaje, "Error de conexión al procesar el cambio.", "form_error");
             console.error("Error en el puto submit", error);
         }
+    }
+
+    ocultar(){
+        console.log("ocultando formulario")
+        formulario.classList.toggle("form_oculto");
     }
 
     async guardarCambios() {

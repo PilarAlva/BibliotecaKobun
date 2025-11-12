@@ -33,15 +33,49 @@
 }
 /*contenedores*/
 .form_contenedor{
-
         
     background-color: var(--form-bg-color);
-    width: 60%;
-    min-height: max-content;
-    padding: var(--padding-form);
+    display: flex;
+    flex-direction: row;
+    min-width: 45%;
+    min-height: 100%;
+    position: sticky;
+    right: 0;
 }
-.form_contenido{
+.form_contenedor.form_oculto{
+    min-width: 0;
+}
+.form_contenedor.form_oculto .form_cuerpo {
+   display: none;
+}
+.form_lengueta{
+    width: 20px;
+    background-color:var(--form-bg-color);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    font-size: 24px;
+    &:hover{
+        cursor: pointer;
+        font-weight: 500;
+    }
+
     
+}
+
+.form_cuerpo{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    min-height: max-content;
+}
+
+.form_contenido{
+    padding: var(--padding-form);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -91,20 +125,6 @@
 .abs{
     position: absolute;
 }
-
-/*
-.form_desplegable:hover .form_desplegable_cont{ 
-
-    
-    opacity: 1;
-    height: auto;
-    width: max-content;
-    
-
-}*/
-.form_desplegable:hover > .oculta{
-    display: none;
-}
 .form_boton{
 
     text-shadow: none;
@@ -129,11 +149,14 @@
     }
 
 }
-.form_cabezera,
+.form_cabezera{
+    position: sticky;
+    top: 20px;
+}
 .form_pie{
     background-color: var(--form-bg-color);
     position: sticky;
-    bottom: 0;
+    bottom: 20px;
     z-index: 1000;
 }
 .form_contenido_dinamico .form_pie{
