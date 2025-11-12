@@ -62,9 +62,10 @@
             </div>
         </div>
         
+        <!-- FORMULARIO DEL ADMIN -->
         <?php
     if ($usuario['rol_id'] == 1) { ?>
-        <div id= "formulario" class="form_contenedor">
+        <div id= "formulario" class="form_contenedor form_oculto">
             <div id="btn-despliege" class="form_seccion form_lengueta">
                   <
             </div>
@@ -97,7 +98,7 @@
     <?php } ?>
         
     </main>
-    <!-- FORMULARIO DEL ADMIN -->
+   
     
 
 
