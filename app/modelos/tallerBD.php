@@ -112,18 +112,18 @@ class TallerBD {
 
         $consulta = "SELECT 
                         t.id as taller_id,
-                        t.nombre as taller_nombre,
-                        t.ref_portada as taller_portada,
+                        t.nombre as nombre,
+                        t.ref_portada as portada,
                         t.lugar as lugar,
                         t.horario as horario,
                         t.descripcion as descripcion,
                         t.activo as activo,
                         t.fecha_alta as fecha_alta,
-                        u.id as profesor_id,
-                        concat(u.nombre, ' ', u.apellido) as profesor_nombre,
-                        u.mail as profesor_mail
+                        group_concat(distinct u.id separator ', ') as profesores_id,
+                        group_concat(distinct concat(u.nombre, ' ', u.apellido ) separator ', ') as profesores_nombre,
+                        group_concat(distinct u.mail separator ', ') as profesores_mail
                         FROM talleres t 
-                        LEFT JOIN talleres_profesores tp ON t.id = tp.taller_id
+                    LEFT JOIN talleres_profesores tp ON t.id = tp.taller_id
                     LEFT JOIN usuarios u ON tp.usuario_id = u.id WHERE t.activo = 0
                     GROUP BY t.id
                     ORDER BY t.fecha_alta DESC
@@ -259,6 +259,25 @@ class TallerBD {
 
         return $this->db->resultados();
     }  
+    public function editarTaller($taller_id, $descripcion, $horario, $lugar, $activo){
+
+        $consulta =  "UPDATE talleres SET 
+                        descripcion = :descripcion,
+                        horario = :horario,
+                        lugar = :lugar,
+                        activo = :activo
+                    WHERE id = :taller_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':taller_id', $taller_id);  
+        $this->db->unir(':descripcion', $descripcion);
+        $this->db->unir(':horario', $horario);
+        $this->db->unir(':lugar', $lugar);
+        $this->db->unir(':activo', $activo);
+        
+        return $this->db->ejecutar();
+
+    }
     public function alumnosPendientes($taller_id){
 
         $consulta = "SELECT u.id as usuario_id,

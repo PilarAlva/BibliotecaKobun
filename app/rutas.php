@@ -35,6 +35,8 @@ $rutas = [
 
     'taller/ins' => ['controlador' => 'tallerCtrl', 'metodo' => 'inscripcion'],
 
+    'taller/editar' => ['controlador' => 'tallerCtrl', 'metodo' => 'editar'],
+
     'ins/eliminar' => ['controlador' => 'tallerCtrl', 'metodo' => 'eliminarAlumno'],
 
     'ins/rechazar' => ['controlador' => 'tallerCtrl', 'metodo' => 'rechazarAlumno'],
@@ -46,6 +48,8 @@ $rutas = [
     'contacto/enviar' => ['controlador' => 'contactoCtrl', 'metodo' => 'enviar'],
 
     'perfil' => ['controlador' => 'perfilCtrl', 'metodo' => 'index'],
+
+    'perfil/editar' => ['controlador' => 'perfilCtrl', 'metodo' => 'editar'],
 
     'pago' => ['controlador' => 'pagoCtrl', 'metodo' => 'pago'],
 

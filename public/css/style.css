@@ -250,6 +250,7 @@ footer {
     text-align: center;
     padding: 1rem 0;
     font-size: 0.9rem;
+    z-index: 1200;
 }
 
 /* ------- Responsive (Menú Hamburguesa) ------- */

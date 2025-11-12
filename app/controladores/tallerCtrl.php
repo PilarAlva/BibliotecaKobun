@@ -416,6 +416,33 @@
 
         }
 
+        public function editar($taller_id){
+
+            if($_SERVER['REQUEST_METHOD'] != "POST"){
+                header('Location: ' . BASE_URL .'');
+            }
+            if(isset( $_SESSION['rol_id'] ) && $_SESSION['rol_id'] == 1){
+                $tallerModel = $this->cargarModelo("tallerBD");
+                $horario = $_POST["horario"];
+                $lugar = $_POST["lugar"];
+                $descripcion = $_POST["descripcion"];
+                $activo = $_POST["activo"];
+                
+                $taller = $tallerModel->obtenerTallerPorId($taller_id);
+                if($taller){
+
+                    if($tallerModel->editarTaller($taller_id, $descripcion, $horario, $lugar, $activo)){
+                        header('Location: ' . BASE_URL . 'taller/id/' . $taller_id);
+
+                    }
+                }
+
+            }
+            header('Location: ' . BASE_URL);
+
+            
+        }
+
         //FUNCIONALES
 
         function procesarPeticion($accion, &$data){
@@ -501,6 +528,8 @@
 
             return BASE_URL . 'talleres/b/' . $filtro . '/' . urlencode($busqueda) . '/';
         }
+
+
 
         private function esEnteroPositivo($string) {
             return preg_match('/^\d+$/', $string);

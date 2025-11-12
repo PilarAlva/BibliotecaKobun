@@ -28,6 +28,17 @@ class UsuarioBD {
     
         return $this->db->resultado();
     }
+    public function editarNombreApellido($usuario_id, $nombre, $apellido){
+        $consulta = 'UPDATE usuarios SET nombre = :nombre, apellido = :apellido WHERE id = :usuario_id';
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':usuario_id', $usuario_id);
+        $this->db->unir(':nombre', $nombre);
+        $this->db->unir(':apellido', $apellido);
+
+        return $this->db->ejecutar();
+
+    }
 
     public function obtenerUsuarioPorMail($mail){
 

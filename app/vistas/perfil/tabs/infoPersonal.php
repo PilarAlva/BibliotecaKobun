@@ -38,8 +38,10 @@
                             ?>
 
                             <!-- FORMULARIO NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-                            <form method="POST" action="">
+                            <form method="POST" action="<?php echo BASE_URL . "/perfil/editar"?>">
                                 <div class="form-group">
+                                    <input type="hidden" name="usuario_id" value="<?php echo $usuario["id"]; ?>">
+
                                     <label for="nombre">NOMBRE</label>
                                     <input type="text" name="nombre" value="<?php echo $usuario["nombre"]; ?>" placeholder="Nombre">
                                     <label for="apellido">APELLIDO</label>

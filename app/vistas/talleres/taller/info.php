@@ -36,7 +36,7 @@
             <?php else: ?>
                 <!-- VISTA DEL ADMIN -->
                  <!-- FORMULARIO NO FUNCIONAAAAAAALLLLLLL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  -->
-                <form method="POST" action="">
+                <form method="POST" action="<?php echo BASE_URL . 'taller/editar/' . $taller["taller_id"]?>">
                     <div id="form-contenedor">
                         <div id="form-descripcion">    
                             <textarea id="descripcion-textarea" name="descripcion" placeholder="Descripción" rows="3"><?php echo $taller["descripcion"]; ?></textarea>

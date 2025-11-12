@@ -8,7 +8,7 @@
     --exito: #446b2d;
     --verde-btn: #6e8851;
     --rojo-btn:  #943e35;
-    --tam-fuente-1: 12px;
+    --tam-fuente-1: 14px;
     --tam-fuente-titulo: 16px;
     --tam-fuente-subtitulo: 14px;
     --redondeo-btn-form: 0.8rem;
@@ -33,7 +33,7 @@
 /*contenedores*/
 .form_contenedor{
     top: 0;
-    bottom: 80px;
+    bottom: 60px;
     right: 0;
     top: 60px; 
     position:fixed;
@@ -44,7 +44,7 @@
     display: flex;
     flex-direction: row;
     min-width: 45%;
-    max-height: 100%;
+    min-height: 100%;
     position: fixed;
     
     font-size: var(--tam-fuente-1);
@@ -56,7 +56,7 @@
     height: 100%;
     display: block;
     overflow: hidden;
-    padding: 1rem;
+    padding: 3rem;
 
     font-size: var(--tam-fuente-1);
     margin: 0;

@@ -212,6 +212,30 @@ class PerfilCtrl extends Controlador{
 
     }
 
+    public function editar(){
+
+        if($_SERVER['REQUEST_METHOD'] != "POST"){
+            header('Location: ' . BASE_URL .'');
+        }
+        if(isset( $_SESSION['usuario_id'] ) && $_SESSION['usuario_id'] == $_POST["usuario_id"]){
+
+            $usuarioModel = $this->cargarModelo("usuarioBD");
+            $nombre = $_POST["nombre"];
+            $apellido = $_POST["apellido"];
+
+            $usuario = $usuarioModel->obtenerUsuarioPorId($_POST["usuario_id"]);
+            if($usuario){
+
+                if($usuarioModel->editarNombreApellido($_POST["usuario_id"], $nombre, $apellido)){
+                    header('Location: ' . BASE_URL . 'perfil');
+                }
+            }
+
+        }
+        header('Location: ' . BASE_URL);
+
+        
+    }
 
 }
 
