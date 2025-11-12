@@ -49,6 +49,7 @@ window.addEventListener("load", async () => {
     const btn_mas_info_libro = document.querySelectorAll("#bt-mas-info-material");
     const cuerpo_material = document.querySelector("#cuerpo-material");
     const cuerpo_usuarios = document.querySelector("#cuerpo-usuarios");
+    const cuerpo_talleres = document.querySelector("#cuerpo-talleres");
     
 
     var resultados = await obtenerBusqueda('libros', "", "titulo", 1);
@@ -56,6 +57,9 @@ window.addEventListener("load", async () => {
 
     resultados = await obtenerBusqueda('usuarios', "", "todos", 1);
     mostrarResultadosBusqueda(cuerpo_usuarios, resultados.data.resultados, cargarUsuario);
+
+    resultados = await obtenerBusqueda('talleres', "", "titulo", 1);
+    mostrarResultadosBusqueda(cuerpo_talleres, resultados.data.resultados, cargarTaller);
     
     /*SUS 4millones de events */
 
@@ -72,6 +76,8 @@ window.addEventListener("load", async () => {
             formulario.agregarLibro();
         }else if (target.matches("#bt-agregar-taller")) {
             formulario.agregarTaller();
+        }else if(target.matches("#bt-mas-info-taller")){
+             formulario.editarTaller(target.getAttribute("data-taller"));
         }
 
     }
@@ -99,8 +105,8 @@ window.addEventListener("load", async () => {
             const q = formData.get('q');
             const filtro = formData.get('filtro');
 
-            var resultados = await obtenerBusqueda('usuarios', q, filtro, 1);
-            mostrarResultadosBusqueda(cuerpo_usuarios, resultados.data.resultados, cargarUsuario)
+            var resultados = await obtenerBusqueda('talleres', q, filtro, 1);
+            mostrarResultadosBusqueda(cuerpo_talleres, resultados.data.resultados, cargarTaller)
         }
         
         
@@ -181,5 +187,20 @@ window.addEventListener("load", async () => {
         
         `;
     }
-    
+    function cargarTaller(taller) {
+        
+        return `
+            <div class="form_bloque">
+                <div class="form_fila">        
+                    <span>#${taller.id}</span>
+                    <div>${taller.nombre}</div>
+                    <button id="bt-mas-info-taller"
+                        class="bt-mas-info derecha" 
+                        data-taller=${taller.id}>
+                        +
+                    </button>     
+                </div>
+            </div>
+        `;
+    }   
 });

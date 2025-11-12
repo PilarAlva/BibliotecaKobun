@@ -23,7 +23,6 @@
                 </div>
             </div>
             
-
             <div class="cuerpo-gestion-usuarios">
                 <div id ="cuerpo-usuarios" class="muestra-usuarios">
                     No hay usuarios todavía

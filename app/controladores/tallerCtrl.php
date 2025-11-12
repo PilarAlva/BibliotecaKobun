@@ -74,8 +74,7 @@
                         $estado = 'en_espera';
 
                     break;
-                    $estado = 'profesor';
-                    break;
+                    
                 case USUARIO::ADMINISTRADOR:
                     $estado = 'admin';
                     break;

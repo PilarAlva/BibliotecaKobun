@@ -45,8 +45,6 @@
                     <?php include '../app/vistas/perfil/tabs/talleres.php' ?>
 
                     <?php include '../app/vistas/perfil/tabs/accesibilidad.php' ?>
-
-                    
                     
                     <!-- VISTAS ADICIONALES DE ADMINISTRADOR -->
                     <?php
@@ -83,10 +81,7 @@
 
             </section>
 
-            <div class="form_contenido">
-
-                  
-                    
+            <div class="form_contenido">    
             </div>
                 
                 

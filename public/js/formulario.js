@@ -368,6 +368,26 @@ export class Formulario {
         this.mostrarPagina();
 
     }
+    async agregarTaller(){
+
+        this.mostrarPaginaAgregarTaller();
+        this.mostrarPagina();
+    }
+    async editarTaller(id){
+        try {
+            
+            const tallerData = await this.obtenerTaller(id);
+            const profesoresDisponiblesData = await this.obtenerOtrosProfesores(id);
+            
+            this.mostrarPaginaTaller(tallerData.data.taller, tallerData.data.profesores, profesoresDisponiblesData.data.profesores);
+
+            this.mostrarPagina();
+        } catch (error) {
+            console.error("No se pudo cargar el taller:", error);
+            this.mostrarMensaje(this.contenido, "Error al cargar los datos del taller.", "form_error");
+            return null;
+        }
+    }
 
     //--------------------------------------------------------------------------
     // Paginas y la cola de páginas 
@@ -469,6 +489,12 @@ export class Formulario {
                         await this.actualizarSeccionPrestamos(usuario_id, socio_id);
                         mensaje = this.formulario.querySelector(".form_mensaje");
                         this.mostrarMensaje(mensaje, "Prestamo realizado", "form_exito");   
+                        break
+                    case 'eliminar-profesor':
+                    case 'asignar-profesor':
+                        await this.editarTaller(cambio.formData.get('taller_id'));
+                        mensaje = this.formulario.querySelector(".form_mensaje");
+                        this.mostrarMensaje(mensaje, respuesta.mensaje, "form_exito");
                         break
                     default:
                         this.mostrarMensaje(cambio.mensaje, respuesta.mensaje, "form_exito");   
@@ -661,7 +687,24 @@ export class Formulario {
         }
 
     }
+    async actualizarSeccionProfesores(taller, profesores, profesores_disponibles){
+        console.log(`Actualizando sección de profesores...`);
+        try {
+            const seccion = this.formulario.querySelector('#seccion-profesores');
+            if (!seccion) {
+                console.error("No está la sección crack");
+                return;
+            }
 
+            const nuevoHtml = this.cargarProfesores(taller, profesores, profesores_disponibles);
+            seccion.innerHTML = nuevoHtml;
+                
+            return seccion;
+        } catch (error) {
+            console.error("Hubo un error master:", error);
+            return null;
+        }
+    }
     //--------------------------------------------------------------------------
     // Datos
     //--------------------------------------------------------------------------
@@ -670,6 +713,18 @@ export class Formulario {
         const formData = new FormData();
         formData.append('accion', "usuario");
         formData.append('usuario_id', id);
+        return Peticion.peticion(formData);
+    }
+    async obtenerTaller(id) {
+        const formData = new FormData();
+        formData.append('accion', "taller");
+        formData.append('taller_id', id);
+        return Peticion.peticion(formData);
+    }
+    async obtenerOtrosProfesores(taller_id){
+        const formData = new FormData();
+        formData.append('accion', "otros-profesores");
+        formData.append('taller_id', taller_id);
         return Peticion.peticion(formData);
     }
     async obtenerPrestamos(socio_id) {
@@ -801,6 +856,157 @@ export class Formulario {
         }
         this.colaPaginas.push(contenido);
     }
+    mostrarPaginaTaller(taller, profesores, profesores_disponibles){
+        const contenido = document.createElement("div");
+        contenido.classList.add("form_contenido_dinamico");
+
+        /*const pie = document.createElement("div");
+        pie.classList.add("form_pie");*/
+
+        const paginaHTML = this.cargarPaginaTaller(taller, profesores, profesores_disponibles);
+        
+        if(typeof paginaHTML === "string"){
+            contenido.innerHTML = paginaHTML;
+        }else{
+            contenido.appendChild(paginaHTML);
+        }
+        this.colaPaginas.push(contenido);
+    }
+    mostrarPaginaAgregarTaller(taller){
+        const contenido = document.createElement("div");
+        contenido.classList.add("form_contenido_dinamico");
+
+        const paginaHTML = this.cargarPaginaAgregarTaller();
+        
+        if(typeof paginaHTML === "string"){
+            contenido.innerHTML = paginaHTML;
+        }else{
+            contenido.appendChild(paginaHTML);
+        }
+        this.colaPaginas.push(contenido);
+    }
+    
+    cargarPaginaAgregarTaller(){
+
+         let cont =`
+            <div class="form_titulo subrayado">Agregar editorial</div>
+            <div class="form_separacion"></div>
+            <form class="form_datos" id="form-agregar-taller">
+                <input name="accion" value="agregar-taller" type="hidden" />
+                <div class="form_seccion">
+                    ${this.cargarInputNormal('Nombre:', 'nombre', '', 'text', 'required')}
+                    ${this.cargarInputNormal('Descripcion:', 'descripcion', '', 'text', 'required')}
+                    ${this.cargarInputNormal('Horario:', 'horario', '', 'time', 'required')}
+                    ${this.cargarInputNormal('Lugar:', 'lugar', '', 'text', 'required')}
+                    <div class="form_division"></div>
+                    ${this.cargarInputImagen('Portada:', 'portada', '', 'required')}
+                </div>
+                <span class="form_mensaje ocultado"></span>
+                <div class="form_separacion"></div>
+                <div class="form_fila rellena">
+                <button type="submit" class="form_boton derecha">Agregar</button>
+                </div
+            </form>`;
+            return cont;
+
+    }
+
+    cargarPaginaTaller(taller, profesores, profesores_disponibles){
+        return `
+            <div class="form_titulo subrayado">${taller.nombre}</div>
+
+            <section class="form_seccion subrayado">
+                
+                <div class="form_seccion">
+                    <div class="form_informacion">
+                        
+                        <span class="form_subtitulo">Descripcion:<span>
+                        <div class="form_fila">
+                            <p> ${taller.descripcion}</p>
+                        </div>   
+
+                        <div class="form_division"></div>
+                        <div class="form_fila">
+                            <span>Horario: ${taller.horario}</span>
+                        </div>
+
+                        <div class="form_fila">
+                            <span>Lugar: ${taller.lugar}</span>
+                        </div>
+
+                        <div class="form_fila">
+                            <span>Fecha Alta: ${taller.fecha_alta}</span>
+                            
+                        </div>
+                        <span class="form_mensaje ocultado"></span>
+                        <div class="form_division"></div>
+                        <section id="seccion-profesores">
+                        ${this.cargarProfesores(taller, profesores, profesores_disponibles)}
+                        </section>
+                    </div>
+                </div>
+                
+            </section>
+        `;
+
+    }
+    
+    cargarProfesores(taller, profesores, profesores_disponibles){
+        
+        let profs = profesores.length > 0 ? 
+        profesores.map(p => this.cargarProfesor(p, taller.taller_id)).join(" ") :
+        `<span class="form_error"> No hay profesores asignados.</span>`;
+        
+        
+        return `
+           <label>Profesor/res</label>
+           <div class="form_seccion">
+                ${profs}
+           </div>
+            <form class="form_datos" id="form-asignar-profesor">
+                <input name="accion" value="asignar-profesor" type="hidden" />
+                <input name="taller_id" value=${taller.taller_id} type="hidden" />
+                <span class="form_mensaje ocultado"></span>
+                <div class="form_seccion">
+                    <span class="form_mensaje ocultado"></span>
+                    <div class="form_separacion"></div>
+                    ${this.cargarInputMultiselect('Agregar profesor: ', 'profesor', profesores_disponibles, 'required'
+                    )}
+                
+                </div>
+                <div class="form_separacion"></div>
+                <div class="form_fila rellena">
+                <button type="submit" class="form_boton derecha">Agregar</button>
+                </div
+            </form>
+
+        `;
+
+    }
+    cargarProfesor(profesor, taller_id){
+
+        return `
+            
+            <form class="form_datos form_bloque rellena" id="form-eliminar-profesor">
+                <input name="accion" value="eliminar-profesor" type="hidden" />
+                <input name="taller_id" value=${taller_id} type="hidden" />
+                <input name="usuario_id" value=${profesor.usuario_id} type="hidden" />
+
+                 <div class="form_fila rellena">
+                    <div class="form_seccion form_informacion">
+                        <span>${profesor.nombre}</span>
+                        <span>${profesor.mail}</span>
+                    </div>
+                    <button type="submit" class="form_boton eliminar derecha">x</button>
+                </div>
+
+                <div class="form_fila">
+                    <span class="form_mensaje ocultado"></span>
+                </div>
+                
+            </form>
+        `;
+    }
 
     cargarPaginaAgregarAutor(autores){
 
@@ -836,6 +1042,7 @@ export class Formulario {
         }
         this.colaPaginas.push(contenido);
     }
+
     cargarPaginaAgregarEditorial(editoriales){
 
         let cont =`
@@ -853,6 +1060,7 @@ export class Formulario {
             return cont;
 
     }
+
     mostrarPaginaAgregarGenero(generos){
         const contenido = document.createElement("div");
         contenido.classList.add("form_contenido_dinamico");
@@ -866,6 +1074,7 @@ export class Formulario {
         }
         this.colaPaginas.push(contenido);
     }
+
     cargarPaginaAgregarGenero(generos){
 
         let cont =`
@@ -883,7 +1092,6 @@ export class Formulario {
             return cont;
 
     }
-
 
     async cargarPaginaAgregarUsuario(){
          let cont =`
@@ -1349,6 +1557,8 @@ export class Formulario {
     cargarSeccionEjemplares(ejemplares, titulo){
 
         let todos_ejemplares = ejemplares.map(e => this.cargarEjemplar(e, titulo)).join('');
+        let libro_id = ejemplares[0]? ejemplares[0].libro_id : '';
+
 
         return `
         <section class="form_seccion subrayado" id="seccion-ejemplares">
@@ -1358,7 +1568,7 @@ export class Formulario {
                 <input name="libro_titulo" value=${titulo} type="hidden">
                 
                 <div class="form_seccion derecha">
-                <input name="libro_id" value=${ejemplares[0].libro_id} type="hidden">
+                <input name="libro_id" value=${libro_id} type="hidden">
                 <span class="form_mensaje ocultado derecha"></span>
                 </div>
                 

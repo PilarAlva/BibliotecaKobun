@@ -392,6 +392,100 @@
                             }   
                         }   
                         break;
+                     case 'taller':
+                                $taller = $talleresModel->obtenerTallerPorId($_POST['taller_id']);
+                                $profesores = $talleresModel->obtenerProfesores($_POST['taller_id']);
+                                if($taller){
+                                    $respuesta_data = [
+                                        'estado' => 'exito',
+                                        'mensaje'=> "Taller obtenido",
+                                        'data' => [
+                                            'taller' => $taller,
+                                            'profesores' => $profesores
+                                        ]
+                                    ];
+                                }else{
+                                    $respuesta_data = [
+                                    'estado' => 'error',
+                                    'mensaje'=> "no se pudo devolver"
+                                ];
+                                }
+                                break;
+                    case 'agregar-taller':
+
+                        $nombre = htmlspecialchars($_POST['nombre']);
+                        $descripcion = htmlspecialchars($_POST['descripcion']);
+                        $ref_portada = $archivoCtrl->guardarPortada($nombre, $_FILES['portada']);
+                        $horario = htmlspecialchars($_POST['horario']);
+                        $lugar = htmlspecialchars($_POST['lugar']);
+
+                        $resultado  = $talleresModel->agregarTaller($nombre, $descripcion, $ref_portada, $horario, $lugar, $activo = 0);
+                        if($resultado){
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje' => 'Taller agregado correctamente.'
+                            ];
+                            
+                        }else{
+                            $respuesta_data = ['estado' => 'error',
+                            'mensaje' => 'No se pudo agregar el taller.'];
+                        }
+                        break;
+                    case 'estado-taller':
+                        $estado = $_POST["estado"];
+                        $taller_id = $_POST["taller_id"];
+                        $resultado  = $talleresModel->cambiarEstadoTaller($taller_id, $estado);
+                        if($resultado){
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje' => 'Cambiado estado del taller correctamente.'];
+                        }else{
+                            $respuesta_data = ['estado' => 'error',
+                            'mensaje' => 'No se pudo cambiar el taller.'];
+                        }
+                        break;
+                    case 'asignar-profesor':
+                        $taller_id = $_POST["taller_id"];
+                        $profesores_id = $_POST["profesor_ids"];
+
+                        $profesores_id = explode(",", $profesores_id);
+                        foreach($profesores_id as $key => $value){
+                            $resultado  = $talleresModel->agregarProfesor($taller_id, $value);
+                            if(!$resultado){
+                                $respuesta_data = ['estado' => 'error',
+                                'mensaje' => 'No se pudo agregar el profesor.'];
+                            }
+                        }
+                        $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje' => 'Profesor agregado con éxito.'];
+                        
+                        break;
+                    case 'eliminar-profesor':
+                        $taller_id = $_POST["taller_id"];
+                        $usuario_id = $_POST["usuario_id"];
+                        $resultado  = $talleresModel->eliminarProfesor($taller_id, $usuario_id);
+                        if($resultado){
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje' => 'Profesor eliminado con éxito.'];
+                        }else{
+                            $respuesta_data = ['estado' => 'error',
+                            'mensaje' => 'No se pudo eliminar el profesor.'];
+                        }
+                        break;
+                    case 'otros-profesores':
+                        $taller_id = $_POST["taller_id"];
+                        $resultado  = $talleresModel->otrosProfesores($taller_id);
+                        
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje'=> "Profesores obtenidos",
+                                'data' => [
+                                    'profesores' => $resultado
+                                ]];
+                        
+                        break;
                     case 'busqueda-dinamica':
                         $tabla = htmlspecialchars($_POST['tabla']);
                         $busqueda = htmlspecialchars($_POST['q']);
@@ -413,10 +507,20 @@
                              case 'usuarios':
                                 $respuesta_data = [
                                     'estado' => 'exito',
-                                    'mensaje'=> "Uusarios devueltos",
+                                    'mensaje'=> "Usuarios devueltos",
                                     'data' => [
                                         'cantidad' => $usuarioModel->cantResultadosBusqueda($busqueda, $filtro),
                                         'resultados' => $usuarioModel->busquedaUsuarios($busqueda, $filtro, $offset, 20 )
+                                    ]
+                                ];
+                                break;  
+                            case 'talleres':
+                                $respuesta_data = [
+                                    'estado' => 'exito',
+                                    'mensaje'=> "Talleres devueltos",
+                                    'data' => [
+                                        'cantidad' => 100,
+                                        'resultados' => $talleresModel->busquedaTaller($busqueda)
                                     ]
                                 ];
                                 break;
