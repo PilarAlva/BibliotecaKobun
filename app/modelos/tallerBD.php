@@ -12,12 +12,11 @@ class TallerBD {
 
     }
 
-    public function agregarTaller($nombre, $descripcion, $ref_portada, $horario, $lugar, $activo = 1, $cupo = 0){   
+    public function agregarTaller($nombre, $descripcion, $ref_portada, $horario, $lugar, $activo = 1, $cupo = null){   
         $consulta = "INSERT INTO talleres
-                    (nombre, ref_portada, lugar,
-                     horario, descripcion, activo) 
+                    (nombre, ref_portada, lugar, horario, descripcion, activo, cupo) 
                     VALUES 
-                    (:nombre, :descripcion, :ref_portada, :horario,:lugar, :activo, :cupo";
+                    (:nombre, :ref_portada, :lugar, :horario, :descripcion, :activo, :cupo)";
 
         $this->db->consulta($consulta);
         $this->db->unir(':nombre', $nombre);
@@ -43,24 +42,48 @@ class TallerBD {
         return $this->db->ejecutar(); 
         
     }
+    public function eliminarProfesor($taller_id, $usuario_id){
 
+        $consulta = "DELETE  tp  FROM talleres_profesores tp 
+                     WHERE tp.usuario_id = :usuario_id 
+                     AND tp.taller_id = :taller_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':taller_id', $taller_id);
+        $this->db->unir(':usuario_id', $usuario_id);
+
+        return $this->db->ejecutar(); 
+        
+    }
+
+    public function busquedaTaller($titulo){
+
+        $consulta = 'SELECT * FROM talleres WHERE nombre LIKE :titulo';
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':titulo', "%$titulo%");
+
+        return $this->db->resultados();
+
+
+    }
     public function obtenerTalleres($inicio = 0, $cant = 1000){
 
         $consulta = "SELECT 
                         t.id as taller_id,
-                        t.nombre as taller_nombre,
-                        t.ref_portada as taller_portada,
+                        t.nombre as nombre,
+                        t.ref_portada as portada,
                         t.lugar as lugar,
                         t.horario as horario,
                         t.descripcion as descripcion,
                         t.activo as activo,
                         t.fecha_alta as fecha_alta,
-                        u.id as profesor_id,
-                        concat(u.nombre, ' ', u.apellido) as profesor_nombre,
-                        u.mail as profesor_mail
-                        FROM talleres t 
-                        LEFT JOIN talleres_profesores tp ON t.id = tp.taller_id
-                    LEFT JOIN usuarios u ON tp.usuario_id = u.id WHERE t.activo = 1
+                        group_concat(distinct u.id separator ', ') as profesores_id,
+                        group_concat(distinct concat(u.nombre, ' ', u.apellido ) separator ', ') as profesores_nombre,
+                        group_concat(distinct u.mail separator ', ') as profesores_mail
+                    FROM talleres t 
+                    LEFT JOIN talleres_profesores tp ON t.id = tp.taller_id
+                    LEFT JOIN usuarios u ON tp.usuario_id = u.id    
                     GROUP BY t.id
                     ORDER BY t.fecha_alta DESC
                     LIMIT :limite OFFSET 0
@@ -118,16 +141,16 @@ class TallerBD {
 
         $consulta = "SELECT 
                         t.id as taller_id,
-                        t.nombre as taller_nombre,
-                        t.ref_portada as taller_portada,
+                        t.nombre as nombre,
+                        t.ref_portada as portada,
                         t.lugar as lugar,
                         t.horario as horario,
                         t.descripcion as descripcion,
                         t.activo as activo,
                         t.fecha_alta as fecha_alta,
-                        u.id as profesor_id,
-                        concat(u.nombre, ' ' , u.apellido) as profesor_nombre,
-                        u.mail as profesor_mail
+                        group_concat(distinct u.id separator ', ') as profesores_id,
+                        group_concat(distinct concat(u.nombre, ' ', u.apellido ) separator ', ') as profesores_nombre,
+                        group_concat(distinct u.mail separator ', ') as profesores_mail
                     FROM talleres t 
                     LEFT JOIN talleres_profesores tp ON t.id = tp.taller_id
                     LEFT JOIN usuarios u ON tp.usuario_id = u.id    
@@ -144,15 +167,16 @@ class TallerBD {
     public function obtenerTalleresUsuario($usuario_id){
          $consulta = "SELECT 
                         t.id as taller_id,
-                        t.nombre as taller_nombre,
-                        t.ref_portada as taller_portada,
+                        t.nombre as nombre,
+                        t.ref_portada as portada,
                         t.lugar as lugar,
                         t.horario as horario,
                         t.descripcion as descripcion,
-                        t.activo as activo_taller,
+                        t.activo as activo,
                         t.fecha_alta as fecha_alta,
-                        concat(u.nombre, ' ' , u.apellido) as profesor_nombre,
-                        tu.activo as activo_usuario
+                        group_concat(distinct u.id separator ', ') as profesores_id,
+                        group_concat(distinct concat(u.nombre, ' ', u.apellido ) separator ', ') as profesores_nombre,
+                        group_concat(distinct u.mail separator ', ') as profesores_mail
                     FROM talleres t 
                     LEFT JOIN talleres_usuarios tu ON t.id = tu.taller_id
                     LEFT JOIN talleres_profesores tp ON t.id = tp.taller_id
@@ -205,6 +229,21 @@ class TallerBD {
         return $this->db->resultado();
 
     }
+    public function otrosProfesores($taller_id){
+
+        $consulta = 'SELECT
+                        u.id,
+                        concat(u.nombre, " ", u.apellido) as nombre
+                        FROM usuarios u
+                        WHERE u.rol_id = 2 AND 
+                        u.id NOT IN
+                        (SELECT tp.usuario_id FROM talleres_profesores tp WHERE tp.taller_id = :taller_id)';
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':taller_id', $taller_id);
+        return $this->db->resultados();
+
+    }
     public function alumnosInscriptios ($taller_id){
         
         $consulta = "SELECT u.id as usuario_id,
@@ -234,8 +273,11 @@ class TallerBD {
 
     } 
     public function obtenerProfesores($taller_id){
-        $consulta = "SELECT u.id as usuario_id,
-                    concat(u.nombre, ' ', u.apellido) as usuario_nombre
+        $consulta = "SELECT 
+                        u.id as usuario_id,
+                        u.mail as mail,
+                        concat(u.nombre, ' ', u.apellido) as nombre
+
                     FROM talleres_profesores tp
                     LEFT JOIN usuarios u ON tp.usuario_id = u.id
                     WHERE tp.taller_id = :taller_id";
@@ -274,6 +316,21 @@ class TallerBD {
 
     }   
 
+    public function cambiarEstadoTaller($taller_id, $activo){
 
-}
+        $consulta = "UPDATE talleres
+                     SET activo = :activo 
+                     WHERE id = :taller_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':taller_id', $taller_id);  
+        $this->db->unir(':activo', $activo);
+        
+
+        return $this->db->ejecutar();
+
+    }
+    public function cambiarEstadoConfirmacao($taller_id, $usuario_id){
+    }  
+ }
 ?>

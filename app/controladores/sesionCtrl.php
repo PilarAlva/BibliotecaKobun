@@ -4,34 +4,91 @@
 
     class SesionCtrl extends Controlador{
 
+        
         public function index(){
-            $msj = '';
-
-            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
             
+            $msj = 1; //ERROR POR DEFECTO
+            
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
+                
                 switch($_POST['action']){
                     case 'login':
 
                         $mail = isset($_POST['mail']) ? trim($_POST['mail'] ) : '';
-                        $clave = isset($_POST['clave']) ? trim($_POST['clave'] ) : '';
-
-                        $msj = $this->loginUsuario($mail, $clave);
-
-                        break;
+                    $clave = isset($_POST['clave']) ? trim($_POST['clave'] ) : '';
+                    
+                    $msj = $this->loginUsuario($mail, $clave);
+                    
+                    break;
                     case 'registro':
-
+                        
                         $nombre = trim($_POST['nombre']);
                         $apellido =trim($_POST['apellido']);
                         $mail =trim($_POST['mail']);
                         $clave = password_hash(trim($_POST['clave']), PASSWORD_DEFAULT);
-
+                        
                         $msj = $this->registrarUsuario($nombre, $apellido, $mail, $clave);
-
-                        break;
+                        
+                    break;
                     default:
-                        break;
+                    break;
+                    
+            };
+            
+            
+            
+            
+        }
+        
+        $mensaje = '';
+        $clase_mensaje = '';
 
-                };        
+                    
+        
+
+        $data = ["mensaje" => $mensaje,
+        "clase_mensaje" => $clase_mensaje,
+        "cssEspecifico" => 'sesion.css',
+    ];
+
+    if($msj == 0)
+        {
+            header('location: ' . BASE_URL);
+        }
+        else{
+            $this->mostrarVista('sesion', $data, 'Sesion');
+        }
+            
+
+    }
+    
+    public function cerrar(){
+
+        session_destroy();
+        header('location: ' . BASE_URL);
+        
+        
+    } 
+    
+    public function registrarUsuario($nombre, $apellido, $mail, $clave){
+
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        header("Access-Control-Allow-Headers: X-Requested-With, Content-Type");
+        
+        $usuarioModel = $this->cargarModelo("usuarioBD");
+        
+        $chequeo_mail = $usuarioModel->obtenerUsuarioPorMail($mail);
+
+
+        if (!empty($chequeo_mail)) {
+            return ["estado" => "error",
+                    "mensaje"=> "El usuario ya existe. Inicie sesión."];
+        } else {
+            
+            if ($usuarioModel->registrarUsuario($nombre, $apellido, $mail, $clave)) {
+                return ["estado" =>"exito",
+                        "mensaje" => "Registro exitoso."];
             }
 
             $mensaje = '';
@@ -54,9 +111,11 @@
             
 
         }
+        return ["estado" => "error",
+                "mensaje" => "Ha ocurrido un error."];
 
-
-        private function registrarUsuario($nombre, $apellido, $mail, $clave){
+    }
+        public function registrarUsuario($nombre, $apellido, $mail, $clave){
 
             $msj = 1;
 

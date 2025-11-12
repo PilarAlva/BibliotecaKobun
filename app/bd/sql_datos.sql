@@ -63,7 +63,7 @@ INSERT INTO Datos_Biblioteca (mail, multa, cuota_socio, limite_prestamos_nuevos,
 
 -- Roles_Usuarios
 INSERT INTO Roles_Usuarios (tipo) VALUES
-('Administrador'), ('Usuario'), ('Profesor');
+('Administrador'), ('Profesor'), ('Alumno');
 
 -- Géneros (Ampliados)
 INSERT INTO Generos (nombre) VALUES

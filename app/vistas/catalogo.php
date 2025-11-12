@@ -1,3 +1,4 @@
+
 <header class="header">
     <?php
         include '../app/vistas/componentes/header.php';
@@ -29,9 +30,17 @@
             <tbody>
                 <?php foreach ($libros as $indice => $libro) { ?>
                 <tr>
+
+                    <?php
+                        $portada = BASE_IMG . $libro['portada'];
+                        if (!file_exists($portada)) {
+                            
+                        }   
+                    ?>
+
                     <td id="numero"><?php echo $offset + $indice + 1;?>.</td>
                         <td class="imagen-libro">
-                            <img src="img/no.png" alt="...">
+                            <img src="<?php echo $portada; ?>"/>
                         </td>
                     <td>
                         <div class="info-libro-contenedor">

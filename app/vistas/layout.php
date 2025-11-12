@@ -9,6 +9,7 @@
  
     <!-- CSS Global que se carga en todas las páginas -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/prueba.css">
 
     <?php if (isset($cssEspecifico) && !empty($cssEspecifico)){
             if (!is_array($cssEspecifico)) $cssEspecifico = [$cssEspecifico];
@@ -27,6 +28,7 @@
     </body>
    
     <!-- Archivos .js -->
+    <script src="js/formulario.js" type="module"></script>
     <script src="js/main.js"></script>
     <script src="js/subir_archivo.js"></script>
     

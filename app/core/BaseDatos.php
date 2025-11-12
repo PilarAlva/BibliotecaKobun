@@ -38,6 +38,23 @@
 
         }
 
+        // public function emepzarTransaccion(){
+
+        //     return $this->dbh->beginTransaction();
+
+        // }
+        // public function aceptarTransaccion(){
+
+        //     return $this->dbh->commit();
+
+        // }
+        // public function eliminarTransaccion(){
+
+        //     return $this->dbh->rollback();
+
+        // }
+
+
         public function resultados(){
 
             $this->ejecutar();
@@ -68,25 +85,25 @@
         }
         public function unir($param, $valor){
 
-            switch(gettype($valor)){
-                case 'string':
-                    $this->stmt->bindValue($param, $valor, PDO::PARAM_STR);
-                    break;
-                case 'integer':
-                    $this->stmt->bindValue($param, $valor, PDO::PARAM_INT);
-                    break;
-                case 'float':
-                    $this->stmt->bindValue($param, $valor, PDO::PARAM_FLOAT);
-                    break;
-                case 'bool':
-                    $this->stmt->bindValue($param, $valor, PDO::PARAM_BOOL);
-                    break;  
-                default:
-                    $this->stmt->bindValue($param, $valor);
-                    break;
-            }
-
-            
+            if(is_null($valor)){
+                $this->stmt->bindValue($param, PDO::PARAM_NULL);
+            }else{
+                switch(gettype($valor)){
+                    
+                    case 'string':
+                        $this->stmt->bindValue($param, $valor, PDO::PARAM_STR);
+                        break;
+                    case 'integer':
+                        $this->stmt->bindValue($param, $valor, PDO::PARAM_INT);
+                        break;
+                    case 'bool':
+                        $this->stmt->bindValue($param, $valor, PDO::PARAM_BOOL);
+                        break;  
+                    default:
+                        $this->stmt->bindValue($param, $valor);
+                        break;
+                }
+            } 
 
         }
         public function ultimoId(){

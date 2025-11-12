@@ -1,0 +1,435 @@
+:root{
+    --form-bg-color: #fdfbfa;
+    --form-bg-seleccionado: #f3f2ef;
+    --form-bg-oscurito: #f3f0ef;
+    --form-subrayado: #776e71;
+    --form-subrayado-fuerte: #4e4a4a;
+    --error: #ac1d0d;
+    --exito: #446b2d;
+    --verde-btn: #6e8851;
+    --rojo-btn:  #943e35;
+    --tam-fuente-1: 12px;
+    --tam-fuente-titulo: 16px;
+    --tam-fuente-subtitulo: 14px;
+    --redondeo-btn-form: 0.8rem;
+    --padding-input: 5px;
+    --padding-x: 0px;
+    --padding-y: 12px;
+    --padding-bloque-x: 5px;
+    --padding-bloque-y: 8px;
+    --margin-x: 1px;
+    --margin-y: 1px;
+    --padding-form: 2rem;
+    --gap-seccion: 4px;
+}
+*{
+    font-size: var(--tam-fuente-1);
+}
+.form_desplegable{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    
+}
+/*contenedores*/
+.form_contenedor{
+        
+    background-color: var(--form-bg-color);
+    display: flex;
+    flex-direction: row;
+    min-width: 45%;
+    min-height: 100%;
+    position: sticky;
+    right: 0;
+}
+.form_contenedor.form_oculto{
+    min-width: 0;
+}
+.form_contenedor.form_oculto .form_cuerpo {
+   display: none;
+}
+.form_lengueta{
+    width: 20px;
+    background-color:var(--form-bg-color);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    font-size: 24px;
+    &:hover{
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    
+}
+
+.form_cuerpo{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    min-height: max-content;
+}
+
+.form_contenido{
+    padding: var(--padding-form);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 1rem;
+    
+}
+
+.form_contenido_dinamico{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 1rem;
+}
+.form_titulo{
+    font-size: var(--tam-fuente-titulo);
+    font-weight: bold;
+    width: fit-content;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.form_seccion{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-seccion); 
+}
+.form_informacion{
+    padding: var(--padding-y) 0;
+    font-size: var(--tam-fuente-1);
+}
+.form_fila{
+    display: flex;
+    flex-direction: row;
+    margin: var(--margin-x) var(--margin-y);
+    gap: 10px;
+    align-items: center;
+}
+.form_columna{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.inv{
+    
+    flex-direction: row-reverse;
+}
+.abs{
+    position: absolute;
+}
+.form_boton{
+
+    text-shadow: none;
+    box-shadow: none;
+
+    background: transparent;
+    color: inherit;
+    text-decoration: none;
+
+    border: 1px solid var(--form-subrayado);
+    max-height: fit-content;
+    font-size: var(--tam-fuente-1);
+    width: fit-content;
+    border-radius: var(--redondeo-btn-form);
+    padding: 2px 8px;
+    
+    &:hover{
+        outline: 1px solid var(--form-subrayado) ;
+        background-color: var(--form-bg-oscurito);
+        cursor: pointer;
+        
+    }
+
+}
+.form_cabezera{
+    position: sticky;
+    top: 20px;
+}
+.form_pie{
+    background-color: var(--form-bg-color);
+    position: sticky;
+    bottom: 20px;
+    z-index: 1000;
+}
+.form_contenido_dinamico .form_pie{
+    position: sticky;
+    
+    outline: 10px solid var(--form-bg-color);
+    margin-top: auto;
+    bottom: 40px;
+    width: 100%;
+    
+}
+.form_petit{
+    font-size: smaller;
+
+}
+.form_petit.rojo{
+    color: var(--form-subrayado-fuerte);
+    background-color: transparent;
+    font-weight: bold;
+}
+.form_petit.verde{
+    color: var(--exito);
+    font-weight: bold;
+    background-color: transparent;
+}
+.form_input{
+    min-width: 200px;
+    max-width: 100%;
+    border: 1px solid var(--form-subrayado);
+    font-size: var(--tam-fuente-1);
+    width: fit-content;
+    border-radius: 1rem;
+    flex-grow: 1;
+    padding: var(--padding-input) 8px
+}
+.form_subtitulo{
+    font-size: var(--tam-fuente-subtitulo);
+    font-weight: 500;
+}
+.form_boton.verde{
+    background-color: var(--form-bg-color);
+    color: var(--verde-btn);
+    font-weight: bold;
+    border: 1px solid var(--verde-btn);
+    &:hover{
+        background-color: color-mix(in srgb, var(--verde-btn) 20%, var(--form-bg-color) 10%) ;
+        
+    }
+}
+.form_boton.rojo{
+    background-color: var(--form-bg-color) ;
+    color: var(--rojo-btn);
+    border: 1px solid var(--rojo-btn);
+    
+    &:hover{
+        background-color: color-mix(in srgb, var(--rojo-btn) 20%, var(--form-bg-color) 10%) ;
+    }
+}
+.form_bloque{
+    display: flex;
+    flex-direction: column;
+    
+    padding: var(--padding-bloque-x) var(--padding-bloque-y);
+    opacity: 1;
+    border: 1px var(--form-subrayado) solid;
+    margin-top: 5px;
+
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+
+    &:hover{
+        outline: 1px solid var(--form-subrayado) ;
+        background-color: var(--form-bg-oscurito);
+        
+    }
+    
+}
+
+
+.pill {
+    background-color: var(--primary-color);;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    &:hover{
+        outline: 1px solid var(--form-subrayado) ;
+        cursor: pointer;
+    }
+}
+
+.pill_remover {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.1em;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.form_multiselect_opcion:hover {
+    background-color: var(--form-bg-oscurito);
+}
+
+.form_multiselect_opcion .check {
+    display: none;
+    color: var(--form-subrayado);
+}
+
+.form_multiselect_opcion.seleccionado {
+    background-color: var(--form-bg-seleccionado);
+    font-weight: bold;
+}
+
+.form_multiselect_opcion.seleccionado .check {
+    display: inline;
+}
+
+
+/*Utilitarias*/
+.se_despliega{
+    transition: height 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    
+}
+.se_oculta{
+    transition: opacity 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.form_division{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 1px;
+    margin: 10px 0px;
+    background-color: var(--form-subrayado);
+
+}
+.form_separacion{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 0px;
+    margin: 10px 0px;
+
+}
+.subrayado::after{
+    content: '';
+    width: 100%;;
+    
+    height: 1px;
+    display: block;
+    background-color: var(--form-subrayado);
+    margin-top: 0.5rem;
+}
+.rellena{
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+.alto{
+    height: 100%;
+}
+.cancelado{    
+    position: relative; 
+}
+.cancelado::after{
+    content: '';
+    display: block;
+    position: absolute;
+
+    width: 120%;
+    height: 2px;
+    
+    transform: translate(-10%, 12px) rotate(-2deg);
+    background-color: var(--error);
+    
+
+}
+.form_opcion{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+.form_bloque.cancelado{
+    opacity: 0.6;
+}
+
+.form_bloque:has(input:checked){
+    background-color: var(--form-bg-oscurito);
+    
+}
+.rojo{
+    background-color: red;
+}
+.derecha{
+    margin-right: 0;
+    margin-left: auto;
+}
+.plegado{
+    display: block;
+    
+    height: 0px;
+    width: 0px;
+    opacity: 0;
+    overflow-y: hidden;
+    margin-top: 5px;
+
+}
+.desplegado{
+
+    opacity: 1;
+    height: auto;
+    
+}
+.ajustar{
+    width: fit-content;
+}
+.form_error{
+    color: var(--error);
+    font-size: var(--tam-fuente-1);
+    &::before{
+        content: '⚠' ;
+    }
+}
+.form_exito{
+    color: var(--exito);
+    font-size: var(--tam-fuente-1);
+    &::before{
+        content: '✓' ;
+    }
+}
+.form_mensaje{
+    opacity: 1;
+    height: auto;
+    transition: opacity 0.5s ease-in; 
+    transition: height 0.5s ease-in; 
+    transition: transform 0.2s cubic-bezier(0.19, 1, 0.22, 1); 
+
+}
+.form_mensaje.aparecer{
+    opacity: 0;
+   transform: translateY(2px);
+}
+.form_mensaje.desaparecer{
+    opacity: 0;
+    height: 0;
+}
+
+.despliega::after{
+    font-size: 10px;
+    content: ' ▼ ' ;
+    margin-right: 5px;
+}
+.despliega:hover:after{
+    font-size: 10px;
+    content: ' ▲' ;
+    margin-right: 5px;
+}
+.ocultado{
+    display: none;   
+}
+.base{
+    margin-bottom: 0;
+    margin-top: auto;
+}
+span.amarillo{
+    font-weight: bold;
+    color: #ca9c39;
+}
+span.verde{
+    font-weight: bold;
+    color: var(--exito);
+}
