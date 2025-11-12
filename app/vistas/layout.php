@@ -9,7 +9,6 @@
  
     <!-- CSS Global que se carga en todas las páginas -->
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/prueba.css">
 
     <?php if (isset($cssEspecifico) && !empty($cssEspecifico)){
             if (!is_array($cssEspecifico)) $cssEspecifico = [$cssEspecifico];

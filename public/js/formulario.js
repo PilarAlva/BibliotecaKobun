@@ -1,11 +1,4 @@
-/**
- * @file Refactored form handling logic for BibliotecaKobun.
- * @author Gemini
- */
 
-/**
- * Represents a change to be sent to the server.
- */
 export class Cambio {
     constructor(target, form, formData, mensaje, plantilla, data) {
         this.target = target;
@@ -21,7 +14,7 @@ export class Cambio {
  * Handles API requests to the backend.
  */
 export class Peticion {
-    static API_URL = "http://localhost/BibliotecaKobun/public/peticion";
+    static API_URL = "http://localhost/Kobun/public/peticion";
 
     /**
      * Performs a fetch request.
@@ -317,7 +310,7 @@ export class Formulario {
             const libroData = await this.obtenerLibro(id);
             if(libroData.data.libro.activo){
 
-                var libro_id = libroData.data.libro.id;
+                var libro_id  = libroData.data.libro.id;
                 
                 const cantidadData = await this.obtenerEjemplaresDisponibles(libro_id);
                 const ejemplaresData = await this.obtenerEjemplares(libro_id);

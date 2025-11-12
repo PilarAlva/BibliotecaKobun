@@ -9,59 +9,42 @@
 <main class="main-content">
     
     <ul class="talleres_vista">
-        <button id="btn_todos_talleres" tab = "talleres_section_todos_los_talleres" class="taller_menu_btn selected">Todos los talleres</button>    
-        <button id="btn_mis_talleres" tab ="talleres_section_mis_talleres" class="taller_menu_btn ">Mis talleres</button>
+
+        <?php if (isset($_SESSION['usuario_id'])): ?>
+            
+            <button id="btn_todos_talleres" tab = "talleres_section_todos_los_talleres" class="taller_menu_btn selected">Todos los talleres</button>    
+            <button id="btn_mis_talleres" tab ="talleres_section_mis_talleres" class="taller_menu_btn ">Mis talleres</button>   
+        
+        <?php endif; ?>
+   
     </ul>
 
     <?php
+    $comprar_inscripcion = false;
     if (empty($talleres)) { ?>
+
         <div class="sin-contenido">
             <p class="msj-gris">No hay Talleres Dsiponibles.</p>
         </div>
+
     <?php }
     else { ?>
         <div>
             <!-- MUESTRA DE TODOS LOS TALLERES-->
             <div id="talleres_section_todos_los_talleres">
                 <h1 class="encabezado-talleres">Todos los Talleres</h1>
+
                 <?php if (empty($talleres)): ?>
                     <p class="msj-gris">No hay talleres disponibles en este momento.</p>
                 <?php else: ?>
 
                 <div class="listado_talleres">
                     <?php
-                    // Mapa de búsqueda para acceso rápido -> clave: 'taller_id', valor: el taller completo.
-                    $misTalleresLookup = array_column($mis_talleres, null, 'taller_id');
-                    foreach ($talleres as $taller) { ?> 
-                        <div class="taller">
-                            <a href="<?=BASE_URL?>taller/id/<?= $taller['taller_id']; ?>">
-                                <div class="taller-contenedor">  
-                                    <div class="imagen-taller-cont">
-                                        <?php
-                                            $portadaSrc = !empty($taller['taller_portada']) ? 'img/portadas/' . htmlspecialchars($taller['taller_portada']) : 'img/talleres-default.webp';
-                                        ?>
-                                        <img src="<?php echo $portadaSrc; ?>" alt="Portada del taller <?php echo htmlspecialchars($taller['taller_nombre']); ?>">
-                                    </div>
-                                    <div class="info-taller-contenedor">
-                                        <h4 class="titulo-taller"><?php echo htmlspecialchars($taller['taller_nombre']); ?></h4>
-                                        <p>Profesor: <?php echo htmlspecialchars($taller['profesor_nombre'])?></p>
-                                        
-                                        <?php
-                                        // Se verifica si el taller actual existe en el mapa de búsqueda.
-                                        if (isset($misTalleresLookup[$taller['taller_id']])) {
-                                            $mi_taller_coincidente = $misTalleresLookup[$taller['taller_id']];
-                                            if ($mi_taller_coincidente["activo_usuario"] == 1) : ?>
-                                                <small style="color: green">Anotado</small>
-                                            <?php else: ?>
-                                                <small style="color: red">Pendiente</small>
-                                            <?php endif;
-                                        } ?>
-
-                                    </div>
-                                </div>
-                            </a>
-                        </div>            
-                    <?php } ?> <!-- Fin del foreach --> 
+                    foreach ($talleres as $taller) { 
+                        
+                        include '../app/vistas/talleres/componentes/taller_carta.php';
+                            
+                        } ?> <!-- Fin del foreach --> 
                 </div>
                 <?php endif; ?>
 
@@ -77,21 +60,13 @@
                             </div>
                         <?php else: ?>
                             <div class="listado_talleres">
-                                <?php foreach ($talleresInactivos as $taller) { ?>
-                                    <div class="taller">
-                                        <a href="<?=BASE_URL?>taller/id/<?= $taller['taller_id']; ?>">
-                                            <div class="taller-contenedor">
-                                                <div class="imagen-taller-cont">
-                                                    <img src="img/talleres-default.webp" alt="Portada del taller <?php echo htmlspecialchars($taller['taller_nombre']); ?>">
-                                                </div>
-                                                <div class="info-taller-contenedor">
-                                                    <h4 class="titulo-taller"><?php echo htmlspecialchars($taller['taller_nombre']); ?></h4>
-                                                    <p>Profesor: <?php echo htmlspecialchars($taller['profesor_nombre'])?></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                <?php } ?>
+                                <?php
+
+                                    foreach ($talleresInactivos as $taller) { 
+
+                                    include '../app/vistas/talleres/componentes/taller_carta.php';
+
+                                } ?>
                             </div> <!-- Fin del listado_talleres -->
                         <?php endif; ?>
                     <?php endif;?>
@@ -111,30 +86,13 @@
                     </div>
                 <?php else: ?>
                     <div class="listado_talleres">
-                        <?php foreach ($mis_talleres as $taller) { ?> 
-                            <div class="taller">
-                                <a href="<?=BASE_URL?>taller/id/<?= $taller['taller_id']; ?>">
-                                    <div class="taller-contenedor">  
-                                        <div class="imagen-taller-cont">
-                                            <?php
-                                                $portadaSrc = !empty($taller['taller_portada']) ? 'img/portadas/' . htmlspecialchars($taller['taller_portada']) : 'img/talleres-default.webp';
-                                            ?>
-                                            <img src="<?php echo $portadaSrc; ?>" alt="Portada del taller <?php echo htmlspecialchars($taller['taller_nombre']); ?>">
-                                        </div>
-                                        <div class="info-taller-contenedor">
-                                            <h4 class="titulo-taller"><?php echo htmlspecialchars($taller['taller_nombre']); ?></h4>
-                                            <p>Profesor: <?php echo htmlspecialchars($taller['profesor_nombre'])?></p>
-                                            
-                                            <?php if ($taller["activo_usuario"] == 1):?>                                
-                                                <small style="color: green">Anotado</small>
-                                            <?php  else: ?>
-                                                <small style="color: red">Pendiente</small>
-                                            <?php endif;?>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>            
-                        <?php } ?> <!-- Fin del foreach --> 
+                        <?php 
+
+                            foreach ($mis_talleres as $taller) { 
+                            $comprar_inscripcion = true;
+                            include '../app/vistas/talleres/componentes/taller_carta.php';
+                            
+                        } ?> <!-- Fin del foreach --> 
                     </div>
                 <?php endif; ?>
             </div>

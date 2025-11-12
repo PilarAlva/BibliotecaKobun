@@ -9,15 +9,15 @@
     
     <div class= "banner" >                
         <?php
-            $portadaSrc = !empty($taller['taller_portada']) ? 'img/portadas/' . htmlspecialchars($taller['taller_portada']) : 'img/talleres-default.webp';
+           $portadaSrc = !empty($taller['portada']) ? BASE_IMG . $taller['portada'] : 'img/talleres-default.webp';
         ?>
         <div class="titulo-taller">
             <?php
-                $titulo = htmlspecialchars($taller['taller_nombre']);
+                $titulo = htmlspecialchars($taller['nombre']);
                 echo "<h2>" . $titulo . "</h2>";
             ?>
         </div>
-        <img src="<?php echo $portadaSrc; ?>" alt="Portada del taller <?php echo htmlspecialchars($taller['taller_nombre']); ?>">
+        <img src="<?php echo $portadaSrc; ?>" alt="Portada del taller <?php echo htmlspecialchars($taller['nombre']); ?>">
     </div>
 
     <nav class="taller_paginas">

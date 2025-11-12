@@ -6,9 +6,9 @@
     
 <div class="banner">
     <?php
-        $portadaSrc = !empty($taller['taller_portada']) ? 'img/portadas/' . htmlspecialchars($taller['taller_portada']) : 'img/talleres-default.webp';
+        $portadaSrc = !empty($taller['portada']) ? BASE_IMG . $taller['portada'] : 'img/talleres-default.webp';
     ?>
-    <img src="<?php echo $portadaSrc; ?>" alt="Portada del taller <?php echo htmlspecialchars($taller['taller_nombre']); ?>">                                        
+    <img src="<?php echo $portadaSrc; ?>" alt="Portada del taller <?php echo htmlspecialchars($taller['nombre']); ?>">                                        
 </div>
 
 <main id="info-por-taller" class="main-content">
@@ -18,8 +18,8 @@
         </div>
 
         <div id="titulo">
-            <h1><?php echo $taller["taller_nombre"]?></h1>
-            <h3>Profesor/a: <?php echo $taller["profesor_nombre"]?></h3>
+            <h1><?php echo $taller["nombre"]?></h1>
+            <h3>Profesor/a: <?php echo $taller["profesores_nombre"]?></h3>
         </div>
 
         <h3>Sobre el Taller</h3>
@@ -74,6 +74,12 @@
                 <input type="hidden" name="taller_id" value="<?php echo $taller["taller_id"]?>">
                 <input type="hidden" name="usuario_id" value="<?php echo $_SESSION['usuario_id'] ?>">
             
+                <?php if ($estado == 'inscripto'):?> 
+                    <button class="bt destacado" type="submit">
+                        <a href="<?php echo BASE_URL . "taller/id/" . $taller["taller_id"]?>">Ir al taller</a>
+                    </button>
+                <?php endif;?>
+
                 <?php if ($estado == 'no_inscripto'):?> 
                     <button class="bt destacado" type="submit">Anotarse</button>
                 <?php endif;?>

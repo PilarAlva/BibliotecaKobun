@@ -22,26 +22,93 @@
     --padding-form: 2rem;
     --gap-seccion: 4px;
 }
-*{
-    font-size: var(--tam-fuente-1);
-}
+
 .form_desplegable{
     display: flex;
     flex-direction: column;
     position: relative;
     
 }
+
 /*contenedores*/
 .form_contenedor{
-        
+    top: 0;
+    bottom: 80px;
+    right: 0;
+    top: 60px; 
+    position:fixed;
+    overflow-y:scroll;
+    overflow-x:hidden;
+     
     background-color: var(--form-bg-color);
     display: flex;
     flex-direction: row;
     min-width: 45%;
-    min-height: 100%;
-    position: sticky;
-    right: 0;
+    max-height: 100%;
+    position: fixed;
+    
+    font-size: var(--tam-fuente-1);
 }
+
+.main-content:has(>.form_contenedor){
+    
+    left: 0;
+    height: 100%;
+    display: block;
+    overflow: hidden;
+    padding: 1rem;
+
+    font-size: var(--tam-fuente-1);
+    margin: 0;
+    
+}
+
+.main-content:has(>.form_contenedor) .cuerpo-perfil{
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+}
+.main-content:has(>.form_contenedor) .perfil-contenedor{
+    
+    min-height: 700px;
+    max-height: 700px;
+    width: 60%;
+    overflow: hidden;
+}
+.main-content:has(>.form_contenedor) .contenido-perfil{
+
+    overflow-y: auto;
+    overflow-x: hidden;
+     
+}
+/* cuando se oculta el formulario */
+.main-content:has(>.form_contenedor.form_oculto.form_oculto){
+    
+    left: 0;
+    height: 100%;
+    display: block;
+    overflow: hidden;
+    padding: 3rem;
+    margin: 0 auto;
+    
+
+}
+.main-content:has(>.form_contenedor.form_oculto) .cuerpo-perfil{
+    overflow: scroll;
+    
+}
+.main-content:has(>.form_contenedor.form_oculto) .perfil-contenedor{
+    max-height: 600px;
+    width: 100%;
+    overflow: hidden;
+}
+.main-content:has(>.form_contenedor.form_oculto) .contenido-perfil{
+
+    overflow: auto;
+     
+}
+/* aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa */
+
 .form_contenedor.form_oculto{
     min-width: 0;
 }
@@ -69,8 +136,8 @@
 .form_cuerpo{
     display: flex;
     flex-direction: column;
-    height: 100%;
     width: 100%;
+    overflow: auto;
     min-height: max-content;
 }
 
@@ -78,7 +145,7 @@
     padding: var(--padding-form);
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: auto;
     gap: 1rem;
     
 }
@@ -156,7 +223,7 @@
 .form_pie{
     background-color: var(--form-bg-color);
     position: sticky;
-    bottom: 20px;
+    bottom: 60px;
     z-index: 1000;
 }
 .form_contenido_dinamico .form_pie{

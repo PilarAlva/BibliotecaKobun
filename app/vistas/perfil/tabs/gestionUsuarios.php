@@ -1,7 +1,6 @@
   <div id="gestion-usuarios" class="tab-content">
         <h3>Gestionar Usuarios</h3>
                         
-            <!-- BUSQUEDA NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
             <div class="cabecera-gestion">
                 <div class="buscador">
                         <form id="buscador-usuarios" action="/" method="POST">
@@ -17,7 +16,6 @@
                     </form>
                 </div>
 
-                <!-- BOTON NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                 <div>
                     <button id="bt-agregar-usuario" class="bt bt-añadir">Añadir Usuario</button>
                 </div>

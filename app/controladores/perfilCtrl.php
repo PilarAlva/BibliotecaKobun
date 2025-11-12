@@ -205,7 +205,7 @@ class PerfilCtrl extends Controlador{
             "estadoSocio" => $estadoSocio,
             "listaUsuarios" => $listaUsuarios,
 
-            "cssEspecifico" => ['perfil.css'],
+            "cssEspecifico" => ['perfil.css', 'formulario.css'],
         ];
 
         $this->mostrarVista('perfil/perfil', $data, 'Perfil');

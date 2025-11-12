@@ -4,8 +4,7 @@
     ?>
 </header>
 
-<div class="formulario-content" style="display: flex;">
-    <main class="main-content">
+    <main class="main-content  <?php if ($usuario['rol_id'] == 1) echo "admin"; ?>">
         
         <div class="perfil-contenedor">
             <div class="encabezado">
@@ -28,7 +27,7 @@
                         <?php
                         if ($usuario['rol_id'] == 1){ ?>
                             <li><a href="#" class="nav-link" data-target="gestion-usuarios">Gestionar Usuarios</a></li>
-                            <li><a href="#" class="nav-link" data-target="gestion-material">Gestionar Material Bibliográfico</a></li>
+                            <li><a href="#" class="nav-link" data-target="gestion-material">Gestionar Material</a></li>
                             <li><a href="#" class="nav-link" data-target="gestion-talleres">Gestionar Talleres</a></li>
                         <?php } ?>
                     </ul>
@@ -63,11 +62,7 @@
             </div>
         </div>
         
-        
-        
-    </main>
-    <!-- FORMULARIO DEL ADMIN -->
-    <?php
+        <?php
     if ($usuario['rol_id'] == 1) { ?>
         <div id= "formulario" class="form_contenedor">
             <div id="btn-despliege" class="form_seccion form_lengueta">
@@ -100,12 +95,10 @@
 
 
     <?php } ?>
-
+        
+    </main>
+    <!-- FORMULARIO DEL ADMIN -->
     
-
-
-</div>
-
 
 
 <footer>

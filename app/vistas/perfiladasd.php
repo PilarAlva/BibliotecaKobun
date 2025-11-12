@@ -300,7 +300,9 @@
                                         <div class="contenedor-info">
                                             <p><?php echo htmlspecialchars($usuarioItem['nombre']) . ' ' . htmlspecialchars($usuarioItem['apellido']);?></p>
                                             <!-- BOTON NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-                                            <button class="bt-mas-info"><img src="<?= BASE_URL ?>/img/icono-mas.png" alt="icono mas informacion"></button>
+                                            <button class="bt-mas-info">
+                                                <img src="<?= BASE_URL ?>/img/icono-mas.png" alt="icono mas informacion">
+                                            </button>
                                         </div>
                                     </div>
                                     <hr class="linea-divisora">

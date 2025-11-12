@@ -174,7 +174,7 @@ window.addEventListener("load", async () => {
                 <div class="imagen-usuario-cont">
                     <img src=${perfilImg} alt="Imagen de perfil del usuario">
                 </div>                                    
-                <div class="info-nombre-usuario">
+                 <div class="contenedor-info">
                     <p> ${usuario.nombre}  ${usuario.apellido}</p>
                     <button id="bt-mas-info-usuario"
                             class="bt-mas-info"
@@ -187,6 +187,7 @@ window.addEventListener("load", async () => {
         
         `;
     }
+
     function cargarTaller(taller) {
         
         return `

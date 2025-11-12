@@ -19,13 +19,13 @@
                                             <div class="taller-contenedor">  
                                                 <div class="imagen-taller-cont">
                                                     <?php
-                                                        $portadaSrc = !empty($taller['taller_portada']) ? 'img/portadas/' . htmlspecialchars($taller['taller_portada']) : 'img/talleres-default.webp';
+                                                        $portadaSrc = !empty($taller['portada']) ? BASE_IMG . $taller['portada'] : 'img/talleres-default.webp';
                                                     ?>
-                                                    <img src="<?php echo $portadaSrc; ?>" alt="Portada del taller <?php echo htmlspecialchars($taller['taller_nombre']); ?>">
+                                                    <img src="<?php echo $portadaSrc; ?>" alt="Portada del taller <?php echo htmlspecialchars($taller['nombre']); ?>">
                                                 </div>
                                                 <div class="info-taller-contenedor">
-                                                    <h4 class="titulo-taller"><?php echo htmlspecialchars($taller['taller_nombre']); ?></h4>
-                                                    <p>Profesor: <?php echo htmlspecialchars($taller['profesor_nombre'])?></p>
+                                                    <h4 class="titulo-taller"><?php echo htmlspecialchars($taller['nombre']); ?></h4>
+                                                    <p>Profesor: <?php echo htmlspecialchars($taller['profesores_nombre'])?></p>
                                                 </div>
                                             </div>
                                         </a>
