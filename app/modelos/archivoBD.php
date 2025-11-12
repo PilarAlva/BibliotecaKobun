@@ -34,7 +34,11 @@ class ArchivoBD extends Modelo{
         $this->db->unir(':titulo', $titulo);    
         $this->db->unir(':referencia', $referencia);
 
-        return $this->db->ejecutar();   
+        $ultimo_id = 1;
+        if($this->db->ejecutar()){
+            $ultimo_id = $this->db->ultimoId();
+        }
+        return $ultimo_id;   
         
 
     }

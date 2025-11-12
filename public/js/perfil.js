@@ -70,6 +70,8 @@ window.addEventListener("load", async () => {
             formulario.editarLibro(target.getAttribute("data-libro"));
         }else if (target.matches("#bt-agregar-material")) {
             formulario.agregarLibro();
+        }else if (target.matches("#bt-agregar-taller")) {
+            formulario.agregarTaller();
         }
 
     }
@@ -83,7 +85,15 @@ window.addEventListener("load", async () => {
 
             var resultados = await obtenerBusqueda('libros', q, filtro, 1);
             mostrarResultadosBusqueda(cuerpo_material, resultados.data.resultados, cargarLibro)
-        }if (form.matches("#buscador-usuarios")) {
+        }else if (form.matches("#buscador-usuarios")) {
+            event.preventDefault();
+            let formData = new FormData(form);
+            const q = formData.get('q');
+            const filtro = formData.get('filtro');
+
+            var resultados = await obtenerBusqueda('usuarios', q, filtro, 1);
+            mostrarResultadosBusqueda(cuerpo_usuarios, resultados.data.resultados, cargarUsuario)
+        }else if (form.matches("#buscador-talleres")) {
             event.preventDefault();
             let formData = new FormData(form);
             const q = formData.get('q');
@@ -92,6 +102,7 @@ window.addEventListener("load", async () => {
             var resultados = await obtenerBusqueda('usuarios', q, filtro, 1);
             mostrarResultadosBusqueda(cuerpo_usuarios, resultados.data.resultados, cargarUsuario)
         }
+        
         
     }
     /*

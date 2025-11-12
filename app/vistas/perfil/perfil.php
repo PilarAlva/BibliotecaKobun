@@ -29,6 +29,7 @@
                         if ($usuario['rol_id'] == 1){ ?>
                             <li><a href="#" class="nav-link" data-target="gestion-usuarios">Gestionar Usuarios</a></li>
                             <li><a href="#" class="nav-link" data-target="gestion-material">Gestionar Material Bibliográfico</a></li>
+                            <li><a href="#" class="nav-link" data-target="gestion-talleres">Gestionar Talleres</a></li>
                         <?php } ?>
                     </ul>
                 </nav>
@@ -54,6 +55,8 @@
                     <?php include '../app/vistas/perfil/tabs/gestionUsuarios.php' ?>
 
                     <?php include '../app/vistas/perfil/tabs/gestionMaterial.php' ?>
+
+                    <?php include '../app/vistas/perfil/tabs/gestionTalleres.php' ?>
 
                     <?php } ?>
 
@@ -114,10 +117,5 @@
 
 </footer>
 
-
 <script src="js/perfil.js" type="module"></script>
-
-
-
-
 <script src="https://kit.fontawesome.com/fe0bc071f5.js" crossorigin="anonymous"></script>

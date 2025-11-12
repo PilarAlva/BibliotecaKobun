@@ -605,7 +605,7 @@ export class Formulario {
            
 
             if (prestamosData && prestamosData.data) {
-                const nuevoHtml = this.cargar({"usuario_id": usuario_id, "socio_id": socio_id}, prestamosData.data.prestamos);
+                const nuevoHtml = this.cargarPrestamos({"usuario_id": usuario_id, "socio_id": socio_id}, prestamosData.data.prestamos);
                 seccion.innerHTML = nuevoHtml;
                 console.log("Sección de prestamos actualizada.");
             } else {

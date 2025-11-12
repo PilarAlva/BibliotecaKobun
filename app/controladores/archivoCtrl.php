@@ -102,7 +102,7 @@ class ArchivoCtrl extends Controlador{
             $resultado = $archivoDB->registrarArchivo($archivoDestino . '.' . $tipoImagen, $nombre);
 
             if($resultado){
-                return $archivoDestino . '.' . $tipoImagen;
+                return $resultado;
             }
             
             unlink($archivoDestino);
