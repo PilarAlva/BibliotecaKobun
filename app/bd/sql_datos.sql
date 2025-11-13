@@ -110,7 +110,11 @@ INSERT INTO Usuarios (rol_id, nombre, apellido, mail, clave) VALUES
 (3, 'Miguel', 'Ruiz', 'miguel.ruiz@mail.com', 'hash_socio_4_seguro_123'), -- 7 (Socio 4)
 (3, 'Elena', 'Vargas', 'elena.vargas@kobun.com', 'hash_profesor_2_seguro_123'), -- 8 (Profesor 2)
 (3, 'Jorge', 'Castro', 'jorge.castro@mail.com', 'hash_socio_5_seguro_123'), -- 9 (Socio 5)
-(3, 'Sofia', 'Mora', 'sofia.mora@mail.com', 'hash_socio_6_seguro_123'); -- 10 (Socio 6)
+(3, 'Sofia', 'Mora', 'sofia.mora@mail.com', 'hash_socio_6_seguro_123'), -- 10 (Socio 6)
+(13, 3, 'Felipe', 'Da Rosa', 'fdarosa@mail.com', '$2y$10$dIy1ND/zapltFWNiBeVOzeXdQvUtfssx7rCqYjiJVJuAfOQrLnmbm'),
+(14, 1, 'Admin', 'admin', 'admin@mail.com', '$2y$10$nx7PPAsNunrjDYaldumbjORxSwGaLIMAPcvd1zii1xaGKUlrdRY86');
+
+--
 
 -- Socios (usuario_id 3, 4, 6, 7, 9, 10)
 INSERT INTO Socios (usuario_id, telefono, dni, fecha_alta, fecha_nacimiento) VALUES

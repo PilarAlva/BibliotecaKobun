@@ -52,24 +52,30 @@ class PerfilCtrl extends Controlador{
             $ultimoPago = $pagoModel->obtenerUltimoPagoCuota($socio['id']);
 
             $fechaAlta = new DateTime($socio['fecha_alta']);
-            
-            $fechaReferencia = $ultimoPago && $ultimoPago['ultimo_pago'] ? new DateTime($ultimoPago['ultimo_pago']) : $fechaAlta;
-            $hoy = new DateTime();
-    
-            // Se considera el mes siguiente al del último pago/alta como el primer mes de deuda.
-            $fechaReferencia->modify('first day of next month');
-       
-            
-            if ($hoy >= $fechaReferencia) {
-                $diferencia = $hoy->diff($fechaReferencia);
-                // Se cuentan los meses completos transcurridos más el actual.
-                $mesesAdeudados = ($diferencia->y * 12) + $diferencia->m + 1;
+            if(!empty($ultimoPago)){
+                $fechaReferencia = $ultimoPago && $ultimoPago['ultimo_pago'] ? new DateTime($ultimoPago['ultimo_pago']) : $fechaAlta;
+                $hoy = new DateTime();
+
+                $fechaReferencia->modify('first day of next month');
+                
+                if ($hoy >= $fechaReferencia) {
+                    $diferencia = $hoy->diff($fechaReferencia);
+                    // Se cuentan los meses completos transcurridos más el actual.
+                    // Se considera el mes siguiente al del último pago/alta como el primer mes de deuda.
+                    $mesesAdeudados = ($diferencia->y * 12) + $diferencia->m + 1;
+                }
+        
+                $montoCuotaTotal = $mesesAdeudados * $cuotaMensual;
+                 // La cuota está al día si debe solo la del mes actual y no ha pasado el día 15.
+                $cuotaAlDia = ($montoCuotaTotal == $cuotaMensual && $hoy->format('d') < 16) || $montoCuotaTotal == 0;     
+            }else{
+                $cuotaAlDia = false;
             }
     
-            $montoCuotaTotal = $mesesAdeudados * $cuotaMensual;
+       
+            
     
-            // La cuota está al día si debe solo la del mes actual y no ha pasado el día 15.
-            $cuotaAlDia = ($montoCuotaTotal == $cuotaMensual && $hoy->format('d') < 16) || $montoCuotaTotal == 0;     
+           
         } 
         
        
