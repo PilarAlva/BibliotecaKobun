@@ -91,12 +91,13 @@ class PagoDB {
     public function estadoCuenta($socio_id){
         $consulta = "SELECT 
                 s.id AS socio_id,
-                s.fecha_alta,
+                date(s.fecha_alta) as fecha_alta,
+                s.usuario_id,
                 s.activo,
                 db.cuota_socio,
 
                 -- Último pago de cuota
-                MAX(p.fecha) AS ultimo_pago,
+                MAX(date(p.fecha)) AS ultimo_pago,
 
                 -- Fecha de referencia: si no hay pago, usamos la fecha de alta
                 COALESCE(MAX(p.fecha), s.fecha_alta) AS fecha_referencia,

@@ -69,12 +69,14 @@ export class Formulario {
 
     constructor(formulario) {
         this.formulario = formulario;
-        this.contenido = this.formulario.querySelector(".form_contenido");
-        this.cant_cambios = this.formulario.querySelector("#cant-cambios");
-        
-        Peticion.empezar();
-        this.colaPaginas.push(this.contenido.cloneNode(true));
-        this.eventos();
+        if(formulario){
+            this.contenido = this.formulario.querySelector(".form_contenido");
+            this.cant_cambios = this.formulario.querySelector("#cant-cambios");
+            
+            Peticion.empezar();
+            this.colaPaginas.push(this.contenido.cloneNode(true));
+            this.eventos();
+        }
     }
 
     eventos() {
@@ -275,14 +277,14 @@ export class Formulario {
             if(usuarioData.data.usuario.socio_id){
                 var socio_id = usuarioData.data.usuario.socio_id;
                 const prestamosData = await this.obtenerPrestamos(socio_id);
-                const multasData = await this.obtenerMultas(id);
-                const estadoCuentaData = await this.obtenerEstadoCuenta(id);
+                const multasData = await this.obtenerMultas(socio_id);
+                const estadoCuentaData = await this.obtenerEstadoCuenta(socio_id);
                 const disponiblesData = await this.obtenerEjemplaresDisponibles(id);
 
                 
 
                 this.mostrarPaginaUsuario(usuarioData.data.usuario, prestamosData.data.prestamos,
-                                         multasData.data.multas, estadoCuentaData.data.estadoCuenta,
+                                         multasData.data.multas, estadoCuentaData.data.estado_cuenta,
                                          disponiblesData.data.disponibles);
 
             }else{
@@ -821,7 +823,7 @@ export class Formulario {
     //--------------------------------------------------------------------------
     // HTML Template Generators
     //--------------------------------------------------------------------------
-    mostrarPaginaUsuario(usuario, prestamos = [], multas = [], estado_cuenta =[], disponibles = []) {
+    mostrarPaginaUsuario(usuario, prestamos = [], multas = [], estado_cuenta = [], disponibles = []) {
 
         const contenido = document.createElement("div");
         contenido.classList.add("form_contenido_dinamico");
@@ -1485,7 +1487,7 @@ export class Formulario {
     }
 
     cargarMultas(multas) {
-        const total_multas = multas.reduce((acc, multa) => acc + parseFloat(multa.total || 0), 0);
+        const total_multas = multas.reduce((acc, multa) => acc + parseFloat(multa.monto || 0), 0);
         const multas_todas = multas.map(multa => this.cargarMulta(multa)).join('');
 
         return `
@@ -1505,7 +1507,7 @@ export class Formulario {
             <div class="form_fila form_desplegable expande">
                 <div class="form_bloque se_oculta">
                     <div class="form_fila">
-                        <span>${multa.fecha}:</span>
+                        <span>${multa.fecha_alta}:</span>
                         <span class="form_error">${multa.monto}</span>
                     </div>
                 </div>
@@ -1514,12 +1516,81 @@ export class Formulario {
     }
 
     cargarEstadoCuenta(estado_cuenta) {
+        console.log("estado cuenta: "+ estado_cuenta);
+        /*
+            data
+:   
+{estado_cuenta: {socio_id: 1, fecha_alta: "2025-11-13 00:00:00", activo: 1, cuota_socio: "25.00",…}}
+estado_cuenta
+: 
+{socio_id: 1, fecha_alta: "2025-11-13 00:00:00", activo: 1, cuota_socio: "25.00",…}
+activo
+: 
+1
+cuota_al_dia
+: 
+1
+cuota_socio
+: 
+"25.00"
+fecha_alta
+: 
+"2025-11-13 00:00:00"
+fecha_referencia
+: 
+"2025-11-13 12:05:14"
+fecha_siguiente_cuota
+: 
+"2025-12-01"
+meses_adeudados
+: 
+0
+monto_adeudado
+: 
+"0.00"
+socio_id
+: 
+1
+ultimo_pago
+: 
+"2025-11-13 12:05:14"
+estado
+: 
+"exito"
+mensaje
+: 
+"Estado obtenido correctamente."
+        */
+
+        var ultimoPago = estado_cuenta.ultimo_pago?
+            `<div class="form_fila">Ultimo pago registrado: ${estado_cuenta.ultimo_pago}</div>`:
+            `<div class="form_fila">No hay pago registrado: ${estado_cuenta.ultimo_pago}</div>`;
+        var proximoPago =  
+            `<div class="form_fila">Proxima cuota: ${estado_cuenta.fecha_siguiente_cuota}</div>
+             <div class="form_fila">Monto: <span class="form_exito">${estado_cuenta.cuota_socio}$</span></div>`;
+
+        var cuota = estado_cuenta.cuota_al_dia == 1 ? 
+        ` <div class="form_fila">Cuota: <span class="form_exito">AL DÍA</span></div>` :
+        ` <div class="form_fila">Cuota: <span class="form_error">Adeudada</span></div>`;
+
+        var info = estado_cuenta.cuota_al_dia == 0 ? 
+        `<div class="form_fila">Meses adeudados: ${estado_cuenta.meses_adeudados}</div>`
+        `<div class="form_fila">Monto adeudado: ${estado_cuenta.monto_adeudado}</div>`: '';
+         
+        
+        
         return `
             <section class="form_seccion subrayado">
                 <div class="form_subtitulo">Estado de Cuota</div>
+                <div class="form_seccion subrayado">
+                    <div class="form_fila from_subtitulo">Fecha de alta: ${estado_cuenta.fecha_alta}</div>
+                </div>
                 <div class="form_informacion">
-                    <div class="form_fila">Cuota: <span class="form_exito">AL DÍA</span></div>
-                    <div class="form_fila">Ultimo pago registrado: ${estado_cuenta.ultimo_pago}</div>
+                    
+                    ${ultimoPago}
+                    ${proximoPago}
+                    ${cuota}
+                    ${info}
                 </div>
             </section>`;
     }
