@@ -399,7 +399,7 @@ export class Formulario {
     }
 
     mostrarPagina() {
-        const pagina = this.colaPaginas[this.colaPaginas.length - 1];
+        const pagina = this.colaPaginas.pop();
         this.formulario.classList.remove("form_oculto");
         if (pagina) {
             this.contenido.innerHTML = ''; // Clear existing content

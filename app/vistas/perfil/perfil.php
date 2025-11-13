@@ -1,3 +1,4 @@
+<?php if (isset($_POST["pita"])) var_dump($_POST["msj_acc"]);?>
 <header class="header">
     <?php
         include '../app/vistas/componentes/header.php'; 

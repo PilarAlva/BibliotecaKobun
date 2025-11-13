@@ -1,3 +1,4 @@
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const uploadPhotoInput = document.getElementById('upload-photo');
@@ -83,6 +84,11 @@
                                 </div>
 
                                 <div class="boton-derecha">
+                                    <p class="msj-rojo">
+                                        <?php if (!empty($_SESSION["msj_acc"]))
+                                            echo htmlspecialchars($_SESSION["msj_acc"]) ;
+                                            ?>
+                                    </p>
                                     <button type="submit" class="bt-guardar-cambios" class="destacado">Guardar Cambios</button>
                                 </div>
                             </form>

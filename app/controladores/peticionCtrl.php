@@ -372,19 +372,27 @@
                         ];}
                         break;
                     case 'borrar-usuario':
-                        $resultado =  $usuarioModel->borrarUsuario($_POST['usuario_id']);
-                        if($resultado){
+                        try{
+                            $resultado =  $usuarioModel->borrarUsuario($_POST['usuario_id']);
+                            if($resultado){
+                                $respuesta_data = [
+                                    'estado' => 'exito',
+                                    'mensaje' => 'Quitado rol de profesor',
+                                ];
+    
+                            }else{
                             $respuesta_data = [
-                                'estado' => 'exito',
-                                'mensaje' => 'Quitado rol de profesor',
+                                'estado' => 'error',
+                                'mensaje' => 'Está implementado, pero da miedito'
+                            ];}
+                            break;
+                            
+                        }catch(Exception $e){
+                             $respuesta_data = [
+                                'estado' => 'error',
+                                'mensaje' => 'El usuario seguro tiene alguna clave.'
                             ];
-
-                        }else{
-                        $respuesta_data = [
-                            'estado' => 'error',
-                            'mensaje' => 'Está implementado, pero da miedito'
-                        ];}
-                        break;
+                        }
                     case 'devolver-prestamo':
                         
                         $respuesta_data = [

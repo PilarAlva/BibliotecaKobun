@@ -150,7 +150,7 @@ class PerfilCtrl extends Controlador{
 
         $usuario = $usuarioModel->obtenerUsuarioPorId($usuario_id);
 
-        $mensaje = "";
+        $mensaje = "No paso nada?";
 
         if(!$usuario){
             header('Location: ' . BASE_URL . 'perfil');
@@ -185,7 +185,8 @@ class PerfilCtrl extends Controlador{
                 $mensaje = "La constraseña actual es incorrecta.";
             }
         }
-        $_POST['mensaje_accesibilidad'] = $mensaje;
+        
+        $_SESSION["msj_acc"] = $mensaje;
         header('Location: ' . BASE_URL . 'perfil');
         
     }
