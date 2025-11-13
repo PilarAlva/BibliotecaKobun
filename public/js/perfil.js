@@ -271,19 +271,22 @@ window.addEventListener("load", async () => {
         
         return `
             <div class="form_bloque">
-                <div class="form_fila rellena">        
+                <div class="form_fila rellena ">        
                     <div class="numero_id">#${pago.pago_id}</div> 
-
+                    <div class="form_separacion_hor"></div>
                     <div class="form_seccion">
-                        <h3 class="titulo-libro form_exito">${pago.monto}</h3>
+                        <h3 class="titulo-libro form_petit verde">$${pago.monto}</h3>
                         <p class="autor-libro">${pago.usuario_nombre}</p>
-                    </div>
-
-                    <div class="form_seccion derecha">
-                        <h3 class="titulo-libro">${pago.razon}</h3>
-                        <p class="autor-libro">${pago.medio}</p>
+                        </div>
+                        
+                    <div class="form_fila rellena ">
+                        <div class="form_fila">
+                            <div class="form_petit">${pago.razon}</div>
+                        </div>
+                        <p class="autor-libro ">${pago.medio}</p>
                     </div>
                     
+
                     <button id="bt-mas-info-material"
                         class="bt-mas-info derecha" 
                         data-libro=${pago.pago_id}>

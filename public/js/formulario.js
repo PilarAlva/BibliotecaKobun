@@ -1220,8 +1220,11 @@ export class Formulario {
                     <span class="form_mensaje ocultado"></span>
                     ${this.cargarSociosDisponibles(socios)}
 
-                    ${this.cargarInputNormal('Monto:', 'monto', '', 'number', 'required')}
-                    ${this.cargarInputNormal('Razon:', 'razon', '', 'text', )}
+                    ${this.cargarInputNormal('Monto:', 'monto', '', 'number', 'min="0.00" placeholder="$$$" max="10000.00" step="1" required')}
+                    ${this.cargarInputDesplegable('Razon:', 'razon',
+                                                  this.cargarOpcion({id: "multa", nombre: "Multa"}) +
+                                                  this.cargarOpcion({id: "cuota", nombre: "Cuota"}) +
+                                                  this.cargarOpcion({id: "otro", nombre: "Otro"})  )}
                     ${this.cargarInputDesplegable('Medio:', 'medio',
                                                   this.cargarOpcion({id: "transferencia", nombre: "Transferencia"}) +
                                                   this.cargarOpcion({id: "efectivo", nombre: "Efectivo"}) , 'required')},
