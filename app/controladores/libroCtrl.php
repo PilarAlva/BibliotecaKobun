@@ -103,6 +103,7 @@ class libroCtrl extends Controlador{
         $data = [
             "es_socio" => $this->esSocio($this->usuarioRegistrado()),
             "libro" => $libro,
+            "cantidad" => $libroModel->cantidadDisponible($libro_id),
             "ejemplares" => $ejemplares,
             "cssEspecifico" => ['catalogo.css','libro.css'] // Usamos el mismo CSS que el catálogo
         ];

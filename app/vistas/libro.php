@@ -26,22 +26,29 @@
                 <p><strong>Género:</strong>
                     <?php echo $libro["generos"]?>
                 </p>
-                
+                <?php if ($cantidad > 0){?>
                 <p><strong>Disponibilidad:</strong> <span class="disponible">
                     
                     Items Disponibles
 
                 </span></p>
+                <?php }?>
                 <?php 
                 //TODO: Arreglar esto
-                if (isset($_SESSION['usuario_id'])) { ?>
-                    <?php if($es_socio){?>
-                        <form method="POST" action="<?php BASE_URL?>libro/prestamo">
-                            <input type="hidden" name="libro_id" value="<?php echo $libro["id"]?>">
-                            <input type="hidden" name="usuario_id" value="<?php echo $_SESSION['usuario_id'] ?>">
-                            <button type="submit" class="btn-prestamo">Pedir Préstamo</button>
-                        </form>
-                    <?php }else{?>
+                if (isset($_SESSION['usuario_id']) ) { ?>
+                    <?php if($es_socio){
+                            if($cantidad > 0){
+                            ?>
+                            <form method="POST" action="<?php BASE_URL?>libro/prestamo">
+                                <input type="hidden" name="libro_id" value="<?php echo $libro["id"]?>">
+                                <input type="hidden" name="usuario_id" value="<?php echo $_SESSION['usuario_id'] ?>">
+                                <button type="submit" class="btn-prestamo">Pedir Préstamo</button>
+                            </form>
+                        <?php }
+                            else{?> 
+                                <p class="msj-gris">ⓘ No hay ejemplares disponibles</p>
+                        <?php }
+                }else{?>
                         <p class="msj-gris">ⓘ Debe ser socio para solcitar prestamos</p>
                     <?php }?>
 
