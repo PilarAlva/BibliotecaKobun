@@ -392,11 +392,11 @@ class LibroBD {
         
     }
 
-    public function agregarLibro($isbn, $titulo, $sinopsis, $ref_portada, $descripcion, $autores, $generos, $editoriales){
+    public function agregarLibro($isbn, $titulo, $sinopsis, $ref_portada, $descripcion, $autores, $generos, $editoriales, $activo = 1){
         
 
        $consulta = "INSERT INTO libros (isbn, titulo, sinopsis, ref_portada, descripcion, activo) 
-                                VALUES (:isbn, :titulo, :sinopsis, :ref_portada, :descripcion, 1)";
+                                VALUES (:isbn, :titulo, :sinopsis, :ref_portada, :descripcion, :activo)";
        
         $this->db->consulta($consulta);
         $this->db->unir(':isbn', $isbn);
@@ -404,6 +404,7 @@ class LibroBD {
         $this->db->unir(':sinopsis', $sinopsis);
         $this->db->unir(':ref_portada', $ref_portada);
         $this->db->unir(':descripcion', $descripcion);
+        $this->db->unir(':activo', $activo);
         
         $libro_id = 0;
         if($this->db->ejecutar()){

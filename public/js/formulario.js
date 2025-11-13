@@ -413,6 +413,8 @@ export class Formulario {
         Peticion.cerrar().then(() => Peticion.empezar()); 
     }
 
+    //CAMBIOS / OBTENCION DE FORMULARIOS
+
     async cargarCambio() {
         if (this.colaCambios.length === 0) {
             console.log("No hay cambios para cargar.");
@@ -434,6 +436,14 @@ export class Formulario {
                 const socio_id = cambio.formData.get('socio_id');
 
                 switch (accion) {
+                    case 'agregar-libro':
+                        
+                            await this.editarLibro(respuesta.data.libro_id);
+                        
+                            var mensaje = nueva_seccion.querySelector(".form_mensaje");
+                            this.mostrarMensaje(mensaje, "Libro agregado", "form_exito");
+                        
+                        break;
                     case 'devolver-prestamo':
                         if (usuario_id) {
                             const nueva_seccion = await this.actualizarSeccionPrestamos(usuario_id, socio_id);
@@ -460,7 +470,7 @@ export class Formulario {
                             
                             await this.editarUsuario(usuario_id);
                             mensaje = this.formulario.querySelector(".form_mensaje");
-                            this.mostrarMensaje(mensaje, "Cambio de esto", "form_exito");   
+                            this.mostrarMensaje(mensaje, "Cambio de estado realizado", "form_exito");   
 
                         }
                     

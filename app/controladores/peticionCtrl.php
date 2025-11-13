@@ -286,7 +286,7 @@
                         
                         $ref_portada = $archivoCtrl->guardarPortada($titulo, $_FILES['portada']);
 
-                        $libro_id = $libroModel->agregarLibro($isbn, $titulo, $sinopsis, $ref_portada, $descripcion, $autores, $generos, $editoriales);
+                        $libro_id = $libroModel->agregarLibro($isbn, $titulo, $sinopsis, $ref_portada, $descripcion, $autores, $generos, $editoriales, 0);
 
                         if($libro_id){
                             $respuesta_data = [
