@@ -15,7 +15,7 @@ class LibroBD {
         $consulta = "UPDATE libros 
                         SET activo = :activado
                         WHERE id = :libro_id";
-                        
+
         $this->db->consulta($consulta);
         $this->db->unir(":libro_id", $libro_id);
         $this->db->unir(":activado", $activado);
@@ -23,7 +23,7 @@ class LibroBD {
         return $this->db->ejecutar();
     
     }
-    public function busquedaCatalogo($busqueda, $filtro, $inicio = 0, $cant = 1000){
+    public function busquedaCatalogo($busqueda, $filtro, $inicio = 0, $cant = 1000, $todos = false){
 
         $consulta = "SELECT  
                         l.id as id,
@@ -54,8 +54,10 @@ class LibroBD {
                         LEFT JOIN libros_autores la ON l.id = la.libro_id
                         LEFT JOIN autores a ON la.autor_id = a.id
                         LEFT JOIN libros_editoriales le ON l.id = le.libro_id
-                        LEFT JOIN editoriales e ON le.editorial_id = e.id 
-                        WHERE l.activo = 1 ";
+                        LEFT JOIN editoriales e ON le.editorial_id = e.id";
+                        
+                        $consulta .= !$todos ? " WHERE l.activo = 1 " : " ";
+                        
 
 
         if ($busqueda != '') {

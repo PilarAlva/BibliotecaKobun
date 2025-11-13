@@ -14,7 +14,7 @@
                 switch($_POST['action']){
                     case 'login':
 
-                        $mail = isset($_POST['mail']) ? trim($_POST['mail'] ) : '';
+                    $mail = isset($_POST['mail']) ? trim($_POST['mail'] ) : '';
                     $clave = isset($_POST['clave']) ? trim($_POST['clave'] ) : '';
                     
                     $msj = $this->loginUsuario($mail, $clave);
@@ -22,12 +22,13 @@
                     break;
                     case 'registro':
                         
-                        $nombre = trim($_POST['nombre']);
-                        $apellido =trim($_POST['apellido']);
-                        $mail =trim($_POST['mail']);
-                        $clave = password_hash(trim($_POST['clave']), PASSWORD_DEFAULT);
-                        
-                        $msj = $this->registrarUsuario($nombre, $apellido, $mail, $clave);
+                    $nombre = trim($_POST['nombre']);
+                    $apellido =trim($_POST['apellido']);
+                    $mail =trim($_POST['mail']);
+                    $clave = isset($_POST['clave']) ? trim($_POST['clave'] ) : '';
+                  
+                    
+                    $msj = $this->registrarUsuario($nombre, $apellido, $mail, $clave);
                         
                     break;
                     default:
@@ -79,7 +80,6 @@
         $usuarioModel = $this->cargarModelo("usuarioBD");
         
         $chequeo_mail = $usuarioModel->obtenerUsuarioPorMail($mail);
-
         $clave = password_hash($clave, PASSWORD_DEFAULT);
 
         if (!empty($chequeo_mail)) {

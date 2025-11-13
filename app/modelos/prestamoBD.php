@@ -13,16 +13,16 @@ class prestamoBD {
 
     }
 
-    public function registrarPrestamo($socio_id, $ejemplar_id, $fecha_prestamo, $fecha_vencimiento) {
+    public function registrarPrestamo($socio_id, $ejemplar_id, $fecha_vencimiento) {
         
-        $consulta = "INSERT INTO prestamos (socio_id, ejemplar_id, fecha_prestamo, fecha_vencimiento) 
-                    VALUES (:socio_id, :ejemplar_id, :fecha_prestamo, :fecha_vencimiento )";
+        $consulta = "INSERT INTO prestamos (socio_id, ejemplar_id, fecha_vencimiento) 
+                    VALUES (:socio_id, :ejemplar_id, :fecha_vencimiento )";
 
        $this->db->consulta($consulta);
 
         $this->db->unir(':socio_id', $socio_id);
         $this->db->unir(':ejemplar_id', $ejemplar_id);
-        $this->db->unir(':fecha_prestamo', $fecha_prestamo);
+        // $this->db->unir(':fecha_prestamo', $fecha_prestamo);
         $this->db->unir(':fecha_vencimiento', $fecha_vencimiento);
 
         return $this->db->ejecutar();

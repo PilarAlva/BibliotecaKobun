@@ -209,14 +209,14 @@ CREATE TABLE IF NOT EXISTS Correos (
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     telefono VARCHAR(30),
-    consulta TEXT NOT NULL
+    consulta TEXT NOT NULL,
 	fecha_envio DATE DEFAULT CURRENT_DATE
 
 );
 
 CREATE TABLE IF NOT EXISTS Multas(
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	socio_id NOT NULL,
+	socio_id INT NOT NULL,
 	monto DECIMAL(10, 2) NOT NULL,
 	fecha_alta DATE DEFAULT CURRENT_DATE,
 	fecha_pago DATE,
@@ -229,7 +229,7 @@ CREATE TABLE IF NOT EXISTS Multas(
 DELIMITER //
 
 CREATE TRIGGER asignar_codigo_topografico
-AFTER INSERT ON ejemplares
+BEFORE INSERT ON ejemplares
 FOR EACH ROW
 BEGIN
     DECLARE v_editorial VARCHAR(100);

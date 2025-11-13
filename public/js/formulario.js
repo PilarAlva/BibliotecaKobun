@@ -490,9 +490,9 @@ export class Formulario {
 
                         break;
                     case 'prestar-libro':
-                        await this.actualizarEjemplaresDisponibles(usuario_id, respuesta.data.ejemplares);
+                        /*await this.actualizarEjemplaresDisponibles(usuario_id, respuesta.data.ejemplares);
                         await this.actualizarSeccionPrestamos(usuario_id, socio_id);
-                        mensaje = this.formulario.querySelector(".form_mensaje");
+                        mensaje = this.formulario.querySelector(".form_mensaje");*/
                         this.mostrarMensaje(mensaje, "Prestamo realizado", "form_exito");   
                         break
                     case 'eliminar-profesor':
@@ -1340,10 +1340,10 @@ export class Formulario {
                                 <input name="libro_id" value=${libro.id} type="hidden"></input>
                                 <input name="activado" value=${activado} type="hidden"></input>
                                 <div class="form_fila derecha">
-                                    <span >Libro ${checked}: </span>
-                                    
-                                    <button name="activo" type="submit">${activar}</button>
-                                    <span class="form_input_mensaje ocultado" ></span>
+                                <span >Libro ${checked}: </span>
+                                
+                                <button name="activo" type="submit">${activar}</button>
+                                <span class="form_input_mensaje ocultado" ></span>
                                 </div>
                                 <span class="form_mensaje ocultado" ></span>
                             </form>

@@ -166,7 +166,7 @@
                         $socio = $socioModel->obtenerSocioPorIdUsuario($_POST['usuario_id']);
                         $resultado = false;
                         if($socio){
-                            $resultado = $prestamosModel->registrarPrestamo($socio["id"], $_POST['ejemplar_id'], date('Y-m-DD'), $_POST['fecha_limite']);
+                            $resultado = $prestamosModel->registrarPrestamo($socio["id"], $_POST['ejemplar_id'], $_POST['fecha_limite']);
                         }
                         if($resultado){
                             $respuesta_data = [
@@ -529,7 +529,7 @@
                                     'mensaje'=> "Libros devueltos",
                                     'data' => [
                                         'cantidad' => $libroModel->cantResultadosCatalogo($busqueda, $filtro),
-                                        'resultados' => $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, 20 )
+                                        'resultados' => $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, 20, true )
                                     ]
                                 ];
                                 break;
