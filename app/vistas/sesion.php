@@ -18,10 +18,11 @@
             <div class="boton-submit">
                 <button type="submit" class="destacado">Entrar</button>
                 <?php
-                    if (!empty($mensaje)) {
-                    echo '
-                        <p class= "' . $clase_mensaje . '">' . htmlspecialchars($mensaje) . '</p>';
-                }
+                    if (!empty($msj)) {
+                        $mensaje = $msj["estado"] == "exito" ?  '<p class = "msj-verde">' . htmlspecialchars($msj["mensaje"]) . '</p>':
+                        '<p class = "msj-rojo">' . htmlspecialchars($msj["mensaje"]) . '</p>';
+                        echo $mensaje;
+                    }
                 ?>
             </div>
             <div>
@@ -42,9 +43,10 @@
             <div class="boton-submit">
                 <button type="submit" class="destacado">Registrarse</button>
                 <?php
-                    if (!empty($mensaje)) {
-                        echo '
-                            <p class= "' . $clase_mensaje . '">' . htmlspecialchars($mensaje) . '</p>';
+                    if (!empty($msj)) {
+                        $mensaje = $msj["estado"] == "exito" ?  '<p class = "msj-verde">' . htmlspecialchars($msj["mensaje"]) . '</p>':
+                        '<p class = "msj-rojo">' . htmlspecialchars($msj["mensaje"]) . '</p>';
+                        echo $mensaje;
                     }
                 ?>
             </div>
@@ -58,10 +60,9 @@
             function toggleForms() {
                 const loginForm = document.getElementById("inicio_sesion");
                 const registerForm = document.getElementById("registro");
-
-                const mensajes = document.querySelectorAll('.mensaje-rojo, .mensaje-verde');
+                const mensajes = document.querySelectorAll('.msj-rojo, .msj-verde');
                 mensajes.forEach(function(mensaje) {
-                    mensaje.remove();
+                    mensaje.innerHTML = '';
                 });
 
                 // Cambia el título de la página según el formulario mostrado
