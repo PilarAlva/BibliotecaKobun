@@ -130,12 +130,17 @@ class ArchivoCtrl extends Controlador{
                 header('Cache-Control: must-revalidate');
                 header('Pragma: public');
                 header('Content-Length: ' . filesize($archivo['referencia']));
-                readfile($archivo['referencia']);
-                exit;
+
+
+                
+                    readfile($archivo['referencia']);
+                
             }
             
 
 
+        }else{
+            readfile('../almacenamiento/no.png');
         }
 
 

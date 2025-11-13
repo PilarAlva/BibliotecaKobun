@@ -9,7 +9,7 @@
         <section class="detalle-libro">
 
             <div class="portada">
-                <img src="img/no.png" alt="Portada del libro">
+                <img src=<?php echo BASE_IMG . $libro["portada"]?> alt="Portada del libro">
             </div>
 
             <div class="info-libro">
