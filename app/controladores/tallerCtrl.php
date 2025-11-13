@@ -423,7 +423,9 @@
             }
             if(isset( $_SESSION['rol_id'] ) && $_SESSION['rol_id'] == 1){
                 $tallerModel = $this->cargarModelo("tallerBD");
+                
                 $horario = $_POST["horario"];
+                $nombre = $_POST["nombre"];
                 $lugar = $_POST["lugar"];
                 $descripcion = $_POST["descripcion"];
                 $activo = $_POST["activo"];
@@ -431,7 +433,7 @@
                 $taller = $tallerModel->obtenerTallerPorId($taller_id);
                 if($taller){
 
-                    if($tallerModel->editarTaller($taller_id, $descripcion, $horario, $lugar, $activo)){
+                    if($tallerModel->editarTaller($taller_id, $nombre, $descripcion, $horario, $lugar, $activo)){
                         header('Location: ' . BASE_URL . 'taller/id/' . $taller_id);
 
                     }
