@@ -10,6 +10,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative; 
     align-items: center;
     
     padding: 3rem;
@@ -26,11 +27,13 @@
     background: white;
     display: flex;
     flex-direction: column;
+    position: relative; /* Asegura que este contenedor tenga su propio contexto de apilamiento. */
 
     width: 90%;
     max-width: 1000px;
     border-radius: 20px;
-    flex: 1; /*El contenedor crece para llenar el main-content */
+    flex: 1; 
+    min-height: 0;
 }
 /* Botón para mostrar/ocultar menú de perfil en móviles */
 #perfil-nav-toggle {
@@ -68,6 +71,7 @@
     display: flex;
     width: 100%;
     flex: 1;
+    min-height: 0;
 }
 @media (max-width: 768px) {
     .cuerpo-perfil {
@@ -135,11 +139,21 @@
 
 
 
-/* ------------- Contenido que se Muestra ------------- */
-.contenido-perfil {
-    padding: var(--padding-cont);
+/* ------------- Contenido que se Muestra (Wrapper y Contenido Real) ------------- */
+.contenido-perfil-wrapper {
     flex: 1;
-    display: flex;
+    position: relative; /* Padre para el posicionamiento absoluto */
+    min-height: 0; /* Necesario para que flexbox no se expanda */
+}
+
+.contenido-perfil {
+    position: absolute; /* Se posiciona absolutamente dentro del wrapper */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: var(--padding-cont);
+    overflow-y: auto; /* AHORA SÍ FUNCIONARÁ */
 }
 
 .tab-content {
@@ -147,7 +161,9 @@
 }
 
 .tab-content.active {
-    display: block; /* Muestra solo el contenido activo */
+    display: flex; /* CAMBIADO: Ahora es un contenedor flex */
+    flex-direction: column; /* Sus hijos se apilan verticalmente */
+    flex: 1; /* Ocupa todo el espacio disponible */
     width: 100%;
 }
 
@@ -564,6 +580,11 @@
 .cuerpo-gestion-usuarios {
     padding: var(--padding-cont);
 }
+.muestra-usuarios, .muestra-libros, .muestra-talleres {
+    flex: 1; /* CRÍTICO: Hace que este contenedor crezca para llenar el espacio de la pestaña. */
+    overflow-y: auto; /* AÑADIDO: El scroll se gestionará aquí */
+    overflow-y: auto; /* El scroll se gestionará aquí */
+}
 
 .muestra-usuarios {
     display: flex;
@@ -610,4 +631,3 @@
 #gestion-material .info-libro-contenedor {
     justify-content: center;
 }
-
