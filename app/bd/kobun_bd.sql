@@ -189,6 +189,7 @@ CREATE TABLE IF NOT EXISTS Pagos(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	socio_id INT NOT NULL,
 	monto DECIMAL(10, 2) NOT NULL,
+	razon VARCHAR(100),
 	medio ENUM('efectivo', 'transferencia'),
 	fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
@@ -203,7 +204,7 @@ CREATE TABLE IF NOT EXISTS Datos_Biblioteca(
 	limite_prestamos INT
 );
 
-CREATE TABLE Correos (
+CREATE TABLE IF NOT EXISTS Correos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
@@ -212,6 +213,18 @@ CREATE TABLE Correos (
 	fecha_envio DATE DEFAULT CURRENT_DATE
 
 );
+
+CREATE TABLE IF NOT EXISTS Multas{
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	socio_id NOT NULL,
+	monto DECIMAL(10, 2) NOT NULL,
+	fecha_alta DATE DEFAULT CURRENT_DATE,
+	fecha_pago DATE,
+
+	FOREIGN KEY (socio_id) REFERENCES Socios(id)
+	ON UPDATE CASCADE ON DELETE CASCADE
+
+}
 
 DELIMITER //
 
@@ -234,6 +247,44 @@ BEGIN
     SET v_codigo = CONCAT('LIB', v_prefijo, NEW.libro_id, '-', NEW.id);
 
  	SET NEW.codigo_topografico = CONCAT('LIB', v_prefijo, NEW.libro_id, '-BKN');
+END;
+//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER generar_multa_por_retraso
+AFTER UPDATE ON prestamos
+FOR EACH ROW
+BEGIN
+    DECLARE dias_retraso INT;
+    DECLARE monto_por_dia DECIMAL(10,2);
+    DECLARE total_multa DECIMAL(10,2);
+
+    -- Obtener el valor del monto diario desde la configuración
+    SELECT multa INTO monto_por_dia
+    FROM datos_biblioteca
+    LIMIT 1;
+
+    -- Solo si el préstamo fue devuelto y antes no lo estaba
+    IF NEW.fecha_devolucion IS NOT NULL AND OLD.fecha_devolucion IS NULL THEN
+
+        -- Verificar si hubo retraso
+        IF NEW.fecha_devolucion > NEW.fecha_vencimiento THEN
+            SET dias_retraso = DATEDIFF(NEW.fecha_devolucion, NEW.fecha_vencimiento);
+            SET total_multa = dias_retraso * monto_por_dia;
+
+            -- Insertar la multa
+            INSERT INTO multas (socio_id, monto, fecha_multa, descripcion)
+            VALUES (
+                NEW.socio_id,
+                total_multa,
+                NOW()
+            );
+        END IF;
+
+    END IF;
 END;
 //
 
