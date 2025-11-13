@@ -140,7 +140,7 @@
                     
                         break;
                     case 'buscar-ejemplares':
-                        $ejemplares = $libroModel->ejemplaresDisponiblesPorTitulo($_POST['q']); 
+                        $ejemplares = $libroModel->ejemplaresDisponiblesPorTitulo($_POST['q'], 1); 
 
                         $respuesta_data = [
                             'estado' => 'exito',

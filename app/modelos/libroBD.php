@@ -239,13 +239,17 @@ class LibroBD {
     public function ejemplaresDisponiblesPorTitulo($titulo){
         
         $consulta = "SELECT 
-                        e.id as ejemplar_id,
-                        l.titulo
-                    FROM ejemplares e
-                    LEFT JOIN prestamos p ON p.ejemplar_id = e.id AND p.fecha_devolucion != NULL 
-                    LEFT JOIN libros l ON e.libro_id = l.id
-                    WHERE l.titulo LIKE :busqueda
-                    LIMIT 1";
+                    e.id AS ejemplar_id,
+                    l.titulo
+                        FROM ejemplares e
+                        LEFT JOIN prestamos p 
+                        ON p.ejemplar_id = e.id 
+                        AND p.fecha_devolucion IS NULL   -- préstamo ACTIVO
+                        LEFT JOIN libros l 
+                        ON e.libro_id = l.id
+                        WHERE 
+                    l.titulo LIKE :busqueda
+                    AND p.id IS NULL";
                     
         $this->db->consulta($consulta);
         $this->db->unir(':busqueda', "%$titulo%");
