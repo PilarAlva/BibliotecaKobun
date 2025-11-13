@@ -304,6 +304,13 @@ export class Formulario {
  
     }
 
+    agregarPago() {
+
+        this.mostrarPaginaAgregarPago();
+        this.mostrarPagina();
+ 
+    }
+
     async editarLibro(id){
         try {
             
@@ -476,6 +483,12 @@ export class Formulario {
                     case 'buscar-ejemplares':
                         
                         await this.actualizarEjemplaresDisponibles(usuario_id, respuesta.data.ejemplares);
+                        //this.mostrarMensaje(cambio.mensaje, "Ejemplar obtenido", "form_exito");  
+
+                        break;
+                    case 'buscar-socio':
+                        
+                        await this.actualizarSociosDisponibles(respuesta.data.socios);
                         //this.mostrarMensaje(cambio.mensaje, "Ejemplar obtenido", "form_exito");  
 
                         break;
@@ -687,6 +700,24 @@ export class Formulario {
         }
 
     }
+    async actualizarSociosDisponibles(socios){
+        console.log(`Actualizando sección de socios...`);
+        try {
+            const seccion = this.formulario.querySelector('#seccion-socios');
+            if (!seccion) {
+                console.error("No está la sección crack");
+                return;
+            }
+
+            const nuevoHtml = this.cargarSociosDisponibles(socios);
+            seccion.innerHTML = nuevoHtml;
+                
+            return seccion;
+        } catch (error) {
+            console.error("Hubo un error master:", error);
+            return null;
+        }
+    }
     async actualizarSeccionProfesores(taller, profesores, profesores_disponibles){
         console.log(`Actualizando sección de profesores...`);
         try {
@@ -803,6 +834,21 @@ export class Formulario {
         contenido.classList.add("form_contenido_dinamico");
 
         const paginaHTML = await this.cargarPaginaAgregarUsuario();
+        
+        if(typeof paginaHTML === "string"){
+            contenido.innerHTML = paginaHTML;
+        }else{
+            contenido.appendChild(paginaHTML);
+        }
+        this.colaPaginas.push(contenido);
+
+    }
+    async mostrarPaginaAgregarPago(){
+
+        const contenido = document.createElement("div");
+        contenido.classList.add("form_contenido_dinamico");
+
+        const paginaHTML = await this.cargarPaginaAgregarPago();
         
         if(typeof paginaHTML === "string"){
             contenido.innerHTML = paginaHTML;
@@ -1108,6 +1154,85 @@ export class Formulario {
                 <span class="form_mensaje ocultado"></span>
                 <button class="form_boton">Registrar</button>
             </form>`;
+            return cont;
+    }
+
+    /* cargarPrestarLibro(usuario, disponibles) {
+       
+            ${this.cargarInputMultiselect('Géneros:', 'generos', generos, 'required',
+                         '<div class="form_boton form_a" ref="agregar-genero">+</div>'
+                    )}
+        
+            <section class="form_seccion form_desplegable subrayado" id="seccion-prestar-libro">
+
+                
+                    <div class="form_fila rellena">
+                            <div class="form_boton despliega derecha">Prestar un libro</div>
+                    </div>
+                <div class="form_seccion se_despliega plegado">
+                    <label>Buscar libro:</label>
+                    <div class="form_fila"> 
+                        <form class="form_fila form_datos rellena" id="form_buscador-libro">
+                            <input name="accion" value="buscar-ejemplares" type="hidden" />
+                            <input class="form_input" name="q"></input>
+                            <span class="form_mensaje ocultado"></span>
+                        </form>
+
+                    </div>
+                    <div class="form_seccion" >
+                        <form class="form_datos" id="form-prestar-libro">
+                            <input name="accion" value="prestar-libro" type="hidden" />
+                            <input name="usuario_id" value=${usuario.usuario_id} type="hidden" />
+                             ${this.cargarEjemplaresDisponibles(usuario.usuario_id, disponibles)}
+
+                             ${this.cargarInputNormal('Fecha Límite:', 'fecha_limite', '', 'date', 'required')}
+
+                            <div class="form_fila">
+                                <button type="submit" class="form_boton derecha verde">Realizar prestamo</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>`;
+    } */
+
+    async cargarPaginaAgregarPago(socios){
+        
+        socios = socios? socios : [];
+
+         let cont =`
+            <div class="form_titulo subrayado">Registrar pago</div>
+
+            
+            <section class="form_seccion subrayado">
+            <label>Buscar socio:</label
+            <div class="form_fila"> 
+                <form class="form_fila form_datos rellena" id="form_buscador-socio">
+                    <input name="accion" value="buscar-socio" type="hidden" />
+                    <input class="form_input" name="q"></input>
+                    <span class="form_mensaje ocultado"></span>
+                </form>
+            </div>  
+
+            <form class="form_datos" id="form-registrar-pago" id="form-registrar-pago">
+                <input name="accion" value="registrar-pago" type="hidden" />
+                <div class="form_seccion">
+                    <span class="form_mensaje ocultado"></span>
+                    ${this.cargarSociosDisponibles(socios)}
+
+                    ${this.cargarInputNormal('Monto:', 'monto', '', 'number', 'required')}
+                    ${this.cargarInputNormal('Razon:', 'razon', '', 'text', )}
+                    ${this.cargarInputDesplegable('Medio:', 'medio',
+                                                  this.cargarOpcion({id: "transferencia", nombre: "Transferencia"}) +
+                                                  this.cargarOpcion({id: "efectivo", nombre: "Efectivo"}) , 'required')},
+                   
+
+                </div>
+                <span class="form_mensaje ocultado"></span>
+                <button class="form_boton">Registrar</button>
+            </form>
+            </section>`;
+            
             return cont;
     }
 
@@ -1450,6 +1575,20 @@ export class Formulario {
             <div class="form_seccion" id="seccion-ejemplares-disponibles">
 
                 ${this.cargarInputDesplegable("Ejemplares:", "ejemplar_id", disponibles, "required" )}
+               
+            </div>
+        `;
+    }
+    cargarSociosDisponibles(socios){
+
+        socios = socios.map(s => {
+            return `<option data-id=${s.socio_id} value="${s.socio_id}"> ${s.usuario_nombre + " - " + s.usuario_mail}</option>`;
+        }).join('');
+
+        return `
+            <div class="form_seccion" id="seccion-socios">
+
+                ${this.cargarInputDesplegable("Socio:", "socio_id", socios, "required" )}
                
             </div>
         `;

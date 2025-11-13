@@ -33,9 +33,8 @@ window.addEventListener("load", async () => {
 
     /*Esta es la clase que se va a encargar de manejar la edicion de la informacion */
     //console.log(document.getElementById("formulario"));
-    if(document.getElementById("formulario")){
-        const formulario = new Formulario(document.getElementById("formulario"));
-    }
+    
+    const formulario = new Formulario(document.getElementById("formulario"));
     //console.log("nothing changed?" + formulario.getForm());
 
     //console.log(formulario.getForm() instanceof HTMLFormElement); // true
@@ -53,6 +52,7 @@ window.addEventListener("load", async () => {
     const cuerpo_usuarios = document.querySelector("#cuerpo-usuarios");
     const cuerpo_talleres = document.querySelector("#cuerpo-talleres");
     const cuerpo_multas = document.querySelector("#cuerpo-multas");
+    const cuerpo_pagos = document.querySelector("#cuerpo-pagos");
     
 
     var resultados = await obtenerBusqueda('libros', "", "titulo", 1);
@@ -66,6 +66,9 @@ window.addEventListener("load", async () => {
 
     resultados = await obtenerMultas('multas', "", 1, 1, 1);
     mostrarResultadosBusqueda(cuerpo_multas, resultados.data.resultados, cargarMulta);
+
+    resultados = await obtenerBusqueda('pagos', "", "todos", 1);
+    mostrarResultadosBusqueda(cuerpo_pagos, resultados.data.resultados, cargarPago);
     
     /*SUS 4millones de events */
 
@@ -84,7 +87,12 @@ window.addEventListener("load", async () => {
             formulario.agregarTaller();
         }else if(target.matches("#bt-mas-info-taller")){
              formulario.editarTaller(target.getAttribute("data-taller"));
+        }else if(target.matches("#bt-agregar-pago")){
+             formulario.agregarPago();
         }
+        // else if(target.matches("#bt-mas-info-taller")){
+        //      formulario.editarTaller(target.getAttribute("data-taller"));
+        // }
 
     }
     async function gestionarEnvios(event) {
@@ -114,6 +122,15 @@ window.addEventListener("load", async () => {
             var resultados = await obtenerBusqueda('talleres', q, filtro, 1);
             mostrarResultadosBusqueda(cuerpo_talleres, resultados.data.resultados, cargarTaller)
         }
+        else if (form.matches("#buscador-pagos")) {
+            event.preventDefault();
+            let formData = new FormData(form);
+            const q = formData.get('q');
+            const filtro = formData.get('filtro');
+
+            var resultados = await obtenerBusqueda('pagos', "", filtro, 1);
+            mostrarResultadosBusqueda(cuerpo_pagos, resultados.data.resultados, cargarPago);
+        }
         
         
     }
@@ -131,8 +148,9 @@ window.addEventListener("load", async () => {
     async function mostrarResultadosBusqueda(donde, resultados, plantilla){
         
         let cont = "";
+        
         cont = resultados.map(r => plantilla(r)).join('');
-
+        console.log(donde, cont);
         donde.innerHTML = cont;
     }
 
@@ -246,6 +264,33 @@ window.addEventListener("load", async () => {
                          
                 </div>
             </div>
+        `;
+    }
+    function cargarPago(pago) {
+
+        
+        return `
+            <div class="form_bloque">
+                <div class="form_fila rellena">        
+                    <div class="numero_id">#${pago.pago_id}</div> 
+
+                    <div class="form_seccion">
+                        <h3 class="titulo-libro form_exito">${pago.monto}</h3>
+                        <p class="autor-libro">${pago.usuario_nombre}</p>
+                    </div>
+
+                    <div class="form_seccion derecha">
+                        <h3 class="titulo-libro">${pago.razon}</h3>
+                        <p class="autor-libro">${pago.medio}</p>
+                    </div>
+                    
+                    <button id="bt-mas-info-material"
+                        class="bt-mas-info derecha" 
+                        data-libro=${pago.pago_id}>
+                        +
+                    </button>
+                </div>
+            </div> 
         `;
     }
 });

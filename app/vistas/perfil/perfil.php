@@ -24,20 +24,25 @@
                         <li><a href="#" class="nav-link" data-target="prestamos">Préstamos</a></li>
                         <li><a href="#" class="nav-link" data-target="talleres">Talleres</a></li>
                         <li><a href="#" class="nav-link" data-target="accesibilidad">Accesibilidad</a></li>
+                          <?php
+                        if ($usuario['rol_id'] != 1){ ?>
                         <li><a href="#" class="nav-link" data-target="multas">Multas</a></li>
-
+                        <?php }?>
                         <!-- VISTAS ADICIONALES DE ADMINISTRADOR -->
                         <?php
                         if ($usuario['rol_id'] == 1){ ?>
                             <li><a href="#" class="nav-link" data-target="gestion-usuarios">Gestionar Usuarios</a></li>
                             <li><a href="#" class="nav-link" data-target="gestion-material">Gestionar Material</a></li>
                             <li><a href="#" class="nav-link" data-target="gestion-talleres">Gestionar Talleres</a></li>
-                            <li><a href="#" class="nav-link" data-target="gestion-Pagos">Gestionar pagos</a></li>
+                            <li><a href="#" class="nav-link" data-target="gestion-pagos">Gestionar pagos</a></li>
                         <?php } ?>
                     </ul>
                 </nav>
 
             <!-- PESTAÑAS DEL PERFIL -->
+             <div class="contenido-perfil-wrapper">
+
+             
                 <div class="contenido-perfil">
                 
                             
@@ -49,8 +54,12 @@
 
                     <?php include '../app/vistas/perfil/tabs/accesibilidad.php' ?>
 
-                    <?php include '../app/vistas/perfil/tabs/multas.php' ?>
+                    <?php
+                    if ($usuario['rol_id'] != 1) { ?>
+
+                        <?php include '../app/vistas/perfil/tabs/multas.php' ?>
                     
+                    <?php }?>
                     <!-- VISTAS ADICIONALES DE ADMINISTRADOR -->
                     <?php
                     if ($usuario['rol_id'] == 1) { ?>
@@ -69,12 +78,13 @@
                 </div>
 
             </div>
-        </div>
+            </div>
+        
     </main>
    
     <!-- FORMULARIO DEL ADMIN (movido fuera del main) -->
     <?php if ($usuario['rol_id'] == 1) { ?>
-    <div id= "formulario" class="form_contenedor form_oculto">
+    <div id ="formulario" class="form_contenedor form_oculto">
         <div id="btn-despliege" class="form_seccion form_lengueta">
                 <
         </div>

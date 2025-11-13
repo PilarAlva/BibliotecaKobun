@@ -150,6 +150,18 @@
                             ]];
                     
                         break;
+                    case 'buscar-socio':
+                        $nombre = htmlentities($_POST['q']);
+                        $socios = $socioModel->obtenersociosPorNombre($nombre); 
+
+                        $respuesta_data = [
+                            'estado' => 'exito',
+                            'mensaje' => 'Socios obtenidos con exito.',
+                            'data' => [
+                                'socios' => $socios
+                            ]];
+                    
+                        break;
                     case 'prestar-libro':
                         $socio = $socioModel->obtenerSocioPorIdUsuario($_POST['usuario_id']);
                         $resultado = false;
@@ -551,11 +563,37 @@
                                     ]
                                 ];
                                 break;
+                             case 'pagos':
+                                $respuesta_data = [
+                                    'estado' => 'exito',
+                                    'mensaje'=> "Pagos devueltas",
+                                    'data' => [
+                                        'cantidad' => 100,
+                                        'resultados' => $pagoModel->obtenerpagos($filtro)
+                                    ]
+                                ];
+                                break;
                             default:
                                 break;
                         }
 
                         break;
+                    case 'registrar-pago':
+                        $resultado = $pagoModel->registrarPago($_POST['socio_id'], $_POST['monto'], $_POST['razon'], $_POST['medio_id']);
+                        if($resultado){
+                            $respuesta_data = [
+                                'estado' => 'exito',
+                                'mensaje'=> "Pago registrado",
+                            ];
+                        }else{
+                            $respuesta_data = [
+                                'estado' => 'error',
+                                'mensaje'=> "No se pudo registrar el pago", 
+                            ];
+                        }
+                        break;
+                    
+                    
                     case 'opciones':
 
                         $respuesta_data = [

@@ -200,5 +200,24 @@ class socioBD {
     public function __destruct() {
         $this->con = null;
     }
+    public function obtenersociosPorNombre($nombre){
+        
+        $consulta = 'SELECT 
+                        s.id as socio_id,
+                        concat(u.nombre, " ", u.apellido) as usuario_nombre,
+                        u.mail as usuario_mail
+                        FROM socios s 
+                        LEFT JOIN usuarios u ON s.usuario_id = u.id
+                        WHERE (u.nombre LIKE :nombre)
+                        OR (u.apellido LIKE :nombre_2)';
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':nombre', "%$nombre%") ;
+        $this->db->unir(':nombre_2', "%$nombre%") ;
+        return $this->db->resultados();
+            
+    ;  
+
+    }
 }   
 ?>

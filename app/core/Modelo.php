@@ -12,7 +12,7 @@ class Modelo{
 
     }    
     
-    
+
     public function obtenerUltimoId(){
         $consulta = "SELECT LAST_INSERT_ID() AS ultimo_id";  
         

@@ -33,7 +33,61 @@ class PagoDB {
         return $this->db->resultado();
 
     }
+    public function obtenerpagos($filtro){
 
+        switch($filtro){
+            case 'todos':
+                $consulta = 'SELECT 
+                                pagos.id as pago_id,
+                                socio_id,
+                                monto,
+                                razon,
+                                medio,
+                                fecha,
+                                concat(u.nombre, " ", u.apellido) as usuario_nombre
+                            FROM pagos
+                            LEFT JOIN socios ON pagos.socio_id = socios.id
+                            LEFT JOIN usuarios u ON socios.usuario_id = u.id
+                            ORDER BY pagos.fecha DESC';
+                 break;
+             case 'efectivo':
+                $consulta = 'SELECT 
+                                pagos.id as pago_id,
+                                socio_id,
+                                monto,
+                                razon,
+                                medio,
+                                fecha,
+                                concat(u.nombre, " ", u.apellido) as usuario_nombre
+                            FROM pagos
+                            LEFT JOIN socios ON pagos.socio_id = socios.id
+                            LEFT JOIN usuarios u ON socios.usuario_id = u.id
+                            WHERE medio = "efectivo"
+                            ORDER BY pagos.fecha DESC';
+                 break;
+             case 'transferencia':
+                $consulta = 'SELECT 
+                                pagos.id as pago_id,
+                                socio_id,
+                                monto,
+                                razon,
+                                medio,
+                                fecha,
+                                concat(u.nombre, " ", u.apellido) as usuario_nombre
+                            FROM pagos
+                            LEFT JOIN socios ON pagos.socio_id = socios.id
+                            LEFT JOIN usuarios u ON socios.usuario_id = u.id
+                            WHERE medio = "transferencia"
+                            ORDER BY pagos.fecha DESC';
+                 break;
+                
+            default:
+                break;
+        }
+        $this->db->consulta($consulta);
+        return $this->db->resultados();
+
+    }
     public function estadoCuenta($socio_id){
         $consulta = "SELECT 
                         s.id as socio_id,
@@ -60,6 +114,20 @@ class PagoDB {
         $this->db->unir(":socio_id", $socio_id);
 
         return $this->db->resultado();
+    }
+
+    public function registrarPago($socio_id, $monto, $razon, $medio){
+        $consulta = "INSERT INTO pagos (socio_id, monto, razon, medio, fecha) 
+                    VALUES (:socio_id, :monto, :razon, :medio, NOW())";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(":socio_id", $socio_id);
+        $this->db->unir(":monto", $monto);
+        $this->db->unir(":razon", $razon);
+        $this->db->unir(":medio", $medio);
+
+        return $this->db->ejecutar();
+
     }
 
 }
