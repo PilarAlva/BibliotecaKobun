@@ -4,7 +4,9 @@
 
                     <!-- FORMULARIO NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                     <div>
-                        <form method="POST" action="">
+                        <form method="POST" action="<?php echo BASE_URL . 'perfil/acc'?>">
+                            <input type="hidden" name="usuario_id" value="<?php echo $usuario["id"]; ?>"/>
+
                             <div class="form-datos">
                                 <div class="form-group">
                                     <label for="nombre">Su correo</label>

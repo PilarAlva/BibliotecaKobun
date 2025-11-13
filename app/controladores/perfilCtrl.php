@@ -234,7 +234,67 @@ class PerfilCtrl extends Controlador{
         }
         header('Location: ' . BASE_URL);
     }
+    public function acc(){
+
+        if($_SERVER['REQUEST_METHOD'] != "POST"){
+            header('Location: ' . BASE_URL .'perfil');
+            exit;
+        }
+
+        if(!isset($_SESSION["usuario_id"]) || $_SESSION['usuario_id'] != $_POST["usuario_id"]){
+            header('Location: ' . BASE_URL .'perfil');
+            exit;
+        }
+
+        $usuarioModel = $this->cargarModelo('usuarioBD');
+        $usuario_id = $_POST['usuario_id'];
+        $mail = $_POST['mail'];
+        $clave_actual = $_POST['clave_actual'];
+        $clave_nueva = $_POST['clave_nueva'];
+        $confirmar_clave_nueva = $_POST['confirmar_clave_nueva'];
+
+        $usuario = $usuarioModel->obtenerUsuarioPorId($usuario_id);
+
+        $mensaje = "";
+
+        if(!$usuario){
+            header('Location: ' . BASE_URL . 'perfil');
+            exit;
+        }
+
+        // Cambiar mail
+        if($usuario["mail"] != $mail){
+            if(!$usuarioModel->obtenerUsuarioPorMail($mail)){
+                $usuarioModel->actualizarMail($usuario_id, $mail);
+                $_SESSION['user_mail'] = $mail; // Actualizar mail en sesión
+                $mensaje = "Exito.";
+            } else {
+                // Opcional: manejar el error de mail ya registrado
+                $mensaje = "El mail ya está registrado.";
+            }
+        }
+
+        // Cambiar contraseña
+        if(!empty($clave_nueva) && !empty($clave_actual)) {
+            if (password_verify($clave_actual, $usuario["clave"])) {
+                if ($clave_nueva == $confirmar_clave_nueva) {
+                    $hashed_password = password_hash($clave_nueva, PASSWORD_DEFAULT);
+                    $usuarioModel->actualizarClave($usuario_id, $hashed_password);
+                    $mensaje = "Exito.";
+                } else {
+                    // Opcional: manejar el error de que las contraseñas no coinciden
+                    $mensaje = "Las contraseñas no coinciden.";
+                }
+            } else {
+                // Opcional: manejar el error de que la contraseña actual es incorrecta
+                $mensaje = "La constraseña actual es incorrecta.";
+            }
+        }
+        $_POST['mensaje_accesibilidad'] = $mensaje;
+        header('Location: ' . BASE_URL . 'perfil');
         
+    }
+
     public function subir_imagen() {
         header('Content-Type: application/json');
 

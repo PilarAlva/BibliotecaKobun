@@ -301,6 +301,26 @@ class UsuarioBD {
         return $this->db->ejecutar();
     }
 
+    public function actualizarMail($usuario_id, $mail){
+        $consulta = 'UPDATE usuarios SET mail = :mail WHERE id = :usuario_id';
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':usuario_id', $usuario_id);
+        $this->db->unir(':mail', $mail);
+
+        return $this->db->ejecutar();
+    }
+
+    public function actualizarClave($usuario_id, $clave){
+        $consulta = 'UPDATE usuarios SET clave = :clave WHERE id = :usuario_id';
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':usuario_id', $usuario_id);
+        $this->db->unir(':clave', $clave);
+
+        return $this->db->ejecutar();
+    }
+
     public function __destruct() {
         $this->db->cerrarConexion();
     }
