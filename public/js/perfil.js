@@ -34,7 +34,9 @@ window.addEventListener("load", async () => {
     /*Esta es la clase que se va a encargar de manejar la edicion de la informacion */
     //console.log(document.getElementById("formulario"));
     
-    const formulario = new Formulario(document.getElementById("formulario"));
+    if(document.getElementById("formulario")){
+        const formulario = new Formulario(document.getElementById("formulario"));
+    }
     //console.log("nothing changed?" + formulario.getForm());
 
     //console.log(formulario.getForm() instanceof HTMLFormElement); // true

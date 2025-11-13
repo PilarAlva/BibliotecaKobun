@@ -96,7 +96,7 @@
                             'estado' => 'exito',
                             'mensaje' => 'Multas obtenidos correctamente.',
                             'data' => [
-                                'multas' => $prestamosModel->obtenerMultas($_POST['socio_id']) 
+                                'multas' => $socioModel->obtenerMultas($_POST['socio_id']) 
                                 ]
                         ];
 
@@ -568,7 +568,7 @@
                                     'mensaje'=> "Multas devueltas",
                                     'data' => [
                                         'cantidad' => 100,
-                                        'resultados' => $socioModel->obtenerMultas($socio_id, $filtro)
+                                        'resultados' => $socioModel->obtenerMultas($socio_id, 1)
                                     ]
                                 ];
                                 break;

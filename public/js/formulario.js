@@ -1485,8 +1485,8 @@ export class Formulario {
     }
 
     cargarMultas(multas) {
-        const total_multas = multas.reduce((acc, multa) => acc + parseFloat(multa.total_multa || 0), 0);
-        const multas_todas = multas.map(multa => this.cargarMulta(multa.titulo, multa.total_multa)).join('');
+        const total_multas = multas.reduce((acc, multa) => acc + parseFloat(multa.total || 0), 0);
+        const multas_todas = multas.map(multa => this.cargarMulta(multa)).join('');
 
         return `
             <span class="form_subtitulo">Multas</span>
@@ -1500,13 +1500,13 @@ export class Formulario {
             </section>`;
     }
 
-    cargarMulta(titulo, monto) {
+    cargarMulta(multa) {
         return `
             <div class="form_fila form_desplegable expande">
                 <div class="form_bloque se_oculta">
                     <div class="form_fila">
-                        <span>${titulo}:</span>
-                        <span class="form_error">${monto}</span>
+                        <span>${multa.fecha}:</span>
+                        <span class="form_error">${multa.monto}</span>
                     </div>
                 </div>
                 <div class="form_boton despliega derecha">Eliminar</div>

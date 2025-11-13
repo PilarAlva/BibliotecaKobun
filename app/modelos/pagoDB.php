@@ -90,25 +90,82 @@ class PagoDB {
     }
     public function estadoCuenta($socio_id){
         $consulta = "SELECT 
-                        s.id as socio_id,
-                        u.id as usuario_id,
-                        DATE(MAX(p.fecha)) as ultimo_pago,
-                        TIMESTAMPDIFF(MONTH, MAX(p.fecha), CURDATE()) AS meses_vencido,
-                        ((TIMESTAMPDIFF(MONTH, MAX(p.fecha), CURDATE()) + 1) * db.cuota_socio) AS total_deuda,
-                        DATEDIFF(
-                            CASE 
-                            WHEN DAY(CURDATE()) <= 15 
-                                THEN DATE_FORMAT(CURDATE(), '%Y-%m-15')
-                            ELSE DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-15')
-                            END,
+                s.id AS socio_id,
+                s.fecha_alta,
+                s.activo,
+                db.cuota_socio,
+
+                -- Último pago de cuota
+                MAX(p.fecha) AS ultimo_pago,
+
+                -- Fecha de referencia: si no hay pago, usamos la fecha de alta
+                COALESCE(MAX(p.fecha), s.fecha_alta) AS fecha_referencia,
+
+                -- Fecha de referencia + 1 mes (primer día del siguiente mes)
+                DATE_ADD(
+                    DATE_FORMAT(COALESCE(MAX(p.fecha), s.fecha_alta), '%Y-%m-01'),
+                    INTERVAL 1 MONTH
+                ) AS fecha_siguiente_cuota,
+
+                -- Diferencia en meses entre hoy y la fecha de referencia
+                CASE 
+                    WHEN CURDATE() >= DATE_ADD(
+                        DATE_FORMAT(COALESCE(MAX(p.fecha), s.fecha_alta), '%Y-%m-01'),
+                        INTERVAL 1 MONTH
+                    )
+                    THEN TIMESTAMPDIFF(
+                        MONTH,
+                        DATE_ADD(DATE_FORMAT(COALESCE(MAX(p.fecha), s.fecha_alta), '%Y-%m-01'), INTERVAL 1 MONTH),
+                        CURDATE()
+                    ) + 1
+                    ELSE 0
+                END AS meses_adeudados,
+
+                -- Monto total de deuda
+                CASE 
+                    WHEN CURDATE() >= DATE_ADD(
+                        DATE_FORMAT(COALESCE(MAX(p.fecha), s.fecha_alta), '%Y-%m-01'),
+                        INTERVAL 1 MONTH
+                    )
+                    THEN (TIMESTAMPDIFF(
+                            MONTH,
+                            DATE_ADD(DATE_FORMAT(COALESCE(MAX(p.fecha), s.fecha_alta), '%Y-%m-01'), INTERVAL 1 MONTH),
                             CURDATE()
-                        ) as proxima_cuota
-                        FROM pagos p
-                        JOIN datos_biblioteca db
-                        LEFT JOIN socios s on s.id = p.socio_id
-                        LEFT JOIN usuarios u on s.usuario_id = u.id
-                        WHERE s.id = :socio_id
-                        GROUP BY s.id";
+                        ) + 1
+                        ) * db.cuota_socio
+                    ELSE 0
+                END AS monto_adeudado,
+
+                -- Cuota al día (true/false)
+                CASE 
+                    WHEN (
+                        (
+                            (TIMESTAMPDIFF(
+                                MONTH,
+                                DATE_ADD(DATE_FORMAT(COALESCE(MAX(p.fecha), s.fecha_alta), '%Y-%m-01'), INTERVAL 1 MONTH),
+                                CURDATE()
+                            ) + 1) * db.cuota_socio
+                        ) = db.cuota_socio
+                        AND DAY(CURDATE()) < 16
+                    ) OR (
+                        (
+                            (TIMESTAMPDIFF(
+                                MONTH,
+                                DATE_ADD(DATE_FORMAT(COALESCE(MAX(p.fecha), s.fecha_alta), '%Y-%m-01'), INTERVAL 1 MONTH),
+                                CURDATE()
+                            ) + 1) * db.cuota_socio
+                        ) = 0
+                    )
+                    THEN TRUE
+                    ELSE FALSE
+                END AS cuota_al_dia
+
+            FROM socios s
+            LEFT JOIN pagos p ON p.socio_id = s.id
+            CROSS JOIN datos_biblioteca db
+            WHERE s.id = :socio_id
+            GROUP BY s.id
+            ";
 
         $this->db->consulta($consulta); 
         $this->db->unir(":socio_id", $socio_id);
