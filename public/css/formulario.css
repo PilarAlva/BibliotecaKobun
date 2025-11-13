@@ -111,8 +111,7 @@
 }
 .form_seccion{
     display: flex;
-    flex-direction: column;
-    gap: var(--gap-seccion); 
+    flex-direction: column; 
 }
 .form_informacion{
     padding: var(--padding-y) 0;
@@ -125,6 +124,10 @@
     gap: 10px;
     align-items: center;
 }
+.form_fila .nombre_id {
+    margin: 0 10px;
+}
+
 .form_columna{
     display: flex;
     flex-direction: column;
@@ -139,7 +142,6 @@
     position: absolute;
 }
 .form_boton{
-
     text-shadow: none;
     box-shadow: none;
 
@@ -152,7 +154,7 @@
     font-size: var(--tam-fuente-1);
     width: fit-content;
     border-radius: var(--redondeo-btn-form);
-    padding: 2px 8px;
+    padding: 7px 20px;
     
     &:hover{
         outline: 1px solid var(--form-subrayado) ;
@@ -230,6 +232,7 @@
     opacity: 1;
     border: 1px var(--form-subrayado) solid;
     margin-top: 5px;
+    border-radius: 10px;
 
     transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
 
@@ -238,9 +241,15 @@
         background-color: var(--form-bg-oscurito);
         
     }
-    
 }
-
+.form_bloque h3{
+    margin: 0;
+    font-size: var(--tam-fuente-titulo);
+}
+.autor-libro {
+    font-size: var(--tam-fuente-1);
+    color: var(--form-subrayado-fuerte);
+}
 
 .pill {
     background-color: var(--primary-color);;
@@ -362,9 +371,21 @@
     background-color: red;
 }
 .derecha{
-    margin-right: 0;
+    margin-right: 10px;
     margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center
 }
+ #bt-mas-info-material {
+    font-weight: bold;
+    font-size: 32px;
+} 
+#bt-mas-info-usuario, #bt-mas-info-taller {
+    font-weight: bold;
+    font-size: 25px;
+}
+
 .plegado{
     display: block;
     
