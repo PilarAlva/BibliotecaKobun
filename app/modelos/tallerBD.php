@@ -100,7 +100,7 @@ class TallerBD {
     }
     public function cantTalleres(){
         
-        $consulta = "SELECT count(id) as cantidad FROM talleres";
+        $consulta = "SELECT count(id) as cantidad FROM talleres WHERE activo = 1";
 
         $this->db->consulta($consulta);
         $this->db->ejecutar();
@@ -108,6 +108,33 @@ class TallerBD {
         return $this->db->resultado();
     }
 
+    public function obtenerTalleresActivos($inicio = 0, $cant = 1000){
+
+        $consulta = "SELECT 
+                        t.id as taller_id,
+                        t.nombre as nombre,
+                        t.ref_portada as portada,
+                        t.lugar as lugar,
+                        t.horario as horario,
+                        t.descripcion as descripcion,
+                        t.activo as activo,
+                        t.fecha_alta as fecha_alta,
+                        group_concat(distinct u.id separator ', ') as profesores_id,
+                        group_concat(distinct concat(u.nombre, ' ', u.apellido ) separator ', ') as profesores_nombre,
+                        group_concat(distinct u.mail separator ', ') as profesores_mail
+                        FROM talleres t 
+                    LEFT JOIN talleres_profesores tp ON t.id = tp.taller_id
+                    LEFT JOIN usuarios u ON tp.usuario_id = u.id WHERE t.activo = 1
+                    GROUP BY t.id
+                    ORDER BY t.fecha_alta DESC
+                    LIMIT :limite OFFSET :offset
+                    ";
+ 
+        $this->db->consulta($consulta);
+        $this->db->unir(':limite', $cant);
+        $this->db->unir(':offset', $inicio);
+        return $this->db->resultados();
+    }
     public function obtenerTalleresInactivos($inicio = 0, $cant = 1000){
 
         $consulta = "SELECT 
@@ -182,7 +209,10 @@ class TallerBD {
                     LEFT JOIN talleres_usuarios tu ON t.id = tu.taller_id
                     LEFT JOIN talleres_profesores tp ON t.id = tp.taller_id
                     LEFT JOIN usuarios u ON tp.usuario_id = u.id    
-                    WHERE tu.usuario_id = :usuario_id";
+                    WHERE tu.usuario_id = :usuario_id
+                    AND t.activo = 1
+                    GROUP BY t.id
+                    ORDER BY t.fecha_alta DESC";
  
         $this->db->consulta($consulta);
         $this->db->unir(':usuario_id', $usuario_id);

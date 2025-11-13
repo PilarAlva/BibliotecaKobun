@@ -41,25 +41,38 @@ class libroCtrl extends Controlador{
 
         $cantidad_por_pagina = 20;
 
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $busqueda = htmlspecialchars($_POST['q']);
+            $filtro = htmlspecialchars($_POST['filtro'],  );
+
+            $busqueda = urlencode($busqueda);
+            $filtro = urlencode($filtro);
+
+            header('Location: ' . BASE_URL . 'catalogo/b/' . $filtro . '/' . $busqueda );
+
+        }
+        $busqueda = urldecode($busqueda);
+        $filtro = urldecode($filtro);
+
+
         $libroModel = $this->cargarModelo("libroBD");
         
         if($this->esEnteroPositivo($filtro)){
             $pagina = $filtro;
+        }else{
+            $pagina = 1;
         }
 
         $offset = ( ((int)$pagina) - 1) * $cantidad_por_pagina;
         $limite = $offset + $cantidad_por_pagina;
 
 
+
         $libros = $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, $cantidad_por_pagina );
 
         $resultados = $libroModel->cantResultadosCatalogo($busqueda, $filtro);
 
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
-            header('Location: ' . BASE_URL . 'catalogo/b/' . $_POST['filtro'] . '/' . $_POST['q']);
-
-        }
+       
   
         $pagina = $this->chequeoPagina($pagina);
         $cantidad_paginas = ceil($resultados / $cantidad_por_pagina);

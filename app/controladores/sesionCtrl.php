@@ -114,7 +114,7 @@
                     $_SESSION['usuario_mail'] = $mail;
                     $_SESSION['usuario_nombre'] = $usuario['nombre'];
                     $_SESSION['usuario_apellido'] = $usuario['apellido'];
-                    //$_SESSION['img_perfil'] = $usuario['img_perfil'];
+                    $_SESSION['img_perfil'] = $usuario['img_perfil'];
                     $_SESSION['usuario_id'] = $usuario['id'];
                     $_SESSION['rol_id'] = $usuario['rol_id'];
                     $msj = 0;

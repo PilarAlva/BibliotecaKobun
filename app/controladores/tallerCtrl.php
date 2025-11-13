@@ -11,7 +11,7 @@
         $offset = ( ((int)$pagina) - 1) * $cantidad_por_pagina;
         $limite = $offset + $cantidad_por_pagina;
 
-        $talleres = $tallerModel->obtenerTalleres(0, 10);
+        $talleres = $tallerModel->obtenerTalleresActivos(0, 100);
         $resultados = $tallerModel->cantTalleres();
 
         $estado = '';
