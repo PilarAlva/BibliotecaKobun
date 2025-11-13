@@ -26,12 +26,13 @@
                     <input type="text" name="nombre" value="<?php echo $taller["nombre"]; ?>" placeholder="Nombre del Taller">
                     <h3>Profesor/a: <?php echo $taller["profesores_nombre"]?></h3>
                 </div>
-            
+
                 <div id="form-contenedor">
-                    <div id="form-descripcion">    
+                    <div id="form-descripcion">
+                        <h3>Sobre el Taller</h3>    
                         <textarea id="descripcion-textarea" name="descripcion" placeholder="Descripción" rows="3"><?php echo $taller["descripcion"]; ?></textarea>
                     </div>
-                    <div>
+                    <div id="form-detalles">
                         <div class="form-grupo">
                             <p><span class="destacado">Horario:</span></p> 
                             <input type="text" name="horario" value="<?php echo $taller["horario"]; ?>" placeholder="Horario">

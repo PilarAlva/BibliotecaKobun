@@ -266,7 +266,7 @@ form {
     justify-content: space-between;
     width: 100%;    
     justify-content: space-between;
-    gap: 5rem;
+    gap: 3rem;
 }
 #form-contenedor {
     display: flex;
@@ -299,6 +299,14 @@ form {
 }
 #form-descripcion {
     width: 55%;
+}
+#form-detalles {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    gap: 10px;
 }
 #descripcion-textarea:focus,
 #form-contenedor input[type="text"]:focus {
