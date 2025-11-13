@@ -17,10 +17,18 @@
             <a href="<?= BASE_URL ?>talleres"><img src="<?= BASE_URL ?>/img/icono-volver.png" alt="Volver a talleres"></a>
         </div>
 
-        <div id="titulo">
-            <h1><?php echo $taller["nombre"]?></h1>
-            <h3>Profesor/a: <?php echo $taller["profesores_nombre"]?></h3>
-        </div>
+        <?php if ($estado == 'admin'):?>
+            <!-- VISTA DEL ADMIN DEL TITULO -->
+            <div id="titulo-editable">
+                <input type="text" name="nombre" value="<?php echo $taller["nombre"]; ?>" placeholder="Nombre del Taller">
+                <h3>Profesor/a: <?php echo $taller["profesores_nombre"]?></h3>
+            </div>
+        <?php else: ?>
+            <div id="titulo">
+                <h1><?php echo $taller["nombre"]?></h1>
+                <h3>Profesor/a: <?php echo $taller["profesores_nombre"]?></h3>
+            </div>
+        <?php endif;?>
 
         <h3>Sobre el Taller</h3>
         <div class="informacion">
