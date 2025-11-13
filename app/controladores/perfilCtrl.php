@@ -48,33 +48,41 @@ class PerfilCtrl extends Controlador{
             $cuotaSocio = $biblioteca["cuota_socio"];
             
             // --- Lógica de Cuotas de Socio ---
+            // --- Lógica de Cuotas de Socio ---
             $cuotaMensual = (float)$cuotaSocio;
             $ultimoPago = $pagoModel->obtenerUltimoPagoCuota($socio['id']);
 
             $fechaAlta = new DateTime($socio['fecha_alta']);
-            if(!empty($ultimoPago)){
-                $fechaReferencia = $ultimoPago && $ultimoPago['ultimo_pago'] ? new DateTime($ultimoPago['ultimo_pago']) : $fechaAlta;
-                $hoy = new DateTime();
+            $hoy = new DateTime();
 
-                $fechaReferencia->modify('first day of next month');
-                
-                if ($hoy >= $fechaReferencia) {
-                    $diferencia = $hoy->diff($fechaReferencia);
-                    // Se cuentan los meses completos transcurridos más el actual.
-                    // Se considera el mes siguiente al del último pago/alta como el primer mes de deuda.
-                    $mesesAdeudados = ($diferencia->y * 12) + $diferencia->m + 1;
-                }
-        
-                $montoCuotaTotal = $mesesAdeudados * $cuotaMensual;
-                 // La cuota está al día si debe solo la del mes actual y no ha pasado el día 15.
-                $cuotaAlDia = ($montoCuotaTotal == $cuotaMensual && $hoy->format('d') < 16) || $montoCuotaTotal == 0;     
-            }else{
-                $cuotaAlDia = false;
+            if (!empty($ultimoPago) && !empty($ultimoPago['ultimo_pago'])) {
+                $fechaReferencia = new DateTime($ultimoPago['ultimo_pago']);
+            } else {
+                $fechaReferencia = $fechaAlta;
             }
+
+            // Avanzamos la fecha de referencia al primer día del mes siguiente
+            $fechaReferencia->modify('first day of next month');
+
+            $mesesAdeudados = 0;
+            $montoCuotaTotal = 0;
+
+            // Si hoy ya pasó la fecha de referencia, hay cuotas adeudadas
+            if ($hoy >= $fechaReferencia) {
+                $diferencia = $fechaReferencia->diff($hoy);
+
+                // Meses completos transcurridos + el actual
+                $mesesAdeudados = ($diferencia->y * 12) + $diferencia->m + 1;
+
+                $montoCuotaTotal = $mesesAdeudados * $cuotaMensual;
+            }
+
+            // Cuota al día si:
+            // - Debe solo la del mes actual y todavía no pasó el día 15, o
+            // - No debe nada.
+            $cuotaAlDia = ($montoCuotaTotal == $cuotaMensual && (int)$hoy->format('d') < 16) || $montoCuotaTotal == 0;
     
        
-            
-    
            
         } 
         

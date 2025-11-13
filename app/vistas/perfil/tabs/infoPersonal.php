@@ -91,6 +91,9 @@
 
                     <!-- Vista Adicional de Socios -->
                     <?php
+                    if(empty($multas)){
+                        $multas["cantidad"] = 0;
+                    }
                     if ($socio) {
                         $msjColor = '';
                         if ($estadoSocio == "Activo" ) {
@@ -124,7 +127,7 @@
                                     <p>Multas: <span class="msj-rojo"><?php echo htmlspecialchars(number_format($multas["monto_total"], 2)); ?>$</span></p>
                                 <?php endif; ?>
                                 <?php if ((bool)$socioHabilitado == true): ?>
-                                    <p class="msj-gris"><?php var_dump($socioHabilitado)?>ⓘ Habilitado para préstamos</p>
+                                    <p class="msj-gris">ⓘ Habilitado para préstamos</p>
                                 <?php else: ?>
                                     <p class="msj-rojo">ⓘ Inhabilitado para préstamos</p>
                                 <?php endif; ?>
