@@ -143,7 +143,60 @@ class socioBD {
         return $this->db->resultado();
     }
     
+    public function obtenerMultasActivas($socio_id) {
+        $consulta = "SELECT * FROM multas 
+                    WHERE socio_id = :socio_id 
+                    AND fecha_pago IS NULL
+                    ORDER BY fecha_alta DESC";
+        $this->db->consulta($consulta);
+        
+        $this->db->unir(':socio_id', $socio_id);
+        return $this->db->resultados();
+        
+    }
+    public function obtenerMultasPagadas($socio_id) {
+        $consulta = "SELECT * FROM multas 
+                    WHERE socio_id = :socio_id 
+                    AND fecha_pago != NULL
+                    ORDER BY fecha_pago DESC";
+        $this->db->consulta($consulta);
+        
+        $this->db->unir(':socio_id', $socio_id);
+        return $this->db->resultados();
+        
+    }
+    public function obtenerMultas($socio_id, $activas = 1) {
+       if($activas){
+       $consulta = "SELECT * FROM multas 
+                    WHERE socio_id = :socio_id 
+                    AND fecha_pago IS NULL
+                    ORDER BY fecha_alta DESC";
+       }else{
+        $consulta = "SELECT * FROM multas 
+                        WHERE socio_id = :socio_id 
+                        AND fecha_pago != NULL
+                        ORDER BY fecha_pago DESC";
+       }
+        
+        $this->db->consulta($consulta);
+        
+        $this->db->unir(':socio_id', $socio_id);
+        return $this->db->resultados();
 
+    }
+    public function obtenerCantMultasActivas($socio_id) {
+        $consulta = "SELECT 
+                            COUNT(id) as cantidad,
+                            SUM(monto) as monto_total
+                        FROM multas 
+                        WHERE socio_id = :socio_id 
+                        AND fecha_pago IS NULL
+                        GROUP BY socio_id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':socio_id', $socio_id);
+        return $this->db->resultado();
+    }   
     public function __destruct() {
         $this->con = null;
     }

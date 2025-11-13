@@ -485,6 +485,23 @@
                                 ]];
                         
                         break;
+                    case 'obtener-socio-id':
+                        
+                        $resultado  = isset($_SESSION["usuario_id"]) ? $_SESSION["usuario_id"] : false;
+                        if($resultado){
+                            $resultado = $socioModel->obtenerSocioPorIdUsuario($resultado);
+                            if($resultado)
+                                $resultado = $resultado["id"];
+                        }
+                    
+                        $respuesta_data = [
+                            'estado' => 'exito',
+                            'mensaje'=> "Socio obtenido",
+                            'data' => [
+                                'id' => $resultado
+                            ]];
+                        
+                        break;
                     case 'busqueda-dinamica':
                         $tabla = htmlspecialchars($_POST['tabla']);
                         $busqueda = htmlspecialchars($_POST['q']);
@@ -520,6 +537,17 @@
                                     'data' => [
                                         'cantidad' => 100,
                                         'resultados' => $talleresModel->busquedaTaller($busqueda)
+                                    ]
+                                ];
+                                break;
+                            case 'multas':
+                                $socio_id = htmlspecialchars($_POST['socio_id']);
+                                $respuesta_data = [
+                                    'estado' => 'exito',
+                                    'mensaje'=> "Multas devueltas",
+                                    'data' => [
+                                        'cantidad' => 100,
+                                        'resultados' => $socioModel->obtenerMultas($socio_id, $filtro)
                                     ]
                                 ];
                                 break;

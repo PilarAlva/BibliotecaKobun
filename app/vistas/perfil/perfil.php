@@ -22,6 +22,7 @@
                         <li><a href="#" class="nav-link" data-target="prestamos">Préstamos</a></li>
                         <li><a href="#" class="nav-link" data-target="talleres">Talleres</a></li>
                         <li><a href="#" class="nav-link" data-target="accesibilidad">Accesibilidad</a></li>
+                        <li><a href="#" class="nav-link" data-target="multas">Multas</a></li>
 
                         <!-- VISTAS ADICIONALES DE ADMINISTRADOR -->
                         <?php
@@ -29,6 +30,7 @@
                             <li><a href="#" class="nav-link" data-target="gestion-usuarios">Gestionar Usuarios</a></li>
                             <li><a href="#" class="nav-link" data-target="gestion-material">Gestionar Material</a></li>
                             <li><a href="#" class="nav-link" data-target="gestion-talleres">Gestionar Talleres</a></li>
+                            <li><a href="#" class="nav-link" data-target="gestion-Pagos">Gestionar pagos</a></li>
                         <?php } ?>
                     </ul>
                 </nav>
@@ -44,6 +46,8 @@
                     <?php include '../app/vistas/perfil/tabs/talleres.php' ?>
 
                     <?php include '../app/vistas/perfil/tabs/accesibilidad.php' ?>
+
+                    <?php include '../app/vistas/perfil/tabs/multas.php' ?>
                     
                     <!-- VISTAS ADICIONALES DE ADMINISTRADOR -->
                     <?php
@@ -54,6 +58,8 @@
                     <?php include '../app/vistas/perfil/tabs/gestionMaterial.php' ?>
 
                     <?php include '../app/vistas/perfil/tabs/gestionTalleres.php' ?>
+
+                    <?php include '../app/vistas/perfil/tabs/gestionPagos.php' ?>
 
                     <?php } ?>
 

@@ -32,8 +32,10 @@ window.addEventListener("load", async () => {
     console.log("Cargado");
 
     /*Esta es la clase que se va a encargar de manejar la edicion de la informacion */
-    console.log(document.getElementById("formulario"));
-    const formulario = new Formulario(document.getElementById("formulario"));
+    //console.log(document.getElementById("formulario"));
+    if(document.getElementById("formulario")){
+        const formulario = new Formulario(document.getElementById("formulario"));
+    }
     //console.log("nothing changed?" + formulario.getForm());
 
     //console.log(formulario.getForm() instanceof HTMLFormElement); // true
@@ -50,6 +52,7 @@ window.addEventListener("load", async () => {
     const cuerpo_material = document.querySelector("#cuerpo-material");
     const cuerpo_usuarios = document.querySelector("#cuerpo-usuarios");
     const cuerpo_talleres = document.querySelector("#cuerpo-talleres");
+    const cuerpo_multas = document.querySelector("#cuerpo-multas");
     
 
     var resultados = await obtenerBusqueda('libros', "", "titulo", 1);
@@ -60,12 +63,15 @@ window.addEventListener("load", async () => {
 
     resultados = await obtenerBusqueda('talleres', "", "titulo", 1);
     mostrarResultadosBusqueda(cuerpo_talleres, resultados.data.resultados, cargarTaller);
+
+    resultados = await obtenerMultas('multas', "", 1, 1, 1);
+    mostrarResultadosBusqueda(cuerpo_multas, resultados.data.resultados, cargarMulta);
     
     /*SUS 4millones de events */
 
     function gestionarClicks(event){
         const target = event.target;
-
+        if(!formulario) return;
         if (target.matches("#bt-mas-info-usuario")) {
             formulario.editarUsuario(target.getAttribute("data-usuario"));
         } else if (target.matches("#bt-agregar-usuario")) {
@@ -128,6 +134,24 @@ window.addEventListener("load", async () => {
         cont = resultados.map(r => plantilla(r)).join('');
 
         donde.innerHTML = cont;
+    }
+
+    async function obtenerMultas(tabla, q, filtro, pagina, socio_id) {
+        const formData = new FormData();
+        formData.append('accion', "busqueda-dinamica");
+        formData.append('tabla', 'multas');
+        formData.append('q', q);
+        formData.append('filtro', filtro);
+        
+        let id = await obtenerSocioId();
+        formData.append('socio_id', id.data.id);
+        formData.append('pagina', pagina);
+        return Peticion.peticion(formData);
+    }
+    async function obtenerSocioId() {
+        const formData = new FormData();
+        formData.append('accion', "obtener-socio-id");
+        return Peticion.peticion(formData);
     }
 
     async function obtenerBusqueda(tabla, q, filtro, pagina) {
@@ -204,4 +228,24 @@ window.addEventListener("load", async () => {
             </div>
         `;
     }   
+
+    function cargarMulta(multa) {
+
+        let pagar = multa.fecha_pago ? '' :
+        `<button id="bt-mas-info-taller"
+            class="bt-mas-info derecha" 
+            data-taller=${multa.id}>
+            pagar
+        </button>` 
+
+        return `
+            <div class="form_bloque">
+                <div class="form_fila">        
+                    <div>${multa.monto}</div>
+                    ${pagar}
+                         
+                </div>
+            </div>
+        `;
+    }
 });

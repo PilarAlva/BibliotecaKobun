@@ -97,27 +97,38 @@
                             $msjColor = 'msj-verde';
                         } else {
                             $msjColor = 'msj-rojo';
-                        } ?>
+                        } 
+                        $socioHabilitado = true;
+                        if($mesesAdeudados > 0) {
+                            
+                            if($mesesAdeudados == 1){
+                                $mesesAdeudados = "1 Mes Adeudado";
+                            }
+                        }
+                        if((int)$multas["cantidad"] > 2){
+                            $socioHabilitado = false;
+                        }
+                        ?>
                         <hr class="linea-divisora">
                         <div class="info-socio">
                             <p>Usted es:<span class="<?php echo $msjColor?>"> Socio <?php echo $estadoSocio ?></span> </p>
-                            <?php if ($socioInfoDeudas): ?>
-                                <p>Estado de Cuota Socio:
-                                    <?php if ($socioInfoDeudas['cuotaAlDia']): ?>
-                                        <span class="msj-verde"><?php echo htmlspecialchars(number_format($socioInfoDeudas['montoCuota'], 2)); ?>$</span>
+                            <?php if ($estadoSocio == "Activo"): ?>
+                                <p>Estado de Cuota:
+                                    <?php if ($cuotaAlDia): ?>
+                                        <span class="msj-verde">Al día</span>
                                     <?php else: ?>
-                                        <span class="msj-rojo"><?php echo htmlspecialchars(number_format($socioInfoDeudas['montoCuota'], 2)); ?>$</span>
+                                        <span class="msj-rojo"><?php echo $mesesAdeudados; ?></span>
                                     <?php endif; ?>
                                 </p>
-                                <?php if ($socioInfoDeudas['montoMultas'] > 0): ?>
-                                    <p>Multas: <span class="msj-rojo"><?php echo htmlspecialchars(number_format($socioInfoDeudas['montoMultas'], 2)); ?>$</span></p>
+                                <?php if ($multas["cantidad"] > 0): ?>
+                                    <p>Multas: <span class="msj-rojo"><?php echo htmlspecialchars(number_format($multas["monto_total"], 2)); ?>$</span></p>
                                 <?php endif; ?>
-                                <?php if ($socioHabilitado) ?>
-                                    <p class="msj-gris">ⓘ Habilitado para préstamos</p>
+                                <?php if ((bool)$socioHabilitado == true): ?>
+                                    <p class="msj-gris"><?php var_dump($socioHabilitado)?>ⓘ Habilitado para préstamos</p>
                                 <?php else: ?>
                                     <p class="msj-rojo">ⓘ Inhabilitado para préstamos</p>
                                 <?php endif; ?>
-
+                                <?php endif; ?>
                                 <!-- BOTON NO FUNCIONALL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                                 <button class="bt" id="bt-pagar-cuota"><a href="<?php echo BASE_URL; ?>">Pagar Cuota</a></button>
                         </div>
