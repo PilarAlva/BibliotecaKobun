@@ -1829,7 +1829,7 @@ mensaje
 
                         <div class="form_seccion se_despliega">
                             <div class="form_fila">
-                                <span class="form_petit">Codigo ejemplar: 100${ejemplar.libro_id} </span>
+                                <span class="form_petit">Codigo ejemplar: ${ejemplar.libro_id}100-${ejemplar.ejemplar_id} </span>
                             </div>
                             <div class="form_fila ">
                                 <span class="form_petit">Disponibilidad:</span>

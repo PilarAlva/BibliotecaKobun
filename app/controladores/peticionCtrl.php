@@ -312,7 +312,7 @@
                         $apellido = htmlspecialchars($_POST['apellido']);
                         $mail = htmlspecialchars($_POST['mail']);
                         $clave = htmlspecialchars($_POST['nombre'] . "1234");
-
+                        try{
                         $estado = $sesionCtrl->registrarUsuario($nombre, $apellido, $mail, $clave);
                         if($estado["estado"] == "exito"){
                             $respuesta_data = [
@@ -326,6 +326,12 @@
                             $respuesta_data = [
                                 'estado' => 'error',
                                 'mensaje' => $estado["mensaje"],
+                            ];
+                        }}
+                        catch(Exception $e){
+                            $respuesta_data = [
+                                'estado' => 'error',
+                                'mensaje' => $e->getMessage()
                             ];
                         }
                     break;   
