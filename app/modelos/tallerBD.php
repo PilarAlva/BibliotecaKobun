@@ -289,9 +289,10 @@ class TallerBD {
 
         return $this->db->resultados();
     }  
-    public function editarTaller($taller_id, $descripcion, $horario, $lugar, $activo){
+    public function editarTaller($taller_id, $nombre, $descripcion, $horario, $lugar, $activo){
 
         $consulta =  "UPDATE talleres SET 
+                        nombre = :nombre,
                         descripcion = :descripcion,
                         horario = :horario,
                         lugar = :lugar,
@@ -300,6 +301,7 @@ class TallerBD {
 
         $this->db->consulta($consulta);
         $this->db->unir(':taller_id', $taller_id);  
+        $this->db->unir(':nombre', $nombre);
         $this->db->unir(':descripcion', $descripcion);
         $this->db->unir(':horario', $horario);
         $this->db->unir(':lugar', $lugar);

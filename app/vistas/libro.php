@@ -42,11 +42,11 @@
                             <button type="submit" class="btn-prestamo">Pedir Préstamo</button>
                         </form>
                     <?php }else{?>
-                        <p>Para solicitar ser socio  <a href="<?php BASE_URL?>sesion">Asociarse </a></p>    
+                        <p class="msj-gris">ⓘ Debe ser socio para solcitar prestamos</p>
                     <?php }?>
 
                 <?php } else { ?>
-                    <p>Para solicitar un debe estar registrado <a href="<?php BASE_URL?>sesion">iniciar sesión</a></p>
+                     <p class="msj-gris">ⓘ Debe ser socio para solcitar prestamos</p>
                 <?php } ?>
 
             
