@@ -1,4 +1,38 @@
- <!-- Contenido para "Información Personal" -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const uploadPhotoInput = document.getElementById('upload-photo');
+
+        uploadPhotoInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('photo', file);
+
+                fetch('<?php echo BASE_URL; ?>/perfil/subir_imagen', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Recargar la página para mostrar la nueva imagen
+                        window.location.reload();
+                    } else {
+                        console.error('Error al subir la imagen:', data.error);
+                        alert('Error al subir la imagen: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error en la petición fetch:', error);
+                    alert('Ocurrió un error al intentar subir la imagen.');
+                });
+            }
+        });
+    });
+</script>
+
+
+<!-- Contenido para "Información Personal" -->
                 <div id="info-personal" class="tab-content active">
                     <div class="info-datos-personales">
                         <?php

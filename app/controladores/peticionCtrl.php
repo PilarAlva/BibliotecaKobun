@@ -359,7 +359,7 @@
                         ];}
                         break;
                     case 'borrar-usuario':
-                        $resultado =  false; // $usuarioModel->borrarUsuario($_POST['usuario_id']);
+                        $resultado =  $usuarioModel->borrarUsuario($_POST['usuario_id']);
                         if($resultado){
                             $respuesta_data = [
                                 'estado' => 'exito',

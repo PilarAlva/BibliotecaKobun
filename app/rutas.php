@@ -51,6 +51,8 @@ $rutas = [
 
     'perfil/editar' => ['controlador' => 'perfilCtrl', 'metodo' => 'editar'],
 
+    'perfil/subir_imagen' => ['controlador' => 'perfilCtrl', 'metodo' => 'subir_imagen'],
+
     'pago' => ['controlador' => 'pagoCtrl', 'metodo' => 'pago'],
 
     'pago/procesar' => ['controlador' => 'pagoCtrl', 'metodo' => 'procesarPago'],

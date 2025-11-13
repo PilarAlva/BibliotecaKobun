@@ -1140,6 +1140,7 @@ export class Formulario {
         
         let todos_editoriales = editoriales.map(a => this.cargarOpcion(a));
         
+        //${this.cargarInputNormal('Codigo Topográfico:', 'codigo_topografico', '', 'text', 'required')}
 
         let cont = `
             <div class="form_titulo subrayado">Nuevo libro</div>
@@ -1158,12 +1159,11 @@ export class Formulario {
                     )}
                     <div class="form_division"></div>
                     ${this.cargarInputNormal('ISBN:', 'isbn', '', 'text', 'required')}
-                    ${this.cargarInputNormal('Codigo Topográfico:', 'codigo_topografico', '', 'text', 'required')}
+                    
                     ${this.cargarInputNormal('Descripcion', 'descripcion', 'text', '', 'textrequired')}
                     ${this.cargarInputMultiselect('Géneros:', 'generos', generos, 'required',
                          '<div class="form_boton form_a" ref="agregar-genero">+</div>'
                     )}
-                    ${this.cargarInputNormal('Descripcion', 'descripcion', '', 'text', 'required')}
                     ${this.cargarInputImagen('Portada:', 'portada', '', 'required')}
                     ${this.cargarInputTexto('Sinopsis:', 'sinopsis', '', 'required')}
                 </div>

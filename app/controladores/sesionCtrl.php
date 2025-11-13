@@ -80,6 +80,7 @@
         
         $chequeo_mail = $usuarioModel->obtenerUsuarioPorMail($mail);
 
+        $clave = password_hash($clave, PASSWORD_DEFAULT);
 
         if (!empty($chequeo_mail)) {
             return ["estado" => "error",

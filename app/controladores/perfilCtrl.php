@@ -233,8 +233,47 @@ class PerfilCtrl extends Controlador{
 
         }
         header('Location: ' . BASE_URL);
-
+    }
         
+    public function subir_imagen() {
+        header('Content-Type: application/json');
+
+        if (!isset($_SESSION["usuario_id"])) {
+            echo json_encode(['success' => false, 'error' => 'Usuario no autenticado.']);
+            return;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_FILES['photo'])) {
+            echo json_encode(['success' => false, 'error' => 'Solicitud no válida.']);
+            return;
+        }
+
+        $file = $_FILES['photo'];
+
+        if ($file['error']) {
+            echo json_encode(['success' => false, 'error' => 'Error en la subida del archivo.']);
+            return;
+        }
+
+        $uploadDir = 'almacenamiento/perfiles/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        $fileName = uniqid() . '-' . basename($file['name']);
+        $uploadFile = $uploadDir . $fileName;
+
+        if (move_uploaded_file($file['tmp_name'], $uploadFile)) {
+            $usuarioModel = $this->cargarModelo("usuarioBD");
+            if ($usuarioModel->actualizarImagenPerfil($_SESSION["usuario_id"], $uploadFile)) {
+                $_SESSION['img_perfil'] = $uploadFile;
+                echo json_encode(['success' => true, 'filePath' => $uploadFile]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'No se pudo actualizar la base de datos.']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'error' => 'No se pudo mover el archivo subido.']);
+        }
     }
 
 }

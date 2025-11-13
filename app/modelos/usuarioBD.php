@@ -64,7 +64,7 @@ class UsuarioBD {
     }
     public function borrarUsuario($usuario_id){
 
-        $consulta = "DELETE FROM usuarios WHERE id = :usuario_id AND rol_id NOT 1";
+        $consulta = "DELETE FROM usuarios WHERE id = :usuario_id AND rol_id != 1";
         $this->db->consulta($consulta);
         $this->db->unir("usuario_id", $usuario_id);
         $this->db->ejecutar();
@@ -289,6 +289,16 @@ class UsuarioBD {
 
         return $this->db->ejecutar();
 
+    }
+
+    public function actualizarImagenPerfil($usuario_id, $ruta_imagen){
+        $consulta = 'UPDATE usuarios SET img_perfil = :ruta_imagen WHERE id = :usuario_id';
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':usuario_id', $usuario_id);
+        $this->db->unir(':ruta_imagen', $ruta_imagen);
+
+        return $this->db->ejecutar();
     }
 
     public function __destruct() {

@@ -584,7 +584,7 @@ class LibroBD {
 
 
     public function __destruct() {
-        $this->con = null;
+        $this->DB = null;
     }
  
 }

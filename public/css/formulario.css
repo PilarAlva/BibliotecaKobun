@@ -37,7 +37,7 @@
     right: 0;
     top: 60px; 
     position:fixed;
-    overflow-y:scroll;
+    overflow-y:auto;
     overflow-x:hidden;
      
     background-color: var(--form-bg-color);
@@ -94,7 +94,7 @@
 
 }
 .main-content:has(>.form_contenedor.form_oculto) .cuerpo-perfil{
-    overflow: scroll;
+    overflow: auto;
     
 }
 .main-content:has(>.form_contenedor.form_oculto) .perfil-contenedor{
