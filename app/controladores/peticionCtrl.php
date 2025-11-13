@@ -216,7 +216,7 @@
                         $disponibles = $libroModel->ejemplaresDisponibles($_POST['libro_id']); 
 
                         $respuesta_data = [
-                            'estado' => 'extio',
+                            'estado' => 'exito',
                             'mensaje' => 'Ejemplares obtenidos correctamente.',
                             'data' => [
                                 'disponibles' => $disponibles
@@ -225,10 +225,11 @@
                         break;
                     case 'estado-libro':
                         $respuesta_data = [
-                            'estado' => 'extio',
+                            'estado' => 'exito',
                             'mensaje' => 'Cambio de estado libro',
                             'data' =>[
-                                "estado" => $libroModel->cambiarEstado($_POST['libro_id'], $_POST['activado'])
+                                "estado" => $libroModel->cambiarEstado($_POST['libro_id'], $_POST['activado']),
+                                "activado" =>  $_POST['activado']
                             ]
                         ];
                         break;
@@ -593,7 +594,7 @@
                         }
                         break;
                     
-                    
+                        
                     case 'opciones':
 
                         $respuesta_data = [

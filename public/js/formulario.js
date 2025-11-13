@@ -315,17 +315,14 @@ export class Formulario {
         try {
             
             const libroData = await this.obtenerLibro(id);
-            if(libroData.data.libro.activo){
-
-                var libro_id  = libroData.data.libro.id;
-                
-                const cantidadData = await this.obtenerEjemplaresDisponibles(libro_id);
-                const ejemplaresData = await this.obtenerEjemplares(libro_id);
-
-                this.mostrarPaginaLibro(libroData.data.libro,
-                                        cantidadData.data.disponibles,
-                                        ejemplaresData.data.ejemplares);
-            }
+            var libro_id  = libroData.data.libro.id;
+            
+            const cantidadData = await this.obtenerEjemplaresDisponibles(libro_id);
+            const ejemplaresData = await this.obtenerEjemplares(libro_id);
+            console.log("la re uta", libroData.data.libro.activado)
+            this.mostrarPaginaLibro(libroData.data.libro,
+                                    cantidadData.data.disponibles,
+                                    ejemplaresData.data.ejemplares);
 
             this.mostrarPagina();
         } catch (error) {
@@ -504,6 +501,11 @@ export class Formulario {
                         mensaje = this.formulario.querySelector(".form_mensaje");
                         this.mostrarMensaje(mensaje, respuesta.mensaje, "form_exito");
                         break
+                    case 'estado-libro':
+                        await this.editarLibro(cambio.formData.get('libro_id')); 
+                        mensaje = this.formulario.querySelector(".form_mensaje");
+                        this.mostrarMensaje(mensaje, respuesta.mensaje, "form_exito");
+                        break
                     default:
                         this.mostrarMensaje(cambio.mensaje, respuesta.mensaje, "form_exito");   
                         break;
@@ -668,7 +670,7 @@ export class Formulario {
             const ejemplaresData = await this.obtenerEjemplares(libro_id);
 
             if (ejemplaresData && ejemplaresData.data) {
-                const nuevoHtml = this.cargarSeccionEjemplares(ejemplaresData.data.ejemplares, titulo);
+                const nuevoHtml = this.cargarSeccionEjemplares(libro_id, ejemplaresData.data.ejemplares, titulo);
                 seccion.innerHTML = nuevoHtml;
                 console.log("Sección de ejemplares actualizada.");
             } else {
@@ -1302,8 +1304,10 @@ export class Formulario {
 
     cargarPaginaInfoLibro(libro, disponibles, ejemplares){
 
-        let checked = libro.activado == 1 ? 'checked' : '';
-
+        let checked = libro.activo == 1 ? 'Activado' : 'Desactivado';
+        let activar = libro.activo == 0 ? 'Activar' : 'Desactivar';
+        var activado = libro.activo == 1 ? 0 : 1;
+        console.log("cargar pagina de libro", activado)
         return `
             <div class="form_titulo subrayado">${libro.titulo}</div>
 
@@ -1334,13 +1338,14 @@ export class Formulario {
                             <form class="form_datos rellena" id="form-estado-libro">
                                 <input name="accion" value="estado-libro" type="hidden"></input>
                                 <input name="libro_id" value=${libro.id} type="hidden"></input>
-                                <span class="form_mensaje ocultado" ></span>
+                                <input name="activado" value=${activado} type="hidden"></input>
                                 <div class="form_fila derecha">
-                                    <span >Libro Activo: </span>
+                                    <span >Libro ${checked}: </span>
                                     
-                                    <input name="activo" type="checkbox" ${checked}></input>
+                                    <button name="activo" type="submit">${activar}</button>
                                     <span class="form_input_mensaje ocultado" ></span>
                                 </div>
+                                <span class="form_mensaje ocultado" ></span>
                             </form>
                         </div>
                     </div>
@@ -1348,7 +1353,7 @@ export class Formulario {
                 
             </section>
 
-            ${this.cargarSeccionEjemplares(ejemplares, libro.titulo)}
+            ${this.cargarSeccionEjemplares(libro.id, ejemplares, libro.titulo)}
 
         `;
 
@@ -1696,11 +1701,12 @@ export class Formulario {
                 </div>
             </footer>`;
     }
-    cargarSeccionEjemplares(ejemplares, titulo){
+    cargarSeccionEjemplares(libro_id, ejemplares, titulo){
 
-        let todos_ejemplares = ejemplares.map(e => this.cargarEjemplar(e, titulo)).join('');
-        let libro_id = ejemplares[0]? ejemplares[0].libro_id : '';
-
+        let todos_ejemplares = `<span>No hay ejemplares registrados</span>`;
+        if(ejemplares.length > 0){
+            todos_ejemplares = ejemplares.map(e => this.cargarEjemplar(e, titulo)).join('');
+        }
 
         return `
         <section class="form_seccion subrayado" id="seccion-ejemplares">

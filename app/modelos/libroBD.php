@@ -11,7 +11,18 @@ class LibroBD {
         $this->db = new BaseDatos();
 
     }
-
+    public function cambiarEstado($libro_id, $activado){
+        $consulta = "UPDATE libros 
+                        SET activo = :activado
+                        WHERE id = :libro_id";
+                        
+        $this->db->consulta($consulta);
+        $this->db->unir(":libro_id", $libro_id);
+        $this->db->unir(":activado", $activado);
+        
+        return $this->db->ejecutar();
+    
+    }
     public function busquedaCatalogo($busqueda, $filtro, $inicio = 0, $cant = 1000){
 
         $consulta = "SELECT  
