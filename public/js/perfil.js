@@ -150,7 +150,7 @@ window.addEventListener("load", async () => {
         let cont = "";
         
         cont = resultados.map(r => plantilla(r)).join('');
-        console.log(donde, cont);
+        //console.log(donde, cont);
         donde.innerHTML = cont;
     }
 

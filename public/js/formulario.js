@@ -501,11 +501,9 @@ export class Formulario {
 
                         break;
                     case 'prestar-libro':
-                        /*await this.actualizarEjemplaresDisponibles(usuario_id, respuesta.data.ejemplares);
-                        await this.actualizarSeccionPrestamos(usuario_id, socio_id);
-                        mensaje = this.formulario.querySelector(".form_mensaje");*/
-                        this.mostrarMensaje(mensaje, "Prestamo realizado", "form_exito");   
-                        break
+                            nueva_seccion = await this.editarUsuario(usuario_id);
+                            this.mostrarMensaje(cambio.mensaje, "Prestamo devuelto", "form_exito");
+                        break;
                     case 'eliminar-profesor':
                     case 'asignar-profesor':
                         await this.editarTaller(cambio.formData.get('taller_id'));
@@ -1170,44 +1168,6 @@ export class Formulario {
             return cont;
     }
 
-    /* cargarPrestarLibro(usuario, disponibles) {
-       
-            ${this.cargarInputMultiselect('Géneros:', 'generos', generos, 'required',
-                         '<div class="form_boton form_a" ref="agregar-genero">+</div>'
-                    )}
-        
-            <section class="form_seccion form_desplegable subrayado" id="seccion-prestar-libro">
-
-                
-                    <div class="form_fila rellena">
-                            <div class="form_boton despliega derecha">Prestar un libro</div>
-                    </div>
-                <div class="form_seccion se_despliega plegado">
-                    <label>Buscar libro:</label>
-                    <div class="form_fila"> 
-                        <form class="form_fila form_datos rellena" id="form_buscador-libro">
-                            <input name="accion" value="buscar-ejemplares" type="hidden" />
-                            <input class="form_input" name="q"></input>
-                            <span class="form_mensaje ocultado"></span>
-                        </form>
-
-                    </div>
-                    <div class="form_seccion" >
-                        <form class="form_datos" id="form-prestar-libro">
-                            <input name="accion" value="prestar-libro" type="hidden" />
-                            <input name="usuario_id" value=${usuario.usuario_id} type="hidden" />
-                             ${this.cargarEjemplaresDisponibles(usuario.usuario_id, disponibles)}
-
-                             ${this.cargarInputNormal('Fecha Límite:', 'fecha_limite', '', 'date', 'required')}
-
-                            <div class="form_fila">
-                                <button type="submit" class="form_boton derecha verde">Realizar prestamo</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </section>`;
-    } */
 
     async cargarPaginaAgregarPago(socios){
         
@@ -1454,8 +1414,8 @@ export class Formulario {
                 <div class="form_fila rellena">
                     <div class="form_seccion">
                         <div class="form_informacion">
-                            <span>${titulo}</span>
-                            <span class="form_petit">${autor}</span>
+                            <div class ="form_fila"><span>${titulo}</span></div>
+                            <div class ="form_fila"><span class="form_petit">${autor}</span></div>
                         </div>
                     </div>
                     <div class="form_seccion">
@@ -1474,8 +1434,8 @@ export class Formulario {
                 <div class="form_fila rellena">
                     <div class="form_seccion">
                         <div class="form_informacion">
-                            <span>${titulo}</span>
-                            <span class="form_petit">${autor}</span>
+                            <div class ="form_fila"><span>${titulo}</span></div>
+                            <div class ="form_fila"><span class="form_petit">${autor}</span></div>
                         </div>
                     </div>
                     <div class="form_seccion">

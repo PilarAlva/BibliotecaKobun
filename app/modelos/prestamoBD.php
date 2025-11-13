@@ -54,7 +54,7 @@ class prestamoBD {
     public function prestamosPorSocio($socio_id) {
         $consulta = "SELECT p.id,
                             l.titulo,
-                            group_concat(distinct ar.nombre separator ', ') as autores,
+                            group_concat(distinct concat(ar.nombre, ' ', ar.apellido) separator ', ') as autores,
                             p.ejemplar_id, 
                             DATE(p.fecha_prestamo) as fecha_prestamo,
                             DATE(p.fecha_vencimiento) as fecha_vencimiento,
