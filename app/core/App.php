@@ -15,7 +15,7 @@ class App{
         }
 
         $urlParts = $this->convertirUrl();
-
+        
         require_once '../app/rutas.php';
 
         if(isset($urlParts[0])){
@@ -35,9 +35,10 @@ class App{
             $this->controlador = $rutas[$ruta]['controlador'];
 
             $this->metodo = $rutas[$ruta]['metodo'];
-
+            
+            
             $this->params = array_slice($urlParts, 2);
-
+            
         }else{
 
             echo "404 - URL erroneo crack!";
@@ -55,6 +56,7 @@ class App{
 
     private function convertirUrl(){
 
+        
         if(isset($_GET['url'])){
             return explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
         }

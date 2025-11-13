@@ -68,9 +68,9 @@
                                     foreach ($generosArray as $genero) {
                                         $genero = trim($genero);
                                         if ($genero === '') continue;
+                                        $busqueda = str_replace('_', ' ', $genero);
                                         $safeText = htmlspecialchars($genero, ENT_QUOTES, 'UTF-8');
-                                        $safeUrl  = rawurlencode($genero);
-                                        echo '<a class="genero-libro" href="index.php?filtro=genero&q=' . $safeUrl . '#">' . $safeText . '</a>';
+                                        echo '<a class="genero-libro" href=' . BASE_URL. 'catalogo/b/genero/'. $busqueda .'>'. $safeText.' </a>';
                                     }
                                 }
                                 ?>

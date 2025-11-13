@@ -436,10 +436,9 @@ export class Formulario {
                 const socio_id = cambio.formData.get('socio_id');
 
                 switch (accion) {
-                    case 'agregar-libro':
-                        
+                    case 'registrar-libro':
+
                             await this.editarLibro(respuesta.data.libro_id);
-                        
                             var mensaje = nueva_seccion.querySelector(".form_mensaje");
                             this.mostrarMensaje(mensaje, "Libro agregado", "form_exito");
                         

@@ -42,17 +42,21 @@ class libroCtrl extends Controlador{
         $cantidad_por_pagina = 20;
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $busqueda = htmlspecialchars($_POST['q']);
-            $filtro = htmlspecialchars($_POST['filtro'],  );
-
-            $busqueda = urlencode($busqueda);
-            $filtro = urlencode($filtro);
+            /*$busqueda = htmlspecialchars();
+            $filtro = htmlspecialchars(,  );*/
+            $busqueda = $_POST['q'];
+            $filtro = $_POST['filtro'];
+            
+            
+            $busqueda = str_replace(' ', '_', $busqueda);
+            $filtro = str_replace(' ', '_', $filtro);
 
             header('Location: ' . BASE_URL . 'catalogo/b/' . $filtro . '/' . $busqueda );
 
         }
-        $busqueda = urldecode($busqueda);
-        $filtro = urldecode($filtro);
+
+        $busqueda = str_replace('_', ' ', $busqueda);
+        $filtro =  str_replace('_', ' ', $filtro);
 
 
         $libroModel = $this->cargarModelo("libroBD");
