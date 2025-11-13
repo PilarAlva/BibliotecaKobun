@@ -432,9 +432,11 @@
                 
                 $taller = $tallerModel->obtenerTallerPorId($taller_id);
                 if($taller){
+                    $resultado = $tallerModel->editarTaller($taller_id, $nombre, $descripcion, $horario, $lugar, $activo);
 
-                    if($tallerModel->editarTaller($taller_id, $nombre, $descripcion, $horario, $lugar, $activo)){
+                    if(!empty($resultado)){
                         header('Location: ' . BASE_URL . 'taller/id/' . $taller_id);
+                        exit;
 
                     }
                 }
