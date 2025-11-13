@@ -173,7 +173,7 @@ window.addEventListener("load", async () => {
         return `
                 <div class="form_bloque">
                     <div class="form_fila">        
-                        <div>#${libro.id}</div>                           
+                        <div class="numero_id">#${libro.id}</div>                           
                         <div class="form_seccion">
                             <h3 class="titulo-libro">${libro.titulo}</h3>
                             <p class="autor-libro">${libro.autores}</p>

@@ -1538,7 +1538,7 @@ export class Formulario {
         <button class="form_boton">Quitar privilegios</button>`;
 
         return `
-            <section class="form_pie">
+            <footer class="form_pie">
                 <div class="form_fila rellena">
                     <form class="form_datos form_seccion" id="form-estado-profesor">
                         <input name="usuario_id" value=${usuario.usuario_id} type="hidden" />
@@ -1552,7 +1552,7 @@ export class Formulario {
                         <span class="form_mensaje ocultado derecha "></span>
                     </form>
                 </div>
-            </section>`;
+            </footer>`;
     }
     cargarSeccionEjemplares(ejemplares, titulo){
 

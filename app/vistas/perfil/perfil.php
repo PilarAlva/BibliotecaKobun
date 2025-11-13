@@ -4,7 +4,9 @@
     ?>
 </header>
 
+<div class="page-body"> <!-- Contenedor añadido -->
     <main class="main-content  <?php if ($usuario['rol_id'] == 1) echo "admin"; ?>">
+        
         
         <div class="perfil-contenedor">
             <div class="encabezado">
@@ -63,49 +65,47 @@
 
                     <?php } ?>
 
+                    </div>
                 </div>
 
             </div>
         </div>
-        
-        <!-- FORMULARIO DEL ADMIN -->
-        <?php
-    if ($usuario['rol_id'] == 1) { ?>
-        <div id= "formulario" class="form_contenedor form_oculto">
-            <div id="btn-despliege" class="form_seccion form_lengueta">
-                  <
-            </div>
-            <div class="form_cuerpo">
-                <section class="form_cabezera">
-                        <div class="form_fila rellena">
-                            <!-- <div id="btn-retroceso" class="form_boton"><</div> -->
-                            <!-- <div id="cant-cambios">Cantidad de cambios:</div> -->
-                            <!-- <div id="btn-cerrar" class="form_boton">X</div> -->
-                        </div>
+    </main>
+   
+    <!-- FORMULARIO DEL ADMIN (movido fuera del main) -->
+    <?php if ($usuario['rol_id'] == 1) { ?>
+    <div id= "formulario" class="form_contenedor form_oculto">
+        <div id="btn-despliege" class="form_seccion form_lengueta">
+                <
+        </div>
+        <div class="form_cuerpo">
+            <section class="form_cabezera">
+                    <div class="form_fila rellena">
+                        <!-- <div id="btn-retroceso" class="form_boton"><</div> -->
+                        <!-- <div id="cant-cambios">Cantidad de cambios:</div> -->
+                        <!-- <div id="btn-cerrar" class="form_boton">X</div> -->
+                    </div>
+            </section>
 
-                </section>
-
+            <div class="form-contenido-wrapper"> <!-- Contenedor wrapper -->
                 <div class="form_contenido"> 
                     Primero deberías tocar alguna opcion crack!   
                 </div>
-                    
-                    
-                <section class="form_pie">
-                    <div class="form_fila rellena">
-                        <!-- <div id= "btn-cerrar" class="form_boton rojo">Cerrar</div> -->
-                        <!-- <div id= "btn-guardar" class="form_boton verde">Guardar</div> -->
-                    </div>
-                </section>
-
             </div>
+                
+                
+            <section class="form_pie">
+                <div class="form_fila rellena">
+                    <!-- <div id= "btn-cerrar" class="form_boton rojo">Cerrar</div> -->
+                    <!-- <div id= "btn-guardar" class="form_boton verde">Guardar</div> -->
+                </div>
+            </section>
+
         </div>
-
-
+    </div>
     <?php } ?>
-        
-    </main>
-   
-    
+
+</div> <!-- Fin del contenedor page-body -->
 
 
 <footer>
