@@ -432,11 +432,11 @@
 }
  #bt-mas-info-material {
     font-weight: bold;
-    font-size: 28px;
+    font-size: 32px;
 } 
 #bt-mas-info-usuario, #bt-mas-info-taller {
     font-weight: bold;
-    font-size: 15px;
+    font-size: 25px;
 }
 
 .plegado{
@@ -577,4 +577,26 @@ span.verde{
    width: 10%;/* Ajusta el tamaño del ícono de la cámara */
     
     filter: brightness(0) invert(1); /* Cambia el color del ícono a blanco */
+}
+
+/* Estilos para la vista previa de imágenes en publicaciones */
+.t-p_archivo_preview_img {
+    width: 150px; /* Ancho de la imagen */
+    height: 150px; /* Alto de la imagen para que sea cuadrada */
+    object-fit: cover; /* La imagen cubre el contenedor sin deformarse */
+    display: block; /* Asegura que ocupe su propia línea */
+    margin-bottom: 5px; /* Espacio debajo de la imagen */
+    border: 1px solid #ddd; /* Borde sutil */
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+.t-p_archivo {
+    display: flex; /* Permite organizar el contenido interno */
+    flex-direction: column; /* Apila la imagen y el texto verticalmente */
+    align-items: flex-start; /* Alinea los elementos al inicio */
+    margin-bottom: 10px; /* Espacio entre diferentes archivos */
+}
+
+.t-p_cuerpo_archivos {
+    overflow: visible; /* Asegura que el contenido no se recorte */
 }

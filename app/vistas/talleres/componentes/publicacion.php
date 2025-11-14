@@ -80,13 +80,23 @@
                     $archivos = explode(',', $publicacion['archivos_titulos']);
                     $archivos_id = explode(',', $publicacion['archivos_id']);
                     $archivos_dirs = explode(',', $publicacion['archivos_direcciones']);
+                    $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']; // Extensiones de imagen
                     foreach($archivos as $index => $archivo){
+                        $fullPath = $archivos_dirs[$index];
+                        $extension = pathinfo($fullPath, PATHINFO_EXTENSION);
+                        $isImage = in_array(strtolower($extension), $imageExtensions);
             ?>
 
                 <span class="t-p_archivo">
-                    <a href= "<?php echo BASE_URL . "archivo/id/" . $archivos_id[$index]?>" >
-                    <?php echo $archivo ?>
-                    </a>
+                    <?php if ($isImage): ?>
+                        <a href="<?php echo BASE_URL . "archivo/id/".$archivos_id[$index]; ?>" target="_blank" rel="noopener noreferrer">
+                            <img src="<?php echo BASE_URL . "archivo/id/".$archivos_id[$index]; ?>" alt="<?php echo htmlspecialchars($archivo); ?>" class="t-p_archivo_preview_img">
+                        </a>
+                    <?php else: ?>
+                        <a href= "<?php echo BASE_URL . "archivo/id/".$archivos_id[$index]?>" >
+                        <?php echo htmlspecialchars($archivo); ?>
+                        </a>
+                    <?php endif; ?>
                 </span>
 
             <?php 

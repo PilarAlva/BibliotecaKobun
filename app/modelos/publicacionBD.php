@@ -230,9 +230,9 @@ class PublicacionBD extends Modelo{
                         u.id as usuario_id,
                         u.img_perfil,
                         CAST(p.fecha_publicacion AS DATE) as fecha_publicacion,
-                        group_concat(distinct pa.archivo_id separator ', ') as archivos_id,
-                        group_concat(distinct a.titulo separator ', ') as archivos_titulos
-                        group_concat(distinct a.referencia separator ', ') as archivos_direcciones
+                        group_concat(distinct pa.archivo_id separator ',') as archivos_id,
+                        group_concat(distinct a.titulo separator ',') as archivos_titulos,
+                        group_concat(distinct a.referencia separator ',') as archivos_direcciones
                     FROM publicaciones  p
                     LEFT JOIN usuarios u ON p.usuario_id = u.id
                     LEFT JOIN publicaciones_archivo pa ON p.id = pa.publicacion_id
@@ -262,10 +262,13 @@ class PublicacionBD extends Modelo{
                         u.id as usuario_id,
                         u.img_perfil,
                         CAST(p.fecha_publicacion AS DATE) as fecha_publicacion,
-                        group_concat(distinct pa.archivo_id separator ', ') as archivos_id 
+                        group_concat(distinct pa.archivo_id separator ',') as archivos_id,
+                        group_concat(distinct a.titulo separator ',') as archivos_titulos,
+                        group_concat(distinct a.referencia separator ',') as archivos_direcciones
                     FROM publicaciones  p
                     LEFT JOIN usuarios u ON p.usuario_id = u.id
                     LEFT JOIN publicaciones_archivo pa ON p.id = pa.publicacion_id
+                    LEFT JOIN archivos a ON pa.archivo_id = a.id
                     WHERE p.usuario_id = :usuario_id
                     AND p.taller_id = :taller_id
                     AND p.alcance = 'libreta'

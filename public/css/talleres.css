@@ -630,14 +630,14 @@ form {
     padding: 4px 12px;
 
     border: 1px solid grey; 
-    border-radius: 50px; 
+    border-radius: 14px; 
     font-size: 0.85rem; 
     font-weight: 500;
     max-width: 120px;
     overflow-x: hidden;
     overflow-y: hidden;
 
-    max-height: 2rem;
+    max-height: 8rem;
     margin-top: auto;
     margin-bottom: 0px;
     transition: all 0.1s cubic-bezier(0.075, 0.82, 0.165, 1);
