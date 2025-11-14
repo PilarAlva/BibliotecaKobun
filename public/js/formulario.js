@@ -555,6 +555,7 @@ export class Formulario {
                         this.mostrarMensaje(mensaje, respuesta.mensaje, "form_exito");
                         break
                     case 'agregar-taller':
+                        console.log("taller");
                         await this.editarTaller(respuesta.data.taller_id);
                         mensaje = this.formulario.querySelector(".form_mensaje");
                         this.mostrarMensaje(mensaje, respuesta.mensaje, "form_exito");

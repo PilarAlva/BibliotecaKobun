@@ -232,6 +232,7 @@ class PublicacionBD extends Modelo{
                         CAST(p.fecha_publicacion AS DATE) as fecha_publicacion,
                         group_concat(distinct pa.archivo_id separator ', ') as archivos_id,
                         group_concat(distinct a.titulo separator ', ') as archivos_titulos
+                        group_concat(distinct a.referencia separator ', ') as archivos_direcciones
                     FROM publicaciones  p
                     LEFT JOIN usuarios u ON p.usuario_id = u.id
                     LEFT JOIN publicaciones_archivo pa ON p.id = pa.publicacion_id

@@ -26,8 +26,9 @@ class TallerBD {
         $this->db->unir(':lugar', $lugar);
         $this->db->unir(':activo', $activo);
         $this->db->unir(':cupo', $cupo);                
-
-        return $this->db->ejecutar();     
+        $this->db->ejecutar();  
+        $id = $this->db->ultimoId();
+        return  $id;
 
     }   
     public function agregarProfesor($taller_id, $usuario_id){
@@ -381,6 +382,10 @@ class TallerBD {
         
 
         return $this->db->ejecutar();
+
+    }
+    public function ultimo_id(){
+        return $this->db->ultimoId();
 
     }
     public function cambiarEstadoConfirmacao($taller_id, $usuario_id){

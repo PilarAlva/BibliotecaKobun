@@ -468,7 +468,10 @@
                         if($resultado){
                             $respuesta_data = [
                                 'estado' => 'exito',
-                                'mensaje' => 'Taller agregado correctamente.'
+                                'mensaje' => 'Taller agregado correctamente.',
+                                'data' => [
+                                    'taller_id' => $resultado
+                                    ]
                             ];
                             
                         }else{

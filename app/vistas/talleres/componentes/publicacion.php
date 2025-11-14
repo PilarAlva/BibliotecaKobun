@@ -79,6 +79,7 @@
             <?php if(isset($publicacion["archivos_titulos"])){
                     $archivos = explode(',', $publicacion['archivos_titulos']);
                     $archivos_id = explode(',', $publicacion['archivos_id']);
+                    $archivos_dirs = explode(',', $publicacion['archivos_direcciones']);
                     foreach($archivos as $index => $archivo){
             ?>
 
