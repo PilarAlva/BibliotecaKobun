@@ -26,7 +26,7 @@
             <div class="sp_encabezado_info">
 
                 <span class="sp_encabezado_texto">
-                    Publicar en foro
+                    Escribe aqui...
                 </span>
                 <span class="sp_encabezado_texto_usuario hide">
 

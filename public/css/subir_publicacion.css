@@ -41,17 +41,15 @@
     height: 40px;
     border-radius: 50%;
 }
-.sp_encabezado_texto,
-.sp_encabezado_texto_usuario{
-
-    color: var(--gris-texto);
+.sp_encabezado_texto {
+    color: grey;
     font-size: 16px;
     margin-bottom: 16px;
-
+    font-style: italic;
 }
-.sp_encabezado_texto:hover{
+/* .sp_encabezado_texto:hover{
     font-weight: bold;
-}
+} */
 .sp_encabezado_texto_usuario{
     font-size: 18px;
 }
