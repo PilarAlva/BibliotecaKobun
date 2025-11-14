@@ -602,8 +602,8 @@ form {
     
     display: flex;
     flex-direction: row;
-    max-height: 4rem;
-    overflow-y: hidden;
+    max-height: 12rem;
+    overflow-y: auto;
 }
 .t-p_titulo{
     max-height: 2em;

@@ -1,5 +1,7 @@
 
 <script>
+
+
     document.addEventListener('DOMContentLoaded', function() {
         const uploadPhotoInput = document.getElementById('upload-photo');
 
@@ -30,6 +32,35 @@
             }
         });
     });
+
+    const botonPagar = document.getElementById('bt-pagar-cuota');
+
+    if (botonPagar) {
+        botonPagar.addEventListener('click', function(e) {
+            e.preventDefault(); // Previene la navegación del <a>
+
+            // Muestra un indicador de carga si quieres
+            this.innerText = "Generando link...";
+
+            fetch('<?php echo BASE_URL; ?>/pago/generar')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.link) {
+                        // Redirige al usuario al checkout de Mercado Pago
+                        window.location.href = data.link;
+                    } else {
+                        console.error('No se pudo generar el link de pago:', data.error);
+                        alert('Hubo un error al generar el link de pago.');
+                        this.innerText = "Pagar Cuota"; // Restaura el texto del botón
+                    }
+                })
+                .catch(error => {
+                    console.error('Error en la petición:', error);
+                    alert('Error de conexión. Inténtalo de nuevo.');
+                    this.innerText = "Pagar Cuota"; // Restaura el texto del botón
+                });
+        });
+    }
 </script>
 
 

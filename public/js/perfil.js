@@ -151,10 +151,11 @@ window.addEventListener("load", async () => {
     async function mostrarResultadosBusqueda(donde, resultados, plantilla){
         
         let cont = "";
-        
-        cont = resultados.map(r => plantilla(r)).join('');
+        if(resultados.length > 0){
+            cont = resultados.map(r => plantilla(r)).join('');
+            donde.innerHTML = cont;
+        }
         //console.log(donde, cont);
-        donde.innerHTML = cont;
     }
 
     async function obtenerMultas(tabla, q, filtro, pagina, socio_id) {
@@ -253,20 +254,22 @@ window.addEventListener("load", async () => {
     function cargarMulta(multa) {
 
         let pagar = multa.fecha_pago ? '' :
-        `<button id="bt-mas-info-taller"
-            class="bt-mas-info derecha" 
+        `<button id="bt-mas-info-multa"
+            class="form_boton derecha" 
             data-taller=${multa.id}>
-            pagar
+            Pagar
         </button>` 
 
         return `
+        <div class="form_fila">
             <div class="form_bloque">
-                <div class="form_fila">        
-                    <div>${multa.monto}</div>
-                    ${pagar}
-                         
+                <div class="form_fila rellena">        
+                    <div class="form_error">${multa.monto}$</div>  
                 </div>
             </div>
+            ${pagar}
+        </div>
+            
         `;
     }
     function cargarPago(pago) {

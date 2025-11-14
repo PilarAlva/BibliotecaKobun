@@ -59,6 +59,8 @@ $rutas = [
 
     'pago/procesar' => ['controlador' => 'pagoCtrl', 'metodo' => 'procesarPago'],
 
+    'pago/generar' => ['controlador' => 'pagoCtrl', 'metodo' => 'generarLinkPago'],
+
     'archivo' => ['controlador' => 'archivoCtrl', 'metodo' => 'inicio'],
 
     'archivo/id' => ['controlador' => 'archivoCtrl', 'metodo' => 'descargar'],

@@ -70,9 +70,9 @@
             </span>
         </div>
         <div class="t-p_cuerpo_contenido">
-            <p class="t-p_cuerpo_text">
+            <div class="t-p_cuerpo_text">
                 <?php echo $publicacion["cuerpo"]?>    
-            </p>
+            </div>
         
         </div>
         <div class= "t-p_cuerpo_archivos">

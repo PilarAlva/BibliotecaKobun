@@ -8,10 +8,15 @@
 
 
 class PagoCtrl extends Controlador{
-
+    
+        public function __construct() {
+        // Configura tu Access Token de Mercado Pago
+        // Es una MUY BUENA práctica guardar esto en una variable de entorno y no directamente en el código.
+        MercadoPagoConfig::setAccessToken("TEST-871194051580877-103109-9d2d1d43fb5f959797e60086efae79c8-285602852");
+        }   
         public function pago(){
 
-        MercadoPagoConfig::setAccessToken("TEST-871194051580877-103109-9d2d1d43fb5f959797e60086efae79c8-285602852");
+       
 
         $client = new PaymentClient();
         $request_options = new RequestOptions();
@@ -59,6 +64,40 @@ class PagoCtrl extends Controlador{
         }
 
     }
-    
+    public function generarLinkPago() {
+        // Este método sería llamado por una nueva ruta, por ejemplo /pago/generar
+        try {
+            // Crea un cliente de preferencia
+            $client = new PreferenceClient();
+
+            // Crea un item para la preferencia
+            // Aquí puedes obtener los datos de tu base deatos, como la cuota del socio, una multa, etc.
+            $item = [
+                "title" => "Cuota Socio Biblioteca Kobun",
+                "quantity" => 1,
+                "unit_price" => 2500, // Ejemplo: Monto de la cuota
+                "currency_id" => "ARS" // Moneda
+            ];
+
+            // Crea la preferencia
+            $preference = $client->create([
+                "items" => [$item],
+                "back_urls" => [ // URLs a las que se redirigirá al usuario después del pago
+                    "success" => BASE_URL . "/pago?status=success",
+                    "failure" => BASE_URL . "/pago?status=failure",
+                    "pending" => BASE_URL . "/pago?status=pending"
+                ],
+                "auto_return" => "approved" // Redirige automáticamente en caso de pago aprobado
+            ]);
+
+            // Devuelve el link de pago (init_point) en formato JSON
+            header('Content-Type: application/json');
+            echo json_encode(['link' => $preference->init_point]);
+
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
 }
 
