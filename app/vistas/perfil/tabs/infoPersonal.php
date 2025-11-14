@@ -169,7 +169,7 @@
                                 <?php endif; ?>
                                 <?php endif; ?>
                                 <!-- BOTON NO FUNCIONALL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-                                <button class="bt" id="bt-pagar-cuota"><a href="<?php echo PAGO_CUOTA ?>">Pagar Cuota</a></button>
+                                <button class="bt" id="bt-pagar-cuota"><a target="_blank" href="<?php echo PAGO_CUOTA ?>">Pagar Cuota</a></button>
                         </div>
 
                     <?php

@@ -99,13 +99,21 @@ class libroCtrl extends Controlador{
     public function mostrarLibro($libro_id = '1'){
         
         $libroModel = $this->cargarModelo("libroBD");
+        $pagoModel = $this->cargarModelo("pagoDB");
 
         $libro = $libroModel->infoLibro($libro_id);
 
         $ejemplares = $libroModel->ejemplaresTotales($libro_id);
+        
+        if($this->esSocio($this->usuarioRegistrado())){
+            $socio = $this->esSocio($this->usuarioRegistrado());
+            $estadoCuenta = $pagoModel->estadoCuenta($socio["id"]);   
+        }
+        
 
         $data = [
             "es_socio" => $this->esSocio($this->usuarioRegistrado()),
+            "estadoCuenta" => isset($estadoCuenta) ? $estadoCuenta : null,
             "libro" => $libro,
             "cantidad" => $libroModel->cantidadDisponible($libro_id),
             "ejemplares" => $ejemplares,

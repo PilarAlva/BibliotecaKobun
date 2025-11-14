@@ -215,11 +215,9 @@
 
             switch($accion){
                 case 'inscribir':              
-                    if($tallerModel->inscribirAlumno($taller_id, $_SESSION['usuario_id'])){
-                        header('Location: ' . BASE_URL . 'taller/info' . $taller_id );
-                    }else{
-                        header('Location: ' . BASE_URL . 'taller/info');
-                    }
+                    $tallerModel->inscribirAlumno($taller_id, $_SESSION['usuario_id']);
+                    header('Location: ' . BASE_URL . 'taller/info/' . $taller_id);
+
                     break;
                 case 'inscripto':
                     header('Location: ' . BASE_URL . 'taller/id/' . $taller_id);
@@ -398,7 +396,7 @@
 
                 case 'aceptar':
                     
-                    if($tallerModel->cambiarEstadoAlumno($taller_id, $usuario_id, 1 )){
+                    if(!$tallerModel->cambiarEstadoAlumno($taller_id, $usuario_id, 1 )){
                         header('Location: ' . BASE_URL . 'taller/id/' . $taller_id );
                     }else{
                         header('Location: ' . BASE_URL . 'talleres');

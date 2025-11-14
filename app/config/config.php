@@ -10,6 +10,7 @@
     define('SERVER_IP', '192.168.1.44');
     define('BASE_IMG', BASE_URL . 'archivo/id/');
     define('PAGO_CUOTA', 'https://mpago.la/2sR25Uf');
+    define('PAGO_MULTA', 'link.mercadopago.com.ar/bibliotecakobun');
     //define('BASE_URL', 'http://localhost/BibliotecaKobun/public/');
     
 ?>

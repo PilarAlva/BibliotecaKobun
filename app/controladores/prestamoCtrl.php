@@ -23,7 +23,8 @@
 
             $estado = $this->registrarPrestamoPorIdUsuario($_POST['usuario_id'], $_POST['libro_id'], date('Y-m-d'));
 
-            header('Location: ' . BASE_URL . 'libro/id/' . $_POST['libro_id'] . '?estado=' . urlencode(serialize($estado)) );
+            
+            header('Location: ' . BASE_URL . 'libro/id/' . $_POST['libro_id'] . '?estado=' . urlencode($estado["mensaje"]) );
 
 
         }
@@ -37,7 +38,7 @@
             $socio = $socioModel->obtenerSocioPorIdUsuario($usuario_id);
 
             if (!$socio) {
-            return ["error" => "El socio no existe."];
+            return ["estado" => "error", "mensaje" => "El socio no existe."];
             }
 
             $antiguedad_socio = $socioModel->antiguedadSocio($socio['id']);
@@ -53,25 +54,22 @@
                 $valido = TRUE;   
             }
 
-            switch($antiguedad_socio){
-                case 10:
-
-                    if($cantidad_prestamos < 2) 
+            if($antiguedad_socio < 180){
+                if($cantidad_prestamos < 2) 
                         $valido = TRUE;
-
-                    break;
-                case 20:
-                default:
-                    
-                    if($cantidad_prestamos < 6) 
+                    else {
+                         return ["estado" => "error", "mensaje" => "Se llego al tope de préstamos."];
+                    }
+            }else if($antiguedad_socio > 181){
+                if($cantidad_prestamos < 6) 
                         $valido = TRUE;
-
-                    break;
-
-            }         
+                    else{
+                        return ["estado" => "error", "mensaje" => "Se llego al tope de préstamos."];
+                    }
+            }
 
             if(!$valido){
-                return ["error" => "El socio no cumple con los requisitos."];
+                return ["estado" => "error", "mensaje" => "El socio no cumple con los requisitos."];
             }
             
             $ejemplares = $libroModel->ejemplaresDisponibles($libro_id);
@@ -82,17 +80,17 @@
                 
             }else{
 
-                return ["error" => "No hay ejemplares dispoibles."];
+                return ["estado" => "error", "mensaje" => "No hay ejemplares disponibles."];
             }
             
 
             if ($resultado) {
                 
-                return ["success" => "Préstamo registrado exitosamente."];
+                return ["estado" => "exito", "mensaje" => "Préstamo registrado exitosamente."];
 
             } else {
 
-                return ["error" => $socio['id'] ."-Error al registrar el préstamo."];
+                return ["estado" => "error", "mensaje" => $socio['id'] ."-Error al registrar el préstamo."];
                 
             }
         }
