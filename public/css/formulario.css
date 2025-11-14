@@ -432,11 +432,11 @@
 }
  #bt-mas-info-material {
     font-weight: bold;
-    font-size: 32px;
+    font-size: 28px;
 } 
 #bt-mas-info-usuario, #bt-mas-info-taller {
     font-weight: bold;
-    font-size: 25px;
+    font-size: 15px;
 }
 
 .plegado{

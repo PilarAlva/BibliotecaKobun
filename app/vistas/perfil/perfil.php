@@ -35,7 +35,7 @@
                             <li><a href="#" class="nav-link" data-target="gestion-usuarios">Gestionar Usuarios</a></li>
                             <li><a href="#" class="nav-link" data-target="gestion-material">Gestionar Material</a></li>
                             <li><a href="#" class="nav-link" data-target="gestion-talleres">Gestionar Talleres</a></li>
-                            <li><a href="#" class="nav-link" data-target="gestion-pagos">Gestionar pagos</a></li>
+                            <li><a href="#" class="nav-link" data-target="gestion-pagos">Gestionar Pagos</a></li>
                         <?php } ?>
                     </ul>
                 </nav>
