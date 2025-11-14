@@ -47,7 +47,6 @@
                                     <img src="img/icono-camara.png" alt="Cambiar foto" class="camera-icon">
                                 </div>
                             </label>
-                            <!-- FALTA FUNCION PARA GURDAR Y/O ACTUALIZAR LA IMAGEN DEL USUARIO EN LA BD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                             <input type="file" id="upload-photo" name="photo" style="display: none;">
                         </div>
 

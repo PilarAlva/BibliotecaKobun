@@ -389,6 +389,22 @@ export class Formulario {
         }
     }
 
+    async editarPago(id){
+        try {
+            
+            const pagoData = await this.obtenerPago(id);
+
+            this.mostrarPaginaEditarPago(pagoData.data.pago);
+
+            this.mostrarPagina();
+
+        } catch (error) {
+            console.error("No se pudo cargar el pago:", error);
+            this.mostrarMensaje(this.contenido, "Error al cargar el pago", "form_error");
+            return null;
+        }
+    }
+
     //--------------------------------------------------------------------------
     // Paginas y la cola de páginas 
     //--------------------------------------------------------------------------
@@ -515,6 +531,12 @@ export class Formulario {
                         mensaje = this.formulario.querySelector(".form_mensaje");
                         this.mostrarMensaje(mensaje, respuesta.mensaje, "form_exito");
                         break
+                    case 'agregar-taller':
+                        await this.editarTaller(respuesta.data.taller_id);
+                        mensaje = this.formulario.querySelector(".form_mensaje");
+                        this.mostrarMensaje(mensaje, respuesta.mensaje, "form_exito");
+                        break;
+
                     default:
                         this.mostrarMensaje(cambio.mensaje, respuesta.mensaje, "form_exito");   
                         break;
@@ -1285,41 +1307,53 @@ export class Formulario {
             <section class="form_seccion subrayado">
                 
                 <div class="form_seccion">
-                    <div class="form_informacion">
-                        
-                        <div class="form_fila">
-                            <span>Autor: ${libro.autores}</span>
-                            <span class="form_subtitulo derecha">ID: 102${libro.id}</span>
-                        </div>   
-                        <div class="form_fila">
-                            <span>Editorial: ${libro.editorial}</span>
-                        </div>
-                        <div class="form_fila">
-                            <span>ISBN: ${libro.isbn}</span>
-                        </div>
-                        <div class="form_fila">
-                            <span>Descripcion: ${libro.descripcion}</span>
+                   <div class="form_fila">
+                        <div class="form_informacion limitar">
                             
+                            <div class="form_fila">
+                                <span>Autor: ${libro.autores}</span>
+                                <span class="form_subtitulo derecha">ID: 102${libro.id}</span>
+                            </div>   
+                        
+                            <div class="form_fila">
+                                <span>Editorial: ${libro.editorial}</span>
+                            </div>
+                            <div class="form_fila">
+                                <span>ISBN: ${libro.isbn}</span>
+                            </div>
+                            <div class="form_fila">
+                                <span>Descripcion: ${libro.descripcion}</span>
+                                
+                            </div>
+                            <div class="form_fila subtitulo">
+                                <span>Cantidad de ejemplares: ${ejemplares.length}</span>
+                            </div>
+                            <div class="form_fila subtitulo">
+                               
+                                
+                            </div>
                         </div>
-                        <div class="form_fila subtitulo">
-                            <span>Cantidad de ejemplares: ${ejemplares.length}</span>
-                        </div>
-                        <div class="form_fila subtitulo">
-                            <span>Disponilbles: ${disponibles.length}</span>
-                            <form class="form_datos rellena" id="form-estado-libro">
-                                <input name="accion" value="estado-libro" type="hidden"></input>
-                                <input name="libro_id" value=${libro.id} type="hidden"></input>
-                                <input name="activado" value=${activado} type="hidden"></input>
-                                <div class="form_fila derecha">
+                         <div class="form_imagen derecha">
+                            <img src="img/no.png" alt="portada">
+                         </div>
+                    </div>
+                    <div class="form_separacion"></div>
+                    <div class="form_fila rellena">
+                         <span>Disponilbles: ${disponibles.length}</span>
+                         <form class="form_datos rellena" id="form-estado-libro">
+                            <input name="accion" value="estado-libro" type="hidden"></input>
+                            <input name="libro_id" value=${libro.id} type="hidden"></input>
+                            <input name="activado" value=${activado} type="hidden"></input>
+                            <div class="form_fila derecha">
                                 <span >Libro ${checked}: </span>
                                 
-                                <button name="activo" type="submit">${activar}</button>
+                                <button class ="form_boton derecha" name="activo" type="submit">${activar}</button>
                                 <span class="form_input_mensaje ocultado" ></span>
-                                </div>
-                                <span class="form_mensaje ocultado" ></span>
-                            </form>
-                        </div>
+                            </div>
+                            <span class="form_mensaje ocultado" ></span>
+                        </form>
                     </div>
+
                 </div>
                 
             </section>

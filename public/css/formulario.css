@@ -478,3 +478,22 @@ span.verde{
     font-weight: bold;
     color: var(--exito);
 }
+.form_imagen{
+    height: 100%;
+    width: 30%;
+    
+    background-color: #4e4a4a;
+    overflow: hidden;
+}
+.limitar{
+    max-width: 50%;
+
+}
+.form_imagen img{
+    width: 100%; 
+    aspect-ratio: 2 / 3; /* Proporción rectangular (2 de ancho por 3 de alto) */
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}

@@ -89,7 +89,10 @@ window.addEventListener("load", async () => {
              formulario.editarTaller(target.getAttribute("data-taller"));
         }else if(target.matches("#bt-agregar-pago")){
              formulario.agregarPago();
+        }else if(target.matches("#bt-editar-pago")){
+            formulario.editarPago(target.getAttribute("data-pago"));
         }
+        
         // else if(target.matches("#bt-mas-info-taller")){
         //      formulario.editarTaller(target.getAttribute("data-taller"));
         // }
@@ -285,11 +288,10 @@ window.addEventListener("load", async () => {
                         </div>
                         <p class="autor-libro ">${pago.medio}</p>
                     </div>
-                    
 
-                    <button id="bt-mas-info-material"
+                    <button id="bt-mas-info-pago"
                         class="bt-mas-info derecha" 
-                        data-libro=${pago.pago_id}>
+                        data-pago=${pago.pago_id}>
                         +
                     </button>
                 </div>
