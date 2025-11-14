@@ -3,6 +3,7 @@
     require '../vendor/autoload.php';
     use MercadoPago\Client\Common\RequestOptions;
     use MercadoPago\Client\Payment\PaymentClient;
+    use MercadoPago\Client\Preference\PreferenceClient;
     use MercadoPago\MercadoPagoConfig;
     
 
@@ -83,9 +84,9 @@ class PagoCtrl extends Controlador{
             $preference = $client->create([
                 "items" => [$item],
                 "back_urls" => [ // URLs a las que se redirigirá al usuario después del pago
-                    "success" => BASE_URL . "/pago?status=success",
-                    "failure" => BASE_URL . "/pago?status=failure",
-                    "pending" => BASE_URL . "/pago?status=pending"
+                    "success" => BASE_URL . "/pago/estado/success",
+                    "failure" => BASE_URL . "/pago/estado/failure",
+                    "pending" => BASE_URL . "/pago/estado/pending"
                 ],
                 "auto_return" => "approved" // Redirige automáticamente en caso de pago aprobado
             ]);
@@ -98,6 +99,10 @@ class PagoCtrl extends Controlador{
             http_response_code(500);
             echo json_encode(['error' => $e->getMessage()]);
         }
+    }
+    public function estado($estado = "") {
+        echo $estado;
+
     }
 }
 
