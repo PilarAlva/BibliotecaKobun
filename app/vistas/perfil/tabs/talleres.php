@@ -1,39 +1,39 @@
   <!-- Contenido para "Talleres" -->
                 <div id="talleres" class="tab-content">
                     <h3>Mis Talleres</h3>
-                    <div class="talleres-grid">
-                        <?php
-                            if (empty($talleres)) {
-                        ?>
-                            <div class="sin-contenido">
-                                <p>No participa de ningún taller.</p>
-                                <div class="boton-derecha">
-                                    <button class="bt"><a href="<?php echo BASE_URL; ?>talleres">Ver Talleres</a></button>
-                                </div>
+                    <?php
+                        if (empty($talleres)) { ?>
+                        <div class="sin-contenido">
+                            <p>No participa de ningún taller.</p>
+                            <div class="boton-derecha">
+                                <button class="bt"><a href="<?php echo BASE_URL; ?>talleres">Ver Talleres</a></button>
                             </div>
-                        <?php } else {
-                                // Iteracion sobre cada taller
-                                foreach ($talleres as $taller) { ?>
-                                    <div class="taller">
-                                        <a href="<?=BASE_URL?>taller/id/<?= $taller['taller_id']; ?>">
-                                            <div class="taller-contenedor">  
-                                                <div class="imagen-taller-cont">
-                                                    <?php
-                                                        $portadaSrc = !empty($taller['portada']) ? BASE_IMG . $taller['portada'] : 'img/talleres-default.webp';
-                                                    ?>
-                                                    <img src="<?php echo $portadaSrc; ?>" alt="Portada del taller <?php echo htmlspecialchars($taller['nombre']); ?>">
-                                                </div>
-                                                <div class="info-taller-contenedor">
-                                                    <h4 class="titulo-taller"><?php echo htmlspecialchars($taller['nombre']); ?></h4>
-                                                    <p>Profesor: <?php echo htmlspecialchars($taller['profesores_nombre'])?></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                <?php } // Fin del foreach
-                            }
-                        ?>
+                        </div>
+                    <?php }
+                        else { ?>
+                            <div class="talleres-grid">
 
-                    </div>
+                            <?php    // Iteracion sobre cada taller
+                            foreach ($talleres as $taller) { ?>
+                                <div class="taller">
+                                    <a href="<?=BASE_URL?>taller/id/<?= $taller['taller_id']; ?>">
+                                        <div class="taller-contenedor">  
+                                            <div class="imagen-taller-cont">
+                                                <?php
+                                                    $portadaSrc = !empty($taller['portada']) ? BASE_IMG . $taller['portada'] : 'img/talleres-default.webp';
+                                                ?>
+                                                <img src="<?php echo $portadaSrc; ?>" alt="Portada del taller <?php echo htmlspecialchars($taller['nombre']); ?>">
+                                            </div>
+                                            <div class="info-taller-contenedor">
+                                                <h4 class="titulo-taller"><?php echo htmlspecialchars($taller['nombre']); ?></h4>
+                                                <p>Profesor: <?php echo htmlspecialchars($taller['profesores_nombre'])?></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            <?php } // Fin del foreach
+                            ?>
+                            </div> <!-- Cierre del .talleres-grid -->
+                    <?php } ?>
 
                 </div>
