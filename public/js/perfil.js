@@ -257,7 +257,7 @@ window.addEventListener("load", async () => {
         `<button id="bt-mas-info-multa"
             class="form_boton derecha" 
             data-taller=${multa.id}>
-            Pagar
+           <a target="_blank" href="https://link.mercadopago.com.ar/bibliotecakobun">pagar</a>
         </button>` 
 
         return `

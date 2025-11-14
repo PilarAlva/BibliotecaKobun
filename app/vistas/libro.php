@@ -38,13 +38,19 @@
                 if (isset($_SESSION['usuario_id']) ) { ?>
                     <?php if($es_socio){
                             if($cantidad > 0){
+                                if(isset($estadoCuenta)){   
+                                    if($estadoCuenta["cuota_al_dia"] == 1){
                             ?>
                             <form method="POST" action="<?php BASE_URL?>libro/prestamo">
                                 <input type="hidden" name="libro_id" value="<?php echo $libro["id"]?>">
                                 <input type="hidden" name="usuario_id" value="<?php echo $_SESSION['usuario_id'] ?>">
                                 <button type="submit" class="btn-prestamo">Pedir Préstamo</button>
                             </form>
-                        <?php }
+                        <?php }}else{
+                            ?>
+                                <button type="submit" class="btn-prestamo desactivado" disabled >Cuota Pendiente</button>
+                            <?php
+                        }}
                             else{?> 
                                 <p class="msj-gris">ⓘ No hay ejemplares disponibles</p>
                         <?php }

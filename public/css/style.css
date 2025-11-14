@@ -319,3 +319,10 @@ footer {
         position: relative;
     }
 }
+.desactivado{
+
+    opacity: 0.8;
+    background-color: var(--grey-color);
+    color: var(--text-color);
+
+}
