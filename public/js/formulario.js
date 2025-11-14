@@ -178,6 +178,29 @@ export class Formulario {
             const contenedor = target.closest('.form_datos');
             contenedor.requestSubmit();
             console.log("busqueda ejemplar");
+        } else if (target.matches('input[type="file"][name="portada"]')) {
+            const file = target.files[0];
+            if (file) {
+                const contenedor = target.closest('.form_portada_libro');
+                const libroId = contenedor.querySelector('input[name="libro_id"]').value;
+
+                const formData = new FormData();
+                formData.append('accion', 'cambiar-portada-libro');
+                formData.append('libro_id', libroId);
+                formData.append('portada', file);
+
+                Peticion.peticion(formData)
+                    .then(data => {
+                        if (data.estado === 'exito') {
+                            this.editarLibro(libroId); // Recargar la info del libro
+                        } else {
+                            console.error('Error al subir la imagen:', data.mensaje);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error en la petición fetch:', error);
+                    });
+            }
         }
         
     }
@@ -1333,8 +1356,15 @@ export class Formulario {
                                 
                             </div>
                         </div>
-                         <div class="form_imagen derecha">
-                            <img src="img/no.png" alt="portada">
+                         <div class="form_imagen derecha form_portada_libro">
+                            <label for="upload-photo-libro" class="upload-label">
+                                <img src="http://localhost/Kobun/public/archivo/id/${libro.portada}" alt="portada">
+                                <div class="overlay">
+                                    <img src="img/icono-camara.png" class="camera-icon">
+                                </div>
+                            </label>
+                            <input type="file" id="upload-photo-libro" name="portada" style="display: none;" accept="image/*">
+                            <input type="hidden" name="libro_id" value="${libro.id}">
                          </div>
                     </div>
                     <div class="form_separacion"></div>

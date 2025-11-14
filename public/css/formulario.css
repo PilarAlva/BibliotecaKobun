@@ -497,3 +497,48 @@ span.verde{
     border-radius: 8px; 
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
+.form_portada_libro {
+    width: 120px; /* Ancho fijo para la portada */
+    height: auto;
+    border-radius: 8px;
+    position: relative;
+    cursor: pointer;
+}
+
+.form_portada_libro img {
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.form_portada_libro .upload-label {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.form_portada_libro .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.form_portada_libro:hover .overlay {
+    opacity: 1;
+}
+
+.form_portada_libro .camera-icon {
+   width: 10%;/* Ajusta el tamaño del ícono de la cámara */
+    
+    filter: brightness(0) invert(1); /* Cambia el color del ícono a blanco */
+}

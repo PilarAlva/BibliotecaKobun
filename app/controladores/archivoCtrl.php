@@ -86,7 +86,8 @@ class ArchivoCtrl extends Controlador{
 
     }
 
-    public function guardarPortada($nombre, $portada){
+
+    public function guardarPortada($nombre, $portada, $libro_id = null){
 
         $archivoDB = $this->cargarModelo('archivoBD');
 
@@ -102,7 +103,14 @@ class ArchivoCtrl extends Controlador{
             $resultado = $archivoDB->registrarArchivo($archivoDestino . '.' . $tipoImagen, $nombre);
 
             if($resultado){
-                return $resultado;
+                $archivo_id = $archivoDB->ultimo_id();
+
+                if ($libro_id) {
+                    $libroModel = $this->cargarModelo('libroBD');
+                    $libroModel->actualizarPortada($libro_id, $archivo_id);
+                }
+                // En el caso de un libro nuevo, el controlador se encarga de asociar el ID del archivo.
+                return $archivo_id;
             }
             
             unlink($archivoDestino);

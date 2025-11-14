@@ -306,6 +306,25 @@
 
                         }
                         break;
+                    case 'cambiar-portada-libro':
+                        $libro_id = $_POST['libro_id'];
+                        $portada_file = $_FILES['portada'];
+                        $libro = $libroModel->infoLibro($libro_id);
+
+                        if ($libro && $portada_file) {
+                            $ref_portada = $archivoCtrl->guardarPortada($libro['titulo'], $portada_file, $libro_id);
+                            if ($ref_portada) {
+                                $respuesta_data = [
+                                    "estado" => "exito",
+                                    "mensaje" => "Portada actualizada correctamente."
+                                ];
+                            } else {
+                                $respuesta_data = ["estado" => "error", "mensaje" => "No se pudo guardar la nueva portada."];
+                            }
+                        } else {
+                            $respuesta_data = ["estado" => "error", "mensaje" => "Libro no encontrado o archivo no enviado."];
+                        }
+                        break;
                     case 'registrar-usuario':
                         http_response_code(200);
                         $nombre = htmlspecialchars($_POST['nombre']);
@@ -645,5 +664,3 @@
     
     }
     }
-
-

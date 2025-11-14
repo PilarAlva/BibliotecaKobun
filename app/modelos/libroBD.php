@@ -495,6 +495,20 @@ class LibroBD {
 
     }
 
+    public function actualizarPortada($libro_id, $archivo_id){
+        
+
+        $consulta = "UPDATE libros 
+                        SET ref_portada = :ref_portada
+                        WHERE id = :libro_id ";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':libro_id', $libro_id);
+        $this->db->unir(':ref_portada', $archivo_id);
+
+        return $this->db->ejecutar();        
+
+    }
     public function estadoLibro($libro_id, $activo){
         
         $consulta = "UPDATE libros 
