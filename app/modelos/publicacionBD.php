@@ -228,6 +228,7 @@ class PublicacionBD extends Modelo{
                         p.id, p.titulo, p.cuerpo,
                         concat(u.nombre, ' ', u.apellido) as usuario_nombre,
                         u.id as usuario_id,
+                        u.img_perfil,
                         CAST(p.fecha_publicacion AS DATE) as fecha_publicacion,
                         group_concat(distinct pa.archivo_id separator ', ') as archivos_id,
                         group_concat(distinct a.titulo separator ', ') as archivos_titulos
@@ -258,7 +259,8 @@ class PublicacionBD extends Modelo{
                         p.id, p.titulo, p.cuerpo,
                         concat(u.nombre, ' ', u.apellido) as usuario_nombre,
                         u.id as usuario_id,
-                        p.fecha_publicacion,
+                        u.img_perfil,
+                        CAST(p.fecha_publicacion AS DATE) as fecha_publicacion,
                         group_concat(distinct pa.archivo_id separator ', ') as archivos_id 
                     FROM publicaciones  p
                     LEFT JOIN usuarios u ON p.usuario_id = u.id

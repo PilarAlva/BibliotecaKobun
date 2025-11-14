@@ -2,7 +2,7 @@
     
     <?php
         $defaultImg = 'img/perfil-default.png';
-        $perfilImg = isset($_SESSION['img_perfil']) && !empty($_SESSION['img_perfil']) ? $_SESSION['img_perfil'] : $defaultImg;
+        $perfilImg = isset($usuario['img_perfil']) ? $usuario['img_perfil'] : $defaultImg;
     ?>
     <img class="t-p_foto_perfil" src="<?php echo htmlspecialchars($perfilImg); ?>" alt="Imagen de perfil del usuario">
     

@@ -4,7 +4,12 @@
 
     <div class="t-p_encabezado">
 
-        <img class="t-p_foto_perfil" src="img/no.png"/>
+        <?php
+            $defaultImg = 'img/perfil-default.png';
+            $perfilImg = isset($publicacion['img_perfil']) ? $publicacion['img_perfil'] : $defaultImg;
+        ?>
+        <img class="t-p_foto_perfil" src="<?php echo htmlspecialchars($perfilImg); ?>" alt="Imagen de perfil del usuario">
+        
 
         <span class="t-p_autor">
             <?php echo $publicacion["usuario_nombre"]?>

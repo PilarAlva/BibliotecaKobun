@@ -278,6 +278,7 @@ class TallerBD {
     public function alumnosInscriptios ($taller_id){
         
         $consulta = "SELECT u.id as usuario_id,
+                    u.img_perfil,
                     concat(u.nombre, ' ', u.apellido) as usuario_nombre
                     FROM talleres_usuarios tu
                     LEFT JOIN usuarios u ON tu.usuario_id = u.id
