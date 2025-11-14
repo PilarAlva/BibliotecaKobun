@@ -194,12 +194,12 @@
 } 
     ES GLOBAL */
 
-.sin-contenido {
+/* .sin-contenido {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-}
+} */
 
 .linea-divisora {
     border: 0;
@@ -375,15 +375,17 @@
 
 
 /* ------------- Talleres ------------- */
-.talleres-grid .sin-contenido {
-    display: block;
-}
-
 .talleres-grid {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly; /* Centra los talleres horizontalmente */    
+    justify-content: space-evenly; 
 }
+
+/* Estilo para cuando no hay talleres que mostrar */
+.talleres-grid.sin-contenido {
+    display: block;
+}
+
 
 .taller {
     display: flex;
