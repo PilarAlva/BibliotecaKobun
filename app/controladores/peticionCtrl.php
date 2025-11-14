@@ -562,7 +562,7 @@
                                     'mensaje'=> "Libros devueltos",
                                     'data' => [
                                         'cantidad' => $libroModel->cantResultadosCatalogo($busqueda, $filtro),
-                                        'resultados' => $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, 20, true )
+                                        'resultados' => $libroModel->busquedaCatalogo($busqueda, $filtro, 0, 200, true )
                                     ]
                                 ];
                                 break;
