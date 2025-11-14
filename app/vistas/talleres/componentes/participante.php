@@ -8,7 +8,7 @@
     
 
     <span class="t-p_autor">
-        <?php echo htmlspecialchars($usuario["nombre"] ?? $usuario["usuario_nombre"] ?? 'Usuario');
+        <?php echo htmlspecialchars($usuario["nombre"] ?? $usuario["usuario_nombre"] ?? 'Usuario');?>
     </span>
 
     <?php if ($es_profesor):?>

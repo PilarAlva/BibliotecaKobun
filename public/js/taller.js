@@ -55,6 +55,7 @@ window.addEventListener("DOMContentLoaded", function() {
             }
             if(id == "taller_section_participantes"){
                 subir_publicacion.parentNode.classList.add("hide");
+                console.log("participantes");
             }else if(id == "taller_section_recursos"){
                 
                 if( profe.resultado == 1){

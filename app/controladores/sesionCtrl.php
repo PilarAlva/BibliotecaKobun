@@ -109,8 +109,7 @@
                     $_SESSION['rol_id'] = $usuario['rol_id'];
                     return ["estado" => "exito",
                     "mensaje" => "Exito!"];
-
-                    
+     
                 } else {
                     return ["estado" => "error",
                         "mensaje" => "Datos erroneos"];

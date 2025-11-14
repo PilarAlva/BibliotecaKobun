@@ -612,6 +612,12 @@
                         }
 
                         break;
+                    case 'es-profesor':
+                        $respuesta_data = [
+                            'estado' => 'exito',
+                            'mensaje'=> "Profesor devuelto",
+                            'resultado' => $_SESSION["rol_id"] == 2];
+                            break;
                     case 'registrar-pago':
                         $resultado = $pagoModel->registrarPago($_POST['socio_id'], $_POST['monto'], $_POST['razon'], $_POST['medio_id']);
                         if($resultado){
