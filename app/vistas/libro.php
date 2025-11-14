@@ -1,3 +1,4 @@
+
 <header class="header">
         <?php
             include '../app/vistas/componentes/header.php'; 
@@ -33,34 +34,41 @@
 
                 </span></p>
                 <?php }?>
-                <?php 
-                //TODO: Arreglar esto
-                if (isset($_SESSION['usuario_id']) ) { ?>
-                    <?php if($es_socio){
-                            if($cantidad > 0){
-                                if(isset($estadoCuenta)){   
-                                    if($estadoCuenta["cuota_al_dia"] == 1){
-                            ?>
-                            <form method="POST" action="<?php BASE_URL?>libro/prestamo">
-                                <input type="hidden" name="libro_id" value="<?php echo $libro["id"]?>">
-                                <input type="hidden" name="usuario_id" value="<?php echo $_SESSION['usuario_id'] ?>">
+                <?php if (isset($_SESSION['usuario_id'])): ?>
+
+                <?php if ($es_socio): ?>
+
+                    <?php if ($cantidad > 0): ?>
+
+                        <?php if (isset($estadoCuenta) && $estadoCuenta["cuota_al_dia"] == 1): ?>
+                            
+                            <form method="POST" action="<?php echo BASE_URL ?>libro/prestamo">
+                                <input type="hidden" name="libro_id" value="<?php echo $libro['id']; ?>">
+                                <input type="hidden" name="usuario_id" value="<?php echo $_SESSION['usuario_id']; ?>">
                                 <button type="submit" class="btn-prestamo">Pedir Préstamo</button>
                             </form>
-                        <?php }}else{
-                            ?>
-                                <button type="submit" class="btn-prestamo desactivado" disabled >Cuota Pendiente</button>
-                            <?php
-                        }}
-                            else{?> 
-                                <p class="msj-gris">ⓘ No hay ejemplares disponibles</p>
-                        <?php }
-                }else{?>
-                        <p class="msj-gris">ⓘ Debe ser socio para solcitar prestamos</p>
-                    <?php }?>
 
-                <?php } else { ?>
-                     <p class="msj-gris">ⓘ Debe ser socio para solcitar prestamos</p>
-                <?php } ?>
+                            <?php else: ?>
+                                <button class="btn-prestamo desactivado" disabled>Cuota Pendiente</button>
+                            <?php endif; ?>
+
+                            <?php else: ?>
+                                <p class="msj-gris">ⓘ No hay ejemplares disponibles</p>
+                            <?php endif; ?>
+
+                    <?php else: ?>
+                        <p class="msj-gris">ⓘ Debe ser socio para solicitar préstamos</p>
+                    <?php endif; ?>
+
+                <?php else: ?>
+                    <p class="msj-gris">ⓘ Debe iniciar sesión para solicitar préstamos</p>
+            <?php endif; ?>
+                
+                <?php if (isset($_GET["estado"])){
+                    ?>
+                    <p class="msj-gris">ⓘ <?php echo rawurldecode($_GET["estado"])?></p>
+                <?php
+                }?>
 
             
 
