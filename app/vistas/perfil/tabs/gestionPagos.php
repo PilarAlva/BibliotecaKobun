@@ -1,7 +1,6 @@
 
     <div id="gestion-pagos" class="tab-content">
-        <h3>Gestionar Material Bibliográfico</h3>
-        <!-- BUSQUEDA NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+        <h3>Gestionar Pagos</h3>
         
         <div class="cabecera-gestion">
             <div class="buscador">
