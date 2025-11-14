@@ -1,5 +1,5 @@
 :root{
-    --form-bg-color: #fdfbfa;
+    --form-bg-color: white;
     --form-bg-seleccionado: #f3f2ef;
     --form-bg-oscurito: #f3f0ef;
     --form-subrayado: #776e71;
@@ -162,8 +162,62 @@
         cursor: pointer;
         
     }
-
 }
+
+.bt_rojo {
+    color: var(--rojo-btn);
+    font-weight: normal;
+    font-family: var(--font-main);
+    border: 1.4px solid var(--rojo-btn);
+    &:hover {
+        background-color: color-mix(in srgb, var(--rojo-btn) 30%, transparent);     
+    }
+}
+/* .bt_rojo:hover{
+    background-color: color-mix(in srgb, var(--rojo-btn) 30%, transparent);
+} */
+.bt_verde{
+    color: var(--verde-btn);
+    font-weight: normal;
+    font-family: var(--font-main);
+    border: 1.4px solid var(--verde-btn);
+
+    &:hover{
+        background-color: color-mix(in srgb, var(--verde-btn) 30%, transparent);   
+    }
+}
+.bt_beige{
+    font-weight: normal;
+    font-family: var(--font-main);
+    border: 1px solid var(--form-subrayado-fuerte);
+    background-color: color-mix(in srgb, var(--bg-color) 30%, transparent);
+    &:hover{
+        background-color: #f2f1eb ;
+    }
+}
+
+.form_boton.verde{
+    background-color: var(--form-bg-color);
+    color: var(--verde-btn);
+    font-weight: bold;
+    border: 1px solid var(--verde-btn);
+    &:hover{
+        background-color: color-mix(in srgb, var(--verde-btn) 20%, var(--form-bg-color) 10%) ;
+        
+    }
+}
+
+
+.form_boton.rojo{
+    background-color: var(--form-bg-color) ;
+    color: var(--rojo-btn);
+    border: 1px solid var(--rojo-btn);
+    
+    &:hover{
+        background-color: color-mix(in srgb, var(--rojo-btn) 20%, var(--form-bg-color) 10%) ;
+    }
+}
+
 .form_cabezera{
     /* Se quita la posición pegajosa para evitar problemas de layout */
 }
@@ -205,25 +259,7 @@
     font-size: var(--tam-fuente-subtitulo);
     font-weight: 500;
 }
-.form_boton.verde{
-    background-color: var(--form-bg-color);
-    color: var(--verde-btn);
-    font-weight: bold;
-    border: 1px solid var(--verde-btn);
-    &:hover{
-        background-color: color-mix(in srgb, var(--verde-btn) 20%, var(--form-bg-color) 10%) ;
-        
-    }
-}
-.form_boton.rojo{
-    background-color: var(--form-bg-color) ;
-    color: var(--rojo-btn);
-    border: 1px solid var(--rojo-btn);
-    
-    &:hover{
-        background-color: color-mix(in srgb, var(--rojo-btn) 20%, var(--form-bg-color) 10%) ;
-    }
-}
+
 .form_bloque{
     display: flex;
     flex-direction: column;

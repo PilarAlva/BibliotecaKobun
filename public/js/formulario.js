@@ -1006,7 +1006,7 @@ export class Formulario {
                 <span class="form_mensaje ocultado"></span>
                 <div class="form_separacion"></div>
                 <div class="form_fila rellena">
-                <button type="submit" class="form_boton derecha">Agregar</button>
+                <button type="submit" class="form_boton derecha bt_verde">Agregar</button>
                 </div
             </form>`;
             return cont;
@@ -1078,7 +1078,7 @@ export class Formulario {
                 </div>
                 <div class="form_separacion"></div>
                 <div class="form_fila rellena">
-                <button type="submit" class="form_boton derecha">Agregar</button>
+                <button type="submit" class="form_boton derecha bt_verde">Agregar</button>
                 </div
             </form>
 
@@ -1099,7 +1099,7 @@ export class Formulario {
                         <span>${profesor.nombre}</span>
                         <span>${profesor.mail}</span>
                     </div>
-                    <button type="submit" class="form_boton eliminar derecha">x</button>
+                    <button type="submit" class="form_boton eliminar derecha bt_rojo">x</button>
                 </div>
 
                 <div class="form_fila">
@@ -1125,7 +1125,7 @@ export class Formulario {
                 </div>
                 <span class="form_mensaje ocultado"></span>
                 <div class="form_separacion"></div>
-                <button type="submit" class="form_boton derecha">Agregar</button>
+                <button type="submit" class="form_boton derecha bt_verde">Agregar</button>
             </form>`;
             return cont;
 
@@ -1157,7 +1157,7 @@ export class Formulario {
                 </div>
                 <span class="form_mensaje ocultado"></span>
                 <div class="form_separacion"></div>
-                <button type="submit" class="form_boton derecha">Agregar</button>
+                <button type="submit" class="form_boton derecha bt_verde">Agregar</button>
             </form>`;
             return cont;
 
@@ -1189,7 +1189,7 @@ export class Formulario {
                 </div>
                 <span class="form_mensaje ocultado"></span>
                 <div class="form_separacion"></div>
-                <button type="submit" class="form_boton derecha">Agregar</button>
+                <button type="submit" class="form_boton derecha bt_verde">Agregar</button>
             </form>`;
             return cont;
 
@@ -1208,7 +1208,7 @@ export class Formulario {
                 
                 </div>
                 <span class="form_mensaje ocultado"></span>
-                <button class="form_boton">Registrar</button>
+                <button class="form_boton bt_verde">Registrar</button>
             </form>`;
             return cont;
     }
@@ -1297,23 +1297,23 @@ export class Formulario {
                     <span class="form_mensaje ocultado"></span>
                     ${this.cargarInputNormal('Titulo:', 'titulo', '', 'text', 'required')}
                     ${this.cargarInputMultiselect('Autor/es:', 'autores', autores, 'required',
-                          '<div class="form_boton form_a" ref="agregar-autor">+</div>'
+                          '<div class="form_boton form_a bt_beige" ref="agregar-autor">+</div>'
                     )}
                     ${this.cargarInputDesplegable('Editorial:', 'editorial',
                                                   todos_editoriales, 'required',
-                        '<div class="form_boton form_a" ref="agregar-editorial">+</div>'
+                        '<div class="form_boton form_a bt_beige" ref="agregar-editorial">+</div>'
                     )}
                     <div class="form_division"></div>
                     ${this.cargarInputNormal('ISBN:', 'isbn', '', 'text', 'required')}
                     
                     ${this.cargarInputNormal('Descripcion', 'descripcion', 'text', '', 'textrequired')}
                     ${this.cargarInputMultiselect('Géneros:', 'generos', generos, 'required',
-                         '<div class="form_boton form_a" ref="agregar-genero">+</div>'
+                         '<div class="form_boton form_a bt_beige" ref="agregar-genero">+</div>'
                     )}
                     ${this.cargarInputImagen('Portada:', 'portada', '', 'required')}
                     ${this.cargarInputTexto('Sinopsis:', 'sinopsis', '', 'required')}
                 </div>
-                <button type="submit" class="form_boton">Agregar</button>
+                <button type="submit" class="form_boton bt_verde">Agregar</button>
             </form>`;
             return cont;
     }
@@ -1377,7 +1377,7 @@ export class Formulario {
                             <div class="form_fila derecha">
                                 <span >Libro ${checked}: </span>
                                 
-                                <button class ="form_boton derecha" name="activo" type="submit">${activar}</button>
+                                <button class ="form_boton derecha bt_beige" name="activo" type="submit">${activar}</button>
                                 <span class="form_input_mensaje ocultado" ></span>
                             </div>
                             <span class="form_mensaje ocultado" ></span>
@@ -1786,7 +1786,7 @@ mensaje
         <input name="accion" value="agregar-profesor" type="hidden" />
         <button class="form_boton">Hacer profesor</button>` :`
         <input name="accion" value="quitar-profesor" type="hidden" />
-        <button class="form_boton">Quitar privilegios</button>`;
+        <button class="form_boton bt_beige">Quitar Privilegios</button>`;
 
         return `
             <footer class="form_pie">
@@ -1799,7 +1799,7 @@ mensaje
                     <form class="form_datos form_seccion" id="form-borrar-usuario">
                         <input name="accion" value="borrar-usuario" type="hidden" />
                         <input name="usuario_id" value=${usuario.usuario_id} type="hidden" />
-                        <button class="form_boton">Borrar Usuario</button>
+                        <button class="form_boton bt_rojo">Borrar Usuario</button>
                         <span class="form_mensaje ocultado derecha "></span>
                     </form>
                 </div>
@@ -1824,9 +1824,9 @@ mensaje
                 <span class="form_mensaje ocultado derecha"></span>
                 </div>
                 
-                <button class="form_boton derecha"> Agregar ejemplar</button>
+                <button class="form_boton derecha bt_verde"> Agregar ejemplar</button>
 
-                <button class="form_checks_cont ocultado form_boton"> Eliminar </button>
+                <button class="form_checks_cont ocultado form_boton bt_rojo"> Eliminar </button>
             </form>
             ${todos_ejemplares}
         </section>
