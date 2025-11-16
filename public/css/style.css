@@ -75,6 +75,17 @@ img {
     color: grey;
 }
 
+/* ------- Roles ------- */
+.rol-admin {
+    color: var(--green-color);
+}
+.rol-profesor {
+    color: #fd7e14;
+}
+.rol-general {
+    color: none;
+}
+
 
 
 /* ------- HEADER ------- */
