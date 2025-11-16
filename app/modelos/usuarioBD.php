@@ -65,7 +65,7 @@ class UsuarioBD {
     public function borrarUsuario($usuario_id){
         
         $rol = $this->obtenerRolUsuario($usuario_id);
-        if ($rol && $rol['rol_id'] == 1) {
+        if ($rol && $rol  == 1) {
             return false; 
         }
 

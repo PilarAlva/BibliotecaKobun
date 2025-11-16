@@ -316,6 +316,7 @@ form {
 }
 
 #bt-eliminar {
+    margin-top: 20px;
     background-color: var(--red-color);
 }
 
