@@ -345,7 +345,9 @@ form {
     }
 }
 
-
+.form-eliminar-taller {
+    align-items: end;
+}
 
 
 

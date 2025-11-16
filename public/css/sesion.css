@@ -51,7 +51,8 @@ input {
     align-items: center;
     justify-content: center;
     padding: 10px;
-    margin: 20px 0;
+    margin: 10px 0;
+    gap: 15px;
 }
 button {
     padding: 15px;
