@@ -63,12 +63,53 @@ class UsuarioBD {
 
     }
     public function borrarUsuario($usuario_id){
+        
+        $rol = $this->obtenerRolUsuario($usuario_id);
+        if ($rol && $rol  == 1) {
+            return false; 
+        }
 
-        $consulta = "DELETE FROM usuarios WHERE id = :usuario_id AND rol_id != 1";
-        $this->db->consulta($consulta);
-        $this->db->unir("usuario_id", $usuario_id);
+        
+        $socioModel = new SocioBD();
+        $socio = $socioModel->obtenerSocioPorIdUsuario($usuario_id);
+
+        if ($socio) {
+            $socio_id = $socio['id'];
+
+            $this->db->consulta("DELETE FROM pagos WHERE socio_id = :socio_id");
+            $this->db->unir(':socio_id', $socio_id);
+            $this->db->ejecutar();
+
+            $this->db->consulta("DELETE FROM multas WHERE socio_id = :socio_id");
+            $this->db->unir(':socio_id', $socio_id);
+            $this->db->ejecutar();
+
+            $this->db->consulta("DELETE FROM prestamos WHERE socio_id = :socio_id");
+            $this->db->unir(':socio_id', $socio_id);
+            $this->db->ejecutar();
+
+            $this->db->consulta("DELETE FROM socios WHERE id = :socio_id");
+            $this->db->unir(':socio_id', $socio_id);
+            $this->db->ejecutar();
+        }
+
+        $this->db->consulta("DELETE FROM talleres_usuarios WHERE usuario_id = :usuario_id");
+        $this->db->unir(':usuario_id', $usuario_id);
         $this->db->ejecutar();
 
+        $this->db->consulta("DELETE FROM talleres_profesores WHERE usuario_id = :usuario_id");
+        $this->db->unir(':usuario_id', $usuario_id);
+        $this->db->ejecutar();
+
+        $publicacionModel = new PublicacionBD();
+        $publicaciones = $publicacionModel->obtenerPublicacionesPorUsuario($usuario_id);
+        foreach ($publicaciones as $publicacion) {
+            $publicacionModel->borrarPublicacion($publicacion['id'], true);
+        }
+
+        $this->db->consulta("DELETE FROM usuarios WHERE id = :usuario_id");
+        $this->db->unir(':usuario_id', $usuario_id);
+        return $this->db->ejecutar();
     }
     public function obtenerInfoCompletaUsuarioPorId($usuario_id){
 
@@ -299,6 +340,23 @@ class UsuarioBD {
         $this->db->unir(':ruta_imagen', $ruta_imagen);
 
         return $this->db->ejecutar();
+    }
+
+    public function obtenerPublicacionesPorUsuario($usuario_id) {
+        $consulta = "SELECT 
+                        p.id, p.titulo, p.cuerpo,
+                        p.taller_id,
+                        concat(u.nombre, ' ', u.apellido) as usuario_nombre,
+                        u.id as usuario_id,
+                        p.fecha_publicacion
+                    FROM publicaciones p
+                    LEFT JOIN usuarios u ON p.usuario_id = u.id
+                    WHERE p.usuario_id = :usuario_id
+                    GROUP BY p.id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':usuario_id', $usuario_id);
+        return $this->db->resultados();
     }
 
     public function actualizarMail($usuario_id, $mail){

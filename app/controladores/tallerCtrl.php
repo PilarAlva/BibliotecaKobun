@@ -445,6 +445,22 @@
             
         }
 
+        public function eliminar($taller_id){
+            if ($_SERVER['REQUEST_METHOD'] != "POST") {
+                header('Location: ' . BASE_URL . 'talleres');
+                exit;
+            }
+
+            if ($this->estadoUsuario() == USUARIO::ADMINISTRADOR) {
+                $tallerModel = $this->cargarModelo("tallerBD");
+                if ($tallerModel->eliminarTaller($taller_id)) {
+                    
+                    header('Location: ' . BASE_URL . 'talleres');
+                    exit;
+                }
+            }
+            header('Location: ' . BASE_URL . 'taller/info/' . $taller_id);
+        }
         //FUNCIONALES
 
         function procesarPeticion($accion, &$data){

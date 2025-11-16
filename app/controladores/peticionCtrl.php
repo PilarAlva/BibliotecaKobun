@@ -402,20 +402,20 @@
                             if($resultado){
                                 $respuesta_data = [
                                     'estado' => 'exito',
-                                    'mensaje' => 'Quitado rol de profesor',
+                                    'mensaje' => 'Usuario borrado',
                                 ];
     
                             }else{
                             $respuesta_data = [
                                 'estado' => 'error',
-                                'mensaje' => 'Está implementado, pero da miedito'
+                                'mensaje' => 'No se borró el hdp'
                             ];}
                             break;
                             
                         }catch(Exception $e){
                              $respuesta_data = [
                                 'estado' => 'error',
-                                'mensaje' => 'El usuario seguro tiene alguna clave.'
+                                'mensaje' => 'El usuario seguro tiene alguna clave que no contemplamos borrar.'
                             ];
                         }
                     case 'devolver-prestamo':

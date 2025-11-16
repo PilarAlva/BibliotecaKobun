@@ -529,7 +529,7 @@ class LibroBD {
     public function agregarEjemplar($libro_id){
         
         $consulta = "INSERT INTO ejemplares (libro_id, codigo_topografico) 
-                     VALUES (:libro_id, '-') ";
+                     VALUES (:libro_id, '00--00') ";
 
         $this->db->consulta($consulta);
         $this->db->unir(':libro_id', $libro_id);

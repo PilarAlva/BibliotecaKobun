@@ -445,6 +445,8 @@ export class Formulario {
         if (pagina) {
             this.contenido.innerHTML = ''; // Clear existing content
             this.contenido.appendChild(pagina);
+        }else{
+            this.contenido.innerHTML = ' ';
         }
     }
 
@@ -477,6 +479,11 @@ export class Formulario {
                 const socio_id = cambio.formData.get('socio_id');
 
                 switch (accion) {
+                    case 'borrar-usuario':
+                        alert("usuario borrado o_O");
+                        this.mostrarPagina();
+                        this.ocultar();
+                        break;
                     case 'registrar-libro':
 
                             await this.editarLibro(respuesta.data.libro_id);
@@ -560,7 +567,7 @@ export class Formulario {
                         mensaje = this.formulario.querySelector(".form_mensaje");
                         this.mostrarMensaje(mensaje, respuesta.mensaje, "form_exito");
                         break;
-
+                    
                     default:
                         this.mostrarMensaje(cambio.mensaje, respuesta.mensaje, "form_exito");   
                         break;
