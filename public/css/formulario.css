@@ -9,6 +9,7 @@
     --verde-btn: #6e8851;
     --rojo-btn:  #943e35;
     --tam-fuente-1: 14px;
+    --tam-fuente-2: 16px;
     --tam-fuente-titulo: 20px;
     --tam-fuente-subtitulo: 17px;
     --redondeo-btn-form: 0.8rem;
@@ -258,6 +259,9 @@
 .form_subtitulo{
     font-size: var(--tam-fuente-subtitulo);
     font-weight: 500;
+}
+.fuente_titulos_peq{                          
+    font-size: var(--tam-fuente-2);
 }
 
 .form_bloque{

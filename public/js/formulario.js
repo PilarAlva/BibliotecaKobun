@@ -1023,22 +1023,22 @@ export class Formulario {
                 <div class="form_seccion">
                     <div class="form_informacion">
                         
-                        <span class="form_subtitulo">Descripcion:<span>
+                        <span class="destacado">Descripción:</span>
                         <div class="form_fila">
                             <p> ${taller.descripcion}</p>
                         </div>   
 
                         <div class="form_division"></div>
                         <div class="form_fila">
-                            <span>Horario: ${taller.horario}</span>
+                            <span class="destacado">Horario:</span><span>${taller.horario}</span>
                         </div>
 
                         <div class="form_fila">
-                            <span>Lugar: ${taller.lugar}</span>
+                            <span class="destacado">Lugar:</span><span>${taller.lugar}</span>
                         </div>
 
                         <div class="form_fila">
-                            <span>Fecha Alta: ${taller.fecha_alta}</span>
+                            <span class="destacado">Fecha Alta:</span><span>${taller.fecha_alta}</span>
                             
                         </div>
                         <span class="form_mensaje ocultado"></span>
@@ -1062,7 +1062,7 @@ export class Formulario {
         
         
         return `
-           <label>Profesor/res</label>
+           <label class="form_subtitulo">Profesor/res</label>
            <div class="form_seccion">
                 ${profs}
            </div>
@@ -1251,7 +1251,7 @@ export class Formulario {
 
                 </div>
                 <span class="form_mensaje ocultado"></span>
-                <button class="form_boton bt_verde">Registrar</button>
+                <button class="form_boton bt_verde derecha">Registrar</button>
             </form>
             </section>`;
             
@@ -1333,24 +1333,23 @@ export class Formulario {
                 <div class="form_seccion">
                    <div class="form_fila">
                         <div class="form_informacion limitar">
-                            
+                            <span class="form_subtitulo">ID: 102${libro.id}</span>
                             <div class="form_fila">
-                                <span>Autor: ${libro.autores}</span>
-                                <span class="form_subtitulo derecha">ID: 102${libro.id}</span>
+                                <span class="destacado">Autor:</span><span>${libro.autores}</span>
                             </div>   
                         
                             <div class="form_fila">
-                                <span>Editorial: ${libro.editorial}</span>
+                                <span class="destacado">Editorial:</span><span>${libro.editorial}</span>
                             </div>
                             <div class="form_fila">
-                                <span>ISBN: ${libro.isbn}</span>
+                                <span class="destacado">ISBN:</span><span>${libro.isbn}</span>
                             </div>
                             <div class="form_fila">
-                                <span>Descripcion: ${libro.descripcion}</span>
+                                <span class="destacado">Descripcion:</span><span>${libro.descripcion}</span>
                                 
                             </div>
                             <div class="form_fila subtitulo">
-                                <span>Cantidad de ejemplares: ${ejemplares.length}</span>
+                                <span class="destacado">Cantidad de ejemplares:</span><span>${ejemplares.length}</span>
                             </div>
                             <div class="form_fila subtitulo">
                                
@@ -1850,7 +1849,7 @@ mensaje
                 
                 <div class="form_bloque">
                     
-                    <div class="form_fila rellena form_subtitulo">
+                    <div class="form_fila rellena fuente_titulos_peq">
                         <span>${titulo}</span>   
                     </div>
 
