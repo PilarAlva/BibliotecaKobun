@@ -61,9 +61,9 @@ class libroCtrl extends Controlador{
             $filtro = 'titulo';
         }
                 
-        $offset = ( ((int)$pagina) - 1) * $cantidad_por_pagina;
-        
         $pagina = $this->chequeoPagina($pagina);
+        
+        $offset = ( ((int)$pagina) - 1) * $cantidad_por_pagina;
 
         $libros = $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, $cantidad_por_pagina);
         $resultados = $libroModel->cantResultadosCatalogo($busqueda, $filtro);
@@ -132,7 +132,7 @@ class libroCtrl extends Controlador{
         $inico = 1;
         $fin = $cantidad_paginas;
 
-		if($cantidad_paginas == 1){
+		if($cantidad_paginas == 1 || $cantidad_paginas == 0){
 			return $numero_paginas;
 		}
 		if($pagina == 1){
@@ -141,11 +141,16 @@ class libroCtrl extends Controlador{
 		}else if($pagina == $cantidad_paginas){
 			$inicio_paginas = $pagina - 3 ;
 	        $fin_paginas = $pagina;
-		}else{
-	        $inicio_paginas = $pagina - 1;
+        }else if($pagina == $cantidad_paginas -1){
+	        $inicio_paginas = $pagina - 2;
 	        $fin_paginas = $pagina + 1;
-			
-		}
+		}else if($pagina == 2){
+	        $inicio_paginas = $pagina - 1;
+	        $fin_paginas = $pagina + 2;
+		}else{
+            $inicio_paginas = $pagina - 1;
+	        $fin_paginas = $pagina + 1;
+        }
 		
 
         for($i = $inicio_paginas; $i <= $fin_paginas; $i++){
@@ -161,6 +166,8 @@ class libroCtrl extends Controlador{
 
     private function chequeoPagina($pagina){
         if (!$this->esEnteroPositivo($pagina) || (int)$pagina < 1) {
+            return 1;
+        }else if($pagina == 0){
             return 1;
         }
         return (int)$pagina;

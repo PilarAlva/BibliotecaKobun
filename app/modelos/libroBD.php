@@ -73,9 +73,9 @@ class LibroBD {
                 break;
             case 'genero':
                 $consulta .= " AND EXISTS (
-                                SELECT 1 
+                                SELECT *
                                 FROM libros_generos lg2 
-                                INNER JOIN generos g2 ON lg2.libro_id = g2.id 
+                                INNER JOIN generos g2 ON lg2.genero_id = g2.id 
                                 WHERE lg2.libro_id = l.id 
                                     AND g2.nombre LIKE :busqueda )";
                 break;
