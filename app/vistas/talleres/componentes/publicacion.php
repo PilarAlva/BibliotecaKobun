@@ -1,4 +1,4 @@
-<?php echo $_SESSION["rol_id"]?>
+
 
 <div class="taller_publicacion">
 
