@@ -89,14 +89,22 @@ class libroCtrl extends Controlador{
         
         $libroModel = $this->cargarModelo("libroBD");
         $pagoModel = $this->cargarModelo("pagoDB");
+        $prestamoModel = $this->cargarModelo("prestamoBD");
 
+        $estadoCuenta = null;
+        
+        
         $libro = $libroModel->infoLibro($libro_id);
-
+        
         $ejemplares = $libroModel->ejemplaresTotales($libro_id);
         
+        $atrasos = 0;
         if($this->esSocio($this->usuarioRegistrado())){
+
             $socio = $this->esSocio($this->usuarioRegistrado());
+            $atrasos = $prestamoModel->obtenerRetrasos($socio["id"]);
             $estadoCuenta = $pagoModel->estadoCuenta($socio["id"]);   
+            $atrasos = count($atrasos);
         }
         
 
@@ -105,6 +113,7 @@ class libroCtrl extends Controlador{
             "estadoCuenta" => isset($estadoCuenta) ? $estadoCuenta : null,
             "libro" => $libro,
             "cantidad" => $libroModel->cantidadDisponible($libro_id),
+            "atrasos" => $atrasos,
             "ejemplares" => $ejemplares,
             "cssEspecifico" => ['catalogo.css','libro.css'] // Usamos el mismo CSS que el catálogo
         ];

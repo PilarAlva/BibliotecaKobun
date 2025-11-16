@@ -40,7 +40,7 @@
 
                     <?php if ($cantidad > 0): ?>
 
-                        <?php if (isset($estadoCuenta) && $estadoCuenta["cuota_al_dia"] == 1): ?>
+                        <?php if (isset($estadoCuenta) && $estadoCuenta["cuota_al_dia"] == 1 && $estadoCuenta["meses_adeudados"] == 0 && $atrasos == 0): ?>
                             
                             <form method="POST" action="<?php echo BASE_URL ?>libro/prestamo">
                                 <input type="hidden" name="libro_id" value="<?php echo $libro['id']; ?>">

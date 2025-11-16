@@ -94,13 +94,12 @@ class prestamoBD {
         return $this->db->resultados();
         
     }   
-    public function obtenerMultas($socio_id){
+    public function obtenerRetrasos($socio_id){
          $consulta = "SELECT 
                         p.ejemplar_id,
                         l.titulo,
-                        TIMESTAMPDIFF(DAY, p.fecha_vencimiento, NOW()) * db.multa AS total_multa
+                        TIMESTAMPDIFF(DAY, p.fecha_vencimiento, NOW()) as dias_atraso
                         FROM prestamos p
-                        JOIN datos_biblioteca db
                         LEFT JOIN ejemplares e ON p.ejemplar_id = e.id
                         LEFT JOIN libros l ON l.id = e.libro_id
                         WHERE p.socio_id = :socio_id
