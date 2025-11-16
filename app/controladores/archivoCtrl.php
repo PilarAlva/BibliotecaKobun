@@ -92,6 +92,8 @@ class ArchivoCtrl extends Controlador{
         $archivoDB = $this->cargarModelo('archivoBD');
 
         $nombre = strtolower(htmlspecialchars($nombre));
+        $nombre = trim($nombre);
+        $nombre = str_replace(':','', $nombre);
 
         $carpetaDestino = '../almacenamiento/portadas/';
         $archivoDestino = $carpetaDestino . date('YmdHis') . '_' . $nombre;
