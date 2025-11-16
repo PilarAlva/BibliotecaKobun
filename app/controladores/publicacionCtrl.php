@@ -293,7 +293,7 @@
 
             
                 
-                return $respuesta_data = [
+                return [
                     'estado' => 'error',
                     'mensaje' => 'No se pudo borrar la publicacion.'
                 ];
@@ -338,8 +338,15 @@
             $resutlado = $publicacionDB->actualizarPublicacion($publicacion_id, $titulo, $cuerpo, $archivos_id);
 
             if($resutlado){
-                http_response_code(200);
+                return [
+                            'estado' => 'exito',
+                            'mensaje' => 'Publicacion editada exitosamente.'
+                        ];
             }
+            return [
+                            'estado' => 'error',
+                            'mensaje' => 'No se pudo editar.'
+                        ];
 
         }
     

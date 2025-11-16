@@ -139,9 +139,10 @@ class PagoDB {
 
                 -- Cuota al día (true/false)
                 CASE 
+                    WHEN MAX(p.fecha) IS NULL THEN FALSE
                     WHEN DATE_FORMAT(COALESCE(MAX(p.fecha), s.fecha_alta), '%Y-%m')
                         = DATE_FORMAT(CURDATE(), '%Y-%m')
-                    THEN TRUE
+                        THEN TRUE
                     ELSE FALSE
                 END AS cuota_al_dia
 
