@@ -31,60 +31,57 @@
     </div>
 
     <div>
-        <table class="tabla-libro">
-            <tbody>
-                <?php foreach ($libros as $indice => $libro) { ?>
-                <tr>
+        <div class="lista-libros">
+            <?php foreach ($libros as $indice => $libro) { ?>
+            <div class="libro-item">
+                <?php
+                    
+                    $portada = BASE_IMG . $libro['portada'];
+                ?>
 
-                    <?php
-                        
-                        $portada = BASE_IMG . $libro['portada'];
-                    ?>
+                <div id="numero"><?php echo $offset + $indice + 1;?>.</div>
 
-                    <td id="numero"><?php echo $offset + $indice + 1;?>.</td>
+                <div class="imagen-libro">
+                    <img src="<?php echo $portada; ?>" alt="Portada del libro">
+                </div>
 
-                    <td class="imagen-libro">
-                        <img src="<?php echo $portada; ?>" alt="Portada del libro">
-                    </td>
+                <div class="info-libro-contenedor">
+                    <div class="info-libro">
 
-                    <td>
-                        <div class="info-libro-contenedor">
-                            <div class="info-libro">
+                        <a href="<?= BASE_URL ?>libro/id/<?= $libro['id']; ?>" class="info-libro-link">
 
-                                <a href="<?= BASE_URL ?>libro/id/<?= $libro['id']; ?>" class="info-libro-link">
+                            <h3 class="titulo-libro">
+                                <?= htmlspecialchars($libro['titulo']); ?>
+                            </h3>
 
-                                    <h3 class="titulo-libro">
-                                        <?= htmlspecialchars($libro['titulo']); ?>
-                                    </h3>
+                            <p class="autor-libro">
+                                Por <?= htmlspecialchars($libro['autores']); ?>
+                            </p>
 
-                                    <p class="autor-libro">
-                                        Por <?= htmlspecialchars($libro['autores']); ?>
-                                    </p>
+                            <p class="descripcion-libro">
+                                <?= htmlspecialchars($libro['descripcion']); ?>
+                            </p>
 
-                                    <p class="descripcion-libro">
-                                        <?= htmlspecialchars($libro['descripcion']); ?>
-                                    </p>
+                            <div>
+                                <small>Disponibilidad: </small>
 
-                                    <div>
-                                        <small>Disponibilidad: </small>
+                                <?php if ($libro['cantidad'] > 0) { ?>
+                                    <small style="color: green">
+                                        <?= $libro['cantidad'] ?> Disponibles
+                                    </small>
+                                <?php } else { ?>
+                                    <small style="color: red">
+                                        No hay ejemplares disponibles
+                                    </small>
+                                <?php } ?>
 
-                                        <?php if ($libro['cantidad'] > 0) { ?>
-                                            <small style="color: green">
-                                                <?= $libro['cantidad'] ?> Disponibles
-                                            </small>
-                                        <?php } else { ?>
-                                            <small style="color: red">
-                                                No hay ejemplares disponibles
-                                            </small>
-                                        <?php } ?>
-
-                                    </div>
-
-                                </a>
                             </div>
 
-                            <div class="generos-libro">
-                                <?php
+                        </a>
+                    </div>
+
+                    <div class="generos-libro">
+                        <?php
                                 if (!empty($libro['generos'])) {
                                     $generosArray = explode(',', $libro['generos']);
 
@@ -101,14 +98,12 @@
                                     }
                                 }
                                 ?>
-                            </div>
+                    </div>
 
-                        </div>
-                    </td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+                </div>
+            </div>
+            <?php } ?>
+        </div>
 
         <nav aria-label="Paginación" class="paginacion">
 

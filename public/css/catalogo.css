@@ -26,7 +26,6 @@
     background-repeat: no-repeat;
     background-position: right 15px center;
     background-size: 10px;
-    content: none;
 
     background-color: var(--grey-color);
     width: 20%;
@@ -70,30 +69,31 @@
 
 /* ---------------------------------- */
 
-.tabla-libro {
+.lista-libros {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     margin-bottom: 20px;
-    border-collapse: separate;
-    border-spacing: 0 20px; 
 }
 
-.tabla-libro td {
-    vertical-align: top;
-    height: 1px;
+.libro-item {
+    display: flex;
+    align-items: flex-start; 
+    gap: 20px; /* Espacio entre imagen e info */
 }
 
 #numero {
     padding: 15px;
 }
 .imagen-libro {
-    width: 30%;
-    max-width: 120px; 
-    padding-right: 20px;
-    height: 100%;
+    width: 180px; 
+    max-width: 180px; 
+    flex-shrink: 0; 
 }
 
 .imagen-libro img {
-    width: 100%; 
-    aspect-ratio: 2 / 3; /* Proporción rectangular (2 de ancho por 3 de alto) */
+    width: 100%;
+    aspect-ratio: 2 / 3; 
     object-fit: cover;
     object-position: center;
     border-radius: 8px; 
@@ -102,18 +102,15 @@
 
 /* ----------- */
 .info-libro-contenedor {
+    flex-grow: 1; /* Ocupa el espacio restante */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
-}
-
-.info-libro {
-    padding: 15px 0;
+    min-height: 270px;
 }
 
 .info-libro > a {
-    display: block; /* Asegura que el enlace ocupe el espacio */
+    display: block;
     height: 100%;
 }
 
@@ -197,7 +194,7 @@ ul.paginacion_numeros{
     font-size: small;
     transition: all 0.3s ease;
     text-align: center;
-    min-width: 40px; /* Asegura que los números tengan un ancho consistente */
+    min-width: 40px;
 }
 .paginacion_siguiente:hover,
 .paginacion_anterior:hover {
@@ -247,28 +244,18 @@ ul.paginacion_numeros{
         padding-right: 10px;
         max-width: 100%;
     }
-    #numero{
-        display: none;
-    }
-    .tabla-libro{
-        width: 100%;
-    }
     .info-libro-contenedor{
-        
         padding: 0px;
     }
-    .info-libro *{
-        margin: 0px;
-    }
     .imagen-libro{
-        width: 40%;
+        width: 100px; /* Forzamos el ancho para móviles */
     }
     .generos-libro{
-    
-    
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    
-}
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+    .info-libro-contenedor {
+        min-height: 150px; /* Ajustamos la altura mínima para móviles (100 * 3/2) */
+    }
     
 }
