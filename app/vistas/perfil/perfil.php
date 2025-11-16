@@ -100,7 +100,7 @@
 
             <div class="form-contenido-wrapper"> <!-- Contenedor wrapper -->
                 <div class="form_contenido"> 
-                    Primero deberías tocar alguna opcion crack!   
+                    Inténtelo Nuevamente.   
                 </div>
             </div>
                 

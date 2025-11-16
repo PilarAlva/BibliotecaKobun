@@ -27,7 +27,7 @@
                                         </div>
                                         <div>
                                             <?php if ($prestamo['fecha_devolucion']): ?>
-                                                <p class="devuelto">Devuelto el: <?php echo date("d/m/Y", strtotime($prestamo['fecha_devolucion'])); ?></p>
+                                                <p class="devuelto msj-verde">Devuelto el: <?php echo date("d/m/Y", strtotime($prestamo['fecha_devolucion'])); ?></p>
                                             <?php else: ?>
                                                 <?php if ($prestamo['fecha_vencimiento'] < date('Y-m-d')): ?>
                                                     <p class="msj-rojo">Reservado hasta: <?php echo date("d/m/Y", strtotime($prestamo['fecha_vencimiento'])); ?></p>
