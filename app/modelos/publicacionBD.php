@@ -287,6 +287,29 @@ class PublicacionBD extends Modelo{
 
     }
 
+    public function obtenerPublicacionesPorUsuario($usuario_id) {
+        $consulta = "SELECT 
+                        p.id, p.titulo, p.cuerpo,
+                        p.taller_id,
+                        concat(u.nombre, ' ', u.apellido) as usuario_nombre,
+                        u.id as usuario_id,
+                        p.fecha_publicacion
+                    FROM publicaciones p
+                    LEFT JOIN usuarios u ON p.usuario_id = u.id
+                    WHERE p.usuario_id = :usuario_id
+                    GROUP BY p.id";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':usuario_id', $usuario_id);
+        return $this->db->resultados();
+    }
+
+
+
+
+
+
+
     
 
 

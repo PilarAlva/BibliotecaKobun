@@ -315,7 +315,7 @@ form {
     box-shadow: 0 0 5px rgba(55, 42, 30, 0.3);
 }
 
-.editar-taller #bt-eliminar {
+#bt-eliminar {
     background-color: var(--red-color);
 }
 

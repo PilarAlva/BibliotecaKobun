@@ -37,6 +37,8 @@ $rutas = [
 
     'taller/editar' => ['controlador' => 'tallerCtrl', 'metodo' => 'editar'],
 
+    'taller/eliminar' => ['controlador' => 'tallerCtrl', 'metodo' => 'eliminar'],
+
     'ins/eliminar' => ['controlador' => 'tallerCtrl', 'metodo' => 'eliminarAlumno'],
 
     'ins/rechazar' => ['controlador' => 'tallerCtrl', 'metodo' => 'rechazarAlumno'],

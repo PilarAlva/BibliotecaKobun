@@ -1,6 +1,7 @@
 <?php
 
 require_once '../app/core/BaseDatos.php';
+require_once '../app/modelos/PublicacionBD.php';
 
 class TallerBD {
     
@@ -42,6 +43,35 @@ class TallerBD {
 
         return $this->db->ejecutar(); 
         
+    }
+
+    public function eliminarTaller($taller_id){
+        
+        $publicacionModel = new PublicacionBD();
+        $publicaciones = $publicacionModel->obtenerPublicacionesPorTaller($taller_id, 'foro', 0, 9999);
+        $recursos = $publicacionModel->obtenerPublicacionesPorTaller($taller_id, 'recurso', 0, 9999);
+        $libretas = $publicacionModel->obtenerPublicacionesPorTaller($taller_id, 'libreta', 0, 9999);
+        
+        $todasLasPublicaciones = array_merge($publicaciones, $recursos, $libretas);
+
+        foreach($todasLasPublicaciones as $publicacion){
+            $publicacionModel->borrarPublicacion($publicacion['id'], true);
+        }
+
+        
+        $this->db->consulta("DELETE FROM talleres_profesores WHERE taller_id = :taller_id");
+        $this->db->unir(':taller_id', $taller_id);
+        $this->db->ejecutar();
+
+        $this->db->consulta("DELETE FROM talleres_usuarios WHERE taller_id = :taller_id");
+        $this->db->unir(':taller_id', $taller_id);
+        $this->db->ejecutar();
+
+        
+        $this->db->consulta("DELETE FROM talleres WHERE id = :taller_id");
+        $this->db->unir(':taller_id', $taller_id);
+        
+        return $this->db->ejecutar();
     }
     public function eliminarProfesor($taller_id, $usuario_id){
 

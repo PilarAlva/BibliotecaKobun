@@ -45,8 +45,6 @@
                 </div>
 
                 <div class="editar-taller">
-                    <button id="bt-eliminar" class="bt destacado" type="">Eliminar Taller</button>
-
                     <div class="form-grupo">
                         <input type="checkbox" id="taller-activo" name="activo" value="1" <?php if ($taller["activo"]) echo 'checked'; ?>>
                         <label for="taller-activo">Taller Activo</label>
@@ -54,6 +52,12 @@
                     <button class="bt destacado" type="submit">Guardar Cambios</button>
                 </div>
             </form>
+
+            <form method="POST" action="<?php echo BASE_URL . 'taller/eliminar/' . $taller["taller_id"]?>" onsubmit="return confirm('Borrar taller?? :(');" class="form-eliminar-taller">
+                <button id="bt-eliminar" class="bt destacado" type="" type="submit">Eliminar Taller</button>
+            </form>
+
+            </div>
 
         <?php else: ?>
             <div id="titulo">
