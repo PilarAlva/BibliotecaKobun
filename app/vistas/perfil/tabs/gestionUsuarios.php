@@ -6,7 +6,7 @@
                         <form id="buscador-usuarios" action="/" method="POST">
                         <select name="filtro" class="selector">
                             <option value="todos" <?php /* if($filtro=='usuraio-gral') */ echo 'selected'; ?>>Todos</option>
-                            <option value="usuario-gral" <?php /* if($filtro=='usuraio-gral') */ echo 'selected'; ?>>Generales</option>
+                            <option value="usuarios-gral" <?php /* if($filtro=='usuraio-gral') */ echo 'selected'; ?>>Generales</option>
                             <option value="socios" <?php /* if($filtro=='socios') */ echo 'selected'; ?>>Socios</option>
                             <option value="profesores" <?php /* if($filtro=='profesores') */ echo 'selected'; ?>>Profesores</option>
                             <option value="administradores" <?php /* if($filtro=='administradores') */ echo 'selected'; ?>>Administradores</option>

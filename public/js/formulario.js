@@ -1593,7 +1593,7 @@ mensaje
 
         var ultimoPago = estado_cuenta.ultimo_pago?
             `<div class="form_fila">Ultimo pago registrado: ${estado_cuenta.ultimo_pago}</div>`:
-            `<div class="form_fila">No hay pago registrado: ${estado_cuenta.ultimo_pago}</div>`;
+            `<div class="form_fila">No hay pagos registrados</div>`;
         var proximoPago =  
             `<div class="form_fila">Proxima cuota: ${estado_cuenta.fecha_siguiente_cuota}</div>
              <div class="form_fila">Monto: <span class="form_exito">${estado_cuenta.cuota_socio}$</span></div>`;
@@ -1602,8 +1602,8 @@ mensaje
         ` <div class="form_fila">Cuota: <span class="form_exito">AL DÍA</span></div>` :
         ` <div class="form_fila">Cuota: <span class="form_error">Adeudada</span></div>`;
 
-        var info = estado_cuenta.cuota_al_dia == 0 ? 
-        `<div class="form_fila">Meses adeudados: ${estado_cuenta.meses_adeudados}</div>`
+        var info = estado_cuenta.meses_adeudados != 0 ? 
+        `<div class="form_fila">Meses adeudados: ${estado_cuenta.meses_adeudados}</div>` +
         `<div class="form_fila">Monto adeudado: ${estado_cuenta.monto_adeudado}</div>`: '';
          
         
