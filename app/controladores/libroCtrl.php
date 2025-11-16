@@ -6,7 +6,7 @@ class libroCtrl extends Controlador{
 
     public function index($filtro = '', $busqueda = '', $pagina = '1'){
 
-        $cantidad_por_pagina = 2;
+        $cantidad_por_pagina = 20;
 
         $libroModel = $this->cargarModelo("libroBD");
         
@@ -37,7 +37,7 @@ class libroCtrl extends Controlador{
 
     public function busqueda($filtro = '', $busqueda = '', $pagina = '1'){
 
-        $cantidad_por_pagina = 2;
+        $cantidad_por_pagina = 20;
         $libroModel = $this->cargarModelo("libroBD");
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
