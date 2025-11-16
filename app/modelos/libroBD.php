@@ -56,9 +56,12 @@ class LibroBD {
                         LEFT JOIN libros_editoriales le ON l.id = le.libro_id
                         LEFT JOIN editoriales e ON le.editorial_id = e.id";
                         
-                        $consulta .= !$todos ? " WHERE l.activo = 1 " : " ";
-                        
-
+                       
+        if(!$todos){
+           $consulta .= " WHERE l.activo = 1 ";
+        }else{
+            $consulta .= " WHERE (l.activo = 1 OR l.activo = 0)";
+        }
 
         if ($busqueda != '') {
         
@@ -102,7 +105,7 @@ class LibroBD {
         
         
         }
-
+        
         $consulta .= " GROUP BY l.id ORDER BY l.titulo ASC LIMIT :limite OFFSET :offset";
 
         $this->db->consulta($consulta);

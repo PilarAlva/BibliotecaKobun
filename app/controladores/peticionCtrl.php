@@ -558,6 +558,9 @@
                         $offset = htmlspecialchars($_POST['pagina']);
                         $offset = ($offset - 1) * 20;
 
+                        //$busqueda = str_replace('_', ' ', $busqueda);
+                        //$filtro =  str_replace('_', ' ', $filtro);
+
                         switch ($tabla) {
                             case 'libros':
                                 $respuesta_data = [
@@ -565,7 +568,8 @@
                                     'mensaje'=> "Libros devueltos",
                                     'data' => [
                                         'cantidad' => $libroModel->cantResultadosCatalogo($busqueda, $filtro),
-                                        'resultados' => $libroModel->busquedaCatalogo($busqueda, $filtro, 0, 200, true )
+                                        'resultados' => $libroModel->busquedaCatalogo($busqueda, $filtro, 0, 200, true),
+                                        'buqueda' => $busqueda . " " . $filtro
                                     ]
                                 ];
                                 break;
