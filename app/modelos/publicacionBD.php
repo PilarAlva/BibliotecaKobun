@@ -11,6 +11,7 @@ class PublicacionBD extends Modelo{
     public function obtenerPublicacionPorId($publicacion_id){
          $consulta = "SELECT 
                         p.id, p.titulo, p.cuerpo,
+                        p.taller_id,
                         concat(u.nombre, ' ', u.apellido) as usuario_nombre,
                         u.id as usuario_id,
                         p.fecha_publicacion,

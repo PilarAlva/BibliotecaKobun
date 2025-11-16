@@ -226,26 +226,74 @@
         }
 
         public function borrar(){
+
             $publicacionDB = $this->cargarModelo('publicacionBD');
+            $tallerModelo = $this->cargarModelo('tallerBD');
 
             http_response_code(200);
 
-            if($publicacionDB->borrarPublicacion($_POST['id'], TRUE)){
+            $publicacion = $publicacionDB->obtenerPublicacionPorId($_POST['id']);
+
+            if($_SESSION['rol_id'] == 3){
+                 if($_POST['usuario_id']  == $publicacion['usuario_id']) {
+                    if($publicacionDB->borrarPublicacion($_POST['id'], TRUE)){
+                        return [
+                            'estado' => 'exito',
+                            'mensaje' => 'Publicacion borrada exitosamente.'
+                        ];
+                    }else{
+                        return [
+                            'estado' => 'error',
+                            'mensaje' => 'No pudo borrarse.'
+                        ];
+                    }
+                 }else{
+                        return [
+                            'estado' => 'error',
+                            'mensaje' => 'Prohibido.'
+                        ];
+                    }
+            }else if($_SESSION['rol_id'] == 2){
+                
+                if( $tallerModelo->esProfesorDelTaller( $publicacion['taller_id'], $_SESSION['usuario_id'] )){
+                    if($publicacionDB->borrarPublicacion($_POST['id'], TRUE)){
+                        return [
+                            'estado' => 'exito',
+                            'mensaje' => 'Publicacion borrada exitosamente.'
+                        ];
+                    }else{
+                        return [
+                            'estado' => 'error',
+                            'mensaje' => 'No pudo borrarse.'
+                        ];
+                    }
+                }
+                
+            }else{
+                if($publicacionDB->borrarPublicacion($_POST['id'], TRUE)){
+                        return [
+                            'estado' => 'exito',
+                            'mensaje' => 'Publicacion borrada exitosamente.'
+                        ];
+                    }else{
+                        return [
+                            'estado' => 'error',
+                            'mensaje' => 'No pudo borrarse.'
+                        ];
+                    }
+            }
 
 
-                return $respuesta_data = [
-                    'status' => 'success',
-                    'message' => 'Publicacion borrada exitosamente.'
-                ];
+           
 
-            }else  {
+            
                 
                 return $respuesta_data = [
                     'status' => 'error',
                     'message' => 'No se pudo borrar la publicacion.'
                 ];
 
-            }
+            
 
 
         }
@@ -292,5 +340,3 @@
     
 
 }
-
-

@@ -1,4 +1,4 @@
-
+<?php echo $_SESSION["rol_id"]?>
 
 <div class="taller_publicacion">
 
@@ -16,8 +16,8 @@
         </span>
 
         <div class="t-p_acciones_menu 
-        <?php if($_SESSION["usuario_id"] == $publicacion["usuario_id"])
-                echo 'editable';
+        <?php if($_SESSION["usuario_id"] == $publicacion["usuario_id"] || $_SESSION["rol_id"] == 2)
+                echo ' editable';
                 ?>
         ">
 
@@ -26,7 +26,7 @@
                 <?php echo $publicacion["fecha_publicacion"]?>
             </span>
 
-            <?php if($_SESSION["usuario_id"] == $publicacion["usuario_id"]):
+            <?php if($_SESSION["usuario_id"] == $publicacion["usuario_id"] || $_SESSION["rol_id"] == 2):
                     
             ?>
 
