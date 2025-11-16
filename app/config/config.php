@@ -7,7 +7,7 @@
     define('BD_PUERTO', '3306');
     /* define('BASE_URL', 'http://192.168.1.51/BibliotecaKobun/public/'); */
     define('BASE_URL', 'http://localhost/Kobun/public/');
-    define('SERVER_IP', '192.168.1.44');
+    define('SERVER_IP', 'localhost');
     define('BASE_IMG', BASE_URL . 'archivo/id/');
     define('PAGO_CUOTA', 'https://mpago.la/2sR25Uf');
     define('PAGO_MULTA', 'link.mercadopago.com.ar/bibliotecakobun');

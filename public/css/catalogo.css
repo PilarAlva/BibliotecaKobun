@@ -245,7 +245,7 @@ ul.paginacion_numeros{
         margin-top: 10px;
         padding-left: 10px;
         padding-right: 10px;
-        min-width: 100%;
+        max-width: 100%;
     }
     #numero{
         display: none;
@@ -263,5 +263,12 @@ ul.paginacion_numeros{
     .imagen-libro{
         width: 40%;
     }
+    .generos-libro{
+    
+    
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    
+}
     
 }

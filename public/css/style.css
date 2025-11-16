@@ -318,10 +318,14 @@ footer {
     .header {
         position: relative;
     }
+    .main-content{
+        padding: 4px;
+        margin: 0;
+    }
 }
 .desactivado{
 
-    opacity: 0.8;
+    opacity: 0.3;
     background-color: var(--grey-color);
     color: var(--text-color);
 

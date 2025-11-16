@@ -1,13 +1,12 @@
 <?php
 
-
 class libroCtrl extends Controlador{
     
     
 
     public function index($filtro = '', $busqueda = '', $pagina = '1'){
 
-        $cantidad_por_pagina = 20;
+        $cantidad_por_pagina = 2;
 
         $libroModel = $this->cargarModelo("libroBD");
         
@@ -36,51 +35,41 @@ class libroCtrl extends Controlador{
 
     }
 
-
     public function busqueda($filtro = '', $busqueda = '', $pagina = '1'){
 
-        $cantidad_por_pagina = 20;
+        $cantidad_por_pagina = 2;
+        $libroModel = $this->cargarModelo("libroBD");
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            /*$busqueda = htmlspecialchars();
-            $filtro = htmlspecialchars(,  );*/
+            
             $busqueda = $_POST['q'];
             $filtro = $_POST['filtro'];
-            
             
             $busqueda = str_replace(' ', '_', $busqueda);
             $filtro = str_replace(' ', '_', $filtro);
 
             header('Location: ' . BASE_URL . 'catalogo/b/' . $filtro . '/' . $busqueda );
-
+            exit;
         }
 
         $busqueda = str_replace('_', ' ', $busqueda);
         $filtro =  str_replace('_', ' ', $filtro);
+    
 
-
-        $libroModel = $this->cargarModelo("libroBD");
-        
         if($this->esEnteroPositivo($filtro)){
             $pagina = $filtro;
-        }else{
-            $pagina = 1;
+            $filtro = 'titulo';
         }
-
+                
         $offset = ( ((int)$pagina) - 1) * $cantidad_por_pagina;
-        $limite = $offset + $cantidad_por_pagina;
-
-
-
-        $libros = $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, $cantidad_por_pagina );
-
-        $resultados = $libroModel->cantResultadosCatalogo($busqueda, $filtro);
-
-       
-  
+        
         $pagina = $this->chequeoPagina($pagina);
-        $cantidad_paginas = ceil($resultados / $cantidad_por_pagina);
 
+        $libros = $libroModel->busquedaCatalogo($busqueda, $filtro, $offset, $cantidad_por_pagina);
+        $resultados = $libroModel->cantResultadosCatalogo($busqueda, $filtro);
+        
+        $cantidad_paginas = ceil($resultados / $cantidad_por_pagina);
+  
         $data = ["cssEspecifico" => "catalogo.css",
                  "busqueda" => $busqueda,
                  "filtro" => $filtro,
@@ -148,13 +137,13 @@ class libroCtrl extends Controlador{
 		}
 		if($pagina == 1){
 			$inicio_paginas = $pagina;
-	        $fin_paginas = $pagina + 4;
+	        $fin_paginas = $pagina + 3;
 		}else if($pagina == $cantidad_paginas){
-			$inicio_paginas = $pagina - 4 ;
+			$inicio_paginas = $pagina - 3 ;
 	        $fin_paginas = $pagina;
 		}else{
-	        $inicio_paginas = $pagina - 2;
-	        $fin_paginas = $pagina + 2;
+	        $inicio_paginas = $pagina - 1;
+	        $fin_paginas = $pagina + 1;
 			
 		}
 		
@@ -183,7 +172,7 @@ class libroCtrl extends Controlador{
             return BASE_URL . 'catalogo/b/';
         }
 
-        return BASE_URL . 'catalogo/b/' . $filtro . '/' . urlencode($busqueda) . '/';
+        return BASE_URL . 'catalogo/b/' . $filtro . '/' . $busqueda . '/' ;
     }
 
     private function esEnteroPositivo($string) {

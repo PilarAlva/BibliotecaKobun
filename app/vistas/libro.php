@@ -49,7 +49,7 @@
                             </form>
 
                             <?php else: ?>
-                                <button class="btn-prestamo desactivado" disabled>Cuota Pendiente</button>
+                                <button class="btn-prestamo desactivado" disabled>Inhabilitado</button>
                             <?php endif; ?>
 
                             <?php else: ?>

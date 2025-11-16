@@ -600,3 +600,7 @@ span.verde{
 .t-p_cuerpo_archivos {
     overflow: visible; /* Asegura que el contenido no se recorte */
 }
+@media (max-width: 768px) { 
+
+    
+}
