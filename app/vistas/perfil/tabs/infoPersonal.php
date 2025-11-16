@@ -137,7 +137,7 @@
                         } else {
                             $msjColor = 'msj-rojo';
                         } 
-                        $socioHabilitado = true;
+                        $socioHabilitado =   true;
                         if($mesesAdeudados > 0) {
                             
                             if($mesesAdeudados == 1){

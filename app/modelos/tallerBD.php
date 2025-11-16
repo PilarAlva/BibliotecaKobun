@@ -360,6 +360,7 @@ class TallerBD {
         $consulta = "SELECT 
                         u.id as usuario_id,
                         u.mail as mail,
+                        u.img_perfil,
                         concat(u.nombre, ' ', u.apellido) as nombre
 
                     FROM talleres_profesores tp
