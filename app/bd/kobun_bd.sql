@@ -276,7 +276,7 @@ BEGIN
             SET total_multa = dias_retraso * monto_por_dia;
 
             -- Insertar la multa
-            INSERT INTO multas (socio_id, monto, fecha_multa, descripcion)
+            INSERT INTO multas (socio_id, monto, fecha_alta)
             VALUES (
                 NEW.socio_id,
                 total_multa,
