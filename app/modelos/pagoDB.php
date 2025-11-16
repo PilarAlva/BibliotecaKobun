@@ -139,24 +139,8 @@ class PagoDB {
 
                 -- Cuota al día (true/false)
                 CASE 
-                    WHEN (
-                        (
-                            (TIMESTAMPDIFF(
-                                MONTH,
-                                DATE_ADD(DATE_FORMAT(COALESCE(MAX(p.fecha), s.fecha_alta), '%Y-%m-01'), INTERVAL 1 MONTH),
-                                CURDATE()
-                            ) + 1) * db.cuota_socio
-                        ) = db.cuota_socio
-                        AND DAY(CURDATE()) < 16
-                    ) OR (
-                        (
-                            (TIMESTAMPDIFF(
-                                MONTH,
-                                DATE_ADD(DATE_FORMAT(COALESCE(MAX(p.fecha), s.fecha_alta), '%Y-%m-01'), INTERVAL 1 MONTH),
-                                CURDATE()
-                            ) + 1) * db.cuota_socio
-                        ) = 0
-                    )
+                    WHEN DATE_FORMAT(COALESCE(MAX(p.fecha), s.fecha_alta), '%Y-%m')
+                        = DATE_FORMAT(CURDATE(), '%Y-%m')
                     THEN TRUE
                     ELSE FALSE
                 END AS cuota_al_dia
