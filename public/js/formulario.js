@@ -992,7 +992,7 @@ export class Formulario {
     cargarPaginaAgregarTaller(){
 
          let cont =`
-            <div class="form_titulo subrayado">Agregar editorial</div>
+            <div class="form_titulo subrayado">Nuevo Taller</div>
             <div class="form_separacion"></div>
             <form class="form_datos" id="form-agregar-taller">
                 <input name="accion" value="agregar-taller" type="hidden" />
@@ -1198,7 +1198,7 @@ export class Formulario {
 
     async cargarPaginaAgregarUsuario(){
          let cont =`
-            <div class="form_titulo subrayado">Nuevo usuario</div>
+            <div class="form_titulo subrayado">Nuevo Usuario</div>
             <form class="form_datos" id="form-registrar-usuario">
                 <input name="accion" value="registrar-usuario" type="hidden" />
                 <div class="form_seccion">
@@ -1209,7 +1209,7 @@ export class Formulario {
                 
                 </div>
                 <span class="form_mensaje ocultado"></span>
-                <button class="form_boton bt_verde">Registrar</button>
+                <button class="form_boton derecha bt_verde">Registrar</button>
             </form>`;
             return cont;
     }
@@ -1220,7 +1220,7 @@ export class Formulario {
         socios = socios? socios : [];
 
          let cont =`
-            <div class="form_titulo subrayado">Registrar pago</div>
+            <div class="form_titulo subrayado">Registrar Pago</div>
 
             
             <section class="form_seccion subrayado">
@@ -1251,7 +1251,7 @@ export class Formulario {
 
                 </div>
                 <span class="form_mensaje ocultado"></span>
-                <button class="form_boton">Registrar</button>
+                <button class="form_boton bt_verde">Registrar</button>
             </form>
             </section>`;
             
@@ -1290,7 +1290,7 @@ export class Formulario {
         //${this.cargarInputNormal('Codigo Topográfico:', 'codigo_topografico', '', 'text', 'required')}
 
         let cont = `
-            <div class="form_titulo subrayado">Nuevo libro</div>
+            <div class="form_titulo subrayado">Nuevo Libro</div>
             <form class="form_datos" id="form-registrar-libro">
                 <input name="accion" value="registrar-libro" type="hidden" />
                 <span class="form_mensaje ocultado"></span>
@@ -1401,28 +1401,32 @@ export class Formulario {
             <section class="form_seccion subrayado">
                 <div class="form_informacion">
                     <div class="form_fila"><span class="form_mensaje ocultado"></span></div>
-                    <div class="form_fila"><span>Correo: ${usuario.mail}</span></div>
-                    <div class="form_fila"><span>Tipo de Usuario: ${this.cargarTipoUsuario(usuario)}</span></div>
+                    <div class="form_fila"><span class="destacado">Correo: </span><span>${usuario.mail}</span></div>
+                    <div class="form_fila"><span class="destacado">Tipo de Usuario: </span><span class="${this.cargarColorTipoUsuario(usuario)}">${this.cargarTipoUsuario(usuario)}</span></div>
                     ${this.cargarEsSocio(usuario)}
                 </div>
             </section>`;
     }
 
     cargarTipoUsuario(usuario) {
-        const roles = { 1: "Admin", 2: "Profesor", 3: "General" };
+        const roles = { 1: "Administrador", 2: "Profesor", 3: "General" };
         return roles[usuario.rol_id] || "Desconocido";
+    }
+    cargarColorTipoUsuario(usuario) {
+        const colores = { 1: "rol-admin", 2: "rol-profesor"};
+        return colores[usuario.rol_id] || "rol-general";
     }
 
     cargarEsSocio(usuario) {
         if (usuario.socio_id) {
             return `
-                <div class="form_fila"><span>Socio: Si</span></div>
-                <div class="form_fila"><span>Fecha alta: ${usuario.fecha_alta}</span></div>
-                <div class="form_fila"><span>Telefono: ${usuario.telefono}</span></div>
-                <div class="form_fila"><span>DNI: ${usuario.dni}</span></div>
-                <div class="form_fila"><span>Fecha nacimiento: ${usuario.fecha_nacimiento}</span></div>`;
+                <div class="form_fila"><span class="destacado">Socio: </span><span>Si</span></div>
+                <div class="form_fila"><span class="destacado">Fecha alta: </span><span>${usuario.fecha_alta}</span></div>
+                <div class="form_fila"><span class="destacado">Telefono: </span><span>${usuario.telefono}</span></div>
+                <div class="form_fila"><span class="destacado">DNI: </span><span>${usuario.dni}</span></div>
+                <div class="form_fila"><span class="destacado">Fecha nacimiento: </span><span>${usuario.fecha_nacimiento}</span></div>`;
         }
-        return `<div class="form_fila"><span>Socio: no</span></div>`;
+        return `<div class="form_fila"><span class="destacado">Socio: </span><span>No</span></div>`;
     }
 
     cargarOpcion(opcion){
@@ -1671,7 +1675,7 @@ mensaje
                              ${this.cargarInputNormal('Fecha Límite:', 'fecha_limite', '', 'date', 'required')}
 
                             <div class="form_fila">
-                                <button type="submit" class="form_boton derecha verde">Realizar prestamo</button>
+                                <button type="submit" class="form_boton derecha bt_verde">Realizar prestamo</button>
                             </div>
                         </form>
                     </div>
@@ -1894,7 +1898,7 @@ mensaje
                     <div class="form_fila se_oculta ocultado rellena">
                         <span class="form_input_mensaje ocultado">
                         </span>
-                        <button type="submit" class="form_boton">
+                        <button type="submit" class="form_boton derecha bt_verde">
                             Guardar
                         </button>
                     </div>
