@@ -345,7 +345,8 @@ class TallerBD {
     public function alumnosPendientes($taller_id){
 
         $consulta = "SELECT u.id as usuario_id,
-                    concat(u.nombre, ' ', u.apellido) as usuario_nombre
+                    concat(u.nombre, ' ', u.apellido) as usuario_nombre, 
+                    u.img_perfil
                     FROM talleres_usuarios tu
                     LEFT JOIN usuarios u ON tu.usuario_id = u.id
                     WHERE tu.taller_id = :taller_id AND tu.activo = 0";
