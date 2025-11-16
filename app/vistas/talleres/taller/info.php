@@ -53,8 +53,8 @@
                 </div>
             </form>
 
-            <form method="POST" action="<?php echo BASE_URL . 'taller/eliminar/' . $taller["taller_id"]?>" onsubmit="return confirm('Borrar taller?? :(');" class="form-eliminar-taller">
-                <button id="bt-eliminar" class="bt destacado" type="" type="submit">Eliminar Taller</button>
+            <form class="form-eliminar-taller" method="POST" action="<?php echo BASE_URL . 'taller/eliminar/' . $taller["taller_id"]?>" onsubmit="return confirm('¿Está seguro de querer borrar el Taller?');">
+                <button id="bt-eliminar" class="bt destacado" type="submit">Eliminar Taller</button>
             </form>
 
             </div>
