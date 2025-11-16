@@ -108,6 +108,7 @@ window.addEventListener("load", function(){
             .then(result => {
                 console.log(result); 
                 alert('Publicacion subida');
+                window.location.reload();
             })
             .catch(error => {
                 console.error('Error subiendo la publicacion', error);

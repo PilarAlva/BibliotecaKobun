@@ -42,15 +42,15 @@
                     case 'GET':
                     http_response_code(200);
                     $respuesta_data = [
-                        'status' => 'success',
-                        'message' => 'Invalido get'
+                        'estado' => 'exitos',
+                        'mensaje' => 'Invalido get'
                     ];
                     break;
                     case 'DELETE':
                         http_response_code(200);
                         $respuesta_data = [
-                        'status' => 'success',
-                        'message' => 'Invalido delete'
+                        'estado' => 'exitos',
+                        'mensaje' => 'Invalido delete'
                     ];
                     break;
                     case 'UPDATE':
@@ -61,13 +61,18 @@
                 default:
                 http_response_code(501);
                     $respuesta_data = [
-                        'status' => 'error',
-                        'message' => 'Error en el metodo'
+                        'estado' => 'error',
+                        'mensaje' => 'Error en el metodo'
                     ];
                     break;
                 }
                 
-            echo json_encode($respuesta_data);
+            // Hubiera estado bueno descubrir esto hace un mes
+            
+            $previousUrl = $_SERVER['HTTP_REFERER'];
+            $_POST["respuesta"] = json_encode($respuesta_data);
+            header('Location: ' . $previousUrl);
+            exit;
             
 
         }
@@ -115,8 +120,8 @@
 
                         http_response_code(201);
                         $respuesta_data = [
-                            'status' => 'success',
-                            'message' => 'Archivo guardado exitosamente.',
+                            'estado' => 'exitos',
+                            'mensaje' => 'Archivo guardado exitosamente.',
                             'data' => [
                                 'id' => $ultimo_indice,
                                 'archivos_id' => $archivos_id,
@@ -127,8 +132,8 @@
                     }else{
                         http_response_code(500);
                         return $respuesta_data = [
-                        'status' => 'error',
-                        'message' => 'Fuera de alcance',
+                        'estado' => 'error',
+                        'mensaje' => 'Fuera de alcance',
                         'archivos_id' => $archivos_id,
                         'resultado' => $resultado, 
                         'alcance' => $_POST['alcance']
@@ -170,8 +175,8 @@
                         http_response_code(201);
 
                         return $respuesta_data = [
-                            'status' => 'success',
-                            'message' => 'Archivo guardado exitosamente.',
+                            'estado' => 'exitos',
+                            'mensaje' => 'Archivo guardado exitosamente.',
                             'data' => [
                                 'id' => $ultimo_indice,
                                 'archivos_id' => $archivos_id
@@ -180,8 +185,8 @@
                     }else{
                         http_response_code(500);
                         return $respuesta_data = [
-                        'status' => 'error',
-                        'message' => 'Fuera de alcance',
+                        'estado' => 'error',
+                        'mensaje' => 'Fuera de alcance',
                         'archivos_id' => $archivos_id,
                         'resultado' => $resultado, 
                         'alcance' => $_POST['alcance']
@@ -194,8 +199,8 @@
                         http_response_code(201);
 
                         return $respuesta_data = [
-                            'status' => 'success',
-                            'message' => 'Recurso guardado exitosamente.',
+                            'estado' => 'exitos',
+                            'mensaje' => 'Recurso guardado exitosamente.',
                             'data' => [
                                 'id' => $ultimo_indice,
                                 'archivo_id' => $archivo_id
@@ -204,8 +209,8 @@
                     }else{
                         http_response_code(500);
                         return $respuesta_data = [
-                        'status' => 'error',
-                        'message' => 'Fuera de alcance',
+                        'estado' => 'error',
+                        'mensaje' => 'Fuera de alcance',
                         'archivos_id' => $archivos_id,
                         'resultado' => $resultado, 
                         'alcance' => $_POST['alcance']
@@ -215,8 +220,8 @@
                 default:
                     http_response_code(501);
                     return $respuesta_data = [
-                        'status' => 'error',
-                        'message' => 'Fuera de alcance'
+                        'estado' => 'error',
+                        'mensaje' => 'Fuera de alcance'
                         ];
                     
                     }
@@ -289,8 +294,8 @@
             
                 
                 return $respuesta_data = [
-                    'status' => 'error',
-                    'message' => 'No se pudo borrar la publicacion.'
+                    'estado' => 'error',
+                    'mensaje' => 'No se pudo borrar la publicacion.'
                 ];
 
             
