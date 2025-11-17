@@ -162,7 +162,7 @@
                                 <?php if ($multas["cantidad"] > 0): ?>
                                     <p>Multas: <span class="msj-rojo"><?php echo htmlspecialchars(number_format($multas["monto_total"], 2)); ?>$</span></p>
                                 <?php endif; ?>
-                                <?php if ((bool)$socioHabilitado == true): ?>
+                                <?php if ($cuotaAlDia && $multas["cantidad"] == 0): ?>
                                     <p class="msj-gris">ⓘ Habilitado para préstamos</p>
                                 <?php else: ?>
                                     <p class="msj-rojo">ⓘ Inhabilitado para préstamos</p>

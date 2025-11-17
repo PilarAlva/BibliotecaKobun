@@ -76,7 +76,7 @@
 
             if ($ejemplares) {
                 
-                $resultado = $prestamoModel->registrarPrestamo($socio['id'], $ejemplares[0]['id'], $fecha_prestamo, $fecha_vencimiento);
+                $resultado = $prestamoModel->registrarPrestamo($socio['id'], $ejemplares[0]['id'], $fecha_vencimiento);
                 
             }else{
 
