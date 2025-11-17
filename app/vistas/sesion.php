@@ -13,7 +13,7 @@
                 <input type="email" name="mail" placeholder="Correo" required>
                 <input type="password" name="clave" placeholder="Contraseña" required>
                 <input type="hidden" name="action" value="login">
-                <p class="pseudo-link" >Olvidé mi contrseña</p>
+                <!-- <p class="pseudo-link" >Olvidé mi contrseña</p> SIN IMPLEMENTAR -->
             </div>
             <div class="boton-submit">
                 <button type="submit" class="destacado">Entrar</button>

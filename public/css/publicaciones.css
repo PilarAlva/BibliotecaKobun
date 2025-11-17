@@ -1,22 +1,22 @@
 /* Estilos para la vista previa de imágenes en publicaciones */
 .t-p_archivo_preview_img {
-    width: 150px; /* Ancho de la imagen */
-    height: 150px; /* Alto de la imagen para que sea cuadrada */
-    object-fit: cover; /* La imagen cubre el contenedor sin deformarse */
-    display: block; /* Asegura que ocupe su propia línea */
-    margin-bottom: 5px; /* Espacio  debajo de la imagen */
-    border: 1px solid #ddd; /* Borde sutil */
-    border-radius: 4px; /* Bordes redondeados */
+    width: 150px; 
+    height: 150px;
+    object-fit: cover; 
+    display: block; 
+    margin-bottom: 5px; 
+    border: 1px solid #ddd; 
+    border-radius: 4px;
 }
 
 .t-p_archivo {  
-    display: flex; /* Permite organizar el contenido interno */
-    flex-direction: column; /* Apila la imagen y el texto verticalmente */
-    align-items: center; /* Alinea los elementos al inicio */
-    margin-bottom: 10px; /* Espacio entre diferentes archivos */
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    margin-bottom: 10px; 
     justify-content: center;
 }
 
 .t-p_cuerpo_archivos {
-    overflow: visible; /* Asegura que el contenido no se recorte */
+    overflow: visible; 
 }

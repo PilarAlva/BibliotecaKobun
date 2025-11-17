@@ -27,7 +27,7 @@
     background: white;
     display: flex;
     flex-direction: column;
-    position: relative; /* Asegura que este contenedor tenga su propio contexto de apilamiento. */
+    position: relative;
 
     width: 90%;
     max-width: 1000px;
@@ -46,7 +46,7 @@
     text-align: left;
     font-family: var(--font-main);
     font-size: 1rem;
-    display: none; /* Oculto por defecto, se muestra en media query */
+    display: none; 
     justify-content: space-between;
     align-items: center;
     
@@ -142,28 +142,28 @@
 /* ------------- Contenido que se Muestra (Wrapper y Contenido Real) ------------- */
 .contenido-perfil-wrapper {
     flex: 1;
-    position: relative; /* Padre para el posicionamiento absoluto */
-    min-height: 0; /* Necesario para que flexbox no se expanda */
+    position: relative; 
+    min-height: 0; 
 }
 
 .contenido-perfil {
-    position: absolute; /* Se posiciona absolutamente dentro del wrapper */
+    position: absolute; 
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     padding: var(--padding-cont);
-    overflow-y: auto; /* AHORA SÍ FUNCIONARÁ */
+    overflow-y: auto;
 }
 
 .tab-content {
-    display: none; /* Oculta todos los contenidos por defecto */
+    display: none; 
 }
 
 .tab-content.active {
-    display: flex; /* CAMBIADO: Ahora es un contenedor flex */
-    flex-direction: column; /* Sus hijos se apilan verticalmente */
-    flex: 1; /* Ocupa todo el espacio disponible */
+    display: flex; 
+    flex-direction: column; 
+    flex: 1; 
     width: 100%;
 }
 
@@ -184,23 +184,6 @@
     padding: 10px 20px;
 }
 
-/* .bt { 
-    font-family: var(--font-main);
-    font-weight: normal;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    padding: 10px 20px;
-} 
-    ES GLOBAL */
-
-/* .sin-contenido {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-} */
-
 .linea-divisora {
     border: 0;
     height: 1px;
@@ -217,7 +200,7 @@
 .tab-content#info-personal.active {
     display: flex;
     flex-direction: column;
-    flex: 1; /* Asegura que la pestaña ocupe todo el espacio del contenedor de contenido */
+    flex: 1; 
 }
 
 .info-datos-personales {
@@ -231,7 +214,7 @@
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
-    position: relative; /* Necesario para posicionar el overlay */
+    position: relative; 
     cursor: pointer;
 }
 
@@ -248,7 +231,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Filtro gris transparente */
+    background-color: rgba(0, 0, 0, 0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -436,11 +419,6 @@
     display: flex;
     flex-direction: column;
 }
-/* #talleres .talleres-grid {
-    flex-grow: 1; 
-    display: flex;
-    flex-direction: column; 
-} */
 
 
 
@@ -486,11 +464,6 @@
     height: 28px;
 }
 
-/* .bt-mas-info img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-} */
 
 .buscador {
     display: flex;
@@ -587,9 +560,9 @@
     padding: var(--padding-cont);
 }
 .muestra-usuarios, .muestra-libros, .muestra-talleres {
-    flex: 1; /* CRÍTICO: Hace que este contenedor crezca para llenar el espacio de la pestaña. */
-    overflow-y: auto; /* AÑADIDO: El scroll se gestionará aquí */
-    overflow-y: auto; /* El scroll se gestionará aquí */
+    flex: 1; 
+    overflow-y: auto; 
+    overflow-y: auto; 
 }
 
 .muestra-usuarios {

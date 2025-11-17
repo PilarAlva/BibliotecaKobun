@@ -1,7 +1,7 @@
 
 <div id="gestion-talleres" class="tab-content">
     <h3>Gestionar Talleres</h3>
-    <!-- BUSQUEDA NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
     <div class="cabecera-gestion">
         <div class="buscador">
             <form id="buscador-talleres" action="/" method="POST">
@@ -10,7 +10,6 @@
             </form>
         </div>
         
-        <!-- BOTON NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
         <div>
             <button id="bt-agregar-taller" class="bt bt-añadir">Añadir Taller</button>
         </div>

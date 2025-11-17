@@ -245,9 +245,9 @@ img {
 /* Contenedor para el main y el formulario lateral */
 .page-body {
     display: flex;
-    flex-grow: 1; /* Ocupa el espacio entre header y footer */
-    position: relative; /* Contexto para el posicionamiento si fuera necesario */
-    overflow: hidden; /* Evita que los hijos causen scroll en el body */
+    flex-grow: 1; 
+    position: relative; 
+    overflow: hidden; 
 }
 
 /* ------- Divisor de Secciones ------- */

@@ -71,7 +71,7 @@
 
 .lista-libros {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Crea 2 columnas de igual tamaño */
+    grid-template-columns: repeat(2, 1fr);
     gap: 30px; /* Espacio entre los libros */
     margin-bottom: 20px;
 }
@@ -154,7 +154,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-    gap: 10px; /* Añade un espacio entre los botones y la lista de números */
+    gap: 10px; /* Espacio entre los botones y la lista de números */
 }
 
 ul.paginacion_numeros{
@@ -248,17 +248,17 @@ ul.paginacion_numeros{
         padding: 0px;
     }
     .imagen-libro{
-        width: 100px; /* Forzamos el ancho para móviles */
+        width: 100px;
     }
     .generos-libro{
         flex-wrap: nowrap;
         overflow-x: auto;
     }
     .info-libro-contenedor {
-        min-height: 150px; /* Ajustamos la altura mínima para móviles (100 * 3/2) */
+        min-height: 150px; /* Altura mínima para móviles (100 * 3/2) */
     }
     .lista-libros {
-        grid-template-columns: 1fr; /* Cambia a 1 columna en pantallas pequeñas */
+        grid-template-columns: 1fr;
         gap: 20px;
     }
     
