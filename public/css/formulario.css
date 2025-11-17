@@ -45,14 +45,14 @@
 }
 
 .form_contenedor:not(.form_oculto) {
-    width: 45%; /* Ancho cuando está visible */
+    width: 45%;
 }
 
 /* aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa */
 
 .form_contenedor.form_oculto .form_cuerpo,
 .form_contenedor.form_oculto .form_lengueta {
-   visibility: hidden; /* Oculta el contenido en lugar de usar display:none para la transición */
+   visibility: hidden; 
 }
 .form_lengueta{
     width: 20px;
@@ -100,7 +100,7 @@
 .form_contenido_dinamico{
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Ocupa el espacio disponible */
+    flex-grow: 1; 
     gap: 1rem;
 }
 .form_titulo{
@@ -219,14 +219,11 @@
     }
 }
 
-.form_cabezera{
-    /* Se quita la posición pegajosa para evitar problemas de layout */
-}
 .form_pie{
     background-color: var(--form-bg-color);
     padding: 1rem var(--padding-form); 
     border-top: 1px solid var(--form-subrayado); /* Separador visual */
-    margin-top: auto; /* CRÍTICO: Empuja el pie al final del contenedor flex */
+    margin-top: auto; 
 }
 .form_contenido_dinamico .form_pie{
     padding: 1rem 0; 
@@ -585,24 +582,24 @@ span.verde{
 
 /* Estilos para la vista previa de imágenes en publicaciones */
 .t-p_archivo_preview_img {
-    width: 150px; /* Ancho de la imagen */
-    height: 150px; /* Alto de la imagen para que sea cuadrada */
-    object-fit: cover; /* La imagen cubre el contenedor sin deformarse */
-    display: block; /* Asegura que ocupe su propia línea */
-    margin-bottom: 5px; /* Espacio debajo de la imagen */
-    border: 1px solid #ddd; /* Borde sutil */
-    border-radius: 4px; /* Bordes redondeados */
+    width: 150px; 
+    height: 150px; 
+    object-fit: cover; 
+    display: block;
+    margin-bottom: 5px;
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
 }
 
 .t-p_archivo {
-    display: flex; /* Permite organizar el contenido interno */
-    flex-direction: column; /* Apila la imagen y el texto verticalmente */
-    align-items: flex-start; /* Alinea los elementos al inicio */
-    margin-bottom: 10px; /* Espacio entre diferentes archivos */
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start; 
+    margin-bottom: 10px;
 }
 
 .t-p_cuerpo_archivos {
-    overflow: visible; /* Asegura que el contenido no se recorte */
+    overflow: visible; 
 }
 @media (max-width: 768px) { 
 

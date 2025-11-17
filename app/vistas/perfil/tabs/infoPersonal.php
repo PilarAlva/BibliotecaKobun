@@ -102,7 +102,6 @@
                                 }
                             ?>
 
-                            <!-- FORMULARIO NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                             <form method="POST" action="<?php echo BASE_URL . "/perfil/editar"?>">
                                 <div class="form-group">
                                     <input type="hidden" name="usuario_id" value="<?php echo $usuario["id"]; ?>">
@@ -168,7 +167,7 @@
                                     <p class="msj-rojo">ⓘ Inhabilitado para préstamos</p>
                                 <?php endif; ?>
                                 <?php endif; ?>
-                                <!-- BOTON NO FUNCIONALL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+                                
                                 <button class="bt" id="bt-pagar-cuota"><a target="_blank" href="<?php echo PAGO_CUOTA ?>">Pagar Cuota</a></button>
                         </div>
 

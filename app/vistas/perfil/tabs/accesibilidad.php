@@ -2,7 +2,6 @@
                 <div id="accesibilidad" class="tab-content">
                     <h3>Opciones de Accesibilidad</h3>
 
-                    <!-- FORMULARIO NOOOO FUNCIONAL :) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                     <div>
                         <form method="POST" action="<?php echo BASE_URL . 'perfil/acc'?>">
                             <input type="hidden" name="usuario_id" value="<?php echo $usuario["id"]; ?>"/>
