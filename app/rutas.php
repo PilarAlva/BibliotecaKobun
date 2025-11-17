@@ -39,6 +39,8 @@ $rutas = [
 
     'taller/eliminar' => ['controlador' => 'tallerCtrl', 'metodo' => 'eliminar'],
 
+    'taller/subir_portada' => ['controlador' => 'tallerCtrl', 'metodo' => 'portada'],
+
     'ins/eliminar' => ['controlador' => 'tallerCtrl', 'metodo' => 'eliminarAlumno'],
 
     'ins/rechazar' => ['controlador' => 'tallerCtrl', 'metodo' => 'rechazarAlumno'],

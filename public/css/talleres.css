@@ -151,6 +151,50 @@
     height: 275px;
     overflow: hidden;
 }
+.banner-edit {
+    width: 100%;
+    height: 275px;
+    overflow: hidden;
+    
+    position: relative; /* Necesario para posicionar el overlay */
+    cursor: pointer;
+}
+.banner-edit .upload-label {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.banner-edit .overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Filtro gris transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+
+.banner-edit:hover .overlay {
+    opacity: 1;
+}
+
+.banner-edit .camera-icon {
+    width: 40px; 
+    height: 40px;
+    filter: invert(1);
+}
+
+.banner-edit img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 .banner::after {
     content: '';
     position: absolute;

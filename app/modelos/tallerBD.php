@@ -194,6 +194,20 @@ class TallerBD {
         return $this->db->resultados();
     }
 
+   public function actualizarPortada($taller_id, $archivo_id){
+        
+
+        $consulta = "UPDATE talleres 
+                        SET ref_portada = :ref_portada
+                        WHERE id = :taller_id ";
+
+        $this->db->consulta($consulta);
+        $this->db->unir(':taller_id', $taller_id);
+        $this->db->unir(':ref_portada', $archivo_id);
+
+        return $this->db->ejecutar();        
+
+    }
 
     public function obtenerTallerPorId($taller_id){
 

@@ -1,4 +1,6 @@
 <?php
+    
+    include_once("../app/controladores/archivoCtrl.php");
 
     class TallerCtrl extends Controlador{
 
@@ -173,6 +175,33 @@
                 }
 
 
+        }
+        public function portada(){
+            $archivoCtrl = new ArchivoCtrl();
+
+            $tallerModel = $this->cargarModelo("tallerBD");
+            $taller_id = $_POST['taller_id'];
+                $portada_file = $_FILES['portada'];
+                $taller = $tallerModel->obtenerTallerPorId($taller_id);
+            $respuesta_data = [
+                "estado" => "error",
+                "mensaje" => "Portada no subida."
+            ];
+            if ($taller && $portada_file) {
+                $ref_portada = $archivoCtrl->guardarPortadaTaller($taller["nombre"], $portada_file, $taller_id);
+                if ($ref_portada) {
+                    $respuesta_data = [
+                "estado" => "exito",
+                "mensaje" => "Portada actualizada correctamente."
+            ];
+                } else {
+                    $respuesta_data = ["estado" => "error", "mensaje" => "No se pudo guardar la nueva portada."];
+                }
+            } else {
+                $respuesta_data = ["estado" => "error", "mensaje" => "taller no encontrado o archivo no enviado."];
+            }
+            
+            echo json_encode($respuesta_data);
         }
 
         public function inscripcion($taller_id = 0){

@@ -121,7 +121,41 @@ class ArchivoCtrl extends Controlador{
         return null;
 
     }
-  
+    
+    public function guardarPortadaTaller($nombre, $portada, $taller_id = null){
+
+        $archivoDB = $this->cargarModelo('archivoBD');
+
+        $nombre = strtolower(htmlspecialchars($nombre));
+        $nombre = trim($nombre);
+        $nombre = str_replace(':','', $nombre);
+
+        $carpetaDestino = '../almacenamiento/portadas/';
+        $archivoDestino = $carpetaDestino . date('YmdHis') . '_' . $nombre;
+
+        $tipoImagen = strtolower(pathinfo($portada["name"], PATHINFO_EXTENSION));
+        
+        if(move_uploaded_file($portada["tmp_name"], $archivoDestino . '.' . $tipoImagen)){                
+
+            $resultado = $archivoDB->registrarArchivo($archivoDestino . '.' . $tipoImagen, $nombre);
+
+            if($resultado){
+                $archivo_id = $archivoDB->ultimo_id();
+
+                if ($taller_id) {
+                    $tallerModel = $this->cargarModelo('tallerBD');
+                    $tallerModel->actualizarPortada($taller_id, $archivo_id);
+                }
+                // En el caso de un libro nuevo, el controlador se encarga de asociar el ID del archivo.
+                return $archivo_id;
+            }
+            
+            unlink($archivoDestino);
+
+        }
+        return null;
+
+    }
 
     public function descargar($id){
     
