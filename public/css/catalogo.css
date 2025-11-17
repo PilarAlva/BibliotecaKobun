@@ -70,9 +70,9 @@
 /* ---------------------------------- */
 
 .lista-libros {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Crea 2 columnas de igual tamaño */
+    gap: 30px; /* Espacio entre los libros */
     margin-bottom: 20px;
 }
 
@@ -256,6 +256,10 @@ ul.paginacion_numeros{
     }
     .info-libro-contenedor {
         min-height: 150px; /* Ajustamos la altura mínima para móviles (100 * 3/2) */
+    }
+    .lista-libros {
+        grid-template-columns: 1fr; /* Cambia a 1 columna en pantallas pequeñas */
+        gap: 20px;
     }
     
 }
