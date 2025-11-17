@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `kobun_db`
 --
+CREATE DATABASE IF NOT EXISTS `kobun_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `kobun_db`;
 
 -- --------------------------------------------------------
 
